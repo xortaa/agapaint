@@ -6,7 +6,6 @@ export const GET = async (req: NextRequest) => {
   try {
     await connectToDatabase()
     const users = await User.find({})
-    // return NextResponse.json("Unauthorized", { status: 401 })
     return NextResponse.json(users, { status: 200 })
   } catch (error) {
     console.log(error)
