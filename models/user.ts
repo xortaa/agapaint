@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose"
+import { Schema, model, models } from "mongoose";
 
 const UserSchema = new Schema({
   email: {
@@ -19,7 +19,7 @@ const UserSchema = new Schema({
     enum: ["customer", "admin"],
     default: "customer",
   },
-})
+});
 
 // if customer then add these fields
 const CustomerSchema = new Schema({
@@ -27,14 +27,13 @@ const CustomerSchema = new Schema({
     type: Number,
     default: 0,
   },
-  appointments: { 
+  appointments: {
     type: Schema.Types.ObjectId,
     ref: "Appointment",
-  }
-})
-UserSchema.discriminator("Customer", CustomerSchema)
+  },
+});
+UserSchema.discriminator("Customer", CustomerSchema);
 
-const User = models.User || model("User", UserSchema)
+const User = models.User || model("User", UserSchema);
 
-export default User
-
+export default User;
