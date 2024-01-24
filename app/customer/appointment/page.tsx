@@ -10,7 +10,7 @@ function custAppointment() {
    const router = useRouter();
 
    const handleRowClick = () => {
-     router.push('/signup'); 
+     router.push('appointment/payment'); 
    };
 
   return (
@@ -84,7 +84,7 @@ function custAppointment() {
                     <td>7,800.00</td>
                     <td>
                       <InputGroup>
-                        <InputGroup.Text className="text-primary fw-bold">Ongoing</InputGroup.Text>
+                        <InputGroup.Text className="text-primary fw-bold">For Release</InputGroup.Text>
                       </InputGroup>
                     </td>
                   </tr>
