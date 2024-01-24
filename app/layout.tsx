@@ -2,11 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { getServerSession } from "next-auth";
 import SessionProvider from "@/components/auth/SessionProvider";
-
 // Bootstrap
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 // Google font - Poppins
 import { Poppins } from "next/font/google";
 const poppins = Poppins({
