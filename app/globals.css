@@ -14,3 +14,20 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+/* Agapaint Brand Colors */
+.agapaint-yellow {
+   color: #F1B038;
+}
+
+.agapaint-blue {
+   color: #4435ff;
+}
+
+.agapaint-pink {
+   color: #ff37bc;
+}
+
+.agapaint-black {
+   color: #141414;
+}
