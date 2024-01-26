@@ -1,0 +1,55 @@
+.background {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: black;
+  background-image: url("/public/assets/img/faqbg.png");
+  height: 100vh;
+}
+
+.faqtitle {
+  color: var(--Orenz, #f1b038);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 75px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: -2.25px;
+  padding-bottom: 71px;
+}
+
+.card {
+  --bs-accordion-btn-bg: #242322;
+  --bs-accordion-btn-color: #f1b038;
+  --bs-accordion-border-color: none;
+  --bs-accordion-active-bg: #242322;
+  --bs-accordion-active-color: #f1b038;
+  --bs-accordion-btn-focus-box-shadow: none;
+  --bs-accordion-border-radius: 8px;
+  margin: auto;
+  width: 1060px;
+  margin-bottom: 14px;
+}
+
+.cardtitle {
+  color: var(--Orenz, #f1b038);
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 28.8px */
+}
+
+.cardbody {
+  color: var(--Orenz, #f1b038);
+  background-color: #242322;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 25.2px */
+  align-self: stretch;
+  padding-left: 24px;
+}
