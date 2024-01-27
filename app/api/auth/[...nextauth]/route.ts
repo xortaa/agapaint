@@ -1,10 +1,10 @@
-import NextAuth from "next-auth"
-import GoogleProvider from "next-auth/providers/google"
-import User from "@/models/user"
-import connectToDatabase from "@/utils/database"
+import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import User from "@/models/user";
+import connectToDatabase from "@/utils/database";
 
-const clientId = process.env.GOOGLE_CLIENT_ID
-const clientSecret = process.env.GOOGLE_CLIENT_SECRET
+const clientId = process.env.GOOGLE_CLIENT_ID;
+const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
 const handler = NextAuth({
   providers: [
@@ -26,15 +26,15 @@ const handler = NextAuth({
     // },
     async signIn({ account, profile }) {
       try {
-        await connectToDatabase()
+        await connectToDatabase();
 
         const userExists = await User.findOne({
           email: profile.email,
-        })
+        });
 
-        let role: string
+        let role: string;
         if (profile.email === process.env.ADMIN_EMAIL) {
-          role = "admin"
+          role = "admin";
         }
 
         if (!userExists) {
@@ -43,16 +43,16 @@ const handler = NextAuth({
             username: profile.name,
             image: profile.image,
             role,
-          })
-          await newUser.save()
+          });
+          await newUser.save();
         }
 
-        return true
+        return true;
       } catch (error) {
-        return false
+        return false;
       }
     },
   },
-})
+});
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

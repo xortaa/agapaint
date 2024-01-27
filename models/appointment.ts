@@ -1,55 +1,53 @@
-import { Schema, model } from "mongoose"
+import { Schema, model } from "mongoose";
 
 const AppointmentSchema = new Schema({
-  customer: { 
+  customer: {
     type: Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
   },
   // SERVICE NOT ADDED YET
-  service: { 
+  service: {
     type: Schema.Types.ObjectId,
     ref: "Service",
     required: true,
   },
-  firstName: { 
+  firstName: {
     type: String,
     required: true,
-  }, 
-  lastName: { 
-    type: String,
-    required: true
   },
-  email: { 
+  lastName: {
     type: String,
-    required: true
+    required: true,
   },
-  phoneNumber: { 
+  email: {
+    type: String,
+    required: true,
+  },
+  phoneNumber: {
     type: Number,
-    required: true
+    required: true,
   },
-  plateNumber: { 
+  plateNumber: {
     type: String,
-    required: true
+    required: true,
   },
-  carModel: { 
+  carModel: {
     type: String,
-    required: true
+    required: true,
   },
-  requests: { 
-    type: String
+  requests: {
+    type: String,
   },
-  date: { 
+  date: {
     type: Date,
-    required: true
+    required: true,
   },
-  time: { 
+  time: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-const Appointment = model("Appointment", AppointmentSchema)
+const Appointment = model("Appointment", AppointmentSchema);
 
-export default Appointment
-
-
+export default Appointment;
