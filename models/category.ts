@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose"
+import { Schema, model, models } from "mongoose";
 //Imports the Schema and model components from the Mongoose library
 
 const CategorySchema = new Schema ({ 
@@ -7,7 +7,7 @@ const CategorySchema = new Schema ({
         unique: true, //unique -> no repeat allowed
         required: true // required
     }
-})
+});
 
 const Category = model("Category", CategorySchema)
 //Uses the model function to create a Mongoose model 
