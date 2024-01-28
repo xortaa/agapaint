@@ -9,7 +9,7 @@ const CategorySchema = new Schema ({
     }
 });
 
-const Category = model("Category", CategorySchema)
+const Category = models.Category || model("Category", CategorySchema)
 //Uses the model function to create a Mongoose model 
 // for the MongoDB collection named "Category." The model is named 
 // Category, and it is based on the CategorySchema that was defined earlier.

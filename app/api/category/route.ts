@@ -1,10 +1,10 @@
-import connectToDatabase from "@/utils/database"
-import Category from "@/models/category"
-import { NextRequest, NextResponse } from "next/server"
+import connectToDatabase from "@/utils/database";
+import Category from "@/models/category";
+import { NextRequest, NextResponse } from "next/server";
 
 //get
 // localhost:3000/api/category/[someething]
-// get all 
+// get all
 export const GET = async (req: NextRequest) => {
   try {
     await connectToDatabase();
@@ -32,5 +32,4 @@ export const POST = async (req: NextRequest) => {
     console.log(error);
     return NextResponse.json("Can't create category", { status: 500 });
   }
-}
-
+};
