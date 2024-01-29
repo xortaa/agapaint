@@ -14,7 +14,6 @@ function signup() {
     <main className={signupStyles.background} style={{ backgroundImage: `url(${signupbg.src})` }}>
       <Container className="py-5 d-flex justify-content-around flex-column h-100">
         <Row className="g-0 justify-content-around">
-          
           <Col lg={6}>
             <div className="d-flex flex-column justify-content-center h-100 mb-5">
               <Image src={logoFull.src} alt="Agapaint Logo" className={signupStyles.logo} />

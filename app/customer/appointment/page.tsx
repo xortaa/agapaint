@@ -1,17 +1,17 @@
 "use client";
 import { Container, Row, Col, Image, Table, Badge, InputGroup, Card } from "react-bootstrap";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 
 import myProfileBg from "@/public/assets/img/myprofilebg.png";
 import myAppointmentBg from "@/public/assets/img/myAppointmentBg.png";
 
 function custAppointment() {
-   const router = useRouter();
+  const router = useRouter();
 
-   const handleRowClick = () => {
-     router.push('appointment/payment'); 
-   };
+  const handleRowClick = () => {
+    router.push("appointment/payment");
+  };
 
   return (
     <main>
@@ -22,15 +22,20 @@ function custAppointment() {
 
       {/* My Profile Body */}
       <Container className="py-5 justify-content-around mb-5">
-        <Row className="d-flex">
-          <Col className="d-flex justify-content-end">
-            <Image src="https://placekitten.com/171/180" roundedCircle />
-          </Col>
-          <Col className="px-5">
-            <h1 className="fw-bold">Hello, Tsoknat!</h1>
-            <p>Tsoknat Dimagiba</p>
-            <p>tsoknat.dimagiba.cics@ust.edu.ph</p>
-          </Col>
+        <Row className="d-flex justify-content-center">
+          <Card style={{ width: "40rem" }} className="mx-auto">
+            <Card.Body>
+              <Row>
+                <Col>
+                  <Image src="https://placekitten.com/171/180" roundedCircle />
+                </Col>
+                <Col>
+                  <h3 className="fw-bold agapaint-yellow">Juan Dimagiba</h3>
+                  <p>juandimagiba@gmail.com</p>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
         </Row>
       </Container>
 
@@ -58,24 +63,8 @@ function custAppointment() {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {data.map((item, index) => (
-                    <tr key={index} onClick={() => handleRowClick(item)}>
-                      <td>{item.plate}</td>
-                      <td>{item.carModel}</td>
-                      <td>{item.aptDate}</td>
-                      <td>{item.aptTime}</td>
-                      <td>{item.paymentTerm}</td>
-                      <td>{item.totalService}</td>
-                      <td>
-                        <InputGroup>
-                           <InputGroup.Text className="text-primary fw-bold">{item.totalService}</InputGroup.Text>
-                        </InputGroup>
-                      </td>
-                    </tr>
-                  ))} */}
-
                   {/* Placeholder */}
-                  <tr className="align-middle" onClick={handleRowClick} >
+                  <tr className="align-middle" onClick={handleRowClick}>
                     <td>PLT 456</td>
                     <td>Sedan Kia Rio 2016</td>
                     <td>Nov 15, 2023</td>
@@ -90,7 +79,7 @@ function custAppointment() {
                   </tr>
 
                   {/* Placeholder */}
-                  <tr className="align-middle" onClick={handleRowClick} >
+                  <tr className="align-middle" onClick={handleRowClick}>
                     <td>SHJ 891</td>
                     <td>Honda Civic 2016</td>
                     <td>Nov 18, 2023</td>
@@ -105,7 +94,7 @@ function custAppointment() {
                   </tr>
 
                   {/* Placeholder */}
-                  <tr className="align-middle" onClick={handleRowClick} >
+                  <tr className="align-middle" onClick={handleRowClick}>
                     <td>KAI 140</td>
                     <td>Honda Civic 2016</td>
                     <td>Nov 23, 2023</td>
@@ -118,7 +107,6 @@ function custAppointment() {
                       </InputGroup>
                     </td>
                   </tr>
-
                 </tbody>
               </Table>
             </Card.Body>
