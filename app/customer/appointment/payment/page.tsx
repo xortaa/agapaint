@@ -3,6 +3,7 @@ import { Container, Row, Col, Image, Table, Badge, InputGroup, Card, Button } fr
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import paymentStyles from "@/styles/payment.module.scss";
+import { ArrowLeft } from "react-bootstrap-icons";
 
 import paymentStatusBg from "@/public/assets/img/paymentStatusBg.png";
 
@@ -20,7 +21,10 @@ function custPayment() {
         <Image src={paymentStatusBg.src} alt="" />
         <div className={paymentStyles.buttonOverlay}>
           <Button variant="outline-warning" onClick={handleRowClick}>
-            Back to Profile
+            <span className="d-none d-md-inline">Back to Profile</span>
+            <span className="d-md-none">
+              <ArrowLeft size={25} />
+            </span>
           </Button>
         </div>
         <div className={paymentStyles.textOverlay}>
@@ -30,10 +34,10 @@ function custPayment() {
       </header>
 
       {/* Payment Status Body */}
-      <Container className="py-5 justify-content-around mb-5">
-        <Row className="d-flex">
+      <Container className="p-5 justify-content-around mb-5">
+        <Row className="d-flex flex-column flex-md-row">
           <h3 className="fw-bold agapaint-yellow">Customer</h3>
-          <div className="d-flex justify-content-between">
+          <div className="d-flex flex-column flex-md-row justify-content-between">
             <p>
               <span className="fw-bold">Name:</span> Juan Dimagiba
             </p>
@@ -49,20 +53,20 @@ function custPayment() {
           <h3 className="fw-bold agapaint-yellow">Services Availed</h3>
           <p className="mb-4">Panel Repair, Wash Over</p>
           <Row className="d-flex justify-content-between">
-            <Col>
+            <Col xs={6} md={4} className="text-start">
               <h5 className="fw-bold agapaint-black">Car Information</h5>
               <p>Sedan Kia Rio 2016</p>
             </Col>
-            <Col className="d-flex justify-content-center">
-              <div className="d-flex flex-column align-items-center">
+            <Col xs={6} md={4} className="text-start">
+              <div className="d-flex flex-column align-items-start">
                 <h5 className="fw-bold agapaint-black">Payment Term</h5>
                 <p>Partial</p>
               </div>
             </Col>
-            <Col className="d-flex justify-content-end">
-              <div className="d-flex flex-column align-items-center">
+            <Col xs={12} md={4} className="text-start">
+              <div className="d-flex flex-column align-items-start">
                 <h5 className="fw-bold agapaint-black">Service Status</h5>
-                <Badge pill bg="primary">
+                <Badge pill bg="primary mb-3">
                   For Release
                 </Badge>
               </div>
@@ -120,9 +124,9 @@ function custPayment() {
           </Table>
         </Row>
 
-         <hr className="mb-4" />
+        <hr className="mb-4" />
 
-         <Row className="d-flex mb-5">
+        <Row className="d-flex mb-5">
           <Col>
             <h3 className="fw-bold agapaint-yellow">Total Service Amount</h3>
           </Col>
@@ -130,7 +134,6 @@ function custPayment() {
             <h3 className="fw-bold">PHP 7,800.00</h3>
           </Col>
         </Row>
-
       </Container>
 
       {/* Footer Here */}
