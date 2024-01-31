@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
-const ServiceSchema = new Schema({
+const ServicesSchema = new Schema({
     // service name
     name:{
         type: String,
@@ -18,15 +18,15 @@ const ServiceSchema = new Schema({
     //service image
     image:{
         type: String,
+        required: true
     },
 
     price:{
         type: Number,
         required: true,
-        default: 0,
+        default: 0
     },
 });
 
-ServiceSchema.discriminator("Service", ServiceSchema);
-const Services = models.Services || model("Services", ServiceSchema);
+const Services = models.Services || model("Services", ServicesSchema);
 export default Services;

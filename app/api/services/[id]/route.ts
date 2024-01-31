@@ -31,7 +31,7 @@ export const POST = async (req: NextRequest, { params }: { params: { id: string 
     }
 
 //update
-export const UPDATE = async (req: NextRequest, { params }: {params: {id: string}}) => {
+export const PATCH = async (req: NextRequest, { params }: {params: {id: string}}) => {
     const id = params.id;
     const { name } = await req.json();
     try {
