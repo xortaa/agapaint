@@ -1,6 +1,6 @@
 "use client";
 
-import homeStyles from "@/styles/home.module.scss";
+import homeStyles from '@/styles/home.module.scss';
 import SigninButton from "@/components/auth/SigninButton";
 import CheckSessionButton from "@/components/auth/CheckSessionButton";
 import LogoutButton from "@/components/auth/LogoutButton";

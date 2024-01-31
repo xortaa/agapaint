@@ -32,7 +32,6 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
   }
 };
 
-// update example we wont have update for users in this app just an example
 export const PATCH = async (req: NextRequest, { params }: { params: { id: string } }) => {
   const id = params.id;
   const { email, username, image, role } = await req.json();
