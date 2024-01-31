@@ -41,6 +41,3 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
     return NextResponse.json("Can't delete category", { status: 500 });
   }
 };
-
-
-
