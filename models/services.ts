@@ -28,5 +28,5 @@ const ServiceSchema = new Schema({
 });
 
 ServiceSchema.discriminator("Service", ServiceSchema);
-const Service = models.Service || model("Service", ServiceSchema);
-export default Service;
+const Services = models.Services || model("Services", ServiceSchema);
+export default Services;
