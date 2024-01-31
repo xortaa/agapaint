@@ -2,13 +2,26 @@ import connectToDatabase from "@/utils/database"
 import Category from "@/models/category"
 import { NextRequest, NextResponse } from "next/server"
 
-//get
-export const GET = async (req: NextRequest, { params }: { params: { id: string } }) => {
-  const id = params.id;
+//create a category - post
+export const POST = async (req: NextRequest) => {
+  const { name } = await req.json();
   try {
     await connectToDatabase();
-    const category = await Category.findById(id);
-    console.log(category); // log the category
+    const category = await Category.create({ name });
+    console.log(category); 
+    return NextResponse.json(category, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json("Can't create category", { status: 500 });
+  }
+}
+
+//get all categories - get
+export const GET = async (req: NextRequest) => {
+  try {
+    await connectToDatabase();
+    const category = await Category.find({});
+    console.log(category); 
     return NextResponse.json(category, { status: 200 });
   } catch (error) {
     console.log(error);
