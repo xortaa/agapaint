@@ -3,7 +3,7 @@ import Services from "@/models/services"
 import { NextRequest, NextResponse } from "next/server"
 //gets each service based on id
 
-//get 
+//get - working
 export const GET = async (req: NextRequest, { params }: { params: { id: string } }) => {
     const id = params.id;
     try {
@@ -17,26 +17,13 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
     }
     }
 
-//post 
-export const POST = async (req: NextRequest, { params }: { params: { id: string } }) => {
-    const { name, description, image, price } = await req.json();
-    try {
-        await connectToDatabase();
-        const service = await Services.create({ name, description, image, price });
-        return NextResponse.json(service, { status: 200 });
-    } catch (error) {
-        console.log(error);
-        return NextResponse.json("Can't create service", { status: 500 });
-    }
-    }
-
-//update
+//update - working
 export const PATCH = async (req: NextRequest, { params }: {params: {id: string}}) => {
     const id = params.id;
-    const { name } = await req.json();
+    const { name, description, image, price } = await req.json();
     try {
         await connectToDatabase()
-        const service = await Services.findByIdAndUpdate(id, {name}, {new: true})
+        const service = await Services.findByIdAndUpdate(id, {name, description, image, price}, {new: true})
         return NextResponse.json(service, {status: 200})
     } catch (error) {
         console.log(error)
@@ -44,7 +31,7 @@ export const PATCH = async (req: NextRequest, { params }: {params: {id: string}}
     }
     }
 
-//delete 
+//delete - working
 export const DELETE = async (req: NextRequest, { params }: { params: { id: string } }) => {
     const id = params.id;
     try {

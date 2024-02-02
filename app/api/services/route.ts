@@ -2,6 +2,7 @@ import connectToDatabase from "@/utils/database"
 import Services from "@/models/services"
 import { NextRequest, NextResponse } from "next/server"
 
+//getting the services - working
 export const GET = async (req: NextRequest) => {
     try {
         await connectToDatabase();
@@ -14,6 +15,7 @@ export const GET = async (req: NextRequest) => {
     }
 }
 
+//creating a service - working
 export const POST = async (req: NextRequest) => {
     try {
         await connectToDatabase();
