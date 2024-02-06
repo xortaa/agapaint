@@ -2,7 +2,8 @@ import { Schema, model, models } from "mongoose";
 const logSchema = new Schema({
     material: { 
         type: Schema.Types.ObjectId, 
-        ref: 'Material' 
+        ref: 'Material',
+        required: true
     },
     transactionType: { 
         type: String, 
