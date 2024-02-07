@@ -2,6 +2,7 @@
 import { Container, Row, Col, Image, Table, Badge, InputGroup, Card } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
+import AptCard from "@/components/AptCard";
 
 import myProfileBg from "@/public/assets/img/myprofilebg.png";
 import myAppointmentBg from "@/public/assets/img/myAppointmentBg.png";
@@ -21,21 +22,25 @@ function custAppointment() {
       <Header img={myProfileBg.src} text="My Profile" color="agapaint-yellow" />
 
       {/* My Profile Body */}
-      <Container className="py-5 justify-content-around mb-5">
+      <Container className="p-5 justify-content-around">
         <Row className="d-flex justify-content-center">
-          <Card style={{ width: "40rem" }} className="mx-auto">
-            <Card.Body>
-              <Row>
-                <Col>
-                  <Image src="https://placekitten.com/171/180" roundedCircle />
-                </Col>
-                <Col>
-                  <h3 className="fw-bold agapaint-yellow">Juan Dimagiba</h3>
-                  <p>juandimagiba@gmail.com</p>
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card>
+          <Col xl={3} lg={2} />
+          <Col xl={6} lg={8}>
+            <Card className="mx-auto shadow border-0">
+              <Card.Body>
+                <Row>
+                  <Col md={4} className="d-flex justify-content-center">
+                    <Image src="https://placekitten.com/171/180" roundedCircle fluid />
+                  </Col>
+                  <Col md={8} className="align-self-center text-center text-lg-left mt-3 mt-lg-0 mt-md-0">
+                    <h3 className="fw-bold">Juan Tsoknat Dela Cruz</h3>
+                    <Card.Text>tsoknat.dimagiba.cics@ust.edu.ph</Card.Text>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col xl={3} lg={2} />
         </Row>
       </Container>
 
@@ -43,74 +48,46 @@ function custAppointment() {
       <Header img={myAppointmentBg.src} text="My Appointment" color="agapaint-black" />
 
       {/* My Appointments Body */}
-      <Container className="py-5 justify-content-around mb-5">
-        <Row className="d-flex mb-5">
+      <Container className="p-5 justify-content-around mb-5">
+        <Row className="d-flex mb-2">
           <h1 className="agapaint-yellow fw-bold">Appointment Overview</h1>
-          <p>Click a row to see further details of your appointment, including your balance.</p>
-
-          <Card className="p-0 mb-5">
-            <Card.Body className="p-0">
-              <Table striped responsive hover className="m-0 ps-3">
-                <thead>
-                  <tr className="align-middle">
-                    <th>Plate#</th>
-                    <th>Car</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Payment Term</th>
-                    <th>Total Service Amount</th>
-                    <th>Service Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* Placeholder */}
-                  <tr className="align-middle" onClick={handleRowClick}>
-                    <td>PLT 456</td>
-                    <td>Sedan Kia Rio 2016</td>
-                    <td>Nov 15, 2023</td>
-                    <td>11:00 AM</td>
-                    <td>Partial</td>
-                    <td>7,800.00</td>
-                    <td>
-                      <InputGroup>
-                        <InputGroup.Text className="text-primary fw-bold">For Release</InputGroup.Text>
-                      </InputGroup>
-                    </td>
-                  </tr>
-
-                  {/* Placeholder */}
-                  <tr className="align-middle" onClick={handleRowClick}>
-                    <td>SHJ 891</td>
-                    <td>Honda Civic 2016</td>
-                    <td>Nov 18, 2023</td>
-                    <td>2:00 PM</td>
-                    <td>Partial</td>
-                    <td>20,300.00</td>
-                    <td>
-                      <InputGroup>
-                        <InputGroup.Text className="text-success fw-bold">Complete</InputGroup.Text>
-                      </InputGroup>
-                    </td>
-                  </tr>
-
-                  {/* Placeholder */}
-                  <tr className="align-middle" onClick={handleRowClick}>
-                    <td>KAI 140</td>
-                    <td>Honda Civic 2016</td>
-                    <td>Nov 23, 2023</td>
-                    <td>10:00 AM</td>
-                    <td>Full</td>
-                    <td>30,300.00</td>
-                    <td>
-                      <InputGroup>
-                        <InputGroup.Text className="text-success fw-bold">Complete</InputGroup.Text>
-                      </InputGroup>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Card.Body>
-          </Card>
+          <p>Click a card to see further details of your appointment, including your balance.</p>
+        </Row>
+        <Row className="g-4">
+          <AptCard
+            onClick={handleRowClick}
+            aptId="APT #001"
+            aptDate="January, 6, 2024"
+            aptTime="12:30 PM"
+            carInfo="Sedan Kia Rio 2016"
+            plateNo="PLT 456"
+            paymentTerm="Partial"
+            totalServiceAmount="7,800.00"
+            serviceStatus="Complete"
+          />
+          {/* Placeholder */}
+          <AptCard
+            onClick={handleRowClick}
+            aptId="APT #002"
+            aptDate="November 18, 2023"
+            aptTime="10:00 AM"
+            carInfo="Honda Civic 2016"
+            plateNo="SHJ 891"
+            paymentTerm="Partial"
+            totalServiceAmount="20,000.00"
+            serviceStatus="Ongoing"
+          />
+          <AptCard
+            onClick={handleRowClick}
+            aptId="APT #003"
+            aptDate="October 22, 2023"
+            aptTime="4:00 PM"
+            carInfo="Honda Civic 2016"
+            plateNo="KAI 140"
+            paymentTerm="Full"
+            totalServiceAmount="30,000.00"
+            serviceStatus="Pending"
+          />
         </Row>
       </Container>
 

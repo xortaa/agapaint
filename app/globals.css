@@ -16,18 +16,24 @@ a {
 }
 
 /* Agapaint Brand Colors */
+:root {
+  --agapaint-yellow: #f1b038;
+  --agapaint-blue: #4435ff;
+  --agapaint-pink: #ff37bc;
+  --agapaint-black: #141414;
+}
 .agapaint-yellow {
-   color: #F1B038;
+  color: var(--agapaint-yellow);
 }
 
 .agapaint-blue {
-   color: #4435ff;
+  color: var(--agapaint-blue);
 }
 
 .agapaint-pink {
-   color: #ff37bc;
+  color: var(--agapaint-pink);
 }
 
 .agapaint-black {
-   color: #141414;
+  color: var(--agapaint-black);
 }
