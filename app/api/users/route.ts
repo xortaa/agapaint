@@ -1,10 +1,16 @@
 import connectToDatabase from "@/utils/database";
 import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
 export const GET = async (req: NextRequest) => {
+  const secret = process.env.NEXTAUTH_SECRET
   try {
     await connectToDatabase();
+    const token = await getToken({req, secret})
+    if (!token || token.email !== process.env.ADMIN_EMAIL) {
+      return NextResponse.json("Unauthorized", { status: 401 });
+    }
     const users = await User.find({});
     return NextResponse.json(users, { status: 200 });
   } catch (error) {

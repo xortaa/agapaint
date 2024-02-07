@@ -15,14 +15,13 @@ const handler = NextAuth({
   ],
   callbacks: {
     // for custom sessions
-    // async session({ session }) {
-    //   await connectToDatabase()
-
+    // async session({ session, token, user }) {
+    //   await connectToDatabase();
     //   const sessionUser = await User.findOne({
     //     email: session.user.email,
-    //   })
+    //   });
 
-    //   return session
+    //   return session;
     // },
     async signIn({ account, profile }) {
       try {
