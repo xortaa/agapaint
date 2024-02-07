@@ -11,7 +11,7 @@ function custAppointment() {
   const router = useRouter();
 
   const handleRowClick = () => {
-    router.push("/signup");
+    router.push("appointment/payment");
   };
 
   return (
@@ -19,7 +19,7 @@ function custAppointment() {
       {/* Navbar Here */}
 
       {/* My Profile Header */}
-      <Header imgSrc={myProfileBg.src} headerText="My Profile" textColor="agapaint-yellow" />
+      <Header img={myProfileBg.src} text="My Profile" color="agapaint-yellow" />
 
       {/* My Profile Body */}
       <Container className="p-5 justify-content-around">
@@ -45,7 +45,7 @@ function custAppointment() {
       </Container>
 
       {/* My Appointments Header */}
-      <Header imgSrc={myAppointmentBg.src} headerText="My Appointments" textColor="agapaint-black" />
+      <Header img={myAppointmentBg.src} text="My Appointment" color="agapaint-black" />
 
       {/* My Appointments Body */}
       <Container className="p-5 justify-content-around mb-5">
