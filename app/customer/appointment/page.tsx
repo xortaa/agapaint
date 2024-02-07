@@ -18,7 +18,7 @@ function custAppointment() {
       {/* Navbar Here */}
 
       {/* My Profile Header */}
-      <Header imgSrc={myProfileBg.src} headerText="My Profile" textColor="agapaint-yellow" />
+      <Header img={myProfileBg.src} text="My Profile" color="agapaint-yellow" />
 
       {/* My Profile Body */}
       <Container className="py-5 justify-content-around mb-5">
@@ -40,7 +40,7 @@ function custAppointment() {
       </Container>
 
       {/* My Appointments Header */}
-      <Header imgSrc={myAppointmentBg.src} headerText="My Appointment" textColor="agapaint-black" />
+      <Header img={myAppointmentBg.src} text="My Appointment" color="agapaint-black" />
 
       {/* My Appointments Body */}
       <Container className="py-5 justify-content-around mb-5">

@@ -3,7 +3,7 @@ import { Container, Row, Col, Image, Table, Badge, InputGroup, Card, Button } fr
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import paymentStyles from "@/styles/payment.module.scss";
-import { ArrowLeft } from "react-bootstrap-icons";
+import { ArrowLeft, CarFrontFill, CreditCard } from "react-bootstrap-icons";
 
 import paymentStatusBg from "@/public/assets/img/paymentStatusBg.png";
 
@@ -49,29 +49,53 @@ function custPayment() {
 
         <hr className="mb-4" />
 
-        <Row className="d-flex">
-          <h3 className="fw-bold agapaint-yellow">Services Availed</h3>
-          <p className="mb-4">Panel Repair, Wash Over</p>
-          <Row className="d-flex justify-content-between">
-            <Col xs={6} md={4} className="text-start">
-              <h5 className="fw-bold agapaint-black">Car Information</h5>
-              <p>Sedan Kia Rio 2016</p>
-            </Col>
-            <Col xs={6} md={4} className="text-start">
-              <div className="d-flex flex-column align-items-start">
-                <h5 className="fw-bold agapaint-black">Payment Term</h5>
-                <p>Partial</p>
-              </div>
-            </Col>
-            <Col xs={12} md={4} className="text-start">
-              <div className="d-flex flex-column align-items-start">
-                <h5 className="fw-bold agapaint-black">Service Status</h5>
-                <Badge pill bg="primary mb-3">
-                  For Release
-                </Badge>
-              </div>
-            </Col>
-          </Row>
+        <Row>
+          <Col xs={12}>
+            <h3 className="fw-bold agapaint-yellow">Services Availed</h3>
+            <p className="mb-4">Panel Repair, Wash Over</p>
+          </Col>
+          <Col xs={12}>
+            <Row className="g-4 mb-3">
+              <Col xs={12} md={4}>
+                <Card className="shadow-sm">
+                  <Card.Body>
+                    <Card.Title className="fw-bold">
+                      <span className="me-2">
+                        <CarFrontFill />
+                      </span>
+                      Sedan Kia Rio 2016
+                    </Card.Title>
+                    <Card.Text>Car Information</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={4}>
+                <Card className="shadow-sm">
+                  <Card.Body>
+                    <Card.Title className="fw-bold">
+                      <span className="me-2">
+                        <CreditCard />
+                      </span>
+                      Partial
+                    </Card.Title>
+                    <Card.Text>Payment Term</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={4}>
+                <Card className="shadow-sm">
+                  <Card.Body>
+                    <Card.Title className="fw-bold">
+                      <Badge pill bg="primary">
+                        For Release
+                      </Badge>
+                    </Card.Title>
+                    <Card.Text>Service Status</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </Col>
         </Row>
 
         <hr className="mb-4" />
