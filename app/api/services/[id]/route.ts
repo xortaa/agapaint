@@ -3,7 +3,8 @@ import Services from "@/models/services";
 import { NextRequest, NextResponse } from "next/server";
 //gets each service based on id
 
-//get
+//get - working
+
 export const GET = async (req: NextRequest, { params }: { params: { id: string } }) => {
   const id = params.id;
   try {
@@ -16,6 +17,20 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
     return NextResponse.json("Can't find service", { status: 500 });
   }
 };
+
+//update - working
+export const PATCH = async (req: NextRequest, { params }: {params: {id: string}}) => {
+    const id = params.id;
+    const { name, description, image, price } = await req.json();
+    try {
+        await connectToDatabase()
+        const service = await Services.findByIdAndUpdate(id, {name, description, image, price}, {new: true})
+        return NextResponse.json(service, {status: 200})
+    } catch (error) {
+        console.log(error)
+        return NextResponse.json("Can't update service", {status: 500})
+    }
+    }
 
 //post
 export const POST = async (req: NextRequest, { params }: { params: { id: string } }) => {
@@ -30,21 +45,7 @@ export const POST = async (req: NextRequest, { params }: { params: { id: string 
   }
 };
 
-//update
-export const PATCH = async (req: NextRequest, { params }: { params: { id: string } }) => {
-  const id = params.id;
-  const { name } = await req.json();
-  try {
-    await connectToDatabase();
-    const service = await Services.findByIdAndUpdate(id, { name }, { new: true });
-    return NextResponse.json(service, { status: 200 });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json("Can't update service", { status: 500 });
-  }
-};
-
-//delete
+//delete - working
 export const DELETE = async (req: NextRequest, { params }: { params: { id: string } }) => {
   const id = params.id;
   try {
