@@ -28,5 +28,5 @@ const ServicesSchema = new Schema({
   },
 });
 
-const Services = models.Services || model("Services", ServicesSchema);
+const Services = models.Services || model("Service", ServicesSchema);
 export default Services;

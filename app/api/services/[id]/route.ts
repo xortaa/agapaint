@@ -1,5 +1,5 @@
 import connectToDatabase from "@/utils/database";
-import Services from "@/models/services";
+import Services from "@/models/service";
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
