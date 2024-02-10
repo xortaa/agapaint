@@ -21,7 +21,7 @@ function AptCard({
           <h4 className="fw-medium">{aptTime}</h4>
           <hr />
           <Row className="justify-content-between">
-            <Col cla>
+            <Col>
               <p>Car Info:</p>
             </Col>
             <Col className="text-end">
