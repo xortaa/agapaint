@@ -10,7 +10,7 @@ import {
   InputGroup,
   Card,
   Button,
-  DropdownButton,
+  Alert,
   Dropdown,
   Modal,
 } from "react-bootstrap";
@@ -18,34 +18,13 @@ import { useRouter } from "next/navigation";
 import { Filter, Search, BoxSeam, InboxFill } from "react-bootstrap-icons";
 import { useState, useEffect } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
+import ServiceStatus from "@/components/ServiceStatus";
 import AdminHeader from "@/components/AdminHeader";
 
 function manageAppointment() {
-  // Service Status
-  const [color, setColor] = useState("fw-bold");
-
-  const handleChange = (event) => {
-    const selectedOption = event.target.value;
-
-    switch (selectedOption) {
-      case "Pending":
-        setColor("text-danger");
-        break;
-      case "Ongoing":
-        setColor("text-warning fw-bold");
-        break;
-      case "For Release":
-        setColor("text-info fw-bold");
-        break;
-      case "Complete":
-        setColor("text-success fw-bold");
-        break;
-      default:
-        setColor("fw-bold");
-    }
-  };
-
   // Show Appointment Detail
   const [showComponent, setShowComponent] = useState(false);
 
@@ -61,6 +40,9 @@ function manageAppointment() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  //   Date Picker
+  const [startDate, setStartDate] = useState(new Date());
 
   //   Archive Modal
   const [smShow, setSmShow] = useState(false);
@@ -112,8 +94,22 @@ function manageAppointment() {
                 </Col>
               </Row>
 
-              {/* Confirmed Appointments */}
+              {/* Conditional Render: Alerts */}
+              <Row className="ps-2 pe-2" hidden>
+                <Alert variant="success">
+                  <p className="mb-0">
+                    Hooray! <strong>Material Used for APT#1</strong> is added successfully!
+                  </p>
+                </Alert>
 
+                <Alert variant="danger" hidden>
+                  <p className="mb-0">
+                    Oops! <strong>Material Used for APT#1</strong> is not added, Please try again!
+                  </p>
+                </Alert>
+              </Row>
+
+              {/* Confirmed Appointments */}
               <Row className="mb-4">
                 <Col>
                   <h6 className="fw-bold agapaint-yellow mb-3">Confirmed Appointments</h6>
@@ -140,12 +136,7 @@ function manageAppointment() {
                           <td>11:00 AM</td>
                           <td>P10,000</td>
                           <td>
-                            <Form.Select className="fw-bold" onChange={handleChange}>
-                              <option className="text-danger fw-bold">Pending</option>
-                              <option className="text-warning fw-bold">Ongoing</option>
-                              <option className="text-info fw-bold">For Release</option>
-                              <option className="text-success fw-bold">Complete</option>
-                            </Form.Select>
+                            <ServiceStatus width="73%" />
                           </td>
                           <td>
                             <BoxSeam size={24} className="text-success" onClick={() => setMuShow(true)} />
@@ -160,7 +151,7 @@ function manageAppointment() {
               {/* Pending Appointments */}
               <Row className="mb-4">
                 <Col>
-                  <h6 className="fw-bold agapaint-yellow mb-3">Pending Appointments</h6>
+                  <h6 className="fw-bold agapaint-yellow mb-3">Confirmed Appointments</h6>
                   <Card className="border-0 rounded">
                     <Table striped hover className="align-middle">
                       <thead>
@@ -171,19 +162,21 @@ function manageAppointment() {
                           <th>Date</th>
                           <th>Time</th>
                           <th>Total Service</th>
-                          <th>Service Action</th>
+                          <th>Service Status</th>
                           <th>INV</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+                        <tr onClick={() => setShowComponent(true)}>
                           <td className="fw-bold">1</td>
                           <td>Mark Alizalde</td>
                           <td>PLT 456</td>
                           <td>November 15, 2023</td>
                           <td>11:00 AM</td>
                           <td>P10,000</td>
-                          <td></td>
+                          <td>
+                            <ServiceStatus width="73%" />
+                          </td>
                           <td>
                             <BoxSeam size={24} className="text-success" onClick={() => setMuShow(true)} />
                           </td>
@@ -197,7 +190,7 @@ function manageAppointment() {
           </CSSTransition>
 
           {/* Trigger to View Apt Details */}
-          <CSSTransition in={showComponent} timeout={300} classNames="slide" unmountOnExit>
+          <CSSTransition in={true} timeout={300} classNames="slide" unmountOnExit>
             <Col sm={3}>
               <Card className="border-0 shadow-sm p-1" style={{ fontSize: "14px" }}>
                 <Card.Body>
@@ -208,6 +201,12 @@ function manageAppointment() {
                   <hr />
                   <div className="d-flex justify-content-between align-items-center">
                     <h4 className="fw-bold">1</h4>
+
+                    <div>
+                      <p className="mb-0 small">Service Status</p>
+                    </div>
+
+                    <ServiceStatus width="43%" />
                   </div>
                   <hr />
                   <Row className="align-items-center justify-content-between">
