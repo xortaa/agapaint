@@ -15,7 +15,7 @@ import {
   Modal,
 } from "react-bootstrap";
 import { useRouter } from "next/navigation";
-import { Filter, Search, BoxSeam, InboxFill } from "react-bootstrap-icons";
+import { Funnel, Search, BoxSeam } from "react-bootstrap-icons";
 import { useState, useEffect } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import DatePicker from "react-datepicker";
@@ -24,6 +24,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import ServiceStatus from "@/components/ServiceStatus";
 import PaymentStatus from "@/components/PaymentStatus";
 import AdminHeader from "@/components/AdminHeader";
+import AptDetails from "@/components/AptDetails";
+import AptMaterial from "@/components/AptMaterial";
 
 function manageAppointment() {
   // Show Appointment Detail
@@ -42,28 +44,21 @@ function manageAppointment() {
     };
   }, []);
 
-  //   Date Picker
-  const [startDate, setStartDate] = useState(new Date());
-
-  //   Archive Modal
-  const [smShow, setSmShow] = useState(false);
-  const handleCloseModal = () => setSmShow(false);
-
   // Material Used Modal
   const [muShow, setMuShow] = useState(false);
-  const handleClose = () => setMuShow(false);
 
-  //   Form
-  const [validated, setValidated] = useState(false);
+  // Service Status
+  const [showAptMaterial, setShowAptMaterial] = useState(false);
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+  const handleServiceStatusChange = (selectedValue) => {
+    if (selectedValue === "4") {
+      setShowAptMaterial(true);
     }
+  };
 
-    setValidated(true);
+  const handleCloseModal = () => {
+    setMuShow(false);
+    setShowAptMaterial(false);
   };
 
   return (
@@ -86,12 +81,25 @@ function manageAppointment() {
             <Col>
               <Row className="mt-2 mb-4" sm={8}>
                 <Col lg={4} md={6}>
-                  <InputGroup>
-                    <InputGroup.Text id="basic-addon1">
-                      <Search size={20} />
-                    </InputGroup.Text>
-                    <FormControl placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
-                  </InputGroup>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <InputGroup>
+                      <InputGroup.Text id="basic-addon1">
+                        <Search size={20} />
+                      </InputGroup.Text>
+                      <FormControl placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
+                    </InputGroup>
+                    <Dropdown>
+                      <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                        <Funnel />
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
                 </Col>
               </Row>
 
@@ -137,7 +145,7 @@ function manageAppointment() {
                           <td>11:00 AM</td>
                           <td>P10,000</td>
                           <td>
-                            <ServiceStatus width="73%" />
+                            <ServiceStatus width="73%" onChange={handleServiceStatusChange} />
                           </td>
                           <td>
                             <BoxSeam size={24} className="text-success" onClick={() => setMuShow(true)} />
@@ -190,191 +198,23 @@ function manageAppointment() {
             </Col>
           </CSSTransition>
 
-          {/* Trigger to View Apt Details */}
+          {/* Trigger to View Apt Details and Archive Modal*/}
           <CSSTransition in={showComponent} timeout={300} classNames="slide" unmountOnExit>
-            <Col sm={3}>
-              <Card className="border-0 shadow-sm p-1" style={{ fontSize: "14px" }}>
-                <Card.Body>
-                  <div className="d-flex align-items-center justify-content-between">
-                    <h4 className="fw-bold mb-0">Appointment Details</h4>
-                    <InboxFill size={24} className="me-2 text-danger" onClick={() => setSmShow(true)} />
-                  </div>
-                  <hr />
-                  <div className="d-flex justify-content-between align-items-center">
-                    <h4 className="fw-bold">1</h4>
-
-                    <div>
-                      <p className="mb-0 small">Service Status</p>
-                    </div>
-
-                    <ServiceStatus width="43%" />
-                  </div>
-                  <hr />
-                  <Row className="align-items-center justify-content-between">
-                    <Col xs="auto" className="lh-05 fw-bold">
-                      <p>Date</p>
-                      <p>Time</p>
-                      <p>Customer</p>
-                      <p>Email</p>
-                      <p className="m-0">Phone#</p>
-                    </Col>
-                    <Col xs="auto" className="lh-05 text-end">
-                      <p>Nov 15, 2023</p>
-                      <p>11:00 AM</p>
-                      <p>Mark Alizalde</p>
-                      <p>malizalde@gmail.com</p>
-                      <p className="m-0">09123456789</p>
-                    </Col>
-                  </Row>
-                  <hr />
-                  <Row className="align-items-center justify-content-between lh-1">
-                    <p className="fw-bold lh-05">Vehicle Information</p>
-                    <Col xs="auto" className="lh-05 fw-bold">
-                      <p>Car Model</p>
-                      <p className="m-0">Plate#</p>
-                    </Col>
-                    <Col xs="auto" className="lh-05 text-end">
-                      <p>Nissan Almera 2015</p>
-                      <p className="m-0">PLT 456</p>
-                    </Col>
-                  </Row>
-                  <hr />
-                  <Row className="align-items-center justify-content-between">
-                    <p className="fw-bold lh-05">Service Information</p>
-                    <Col xs="auto" className="lh-05 text-secondary">
-                      <p>Under Coating - Sedan</p>
-                      <p>Rims/Mags Repaint</p>
-                      <p>Glass Detailing</p>
-                      <p className="m-0">Headlight Detailing</p>
-                    </Col>
-                    <Col xs="auto" className="lh-05 text-end text-secondary">
-                      <p>3,500</p>
-                      <p>3,500</p>
-                      <p>1,500</p>
-                      <p className="m-0">1,500</p>
-                    </Col>
-                  </Row>
-                  <hr />
-                  <Row className="align-items-center justify-content-between mb-2">
-                    <Col xs="auto" className="lh-05 fw-bold">
-                      <p>Payment Term</p>
-                      <p className="m-0">Remaining Balance</p>
-                    </Col>
-                    <Col xs="auto" className="lh-05 text-end">
-                      <p>Partial</p>
-                      <p className="m-0 fs-5 fw-bold">P5,000</p>
-                    </Col>
-                  </Row>
-
-                  <p className="fs-5 agapaint-yellow m-0">Breakdown</p>
-                  <Table striped responsive style={{ fontSize: "13px" }} className="align-middle">
-                    <thead>
-                      <tr>
-                        <th>Term</th>
-                        <th>Percent</th>
-                        <th>Amount</th>
-                        <th>Payment Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1st</td>
-                        <td>50%</td>
-                        <td>P5,000</td>
-                        <td><PaymentStatus /></td>
-                      </tr>
-                      <tr>
-                        <td>2nd</td>
-                        <td>25%</td>
-                        <td>P2,500</td>
-                        <td><PaymentStatus /></td>
-                      </tr>
-                      <tr>
-                        <td>3rd</td>
-                        <td>25%</td>
-                        <td>P2,500</td>
-                        <td><PaymentStatus /></td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                  <Row className="align-items-center justify-content-between mb-2">
-                    <Col xs="auto" className="lh-1 fw-bold">
-                      <p className="m-0 fs-6">Total Service Amount</p>
-                    </Col>
-                    <Col xs="auto" className="lh-1 text-end">
-                      <p className="m-0 fs-5 fw-bold">P10,000</p>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
+            <AptDetails />
           </CSSTransition>
 
-          {/* Modal: Archive Appointment*/}
-          <Modal size="sm" show={smShow} onHide={() => setSmShow(false)} aria-labelledby="archive-modal" centered>
-            <Modal.Header closeButton>
-              <Modal.Title className="fs-6">Archive Appointment</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <p className="mb-4">Are you sure you want to archive?</p>
-              <div className="lh-05">
-                <p>Appointment Id: Placeholder</p>
-                <p>Customer: Placeholder</p>
-                <p>Service Status: Placeholder</p>
-              </div>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseModal}>
-                Close
-              </Button>
-              <Button variant="danger" onClick={() => console.log("Archive")}>
-                Archive
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
           {/* Modal: Material Used */}
-          <Modal size="lg" show={muShow} onHide={() => setMuShow(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title className="fs-6">Material Used [APT# 1]</Modal.Title>
-            </Modal.Header>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
-              <Modal.Body className="p-4">
-                <Row className="mb-3">
-                  <Form.Group as={Col} md="6" controlId="validationCustom01">
-                    <Form.Label>Material Name</Form.Label>
-                    <Form.Select aria-label="material-name-select">
-                      <option value="1">Weber Red</option>
-                      <option value="2">Anzhal</option>
-                      <option value="3">Nason</option>
-                    </Form.Select>
-                  </Form.Group>
-                  <Form.Group as={Col} md="3" controlId="validationCustom02">
-                    <Form.Label>Quantity Used</Form.Label>
-                    <Form.Control required type="number" placeholder="2 L" min={0} />
-                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group as={Col} md="3" controlId="validationCustom03">
-                    <Form.Label>Action</Form.Label>
-                    <Button variant="success" type="submit">
-                      Add Material
-                    </Button>
-                  </Form.Group>
-                </Row>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseModal}>
-                  Close
-                </Button>
-                <Button variant="success" type="submit">
-                  Save Materials
-                </Button>
-              </Modal.Footer>
-            </Form>
-          </Modal>
+          <AptMaterial title="Material Used [APT #1]" show={muShow} hide={handleCloseModal} status="ongoing" />
 
           {/* COMPLETE STAT Modal 1 : Material Used Confirmation*/}
-
+          {showAptMaterial && (
+            <AptMaterial
+              title="Finalize Material Used [APT #1]"
+              show={showAptMaterial}
+              hide={handleCloseModal}
+              status="complete"
+            />
+          )}
           {/* COMPLETE STAT Modal 2: End Date Confirmation*/}
         </Row>
       </Container>

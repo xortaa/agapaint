@@ -1,5 +1,5 @@
 import { Form } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function ServiceStatus(sProps) {
   // Service Status
@@ -9,17 +9,25 @@ function ServiceStatus(sProps) {
     setSelectedOption(event.target.value);
   };
 
+  const [maxOptionLength, setMaxOptionLength] = useState(0);
+
+  useEffect(() => {
+    const options = ["Awaiting", "Paid"];
+    const maxLength = Math.max(...options.map((option) => option.length));
+    setMaxOptionLength(maxLength);
+  }, []);
+
   const getColor = () => {
     return selectedOption === "2" ? "text-success" : "text-danger";
   };
   return (
-   <Form.Select
+    <Form.Select
       value={selectedOption}
       onChange={handleChange}
       className={`fw-bold ${getColor()} `}
-      style={{ width: sProps.width as string}}
+      style={{ width: `${maxOptionLength}em` }}
       size="sm"
-   >
+    >
       <option value="1" className="text-danger fw-bold">
         Awaiting
       </option>

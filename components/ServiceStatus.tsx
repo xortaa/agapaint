@@ -7,6 +7,7 @@ function ServiceStatus(sProps) {
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
+    sProps.onChange(event.target.value);
   };
 
   const getColor = () => {
@@ -21,14 +22,15 @@ function ServiceStatus(sProps) {
         return "text-danger";
     }
   };
+
   return (
-   <Form.Select
+    <Form.Select
       value={selectedOption}
       onChange={handleChange}
       className={`fw-bold ${getColor()} `}
       style={{ width: sProps.width as string }}
       size="sm"
-   >
+    >
       <option value="1" className="text-danger fw-bold">
         Pending
       </option>
