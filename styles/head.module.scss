@@ -1,0 +1,72 @@
+.header {
+    background-image: url("../public/assets/img/headerbg.png");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    padding-top: calc(12.5em + 3vw);
+  }
+  
+  .h1 {
+    color: white;
+    font-size: calc(2em + 3vw);
+    text-align: left;
+    font-weight: 800;
+  }
+  
+  .p {
+    color: white;
+    font-size: calc(0.75em + 1vw);
+  }
+  
+  .yellow {
+    color: #ffc72c;
+  }
+  
+  .btnBook {
+    background-color: #ffc72c;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: calc(0.3em + 1vw);
+    font-weight: 600;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-right: 18px;
+  }
+  
+  .btnLearn {
+    background: none;
+    color: #ffc72c;
+    padding: 10px 20px;
+    border: 2px solid #ffc72c;
+    border-radius: 10px;
+    font-size: calc(0.3em + 1vw);
+    font-weight: 600;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-right: 18px;
+  }
+  
+  .btnBook:hover {
+    background-color: #ffc72c;
+    color: black;
+    transform: scale(1.10);
+    transition: transform 0.5s;
+  }
+  
+  .btnLearn:hover {
+    background-color: black;
+    color: #ffc72c;
+    transform: scale(1.10);
+    transition: transform 0.5s;
+  }
+  
