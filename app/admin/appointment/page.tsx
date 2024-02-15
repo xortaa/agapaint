@@ -22,6 +22,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import ServiceStatus from "@/components/ServiceStatus";
+import PaymentStatus from "@/components/PaymentStatus";
 import AdminHeader from "@/components/AdminHeader";
 
 function manageAppointment() {
@@ -190,7 +191,7 @@ function manageAppointment() {
           </CSSTransition>
 
           {/* Trigger to View Apt Details */}
-          <CSSTransition in={true} timeout={300} classNames="slide" unmountOnExit>
+          <CSSTransition in={showComponent} timeout={300} classNames="slide" unmountOnExit>
             <Col sm={3}>
               <Card className="border-0 shadow-sm p-1" style={{ fontSize: "14px" }}>
                 <Card.Body>
@@ -280,19 +281,19 @@ function manageAppointment() {
                         <td>1st</td>
                         <td>50%</td>
                         <td>P5,000</td>
-                        <td></td>
+                        <td><PaymentStatus /></td>
                       </tr>
                       <tr>
                         <td>2nd</td>
                         <td>25%</td>
                         <td>P2,500</td>
-                        <td></td>
+                        <td><PaymentStatus /></td>
                       </tr>
                       <tr>
                         <td>3rd</td>
                         <td>25%</td>
                         <td>P2,500</td>
-                        <td></td>
+                        <td><PaymentStatus /></td>
                       </tr>
                     </tbody>
                   </Table>
