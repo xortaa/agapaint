@@ -63,11 +63,13 @@
   align-items: center;
   border-radius: 12px;
   background: var(--Neutral-02, #f4f4f4);
+  border: none;
 }
 
 .addservicecontainer {
   padding-left: 960px;
   padding-top: 5px;
+  display: flex;
 }
 
 .addservicebtn {
@@ -86,8 +88,57 @@
   font-style: normal;
   font-weight: 600;
   line-height: 18px; /* 112.5% */
+  border: none;
 }
 
 .table {
   padding-top: 30px;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  color: #152536;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; /* 175% */
+}
+
+.tableheader {
+  color: #152536;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.tableimg {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+}
+
+.actionbuttons {
+  margin-right: 10px;
+}
+
+.addserviceformclose {
+  background-color: #6c757d;
+  border: none;
+}
+
+.addserviceformadd {
+  background-color: #f1b038;
+  border: none;
+}
+
+.updateserviceformupdate {
+  background-color: #28a745;
+  border: none;
+}
+
+.archiveserviceformarchive {
+  background-color: #dc3545;
+  border: none;
 }
