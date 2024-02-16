@@ -14,3 +14,54 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+/* Agapaint Brand Colors */
+:root {
+  --agapaint-yellow: #f1b038;
+  --agapaint-blue: #4435ff;
+  --agapaint-pink: #ff37bc;
+  --agapaint-black: #141414;
+  --agapaint-bg: #f8f8f8;
+}
+.agapaint-yellow {
+  color: var(--agapaint-yellow);
+}
+
+.agapaint-blue {
+  color: var(--agapaint-blue);
+}
+
+.agapaint-pink {
+  color: var(--agapaint-pink);
+}
+
+.agapaint-black {
+  color: var(--agapaint-black);
+}
+
+.agapaint-bg {
+  background-color: var(--agapaint-bg);
+}
+
+.slide-enter {
+  transform: translateX(100%);
+}
+
+.slide-enter-active {
+  transform: translateX(0);
+  transition: transform 300ms ease-in-out;
+}
+
+.slide-exit {
+  transform: translateX(0);
+}
+
+.slide-exit-active {
+  transform: translateX(100%);
+  transition: transform 300ms ease-in-out;
+}
+
+.lh-05{
+   line-height: 0.7;
+}
+

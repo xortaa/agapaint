@@ -4,7 +4,7 @@
 import faqStyles from "@/styles/faq.module.scss";
 
 //bootsrap
-import { Container, Accordion } from "react-bootstrap";
+import { Container, Accordion, Row } from "react-bootstrap";
 
 import React, { useState } from "react";
 
@@ -71,21 +71,11 @@ const page = () => {
             consequatur et tempore eius.
           </Accordion.Body>
         </Accordion.Item>
-
-        <Accordion.Item className={faqStyles.card} eventKey="5">
-          <Accordion.Header className={faqStyles.cardtitle}>Question 6</Accordion.Header>
-          <Accordion.Body className={faqStyles.cardbody}>
-            Lorem ipsum dolor sit amet. Aut fuga deleniti sed quae repellat et impedit aliquid ea praesentium pariatur.
-            Quo debitis galisum ad mollitia illum sit deserunt beatae qui sint velit id nulla commodi At ullam iusto et
-            ullam temporibus. Ad magni quisquam aut culpa voluptas non earum labore sit ipsum laudantium ad natus fugit
-            qui placeat dolores. Vel sapiente itaque 33 officia dolor a nihil voluptates aut quam omnis aut enim
-            consequatur et tempore eius.
-          </Accordion.Body>
-        </Accordion.Item>
       </Accordion>
 
       {/* footer */}
     </main>
   );
 };
+
 export default page;

@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const AppointmentSchema = new Schema({
   customer: {
@@ -48,6 +48,6 @@ const AppointmentSchema = new Schema({
   },
 });
 
-const Appointment = model("Appointment", AppointmentSchema);
+const Appointment = models.Appointment || model("Appointment", AppointmentSchema);
 
 export default Appointment;
