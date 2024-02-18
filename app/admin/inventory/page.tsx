@@ -2,6 +2,7 @@
 import { Container, Row, Col, InputGroup, Dropdown, FormControl, Button, Badge, Table, Card } from "react-bootstrap";
 
 import AdminHeader from "@/components/AdminHeader";
+import LogModal from "@/components/LogModal";
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
 import Link from "next/link";
 
@@ -142,6 +143,10 @@ function manageInventory() {
             </Card>
           </Col>
         </Row>
+
+        {/* Modals */}
+        <LogModal />
+        
       </Container>
     </main>
   );
