@@ -2,7 +2,9 @@
 
 import React from "react";
 import AdminServiceStyles from "@/styles/AdminService.module.scss";
-import { Container, Row, Col, Table, Button, Modal, Form } from "react-bootstrap";
+import { Container, Row, Col, Table, Button, Modal, Form, InputGroup, Dropdown, FormControl } from "react-bootstrap";
+import AdminHeader from "@/components/AdminHeader";
+import { Funnel, Search } from "react-bootstrap-icons";
 
 function AddService(props) {
   return (
@@ -166,48 +168,52 @@ function AdminManageServicePage() {
   const [modalUpdateServiceShow, setUpdateServiceModalShow] = React.useState(false);
   const [modalArchiveServiceShow, setArchiveServiceModalShow] = React.useState(false);
   return (
-    <main className={AdminServiceStyles.headercontainer}>
-      <Container>
+    <main className="agapaint-bg">
+      <Container fluid className="p-4 min-vh-100">
         <Row>
-          <Col className="col-7">
-            <h1 className={AdminServiceStyles.headertitle}>Manage Services</h1>
-            <h6 className={AdminServiceStyles.headersubtitle}>View all your services offered</h6>
-          </Col>
-
-          <Col className="col-3">
-            <h1 className={AdminServiceStyles.admintitle}>Hi, AdminLuigi</h1>
-            <h6 className={AdminServiceStyles.adminsubtitle}>{new Date().toLocaleString() + ""}</h6>
-          </Col>
-
-          <Col className="col-2">
-            <img src="https://via.placeholder.com/256" alt="Admin" className={AdminServiceStyles.profilepic} />
-          </Col>
+          {/* Header Row */}
+          <AdminHeader
+            title="Manage Services"
+            subtitle="View all your services offered"
+            userName="AdminLuigi"
+            dateTime="November 15, 2023 11:38PM"
+            userPhoto="https://w7.pngwing.com/pngs/802/786/png-transparent-google-account-google-search-customer-service-google-logo-login-button-blue-sphere-car-rental-thumbnail.png"
+          />
         </Row>
 
-        <Row>
-          <Col>
-            <input className={AdminServiceStyles.searchinput} type="text" placeholder="Search for a service" />
+        <Row className="mt-2 mb-4" sm={8}>
+          <Col lg={4} md={6}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <InputGroup>
+                <InputGroup.Text id="basic-addon1">
+                  <Search size={20} />
+                </InputGroup.Text>
+                <FormControl placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
+              </InputGroup>
+              <Dropdown>
+                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                  <Funnel />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
           </Col>
+          <Button
+            className={AdminServiceStyles.addservicebtn + " ms-auto me-3"}
+            variant="primary"
+            onClick={() => setAddServiceModalShow(true)}
+          >
+            + Add Service
+          </Button>
+
+          <AddService show={modalAddServiceShow} onHide={() => setAddServiceModalShow(false)} />
         </Row>
-      </Container>
 
-      <Container className={AdminServiceStyles.addservicecontainer}>
-        <Row>
-          <Col>
-            <Button
-              className={AdminServiceStyles.addservicebtn}
-              variant="primary"
-              onClick={() => setAddServiceModalShow(true)}
-            >
-              + Add Service
-            </Button>
-
-            <AddService show={modalAddServiceShow} onHide={() => setAddServiceModalShow(false)} />
-          </Col>
-        </Row>
-      </Container>
-
-      <Container className={AdminServiceStyles.table}>
         <Table hover className="align-middle text-left">
           <thead>
             <tr>
