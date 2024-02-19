@@ -1,0 +1,144 @@
+.background {
+  background-color: #f8f8f8;
+}
+
+.headercontainer {
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+  margin-bottom: 20px;
+  padding-left: 39px;
+}
+
+.headertitle {
+  color: var(--colors-black-100, #000);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.headersubtitle {
+  color: var(--colors-black-100, #000);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.admintitle {
+  padding-top: 8px;
+  color: var(--colors-black-100, #000);
+  font-feature-settings: "clig" off, "liga" off;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-align: right;
+}
+
+.adminsubtitle {
+  color: var(--colors-black-100, #000);
+  text-align: right;
+  font-feature-settings: "clig" off, "liga" off;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.profilepic {
+  display: flex;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  margin-top: 10px;
+}
+
+.searchinput {
+  display: flex;
+  width: 360px;
+  padding: 8px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  background: var(--Neutral-02, #f4f4f4);
+  border: none;
+}
+
+.addservicecontainer {
+  padding-left: 960px;
+  padding-top: 5px;
+  display: flex;
+}
+
+.addservicebtn {
+  display: flex;
+  width: 170px;
+  height: 50px;
+  padding: 16px 24px;
+  align-items: flex-start;
+  gap: 8px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: var(--Orenz, #f1b038);
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 112.5% */
+  border: none;
+}
+
+.table {
+  padding-top: 30px;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  color: #152536;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; /* 175% */
+}
+
+.tableheader {
+  color: #152536;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.tableimg {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+}
+
+.actionbuttons {
+  margin-right: 10px;
+}
+
+.addserviceformclose {
+  background-color: #6c757d;
+  border: none;
+}
+
+.addserviceformadd {
+  background-color: #f1b038;
+  border: none;
+}
+
+.updateserviceformupdate {
+  background-color: #28a745;
+  border: none;
+}
+
+.archiveserviceformarchive {
+  background-color: #dc3545;
+  border: none;
+}
