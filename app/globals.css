@@ -65,3 +65,6 @@ a {
    line-height: 0.7;
 }
 
+.p-6 {
+  padding: 6rem !important
+}
