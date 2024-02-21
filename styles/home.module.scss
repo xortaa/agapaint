@@ -28,8 +28,10 @@
   }
   
   .squares {
-    width: 420px;
-    height: 420px;
+    width: 50vw;
+    height: 50vw;
+    max-width: 380px;
+    max-height: 380px;
     display: flex;
     justify-content: center;
     align-items: center;
