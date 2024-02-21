@@ -1,39 +1,39 @@
 import React from "react";
-import headerStyles from "@/styles/head.module.scss";
+import custHeadStyles from "@/styles/custHead.module.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 function Header() {
   return (
     <>
-      <div className={headerStyles.header}>
+      <div className={custHeadStyles.topHeader}>
         <Container>
           <Row>
             <Col className="pl-lg-5 pl-md-3 pl-sm-1">
-              <h1 className={headerStyles.h1}>
+              <h1 className={custHeadStyles.h1Top}>
                 COMMITMENT
                 <br />
-                TO QUALITY
+                TO <span className="text-warning">QUALITY</span>
               </h1>
             </Col>
           </Row>
 
           <Row>
             <Col className="pl-lg-5 pl-md-3 pl-sm-1">
-              <p className={headerStyles.p}>
-                <span className={headerStyles.yellow}>Paint</span>{" "}
+              <p className={custHeadStyles.p}>
+                <span className={custHeadStyles.white}>Paint</span>{" "}
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <span className={headerStyles.yellow}>Body Repair</span>{" "}
+                <span className={custHeadStyles.white}>Body Repair</span>{" "}
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <span className={headerStyles.yellow}>Detailing</span>
+                <span className={custHeadStyles.white}>Detailing</span>
               </p>
             </Col>
           </Row>
 
           <Row>
             <Col className="pl-lg-5 pl-md-3 pl-sm-1">
-                <Button className={headerStyles.btnBook}>Book an Appointment</Button> 
-                <Button className={headerStyles.btnLearn}>Learn More</Button> 
+                {/* <Button className={custHeadStyles.bookBtn}>Book an Appointment</Button>  */}
+                <Button className={custHeadStyles.learnBtn}>Learn More</Button> 
             </Col>
           </Row>
         </Container>

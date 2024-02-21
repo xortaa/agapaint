@@ -1,4 +1,4 @@
-.header {
+.topHeader {
     background-image: url("../public/assets/img/headerbg.png");
     background-size: cover;
     background-position: center;
@@ -12,7 +12,7 @@
     padding-top: calc(12.5em + 3vw);
   }
   
-  .h1 {
+  .h1Top {
     color: white;
     font-size: calc(2em + 3vw);
     text-align: left;
@@ -28,8 +28,8 @@
     color: #ffc72c;
   }
   
-  .btnBook {
-    background-color: #ffc72c;
+  button.bookBtn {
+    background-color: #ffc72c !important;
     color: black;
     padding: 10px 20px;
     border: none;
@@ -42,8 +42,8 @@
     margin-right: 18px;
   }
   
-  .btnLearn {
-    background: none;
+  button.learnBtn {
+    background: none !important;
     color: #ffc72c;
     padding: 10px 20px;
     border: 2px solid #ffc72c;
@@ -56,17 +56,14 @@
     margin-right: 18px;
   }
   
-  .btnBook:hover {
-    background-color: #ffc72c;
+  button.bookBtn:hover {
+    background-color: #FFCE46 !important;
     color: black;
-    transform: scale(1.10);
     transition: transform 0.5s;
   }
   
-  .btnLearn:hover {
-    background-color: black;
-    color: #ffc72c;
-    transform: scale(1.10);
-    transition: transform 0.5s;
+  button.learnBtn:hover {
+    background-color: #ffc72c !important;
+    color: black !important;
+    border: 2px solid black;
   }
-  

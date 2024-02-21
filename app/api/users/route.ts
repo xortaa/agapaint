@@ -4,8 +4,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 export const GET = async (req: NextRequest) => {
-  const secret = process.env.NEXTAUTH_SECRET
+  const secret = process.env.NEXTAUTH_SECRET;
   try {
+    const token = await getToken({ req, secret });
+
+    if (!token || token.email !== process.env.ADMIN_EMAIL) {
+      return NextResponse.json("Unauthorized", { status: 401 });
+    }
+
     await connectToDatabase();
     const token = await getToken({req, secret})
     if (!token || token.email !== process.env.ADMIN_EMAIL) {

@@ -1,13 +1,20 @@
 import connectToDatabase from "@/utils/database";
 import Category from "@/models/category";
 import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-//create a category - post
 export const POST = async (req: NextRequest) => {
-  const { name } = await req.json();
+  const categoryData = await req.json();
+  const secret = process.env.JWT_SECRET;
   try {
+    const token = await getToken({ req, secret });
+
+    if (!token || token.email !== process.env.ADMIN_EMAIL) {
+      return NextResponse.json("Unauthorized", { status: 401 });
+    }
+
     await connectToDatabase();
-    const category = await Category.create({ name });
+    const category = await Category.create(categoryData);
     console.log(category);
     return NextResponse.json(category, { status: 200 });
   } catch (error) {
@@ -16,9 +23,15 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-//get all categories - get
 export const GET = async (req: NextRequest) => {
+  const secret = process.env.JWT_SECRET;
   try {
+    const token = await getToken({ req, secret });
+
+    if (!token || token.email !== process.env.ADMIN_EMAIL) {
+      return NextResponse.json("Unauthorized", { status: 401 });
+    }
+
     await connectToDatabase();
     const category = await Category.find({});
     console.log(category);

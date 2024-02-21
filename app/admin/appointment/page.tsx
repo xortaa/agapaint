@@ -26,7 +26,8 @@ import PaymentStatus from "@/components/PaymentStatus";
 import AdminHeader from "@/components/AdminHeader";
 import AptDetails from "@/components/AptDetails";
 import AptMaterial from "@/components/AptMaterial";
-
+import { Metadata } from 'next'
+ 
 function manageAppointment() {
   // Show Appointment Detail
   const [showComponent, setShowComponent] = useState(false);
