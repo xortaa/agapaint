@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "react-bootstrap";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaUserAlt } from "react-icons/fa";
 import navStyles from "@/styles/navbar.module.scss";
 import Image from "next/image";
 
@@ -31,8 +31,11 @@ function Navbar() {
   return (
     <>
       <div ref={navbarRef} className={navStyles.navbar1}>
-        <Link href="/">
-          <Image src="/assets/img/icon.png" alt="logo" width={70} height={70} />
+      <Link href="/">
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Image src="/assets/img/icon.png" alt="logo" width={70} height={70} />
+              <span className={navStyles.spanText} style={{ marginLeft: '10px' }}>AGAPAINT</span>
+            </div>
         </Link>
 
         {/* for clickable bar */}
@@ -50,23 +53,23 @@ function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/appointment" className={navStyles.ulItem}>
-                Appointment
-              </Link>
-            </li>
-            <li>
               <Link href="/faq" className={navStyles.ulItem}>
                 FAQ
               </Link>
             </li>
             <li>
+              <Link href="/" className={navStyles.ulItem}>
+              <Button className={navStyles.btnLog}>Book Now</Button>
+              </Link>
+            </li>
+            {/* <li>
               <Link href="/customer/signup">
                 <Button className={navStyles.btnSign}>Sign Up</Button>
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link href="/customer/signup">
-                <Button className={navStyles.btnLog}>Log In</Button>
+              <FaUserAlt color="#fff" size={25}/>
               </Link>
             </li>
           </ul>

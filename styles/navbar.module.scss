@@ -17,7 +17,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0);
     padding: 6px 5%;
     transition: ease 0.5s;
   }
@@ -67,10 +67,23 @@
     color: #ffc72c;
     font-weight: 500;
   }
+
+  .navbar1 a {
+    text-decoration: none;
+  }
   
-  .ulItem:active {
-    color: #ffc72c;
-    font-weight: 500;
+  .spanText {
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: calc(1.6em + 0.6vw);
+    color: white;
+  
+    &:link,
+    &:visited,
+    &:hover,
+    &:active {
+      text-decoration: none;
+    }
   }
   
   // navbar for mobile
@@ -97,7 +110,6 @@
     background: #ffc72c;
     color: black;
     border: 2px solid #ffc72c;
-    font-weight: 700;
   }
   
   .btnLog {
@@ -113,7 +125,6 @@
   .btnLog:hover {
     background: #ffd255;
     color: black;
-    font-weight: 700;
   }
   
   // responsive

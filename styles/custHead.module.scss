@@ -57,13 +57,13 @@
   }
   
   button.bookBtn:hover {
-    background-color: #ffc72c;
+    background-color: #FFCE46 !important;
     color: black;
     transition: transform 0.5s;
   }
   
   button.learnBtn:hover {
-    background-color: black !important;
-    color: #ffc72c !important;
-    transition: transform 0.5s;
+    background-color: #ffc72c !important;
+    color: black !important;
+    border: 2px solid black;
   }

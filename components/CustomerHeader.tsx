@@ -13,7 +13,7 @@ function Header() {
               <h1 className={custHeadStyles.h1Top}>
                 COMMITMENT
                 <br />
-                TO QUALITY
+                TO <span className="text-warning">QUALITY</span>
               </h1>
             </Col>
           </Row>
@@ -21,18 +21,18 @@ function Header() {
           <Row>
             <Col className="pl-lg-5 pl-md-3 pl-sm-1">
               <p className={custHeadStyles.p}>
-                <span className={custHeadStyles.yellow}>Paint</span>{" "}
+                <span className={custHeadStyles.white}>Paint</span>{" "}
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <span className={custHeadStyles.yellow}>Body Repair</span>{" "}
+                <span className={custHeadStyles.white}>Body Repair</span>{" "}
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <span className={custHeadStyles.yellow}>Detailing</span>
+                <span className={custHeadStyles.white}>Detailing</span>
               </p>
             </Col>
           </Row>
 
           <Row>
             <Col className="pl-lg-5 pl-md-3 pl-sm-1">
-                <Button className={custHeadStyles.bookBtn}>Book an Appointment</Button> 
+                {/* <Button className={custHeadStyles.bookBtn}>Book an Appointment</Button>  */}
                 <Button className={custHeadStyles.learnBtn}>Learn More</Button> 
             </Col>
           </Row>
