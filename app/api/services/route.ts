@@ -17,6 +17,7 @@ export const GET = async (req: NextRequest) => {
 
 export const POST = async (req: NextRequest) => {
   const secret = process.env.JWT_SECRET;
+  const serviceData = await req.json();
   try {
     const token = await getToken({ req, secret });
 
@@ -25,8 +26,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     await connectToDatabase();
-    const { name, description, image, price } = await req.json();
-    const newService = new Services({ name, description, image, price });
+    const newService = new Services(serviceData);
     await newService.save();
     return NextResponse.json(newService, { status: 200 });
   } catch (error) {

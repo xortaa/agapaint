@@ -18,6 +18,7 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
 
 export const PATCH = async (req: NextRequest, { params }: { params: { id: string } }) => {
   const id = params.id;
+  const serviceData = await req.json();
   const secret = process.env.JWT_SECRET;
   try {
     const token = await getToken({ req, secret });
@@ -27,8 +28,8 @@ export const PATCH = async (req: NextRequest, { params }: { params: { id: string
     }
 
     await connectToDatabase();
-    const { name, description, image, price } = await req.json();
-    const service = await Services.findByIdAndUpdate(id, { name, description, image, price }, { new: true });
+
+    const service = await Services.findByIdAndUpdate(id, serviceData, { new: true });
     return NextResponse.json(service, { status: 200 });
   } catch (error) {
     console.log(error);
