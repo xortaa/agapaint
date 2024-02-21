@@ -18,7 +18,7 @@
     align-items: center;
     justify-content: space-between;
     background: rgba(0, 0, 0, 0.7);
-    padding: 10px 5%;
+    padding: 5px 5%;
     transition: ease 0.5s;
   }
   
@@ -42,9 +42,12 @@
   
     display: flex;
     font-weight: 500;
-    padding: 10px 22px;
+    padding: 10px 20px;
     border-radius: 4px;
     transition: ease 0.5s;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
   }
   
   .ulItem {
@@ -56,18 +59,18 @@
     padding: 10px 22px;
     border-radius: 4px;
     transition: ease 0.5s;
-    margin-right: 20px;
-    font-size: calc(0.65em + 0.7vw);
+    margin-right: 15px;
+    font-size: calc(0.55em + 0.6vw);
   }
   
   .ulItem:hover {
     color: #ffc72c;
-    font-weight: 700;
+    font-weight: 500;
   }
   
   .ulItem:active {
     color: #ffc72c;
-    font-weight: 700;
+    font-weight: 500;
   }
   
   // navbar for mobile
@@ -87,7 +90,7 @@
     margin-right: 20px;
     padding: auto;
     align-self: center;
-    font-size: calc(0.7em + 0.7vw);
+    font-size: calc(0.55em + 0.6vw);
   }
   
   .btnSign:hover {
@@ -99,10 +102,12 @@
   
   .btnLog {
     background: #ffc72c;
-    color: white;
+    color: black;
     padding: auto;
     align-self: center;
-    font-size: calc(0.7em + 0.7vw);
+    font-size: calc(0.55em + 0.6vw);
+    font-weight: 500;
+    border: #ffc72c;
   }
   
   .btnLog:hover {

@@ -26,6 +26,11 @@ import PaymentStatus from "@/components/PaymentStatus";
 import AdminHeader from "@/components/AdminHeader";
 import AptDetails from "@/components/AptDetails";
 import AptMaterial from "@/components/AptMaterial";
+import { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: 'AGAPAINT | Manage Appointment',
+}
 
 function manageAppointment() {
   // Show Appointment Detail

@@ -6,7 +6,6 @@ import navStyles from "@/styles/navbar.module.scss";
 import Image from "next/image";
 
 function Navbar() {
-
   // for sticky navbar
   const navbarRef = useRef(null);
   const [isNavVisible, setIsNavVisible] = useState(false);
@@ -14,10 +13,7 @@ function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       if (navbarRef.current) {
-        navbarRef.current.classList.toggle(
-          navStyles.sticky,
-          window.scrollY > 0
-        );
+        navbarRef.current.classList.toggle(navStyles.sticky, window.scrollY > 0);
       }
     };
 
@@ -40,8 +36,8 @@ function Navbar() {
         </Link>
 
         {/* for clickable bar */}
-        <FaBars color="#ffc72c" className={navStyles.bars} onClick={handleBarsClick}/> 
-        <div className={`${navStyles.navbar} ${isNavVisible ? navStyles.open : ''}`}>
+        <FaBars color="#ffc72c" className={navStyles.bars} onClick={handleBarsClick} />
+        <div className={`${navStyles.navbar} ${isNavVisible ? navStyles.open : ""}`}>
           <ul className={navStyles.ul}>
             <li>
               <Link href="/" className={navStyles.ulItem}>
@@ -49,25 +45,29 @@ function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/" className={navStyles.ulItem}>
+              <Link href="/services" className={navStyles.ulItem}>
                 Services
               </Link>
             </li>
             <li>
-              <Link href="/" className={navStyles.ulItem}>
+              <Link href="/appointment" className={navStyles.ulItem}>
                 Appointment
               </Link>
             </li>
             <li>
-              <Link href="/" className={navStyles.ulItem}>
+              <Link href="/faq" className={navStyles.ulItem}>
                 FAQ
               </Link>
             </li>
             <li>
-              <Button className={navStyles.btnSign}>Sign Up</Button>
+              <Link href="/customer/signup">
+                <Button className={navStyles.btnSign}>Sign Up</Button>
+              </Link>
             </li>
             <li>
-              <Button className={navStyles.btnLog}>Log In</Button>
+              <Link href="/customer/signup">
+                <Button className={navStyles.btnLog}>Log In</Button>
+              </Link>
             </li>
           </ul>
         </div>
