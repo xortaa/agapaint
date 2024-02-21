@@ -1,0 +1,27 @@
+// .main {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   height: 100vh;
+// }
+
+.custom_select {
+  width: 110px;
+  padding: 10px;
+  font-size: 16px;
+  border: 0;
+  padding: 1px;
+  cursor: pointer;
+}
+
+.custom_option {
+  background-color: white;
+  color: black;
+  font-size: 16px;
+
+  &:hover {
+    background-color: lightgray;
+    color: white;
+  }
+}
