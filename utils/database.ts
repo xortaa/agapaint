@@ -19,6 +19,15 @@ const connectToDatabase = async () => {
     });
     isConnected = true;
     console.log("MongoDB is connected");
+
+     require("@/models/appointment");
+     require("@/models/category");
+     require("@/models/faq");
+     require("@/models/log");
+     require("@/models/material");
+     require("@/models/revenue");
+     require("@/models/service");
+     require("@/models/user");
   } catch (error) {
     console.log(error);
   }

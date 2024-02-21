@@ -11,19 +11,16 @@ const handler = NextAuth({
     GoogleProvider({
       clientId,
       clientSecret,
+      authorization: {
+        params: {
+          access_type: "offline",
+          prompt: "consent",
+          include_granted_scopes: "true",
+        },
+      },
     }),
   ],
   callbacks: {
-    // for custom sessions
-    // async session({ session }) {
-    //   await connectToDatabase()
-
-    //   const sessionUser = await User.findOne({
-    //     email: session.user.email,
-    //   })
-
-    //   return session
-    // },
     async signIn({ account, profile }) {
       try {
         await connectToDatabase();
@@ -32,12 +29,16 @@ const handler = NextAuth({
           email: profile.email,
         });
 
+        console.log("User exists:", userExists);
+
         let role: string;
         if (profile.email === process.env.ADMIN_EMAIL) {
           role = "admin";
         }
 
         if (!userExists) {
+          console.log("Creating a new user...");
+
           const newUser = new User({
             email: profile.email,
             username: profile.name,
@@ -45,10 +46,15 @@ const handler = NextAuth({
             role,
           });
           await newUser.save();
+
+          console.log("User created:", newUser);
         }
+
+        console.log("Sign-in process completed successfully.");
 
         return true;
       } catch (error) {
+        console.error("Error during sign-in:", error);
         return false;
       }
     },
