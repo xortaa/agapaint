@@ -13,11 +13,7 @@ export const GET = async (req: NextRequest) => {
     }
 
     await connectToDatabase();
-    const token = await getToken({req, secret})
-    if (!token || token.email !== process.env.ADMIN_EMAIL) {
-      return NextResponse.json("Unauthorized", { status: 401 });
-    }
-    const users = await User.find({});
+    const users = await User.find().populate("appointment");
     return NextResponse.json(users, { status: 200 });
   } catch (error) {
     console.log(error);
