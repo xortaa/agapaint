@@ -1,6 +1,7 @@
 import { Card } from "react-bootstrap";
 import Link from "next/link";
 import GoogleButton from "react-google-button";
+import { signIn } from "next-auth/react";
 
 const SignUpCard = () => {
   return (
@@ -13,7 +14,7 @@ const SignUpCard = () => {
         <div className="my-5">
           <GoogleButton
             onClick={() => {
-              console.log("Google button clicked");
+              signIn("google", { callbackUrl: "/" });
             }}
           />
         </div>
