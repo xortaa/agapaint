@@ -11,10 +11,12 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
     const token = await getToken({ req, secret });
 
     await connectToDatabase();
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("appointment");
+
     if (token.email === process.env.ADMIN_EMAIL || token.email === user.email) {
       return NextResponse.json(user, { status: 200 });
     }
+    
     return NextResponse.json("Unauthorized", { status: 401 });
   } catch (error) {
     console.log(error);
