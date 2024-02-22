@@ -27,8 +27,8 @@ const CustomerSchema = new Schema({
     type: Number,
     default: 0,
   },
-  appointments: {
-    type: Schema.Types.ObjectId,
+  appointment: {
+    type: [Schema.Types.ObjectId],
     ref: "Appointment",
   },
 });

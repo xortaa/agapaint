@@ -5,9 +5,8 @@ const AppointmentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  // SERVICE NOT ADDED YET
   service: {
-    type: Schema.Types.ObjectId,
+    type: [Schema.Types.ObjectId],
     ref: "Service",
     required: true,
   },
@@ -24,7 +23,7 @@ const AppointmentSchema = new Schema({
     required: true,
   },
   phoneNumber: {
-    type: Number,
+    type: String,
     required: true,
   },
   plateNumber: {
