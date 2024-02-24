@@ -8,11 +8,15 @@ import { Container, Accordion, Row } from "react-bootstrap";
 
 import React, { useState } from "react";
 
+//nav
+import Navbar from "@/components/CustomerNav";
+
 const page = () => {
   return (
     <main className={faqStyles.background} style={{ backgroundImage: "url(/assets/img/faqbg.png)" }}>
       <Container className="justify-content-center">
         {/*    navbar here */}
+        <Navbar />
         <h1 className={faqStyles.faqtitle}>Frequently Asked Questions</h1>
       </Container>
 
