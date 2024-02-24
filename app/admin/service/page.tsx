@@ -172,13 +172,7 @@ function AdminManageServicePage() {
       <Container fluid className="p-4 min-vh-100">
         <Row>
           {/* Header Row */}
-          <AdminHeader
-            title="Manage Services"
-            subtitle="View all your services offered"
-            userName="AdminLuigi"
-            dateTime="November 15, 2023 11:38PM"
-            userPhoto="https://w7.pngwing.com/pngs/802/786/png-transparent-google-account-google-search-customer-service-google-logo-login-button-blue-sphere-car-rental-thumbnail.png"
-          />
+          <AdminHeader title="Manage Services" subtitle="View all your services offered" />
         </Row>
 
         <Row className="mt-2 mb-4" sm={8}>
