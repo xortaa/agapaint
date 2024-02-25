@@ -40,7 +40,7 @@ function custServices() {
             </Col>
           </Row>
 
-          {/* cards for paint services*/}
+          {/* cards for paint services */}
           <Row>
             <Col lg={12}>
               <div className={serviceStyles.card}>
