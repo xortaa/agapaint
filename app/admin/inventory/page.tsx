@@ -17,9 +17,6 @@ function manageInventory() {
           <AdminHeader
             title="Manage Inventory"
             subtitle="View and track your inventory materials"
-            userName="AdminLuigi"
-            dateTime="November 15, 2023 11:38PM"
-            userPhoto="https://w7.pngwing.com/pngs/802/786/png-transparent-google-account-google-search-customer-service-google-logo-login-button-blue-sphere-car-rental-thumbnail.png"
           />
 
           {/* Search Row */}
