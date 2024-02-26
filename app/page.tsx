@@ -7,7 +7,9 @@ import LogoutButton from "@/components/auth/LogoutButton";
 import { Button, Card } from 'react-bootstrap';
 import CustHome from "@/app/home/page";
 import AdminSales from './Admin/sales/page';
-
+import InvAddCatModal from "@/components/InvAddCatModal";
+import InvUpdateCatModal from "@/components/InvUpdateCatModal";
+import InvArchiveCategoryModal from "@/components/InvArchiveCategoryModal";
 
 export default function Home() {
   // for demonstation purposes only remove buttons afterwards
@@ -15,7 +17,10 @@ export default function Home() {
     <div>
       {/* homepage */}
 
-      <AdminSales />
+      <InvAddCatModal />
+      <InvUpdateCatModal />
+      <InvArchiveCategoryModal />
+      
     </div>
   );
 }
