@@ -1,0 +1,50 @@
+.headerText {
+  font-size: calc(2em + 3vw);
+  font-weight: 800;
+  margin-bottom: 0rem;
+  color: var(--agapaint-yellow);
+  text-align: center;
+  padding-top: calc(2em + 3.5vw);
+  padding-bottom: calc(1.5em + 3.5vw);
+}
+
+.serviceTitle {
+  font-size: calc(2em + 1vw);
+  font-weight: 700;
+  text-align: center;
+  padding-top: calc(2.5em + 1vw);
+  padding-bottom: 10px;
+}
+
+.serviceTitle2 {
+  font-size: calc(2em + 1vw);
+  font-weight: 700;
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 10px;
+}
+
+.serviceNote {
+  text-align: center;
+  padding-bottom: 20px;
+  font-size: 1.2em;
+}
+
+.cardContent {
+  padding: 20px;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: 600;
+  color: var(--agapaint-yellow);
+  background-color: #100c08;
+  border-radius: 10px;
+  box-shadow: 0 0 15px 1.5px var(--agapaint-yellow);
+  margin: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.cardContent:hover {
+  background-color: var(--agapaint-yellow);
+  color: #100c08;
+  box-shadow: 0 0 15px 0 #100c08;
+}

@@ -25,11 +25,11 @@
   }
   
   .yellow {
-    color: #ffc72c;
+    color: var(--agapaint-yellow);
   }
   
   button.bookBtn {
-    background-color: #ffc72c !important;
+    background-color: var(--agapaint-yellow) !important;
     color: black;
     padding: 10px 20px;
     border: none;
@@ -44,9 +44,9 @@
   
   button.learnBtn {
     background: none !important;
-    color: #ffc72c;
+    color: var(--agapaint-yellow);
     padding: 10px 20px;
-    border: 2px solid #ffc72c;
+    border: 2px solid var(--agapaint-yellow);
     border-radius: 10px;
     font-size: calc(0.3em + 1vw);
     font-weight: 600;

@@ -27,15 +27,18 @@ function Navbar() {
   const handleBarsClick = () => {
     setIsNavVisible(!isNavVisible);
   };
+  
 
   return (
     <>
       <div ref={navbarRef} className={navStyles.navbar1}>
-      <Link href="/">
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Image src="/assets/img/icon.png" alt="logo" width={70} height={70} />
-              <span className={navStyles.spanText} style={{ marginLeft: '10px' }}>AGAPAINT</span>
-            </div>
+        <Link href="/">
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Image src="/assets/img/icon.png" alt="logo" width={70} height={70} />
+            <span className={navStyles.spanText} style={{ marginLeft: "10px" }}>
+              AGAPAINT
+            </span>
+          </div>
         </Link>
 
         {/* for clickable bar */}
@@ -48,7 +51,7 @@ function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/services" className={navStyles.ulItem}>
+              <Link href="/customer/service" className={navStyles.ulItem}>
                 Services
               </Link>
             </li>
@@ -59,17 +62,12 @@ function Navbar() {
             </li>
             <li>
               <Link href="/" className={navStyles.ulItem}>
-              <Button className={navStyles.btnLog}>Book Now</Button>
+                <Button className={navStyles.btnLog}>Book Now</Button>
               </Link>
             </li>
-            {/* <li>
-              <Link href="/customer/signup">
-                <Button className={navStyles.btnSign}>Sign Up</Button>
-              </Link>
-            </li> */}
             <li>
               <Link href="/customer/signup">
-              <FaUserAlt color="#fff" size={25}/>
+                <FaUserAlt color="#fff" size={25} />
               </Link>
             </li>
           </ul>

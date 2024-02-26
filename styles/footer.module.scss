@@ -1,17 +1,17 @@
 .footerContainer {
-    background-image: url("/public/footerbg.png");
-    background-size: cover; 
-    background-position: center; 
-  }
+  background-image: url("/public/footerbg.png");
+  background-size: cover;
+  background-position: center;
+}
 
 .footerWhite {
-    color: white;
+  color: white;
 }
 
 .footerYellow {
-    color: #FFC72C;
+  color: var(--agapaint-yellow);
 }
 
 .pad {
-    padding: 60px;
+  padding: 60px;
 }
