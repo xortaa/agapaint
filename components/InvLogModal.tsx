@@ -1,10 +1,14 @@
+"use client"
 import { Modal, Row, Col, Button, Form, InputGroup, ButtonGroup } from "react-bootstrap";
 import { useState } from "react";
+
+import { FaPlus } from "react-icons/fa";
 
 import logStyles from "@/styles/logModal.module.scss";
 
 function LogModal() {
   const [validated, setValidated] = useState(false);
+  const [show, setShow] = useState(false); // Add this line
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -23,9 +27,16 @@ function LogModal() {
     setSelectedOption(optionId);
   };
 
+  const handleClose = () => setShow(false); // Add this function
+  const handleShow = () => setShow(true); // Add this function
+
   return (
-    <>
-      <Modal centered show={true}>
+    <main>
+      <Button variant="primary" onClick={handleShow}>
+        <FaPlus className="me-2" />
+        Add Log
+      </Button>
+      <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title className="fs-6">Add Log</Modal.Title>
         </Modal.Header>
@@ -81,7 +92,7 @@ function LogModal() {
             <Row className="mb-3">
               <Col>
                 <Form.Label>Transaction Quantity</Form.Label>
-                <Form.Control type="number" placeholder="Placeholder text" required min={0}/>
+                <Form.Control type="number" placeholder="Placeholder text" required min={0} />
                 <Form.Control.Feedback type="invalid">Please provide a quantity</Form.Control.Feedback>
               </Col>
               <Col>
@@ -98,14 +109,16 @@ function LogModal() {
             </Row>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary">Close</Button>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
             <Button variant="primary" type="submit">
               Add
             </Button>
           </Modal.Footer>
         </Form>
       </Modal>
-    </>
+    </main>
   );
 }
 

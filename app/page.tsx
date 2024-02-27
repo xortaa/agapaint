@@ -1,26 +1,18 @@
 "use client";
 
-import homeStyles from '@/styles/home.module.scss';
+import homeStyles from "@/styles/home.module.scss";
 import SigninButton from "@/components/auth/SigninButton";
 import CheckSessionButton from "@/components/auth/CheckSessionButton";
 import LogoutButton from "@/components/auth/LogoutButton";
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card } from "react-bootstrap";
 import CustHome from "@/app/home/page";
-import AdminSales from './Admin/sales/page';
-import InvAddCatModal from "@/components/InvAddCatModal";
-import InvUpdateCatModal from "@/components/InvUpdateCatModal";
-import InvArchiveCategoryModal from "@/components/InvArchiveCategoryModal";
 
 export default function Home() {
   // for demonstation purposes only remove buttons afterwards
   return (
     <div>
       {/* homepage */}
-
-      <InvAddCatModal />
-      <InvUpdateCatModal />
-      <InvArchiveCategoryModal />
-      
+      <CustHome />
     </div>
   );
 }

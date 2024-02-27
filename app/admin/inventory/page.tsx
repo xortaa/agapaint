@@ -2,7 +2,10 @@
 import { Container, Row, Col, InputGroup, Dropdown, FormControl, Button, Badge, Table, Card } from "react-bootstrap";
 
 import AdminHeader from "@/components/AdminHeader";
-import LogModal from "@/components/LogModal";
+import LogModal from "@/components/InvLogModal";
+import InvAddCatModal from "@/components/InvAddCatModal";
+import InvUpdateCatModal from "@/components/InvUpdateCatModal";
+import InvArchiveCategoryModal from "@/components/InvArchiveCategoryModal";
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
 import Link from "next/link";
 
@@ -14,10 +17,7 @@ function manageInventory() {
           {/* Side Bar Nav */}
 
           {/* Header Row */}
-          <AdminHeader
-            title="Manage Inventory"
-            subtitle="View and track your inventory materials"
-          />
+          <AdminHeader title="Manage Inventory" subtitle="View and track your inventory materials" />
 
           {/* Search Row */}
           <Col>
@@ -41,18 +41,16 @@ function manageInventory() {
                   </Dropdown.Menu>
                 </Dropdown>
 
-                <Button className="ms-auto" variant="primary" onClick={() => console.log("Add Category")}>
-                  <PlusLg className="me-2" />
-                  Add Category
-                </Button>
-                <Button variant="info" onClick={() => console.log("Add Material")}>
-                  <PlusLg className="me-2" />
-                  Add Material
-                </Button>
-                <Button variant="warning" onClick={() => console.log("Add Log")}>
-                  <PlusLg className="me-2" />
-                  Add Log
-                </Button>
+                {/* Add Category Modal */}
+                <div className="ms-auto d-flex gap-2">
+                  <InvAddCatModal />
+                  <Button variant="info" onClick={() => console.log("Add Material")}>
+                    <PlusLg className="me-2" />
+                    Add Material
+                  </Button>
+                  {/* Add Log Modal */}
+                  <LogModal />
+                </div>
               </div>
             </Row>
           </Col>
@@ -142,8 +140,8 @@ function manageInventory() {
         </Row>
 
         {/* Modals */}
-        <LogModal />
-        
+        <InvUpdateCatModal />
+        <InvArchiveCategoryModal />
       </Container>
     </main>
   );
