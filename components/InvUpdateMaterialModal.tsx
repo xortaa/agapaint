@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal, Form, Row, Col} from "react-bootstrap";
+import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { MdEdit } from "react-icons/md";
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
 
@@ -33,27 +33,38 @@ function InvUpdateMaterialModal() {
           <Modal.Title>Update Material</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form>
-                <Form.Group className="mb-3">
-                    <Form.Label>Material Name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter material name" value={material} onChange={(e) => setMaterial(e.target.value)} isInvalid={!!error} />
-                    <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>                  
-                    <Row>
-                        <Col>
-                        <Form.Label>Category Name</Form.Label>
-                        <Form.Select aria-level={1}>
-                        <option>Color Paint</option>
-                        <option>Wood Paint</option>
-                        <option>Other</option>
-                    </Form.Select>
-                        </Col>
-                        <Col>
-                        <Form.Label>Current Stock</Form.Label>
-                    <Form.Control type="number" placeholder="Enter current stock" min="0" isInvalid={!!error} />
-                    </Col>
-                    </Row>
-                </Form.Group>
-            </Form>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Material Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter material name"
+                value={material}
+                onChange={(e) => setMaterial(e.target.value)}
+                isInvalid={!!error}
+                required
+              />
+              <Form.Control.Feedback type="invalid">Please provide a material name</Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Row>
+                <Col>
+                  <Form.Label>Category Name</Form.Label>
+                  <Form.Select aria-level={1} required>
+                    <option>Color Paint</option>
+                    <option>Wood Paint</option>
+                    <option>Other</option>
+                  </Form.Select>
+                </Col>
+                <Col>
+                  <Form.Label>Current Stock</Form.Label>
+                  <Form.Control type="number" placeholder="Enter current stock" min="0" isInvalid={!!error} />
+                  <Form.Control.Feedback type="invalid">Please provide current stock</Form.Control.Feedback>
+                </Col>
+              </Row>
+            </Form.Group>
+          </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
