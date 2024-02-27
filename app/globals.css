@@ -22,6 +22,7 @@ a {
   --agapaint-pink: #ff37bc;
   --agapaint-black: #141414;
   --agapaint-bg: #f8f8f8;
+  --agapaint-light: #f0f6ff
 }
 .agapaint-yellow {
   color: var(--agapaint-yellow);
@@ -42,6 +43,10 @@ a {
 .agapaint-bg {
   background-color: var(--agapaint-bg);
 }
+
+.agapaint-light {
+  background-color: var(--agapaint-light);
+} 
 
 .slide-enter {
   transform: translateX(100%);
