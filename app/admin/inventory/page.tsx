@@ -10,7 +10,7 @@ import InvAddMaterialModal from "@/components/InvAddMaterialModal";
 import InvUpdateMaterialModal from "@/components/InvUpdateMaterialModal";
 import InvArchiveMaterialModal from "@/components/InvArchiveMaterialModal";
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
-import {useState} from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 function manageInventory() {
@@ -49,7 +49,7 @@ function manageInventory() {
                 <div className="ms-auto d-flex gap-2">
                   <InvAddCatModal />
                   {/* Add Material Modal */}
-                  <InvAddMaterialModal/>
+                  <InvAddMaterialModal />
                   {/* Add Log Modal */}
                   <LogModal />
                 </div>
@@ -84,9 +84,9 @@ function manageInventory() {
                     </td>
                     <td>1 L</td>
                     <td>
-                    <InvUpdateMaterialModal/>
-                      
-                      <InvArchiveMaterialModal/>
+                      <InvUpdateMaterialModal />
+
+                      <InvArchiveMaterialModal />
                     </td>
                   </tr>
                 </tbody>
