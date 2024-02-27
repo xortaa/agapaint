@@ -1,39 +1,23 @@
-import type { Metadata } from "next";
-import "@/app/globals.css";
-import { getServerSession } from "next-auth";
-import SessionProvider from "@/components/auth/SessionProvider";
-// Bootstrap
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-// Google font - Poppins
-import { Poppins } from "next/font/google";
-import { redirect } from "next/navigation";
-const poppins = Poppins({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-poppins",
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-});
+"use client";
 
-export const metadata: Metadata = {
-  title: "AGAPAINT",
-  description: "AGAPAINT WEBSITE",
-};
+import React from "react";
+import Sidenav from "@/components/Sidenav";
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const session = await getServerSession();
-
-  if (!session || session.user.email !== process.env.ADMIN_EMAIL) {
-    redirect("/");
-  }
+const AdminLayout = ({ children }) => {
+  const sidenavWidth = "75px";
+  const contentWidth = `calc(100% - ${sidenavWidth})`;
 
   return (
-    <html lang="en">
-      <body className={poppins.className}>
-        <SessionProvider session={session}>
-          <main>{children}</main>
-        </SessionProvider>
-      </body>
-    </html>
+    <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+      {/* for the space dedicated to sidenav */}
+      <div style={{ width: sidenavWidth, zIndex: 2 }}>
+        <Sidenav />
+      </div>
+
+      {/* for the children or the main content */}
+      <div style={{ width: contentWidth, overflowY: "auto", padding: "8px 0px 8px 10px" }}>{children}</div>
+    </div>
   );
-}
+};
+
+export default AdminLayout;
