@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
-import { MdEdit } from "react-icons/md";
+import { Pencil, InboxFill } from "react-bootstrap-icons";
 
 function InvUpdateCategoryModal() {
   const [show, setShow] = useState(false);
@@ -26,9 +26,7 @@ function InvUpdateCategoryModal() {
 
   return (
     <>
-      <Button variant="success" onClick={handleShow}>
-        <MdEdit /> Update Category
-      </Button>
+      <Pencil onClick={handleShow} size={20} className="text-success me-2" />
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -36,21 +34,6 @@ function InvUpdateCategoryModal() {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>Select Category Name</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                <option value="1">Category 1</option>
-                <option value="2">Category 2</option>
-                <option value="3">Category 3</option>
-                {/* Add more options as needed */}
-              </Form.Select>
-              <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
-            </Form.Group>
-
             <Form.Group className="mb-3">
               <Form.Label>New Category Name</Form.Label>
               <Form.Control

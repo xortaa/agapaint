@@ -58,6 +58,41 @@ function manageInventory() {
           </Col>
         </Row>
 
+        {/* Categories Table */}
+        <Row className="mb-4">
+          <Col>
+            <h6 className="fw-bold agapaint-yellow mb-3">Categories</h6>
+            <Card className="border-0 rounded">
+              <Table striped hover className="align-middle responsive">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Category Name</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Paint</td>
+                    <td>
+                    <InvUpdateCatModal/>
+                    <InvArchiveCategoryModal/>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Card>
+          </Col>
+        </Row>
+
+
+
+
+
+
+
+
         {/* Materials Table */}
         <Row className="mb-4">
           <Col>
@@ -141,9 +176,7 @@ function manageInventory() {
           </Col>
         </Row>
 
-        {/* Modals */}
-        <InvUpdateCatModal />
-        <InvArchiveCategoryModal />
+       
       </Container>
     </main>
   );
