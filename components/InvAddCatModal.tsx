@@ -23,7 +23,7 @@ function InvAddCategoryModal() {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button style={{ backgroundColor:  "#8540F5", border: "none"  }} onClick={handleShow}>
         <FaPlus /> Add Category
       </Button>
 

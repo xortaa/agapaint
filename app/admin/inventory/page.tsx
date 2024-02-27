@@ -6,7 +6,11 @@ import LogModal from "@/components/InvLogModal";
 import InvAddCatModal from "@/components/InvAddCatModal";
 import InvUpdateCatModal from "@/components/InvUpdateCatModal";
 import InvArchiveCategoryModal from "@/components/InvArchiveCategoryModal";
+import InvAddMaterialModal from "@/components/InvAddMaterialModal";
+import InvUpdateMaterialModal from "@/components/InvUpdateMaterialModal";
+import InvArchiveMaterialModal from "@/components/InvArchiveMaterialModal";
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
+import {useState} from "react";
 import Link from "next/link";
 
 function manageInventory() {
@@ -44,10 +48,8 @@ function manageInventory() {
                 {/* Add Category Modal */}
                 <div className="ms-auto d-flex gap-2">
                   <InvAddCatModal />
-                  <Button variant="info" onClick={() => console.log("Add Material")}>
-                    <PlusLg className="me-2" />
-                    Add Material
-                  </Button>
+                  {/* Add Material Modal */}
+                  <InvAddMaterialModal/>
                   {/* Add Log Modal */}
                   <LogModal />
                 </div>
@@ -82,9 +84,9 @@ function manageInventory() {
                     </td>
                     <td>1 L</td>
                     <td>
-                      <Pencil size={20} className="text-success me-2" onClick={() => console.log("Edit")} />
-
-                      <InboxFill size={20} className="text-danger" onClick={() => console.log("Delete")} />
+                    <InvUpdateMaterialModal/>
+                      
+                      <InvArchiveMaterialModal/>
                     </td>
                   </tr>
                 </tbody>

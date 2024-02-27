@@ -32,7 +32,7 @@ function LogModal() {
 
   return (
     <main>
-      <Button variant="primary" onClick={handleShow}>
+      <Button style={{ backgroundColor:  "#084298", border: "none"  }} onClick={handleShow}>
         <FaPlus className="me-2" />
         Add Log
       </Button>
