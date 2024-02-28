@@ -10,10 +10,11 @@
   },
   "dependencies": {
     "axios": "^1.6.7",
-    "bootstrap": "^5.3.2",
+    "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "chart.js": "^4.4.1",
     "mongoose": "^8.0.4",
-    "next": "14.0.4",
+    "next": "^14.0.4",
     "next-auth": "^4.24.5",
     "next-cloudinary": "^5.20.0",
     "react": "^18",

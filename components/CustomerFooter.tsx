@@ -32,31 +32,31 @@ function CustomFooter() {
         <Row className="d-flex text-center align-items-center">
           <Col lg={3}>
             <p className={footerStyles.footerWhite}>
-              <GeoAlt color="#FFC72C" /> &nbsp; Caloocan, Philippines, 1400
+              <GeoAlt color="#f1b038" /> &nbsp; Caloocan, Philippines, 1400
             </p>
           </Col>
 
           <Col lg={3}>
             <p className={footerStyles.footerWhite}>
-              <Envelope color="#FFC72C" /> &nbsp; luigicayetano@gmail.com
+              <Envelope color="#f1b038" /> &nbsp; luigicayetano@gmail.com
             </p>
           </Col>
 
           <Col lg>
             <p className={footerStyles.footerWhite}>
-              <Telephone color="#FFC72C" /> &nbsp; 0927 416 6562
+              <Telephone color="#f1b038" /> &nbsp; 0927 416 6562
             </p>
           </Col>
 
           <Col lg>
             <p className={footerStyles.footerWhite}>
-              <Facebook color="#FFC72C" /> &nbsp; Agapaint
+              <Facebook color="#f1b038" /> &nbsp; Agapaint
             </p>
           </Col>
 
           <Col lg>
             <p className={footerStyles.footerWhite}>
-              <Instagram color="#FFC72C" /> &nbsp; agapaintph
+              <Instagram color="#f1b038" /> &nbsp; agapaintph
             </p>
           </Col>
         </Row>
