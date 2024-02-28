@@ -36,19 +36,19 @@ const Sidenav = () => {
               className="mx-auto d-block mt-1 mb-5"
             />
             <Nav.Item className="mt-5">
-              <Nav.Link href="#" className={sidenavStyles.sidebar_collapsed_link}>
+              <Nav.Link href="dashboard" className={sidenavStyles.sidebar_collapsed_link}>
                 <Grid size={28} />
               </Nav.Link>
-              <Nav.Link href="#" className={sidenavStyles.sidebar_collapsed_link}>
+              <Nav.Link href="appointment" className={sidenavStyles.sidebar_collapsed_link}>
                 <Calendar2Week size={27} />
               </Nav.Link>
-              <Nav.Link href="#" className={sidenavStyles.sidebar_collapsed_link}>
+              <Nav.Link href="inventory" className={sidenavStyles.sidebar_collapsed_link}>
                 <BoxSeam size={27} />
               </Nav.Link>
-              <Nav.Link href="#" className={sidenavStyles.sidebar_collapsed_link}>
+              <Nav.Link href="service" className={sidenavStyles.sidebar_collapsed_link}>
                 <Cart size={27} />
               </Nav.Link>
-              <Nav.Link href="#" className={sidenavStyles.sidebar_collapsed_link}>
+              <Nav.Link href="sales" className={sidenavStyles.sidebar_collapsed_link}>
                 <CreditCard size={27} />
               </Nav.Link>
             </Nav.Item>
