@@ -22,6 +22,7 @@ a {
   --agapaint-pink: #ff37bc;
   --agapaint-black: #141414;
   --agapaint-bg: #f8f8f8;
+  --agapaint-light: #f0f6ff
 }
 .agapaint-yellow {
   color: var(--agapaint-yellow);
@@ -42,6 +43,10 @@ a {
 .agapaint-bg {
   background-color: var(--agapaint-bg);
 }
+
+.agapaint-light {
+  background-color: var(--agapaint-light);
+} 
 
 .slide-enter {
   transform: translateX(100%);
@@ -67,4 +72,67 @@ a {
 
 .p-6 {
   padding: 6rem !important
+}
+
+#radio-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.radio-card {
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 310px;
+  margin-right: 1.3rem;
+  margin-bottom: 1.3rem;
+  padding: 1rem;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.radio-card:hover {
+  border: 2px solid var(--agapaint-yellow);
+  cursor: pointer;
+}
+
+.radio-card-check {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.radio-card-check i {
+  font-size: 1.6rem;
+  color: var(--agapaint-yellow);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.radio-card-icon img {
+  width: 80px;
+}
+
+.radio-card-label {
+  margin-top: 0.5rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.radio-card-label-description {
+  margin-top: 0.5rem;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.radio-card.selected {
+  border: 2px solid var(--agapaint-yellow);
+}
+
+.radio-card.selected .radio-card-check {
+  display: inline-flex;
 }
