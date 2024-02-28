@@ -16,6 +16,7 @@ export interface Service {
   description: string;
   image: string;
   price: number;
+  carType: string;
 }
 
 export interface Appointment {

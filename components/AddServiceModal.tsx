@@ -8,16 +8,9 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import UploadButton from "./UploadButton";
 import ImageUploadPreview from "./ImageUploadPreview";
+import { Service } from "@/types";
 
-interface Service {
-  name: string;
-  description: string;
-  image: string;
-  price: number;
-  carType: string;
-}
-
-function AddServiceModal() {
+function AddServiceModal({setServices}: {setServices: React.Dispatch<React.SetStateAction<Service[]>>}) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
   const [imageUrl, setImageUrl] = useState<string | undefined>(null);
@@ -43,6 +36,7 @@ function AddServiceModal() {
     const newData = { ...data, image: imageUrl };
     axios.post("/api/service", newData).then((res) => {
       console.log(res);
+      setServices((prev) => [...prev, newData]); 
     });
   };
 
