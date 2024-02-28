@@ -1,8 +1,4 @@
-.container {
-    padding-top: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
-}
+
 
 .card {
     background-color: #f5f5f5;
@@ -34,10 +30,19 @@
     background-color: var(--agapaint-yellow);
     border: none;
     font-size: 1.2em;
+    padding: 10px 20px;
 }
 
 .generateButton:hover {
     background-color: var(--agapaint-yellow);
     color: white;
+}
+
+.datePicker {
+    width: 120px;
+    padding: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
 }
 
