@@ -2,13 +2,16 @@
 import { Container, Row, Col, InputGroup, Dropdown, FormControl, Button, Badge, Table, Card } from "react-bootstrap";
 
 import AdminHeader from "@/components/AdminHeader";
-import LogModal from "@/components/InvLogModal";
+import InvAddLogModal from "@/components/InvAddLogModal";
 import InvAddCatModal from "@/components/InvAddCatModal";
 import InvUpdateCatModal from "@/components/InvUpdateCatModal";
 import InvArchiveCategoryModal from "@/components/InvArchiveCategoryModal";
 import InvAddMaterialModal from "@/components/InvAddMaterialModal";
 import InvUpdateMaterialModal from "@/components/InvUpdateMaterialModal";
 import InvArchiveMaterialModal from "@/components/InvArchiveMaterialModal";
+import InvUpdateLogModal from "@/components/InvUpdateLogModal";
+import InvArchiveLogModal from "@/components/InvArchiveLogModal";
+
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
 import { useState } from "react";
 import Link from "next/link";
@@ -51,7 +54,7 @@ function manageInventory() {
                   {/* Add Material Modal */}
                   <InvAddMaterialModal />
                   {/* Add Log Modal */}
-                  <LogModal />
+                  <InvAddLogModal />
                 </div>
               </div>
             </Row>
@@ -76,8 +79,8 @@ function manageInventory() {
                     <td>1</td>
                     <td>Paint</td>
                     <td>
-                    <InvUpdateCatModal/>
-                    <InvArchiveCategoryModal/>
+                      <InvUpdateCatModal />
+                      <InvArchiveCategoryModal />
                     </td>
                   </tr>
                 </tbody>
@@ -85,13 +88,6 @@ function manageInventory() {
             </Card>
           </Col>
         </Row>
-
-
-
-
-
-
-
 
         {/* Materials Table */}
         <Row className="mb-4">
@@ -160,14 +156,12 @@ function manageInventory() {
                     <td>Weber Red</td>
                     <td>0</td>
                     <td>1 L</td>
-                    <td>Nov 1, 2023</td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>
-                      <Pencil size={20} className="text-success me-2" onClick={() => console.log("Edit")} />
-
-                      <InboxFill size={20} className="text-danger" onClick={() => console.log("Delete")} />
+                    <td className="d-flex">
+                      <InvUpdateLogModal />
+                      <InvArchiveLogModal />
                     </td>
                   </tr>
                 </tbody>
@@ -175,8 +169,6 @@ function manageInventory() {
             </Card>
           </Col>
         </Row>
-
-       
       </Container>
     </main>
   );

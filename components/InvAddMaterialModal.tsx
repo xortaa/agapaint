@@ -69,7 +69,7 @@ function InvAddMaterialModal() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleAdd}>
+          <Button variant="primary" onClick={handleAdd} style={{ backgroundColor: "#17A2B8 ", border: "none" }}>
             Add
           </Button>
         </Modal.Footer>

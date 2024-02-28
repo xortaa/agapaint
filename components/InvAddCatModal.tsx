@@ -44,7 +44,7 @@ function InvAddCategoryModal() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleAdd}>
+          <Button variant="primary" onClick={handleAdd} style={{ backgroundColor:  "#8540F5", border: "none"  }}>
             Add
           </Button>
         </Modal.Footer>

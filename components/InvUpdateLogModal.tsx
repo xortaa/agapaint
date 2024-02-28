@@ -1,12 +1,10 @@
-"use client"
+"use client";
 import { Modal, Row, Col, Button, Form, InputGroup, ButtonGroup } from "react-bootstrap";
 import { useState } from "react";
-
-import { FaPlus } from "react-icons/fa";
-
+import { Pencil } from "react-bootstrap-icons";
 import logStyles from "@/styles/logModal.module.scss";
 
-function LogModal() {
+function InvUpdateLogModal() {
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false); // Add this line
 
@@ -29,16 +27,13 @@ function LogModal() {
 
   const handleClose = () => setShow(false); // Add this function
   const handleShow = () => setShow(true); // Add this function
-
   return (
     <main>
-      <Button style={{ backgroundColor:  "#084298", border: "none"  }} onClick={handleShow}>
-        <FaPlus className="me-2" />
-        Add Log
-      </Button>
+      <Pencil onClick={handleShow} size={20} className="text-success me-2" />
+
       <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title className="fs-6">Add Log</Modal.Title>
+          <Modal.Title>Update Log</Modal.Title>
         </Modal.Header>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Modal.Body className="p-4">
@@ -112,8 +107,8 @@ function LogModal() {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" type="submit">
-              Add
+            <Button variant="success" type="submit">
+              Update
             </Button>
           </Modal.Footer>
         </Form>
@@ -122,4 +117,4 @@ function LogModal() {
   );
 }
 
-export default LogModal;
+export default InvUpdateLogModal;

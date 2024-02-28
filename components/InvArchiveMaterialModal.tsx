@@ -53,7 +53,7 @@ function InvArchiveMaterialModal() {
             Close
           </Button>
           <Button variant="danger" onClick={handleAdd}>
-            Add
+            Archive
           </Button>
         </Modal.Footer>
       </Modal>
