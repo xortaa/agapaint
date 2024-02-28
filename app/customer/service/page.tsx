@@ -35,7 +35,7 @@ function custServices() {
             <Col lg={12}>
               <p className={serviceStyles.serviceNote}>
                 <b style={{ color: '#f1b038' }}>We accept any type of vehicle: </b><br />
-                Rims/Mags Repaint - Card, SUV, Van, Truck, Motorcycle, Bicycle
+                Compact Car/Hatchback, Sedan, SUV-AUV, Van
               </p>
             </Col>
           </Row>

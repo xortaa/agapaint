@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
-import { FaArchive } from "react-icons/fa";
+import { InboxFill } from "react-bootstrap-icons";
 
 function InvArchiveCategoryModal() {
   const [show, setShow] = useState(false);
@@ -23,9 +23,7 @@ function InvArchiveCategoryModal() {
 
   return (
     <>
-      <Button variant="danger" onClick={handleShow}>
-        <FaArchive /> Archive Category
-      </Button>
+        <InboxFill size={20} className="text-danger" onClick={handleShow} />
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
