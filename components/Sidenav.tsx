@@ -91,7 +91,7 @@ const Sidenav = () => {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="#" className={sidenavStyles.sidebar_displayed_link}>
+                <Nav.Link href="sales" className={sidenavStyles.sidebar_displayed_link}>
                   <CreditCard className="mx-2 mb-1" size={20} /> Revenue
                 </Nav.Link>
               </Nav.Item>
