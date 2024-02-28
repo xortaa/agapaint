@@ -13,6 +13,7 @@ import { FaCar, FaTruck, FaBus } from "react-icons/fa";
 // Components
 import CarType from "@/components/forms/CarType";
 import PersonalInfo from "@/components/forms/PersonalInfo";
+import Services from "@/components/forms/Services";
 
 // Car Type Step
 const Step1 = ({ onNext }) => (
@@ -24,7 +25,7 @@ const Step1 = ({ onNext }) => (
       <CarType />
     </div>
     <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
-      <Button variant="warning" type="submit" className="ps-4 pe-4 ms-auto" onClick={onNext}>
+      <Button variant="warning" type="submit" className="ps-4 pe-4 ms-auto fw-medium" onClick={onNext}>
         Next
       </Button>
     </div>
@@ -51,7 +52,7 @@ const Step2 = ({ onNext, onBack }) => (
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
         Back
       </Button>
-      <Button variant="warning" type="submit" className="ps-4 pe-4" onClick={onNext}>
+      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium" onClick={onNext}>
         Next
       </Button>
     </div>
@@ -62,15 +63,15 @@ const Step2 = ({ onNext, onBack }) => (
 const Step3 = ({ onNext, onBack }) => (
   <div>
     <h2 className="fw-bold">Book an Appointment</h2>
-    <p className="lead">Choose desired services</p>
+    <p className="lead">Choose desired services for your car type</p>
     {/* Services */}
-
+    <Services />
     {/* Nav Buttons */}
     <div className="d-flex justify-content-between">
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
         Back
       </Button>
-      <Button variant="warning" type="submit" className="ps-4 pe-4" onClick={onNext}>
+      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium" onClick={onNext}>
         Next
       </Button>
     </div>
@@ -101,32 +102,56 @@ const Step5 = ({ onNext, onBack }) => (
   <div>
     <h2 className="fw-bold mb-3">Confirm Details</h2>
     {/* Confirmation */}
-    <div className="lh-05">
-      <p>Personal Information</p>
-      <p>Name: Mia Eleazar</p>
-      <p>Email: agapaint@gmail.com</p>
-      <p>Phone: 09123456789</p>
+    <Row className="lh-05 mb-1">
+      <Col>
+        <h5 className="mb-3">Personal Information</h5>
+        <p>
+          <span className="fw-semibold">Name:</span> Mia Eleazar
+        </p>
+        <p>
+          <span className="fw-semibold">Email:</span> agapaint@gmail.com
+        </p>
+        <p>
+          <span className="fw-semibold">Phone:</span> 09123456789
+        </p>
+        <hr />
+      </Col>
+      <Col>
+        <h5 className="mb-3">Appointment Details</h5>
+        <p>
+          <span className="fw-semibold">Car Type:</span> Compact Car/Hatchback
+        </p>
+        <p>
+          <span className="fw-semibold">Date:</span> 12/12/2021
+        </p>
+        <p>
+          <span className="fw-semibold">Time:</span> 12:00 PM
+        </p>
+        <hr />
+      </Col>
+      <h5 className="mb-3">Services Selected</h5>
+      <p>
+        <span className="fw-semibold">Services:</span> Washover, Under Coating Rubber, Rims/Mags Repaint
+      </p>
       <hr />
-      <p>Appointment Details</p>
-      <p>Car Type: Compact Car/Hatchback</p>
-      <p>Appointment Date: 12/12/2021</p>
-      <p>Appointment Time: 12:00 PM</p>
-      <hr />
-      <p>Services Selected</p>
-      <p>Services: Car Wash, Car Detailing</p>
-      <hr />
-      <p>Vehicle Information</p>
-      <p>Car Manufacturer: Toyota</p>
-      <p>Car Model: Fortuner 2022</p>
-      <p>Comments/ Request</p>
-    </div>
+      <h5 className="mb-3">Vehicle Information</h5>
+      <p>
+        <span className="fw-semibold">Car Manufacturer:</span> Toyota
+      </p>
+      <p>
+        <span className="fw-semibold">Car Model:</span> Fortuner 2022
+      </p>
+      <p>
+        <span className="fw-semibold">Comments/ Request:</span> N\A
+      </p>
+    </Row>
     {/* Nav Buttons */}
     <div className="d-flex justify-content-between mt-4">
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
         Back
       </Button>
       <Button variant="warning" type="submit" className="ps-4 pe-4 fw-bold" onClick={onNext}>
-        Finish
+        Book Appointment
       </Button>
     </div>
   </div>
@@ -134,25 +159,27 @@ const Step5 = ({ onNext, onBack }) => (
 
 // Thank you Step
 const Step6 = ({ onBack }) => (
-  <div className="d-flex flex-column justify-content-center" style={{ height: '400px' }}>
+  <div className="d-flex flex-column justify-content-center" style={{ height: "400px" }}>
     <h2 className="fw-bold">Thank you for your booking!</h2>
     {/* Thank you */}
-    <p className="lead">An email containing instruction on how to pay your booking appointment will be sent to your provided email. Your appointment is put on hold until proof of downpayment has been received.</p>
+    <p className="lead">
+      An email containing instruction on how to pay your booking appointment will be sent to your provided email. Your
+      appointment is put on hold until proof of downpayment has been received.
+    </p>
     {/* Nav Buttons */}
     <div className="d-flex justify-content-between">
       <Link href="./customer/appointment">
-      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium">
-        Go to My Appointments
-      </Button>
+        <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium">
+          Go to My Appointments
+        </Button>
       </Link>
-      
     </div>
   </div>
 );
 
 function bookAppointment() {
   // Nav Progress
-  const [step, setStep] = useState(5);
+  const [step, setStep] = useState(1);
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
@@ -219,17 +246,40 @@ function bookAppointment() {
             {step == 1 ||
               (step < 5 && (
                 <Col lg={3}>
-                  <Card className="border-0 p-2 shadow-sm" style={{ borderRadius: "20px" }}>
+                  <Card className="border-0 p-3 bg-warning" style={{ borderRadius: "20px" }}>
                     <Card.Body>
                       <Row>
-                        <h5 className="fw-bold">Summary</h5>
-                        <p>Car Type: Compact Car/Hatchback</p>
-                        <p>Appointment Date: 12/12/2021</p>
-                        <p>Appointment Time: 12:00 PM</p>
-                        <p>Services: Car Wash, Car Detailing</p>
-                        <p>Customer Name: John Doe</p>
-                        <p>Customer Email: </p>
-                        <p>Customer Contact: </p>
+                        <h3 className="fw-bold">Summary</h3>
+                        <p>Your preferred appointment details are as follows:</p>
+                        <hr />
+                        {/* Date Time */}
+                        <div className="d-flex">
+                          <p className="lh-1">Date</p>
+                          <p className="ms-auto fw-bold lh-1">January 22, 2024</p>
+                        </div>
+                        <div className="d-flex">
+                          <p className="lh-1">Time</p>
+                          <p className="ms-auto fw-bold lh-1">12:30PM</p>
+                        </div>
+                        <hr />
+                        {/* Services */}
+                        <p>Services Selected:</p>
+                        <div className="d-flex">
+                          <p className="lh-1 fw-bold">Washover</p>
+                          <p className="ms-auto lh-1">P32,000.00</p>
+                        </div>
+                        <div className="d-flex">
+                          <p className="lh-1 fw-bold">Under Coating Rubber</p>
+                          <p className="ms-auto lh-1">P3,500.00</p>
+                        </div>
+                        <div className="d-flex">
+                          <p className="lh-1 fw-bold">Rims/Mags Repaint</p>
+                          <p className="ms-auto lh-1">P2,500.00</p>
+                        </div>
+                        <hr />
+                        <div className="d-flex">
+                          <h4 className="ms-auto fw-bold lh-1">P38,000.00</h4>
+                        </div>
                       </Row>
                     </Card.Body>
                   </Card>
