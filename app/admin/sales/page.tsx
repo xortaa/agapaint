@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import saleStyles from "@/styles/adminSales.module.scss";
 import { Container, Row, Col, Card, Image, Button, Table } from "react-bootstrap";
 
 //component
 import AdminHeader from "@/components/AdminHeader";
+import ServiceStatus from "@/components/ServiceStatus";
 
 //icons
 import { FaRegCalendarDays } from "react-icons/fa6";
@@ -16,12 +17,19 @@ import { MdFileDownload } from "react-icons/md";
 //line graph
 import { Chart, LineController, CategoryScale, LinearScale, PointElement, LineElement } from "chart.js";
 import { BoxSeam } from "react-bootstrap-icons";
-import ServiceStatus from "@/components/ServiceStatus";
 Chart.register(LineController, CategoryScale, LinearScale, PointElement, LineElement);
+
+//date picker
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function AdminSales() {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
+
+  //date picker
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   useEffect(() => {
     if (chartRef.current) {
@@ -75,140 +83,155 @@ function AdminSales() {
 
   return (
     <>
-      {/* Admin Header */}
+      <Container fluid className="p-4 min-vh-100">
+        {/* Admin Header */}
+        <AdminHeader
+          title="Generate Service Revenue"
+          subtitle="View all your service revenue from completed appointments"
+        />
 
-      {/* Side Navbar */}
+        {/* Side Navbar */}
 
-      <div className={saleStyles.container}>
-        <Row>
-          <Col lg={6}>
-            {/* Row 1 of card = this months appointments/revenue/sales */}
-            <Row>
-              <Col lg={6}>
-                <Card className={saleStyles.card}>
-                  <Card.Body>
-                    <Card.Title className={saleStyles.cardTitle}>
-                      <FaRegCalendarDays />
-                      &nbsp; This Month's Appointments
-                    </Card.Title>
+        <div className={saleStyles.container}>
+          <Row>
+            <Col lg={6}>
+              {/* Row 1 of card = this months appointments/revenue/sales */}
+              <Row>
+                <Col lg={6}>
+                  <Card className={saleStyles.card}>
+                    <Card.Body>
+                      <Card.Title className={saleStyles.cardTitle}>
+                        <FaRegCalendarDays />
+                        &nbsp; This Month's Appointments
+                      </Card.Title>
 
-                    {/* # - % */}
-                    <Row>
-                      <Col lg={8}>
-                        <Card.Text className={saleStyles.cardBody}>101</Card.Text>
-                      </Col>
+                      {/* # - % */}
+                      <Row>
+                        <Col lg={8}>
+                          <Card.Text className={saleStyles.cardBody}>101</Card.Text>
+                        </Col>
 
-                      <Col lg={4}>
-                        <Card.Text className={saleStyles.percentGreen}>
-                          <IoMdArrowDropup size="2em" /> 32%
-                        </Card.Text>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
+                        <Col lg={4}>
+                          <Card.Text className={saleStyles.percentGreen}>
+                            <IoMdArrowDropup size="2em" /> 32%
+                          </Card.Text>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                  </Card>
+                </Col>
 
-              <Col lg={6}>
-                <Card className={saleStyles.card}>
-                  <Card.Body>
-                    <Card.Title className={saleStyles.cardTitle}>
-                      <FaRegCreditCard />
-                      &nbsp; This Month's Revenue
-                    </Card.Title>
-                    {/* php - % */}
-                    <Row>
-                      <Col lg={8}>
-                        <Card.Text className={saleStyles.cardBody}>₱ 9990.00</Card.Text>
-                      </Col>
+                <Col lg={6}>
+                  <Card className={saleStyles.card}>
+                    <Card.Body>
+                      <Card.Title className={saleStyles.cardTitle}>
+                        <FaRegCreditCard />
+                        &nbsp; This Month's Revenue
+                      </Card.Title>
+                      {/* php - % */}
+                      <Row>
+                        <Col lg={8}>
+                          <Card.Text className={saleStyles.cardBody}>₱ 9990.00</Card.Text>
+                        </Col>
 
-                      <Col lg={4}>
-                        <Card.Text className={saleStyles.percentRed}>
-                          <IoMdArrowDropdown size="2em" /> 32%
-                        </Card.Text>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
+                        <Col lg={4}>
+                          <Card.Text className={saleStyles.percentRed}>
+                            <IoMdArrowDropdown size="2em" /> 32%
+                          </Card.Text>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
 
-            {/* Row 2 of card = last months appointments/revenue/sales */}
-            <Row style={{ paddingTop: "20px" }}>
-              <Col lg={6}>
-                <Card className={saleStyles.card}>
-                  <Card.Body>
-                    <Card.Title className={saleStyles.cardTitle}>
-                      <FaRegCalendarDays />
-                      &nbsp; Last Month's Appointments
-                    </Card.Title>
-                    {/* php - % */}
-                    <Row>
-                      <Col lg={8}>
-                        <Card.Text className={saleStyles.cardBody}>98</Card.Text>
-                      </Col>
+              {/* Row 2 of card = last months appointments/revenue/sales */}
+              <Row style={{ paddingTop: "20px" }}>
+                <Col lg={6}>
+                  <Card className={saleStyles.card}>
+                    <Card.Body>
+                      <Card.Title className={saleStyles.cardTitle}>
+                        <FaRegCalendarDays />
+                        &nbsp; Last Month's Appointments
+                      </Card.Title>
+                      {/* php - % */}
+                      <Row>
+                        <Col lg={8}>
+                          <Card.Text className={saleStyles.cardBody}>98</Card.Text>
+                        </Col>
 
-                      <Col lg={4}>
-                        <Card.Text className={saleStyles.percentRed}>
-                          <IoMdArrowDropdown size="2em" /> 32%
-                        </Card.Text>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
+                        <Col lg={4}>
+                          <Card.Text className={saleStyles.percentRed}>
+                            <IoMdArrowDropdown size="2em" /> 32%
+                          </Card.Text>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                  </Card>
+                </Col>
 
-              <Col lg={6}>
-                <Card className={saleStyles.card}>
-                  <Card.Body>
-                    <Card.Title className={saleStyles.cardTitle}>
-                      <FaRegCreditCard />
-                      &nbsp; Last Month's Revenue
-                    </Card.Title>
+                <Col lg={6}>
+                  <Card className={saleStyles.card}>
+                    <Card.Body>
+                      <Card.Title className={saleStyles.cardTitle}>
+                        <FaRegCreditCard />
+                        &nbsp; Last Month's Revenue
+                      </Card.Title>
 
-                    {/* php - % */}
-                    <Row>
-                      <Col lg={8}>
-                        <Card.Text className={saleStyles.cardBody}>₱ 11990.00</Card.Text>
-                      </Col>
+                      {/* php - % */}
+                      <Row>
+                        <Col lg={8}>
+                          <Card.Text className={saleStyles.cardBody}>₱ 11990.00</Card.Text>
+                        </Col>
 
-                      <Col lg={4}>
-                        <Card.Text className={saleStyles.percentGreen}>
-                          <IoMdArrowDropup size="2em" color="green" /> 32%
-                        </Card.Text>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Col>
+                        <Col lg={4}>
+                          <Card.Text className={saleStyles.percentGreen}>
+                            <IoMdArrowDropup size="2em" color="green" /> 32%
+                          </Card.Text>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+            </Col>
 
-          <Col lg={6}>
-            {/* graph */}
-            <canvas ref={chartRef} />
-          </Col>
-        </Row>
-      </div>
+            <Col lg={6}>
+              <Row className="justify-content-end">
+                <Col md="auto">
+                  <label>From: &nbsp;</label>
+                  <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} className={saleStyles.datePicker} />
+                </Col>
+                <Col md="auto">
+                  <label>To: &nbsp;</label>
+                  <DatePicker selected={endDate} onChange={(date: Date) => setEndDate(date)} className={saleStyles.datePicker} />
+                </Col>
+              </Row>
+              <canvas ref={chartRef} />
+            </Col>
+          </Row>
+        </div>
 
-      {/* Generate Revenue for the Month - header and button */}
-      <div className={saleStyles.container}>
+        {/* Generate Revenue for the Month - header and button */}
         <Row>
           <Col lg={8}>
-            <h1>
+            <h3 style={{ paddingTop: "30px" }}>
               <b>Generate Revenue for the Month</b>
-            </h1>
+            </h3>
           </Col>
 
           <Col lg={4} className="d-flex justify-content-end">
-            <Button variant="0" className={saleStyles.generateButton}>
+            <Button
+              variant="0"
+              className={saleStyles.generateButton}
+              style={{ height: "50px", width: "auto", marginTop: "20px" }}
+            >
               <MdFileDownload /> Download Report
             </Button>
           </Col>
         </Row>
-      </div>
 
-      {/* Table  */}
-      <div style={{paddingTop: "10px", paddingLeft: "50px", paddingRight: "50px",}}>
+        {/* Table  */}
         <Row>
           <Col>
             <Card className="border-0 rounded">
@@ -216,46 +239,32 @@ function AdminSales() {
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Generated by</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Date Generated</th>
-                    <th>Time Generated</th>
+                    <th>Customer</th>
+                    <th>Plate#</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Total Service</th>
+                    <th>Service Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td className="fw-bold">1</td>
-                        <td>AdminLuigi</td>
-                        <td>01 January 2024</td>
-                        <td>01 February 2024</td>
-                        <td>02 February 2024</td>
-                        <td>11:59 AM</td>
-                    </tr>
-
-                    <tr>
-                        <td className="fw-bold">2</td>
-                        <td>AdminJean</td>
-                        <td>01 June 2024</td>
-                        <td>01 July 2024</td>
-                        <td>02 July 2024</td>
-                        <td>11:11 AM</td>
-                    </tr>
-
-                    <tr>
-                        <td className="fw-bold">3</td>
-                        <td>AdminLuigi</td>
-                        <td>01 November 2024</td>
-                        <td>01 December 2024</td>
-                        <td>02 December 2024</td>
-                        <td>11:13 AM</td>
-                    </tr>
+                  <tr onClick={() => setShowComponent(true)}>
+                    <td className="fw-bold">1</td>
+                    <td>Nik Makino</td>
+                    <td>NIK 456</td>
+                    <td>November 15, 2023</td>
+                    <td>11:00 AM</td>
+                    <td>P10,000</td>
+                    <td>
+                      <ServiceStatus width="50%" />
+                    </td>
+                  </tr>
                 </tbody>
               </Table>
             </Card>
           </Col>
         </Row>
-      </div>
+      </Container>
     </>
   );
 }
