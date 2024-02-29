@@ -8,8 +8,21 @@ import { Funnel, Search } from "react-bootstrap-icons";
 import AddService from "@/components/AddServiceModal";
 import EditService from "@/components/UpdateServiceModal";
 import ArchiveServiceModal from "@/components/ArchiveServiceModal";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Service } from "@/types";
 
 function AdminManageServicePage() {
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios.get("/api/service").then((res) => {
+      setServices(res.data);
+      setLoading(false);
+    });
+  }, []);
+
   return (
     <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
@@ -42,7 +55,7 @@ function AdminManageServicePage() {
                 </Dropdown>
 
                 <div className="ms-auto d-flex gap-2">
-                  <AddService />
+                  <AddService setServices={setServices} />
                 </div>
               </div>
             </Row>
@@ -62,20 +75,29 @@ function AdminManageServicePage() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>
-                <img className={AdminServiceStyles.tableimg} src="https://via.placeholder.com/72" alt="Service" />
-              </td>
-              <td>Car Wash</td>
-              <td>Basic car wash</td>
-              <td>₱200</td>
-              <td>Sedan</td>
-              <td>
-                <EditService />
-                <ArchiveServiceModal />
-              </td>
-            </tr>
+            {loading ? (
+              <tr>
+                <td colSpan={7}>Loading...</td>
+              </tr>
+            ) : (
+              services.map((service: Service, index) => (
+                <tr key={service._id}>
+                  <td>{service._id}</td>
+                  <td>
+                    <img className={AdminServiceStyles.tableimg} src={service.image} alt="Service" />
+                  </td>
+                  <td>{service.name}</td>
+                  <td>{service.description}</td>
+                  <td>₱{service.price}</td>
+                  <td>{service.carType}</td>
+                  <td>
+                    <EditService setServices={setServices} serviceData={service} />
+                    <ArchiveServiceModal
+                    setServices={setServices} serviceData={service} />
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </Table>
       </Container>
