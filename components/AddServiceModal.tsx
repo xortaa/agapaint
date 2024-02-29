@@ -37,6 +37,7 @@ function AddServiceModal({setServices}: {setServices: React.Dispatch<React.SetSt
     axios.post("/api/service", newData).then((res) => {
       console.log(res);
       setServices((prev) => [...prev, newData]); 
+      handleClose();
     });
   };
 

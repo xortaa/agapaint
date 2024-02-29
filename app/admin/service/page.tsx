@@ -8,20 +8,20 @@ import { Funnel, Search } from "react-bootstrap-icons";
 import AddService from "@/components/AddServiceModal";
 import EditService from "@/components/UpdateServiceModal";
 import ArchiveServiceModal from "@/components/ArchiveServiceModal";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Service } from "@/types";
 
 function AdminManageServicePage() {
   const [services, setServices] = useState<Service[]>([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios.get("/api/service").then((res) => {
       setServices(res.data);
       setLoading(false);
     });
-  }, [])
+  }, []);
 
   return (
     <main className="agapaint-bg">
@@ -91,8 +91,9 @@ function AdminManageServicePage() {
                   <td>₱{service.price}</td>
                   <td>{service.carType}</td>
                   <td>
-                    <EditService />
-                    <ArchiveServiceModal />
+                    <EditService setServices={setServices} serviceData={service} />
+                    <ArchiveServiceModal
+                    setServices={setServices} serviceData={service} />
                   </td>
                 </tr>
               ))

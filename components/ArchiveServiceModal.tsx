@@ -4,25 +4,32 @@ import { Modal, Button, Row, Col, Form } from "react-bootstrap";
 import { useState } from "react";
 import { FaArchive } from "react-icons/fa";
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
+import { Service } from "@/types";
+import axios from "axios";
+import ImageUploadPreview from "./ImageUploadPreview";
 
-function ArchiveServiceModal(props) {
+function ArchiveServiceModal({
+  setServices,
+  serviceData,
+}: {
+  setServices: React.Dispatch<React.SetStateAction<Service[]>>;
+  serviceData: Service;
+}) {
   const [show, setShow] = useState(false);
-  const [service, setService] = useState("");
-  const [error, setError] = useState("");
 
   const handleClose = () => {
     setShow(false);
-    setError("");
   };
   const handleShow = () => setShow(true);
-  const handleAdd = () => {
-    if (service.trim() === "") {
-      setError("Please provide a service name");
-    } else {
-      console.log(service);
+
+  const handleDelete = () => {
+    axios.delete(`/api/service/${serviceData._id}`).then((res) => {
+      setServices((prev) => prev.filter((service) => service._id !== serviceData._id));
+      console.log(res);
       handleClose();
-    }
+    });
   };
+
   return (
     <>
       <InboxFill size={20} className="text-danger" onClick={handleShow}>
@@ -39,27 +46,28 @@ function ArchiveServiceModal(props) {
             <Form.Group className="mb-3">
               <Row>
                 <Form.Label>
-                  Service Name: <em>placeholder</em>
+                  Service Name: <em>{serviceData.name}</em>
                 </Form.Label>
               </Row>
               <Row>
                 <Form.Label>
-                  Service Description: <em>placeholder</em>
+                  Service Description: <em>{serviceData.description}</em>
                 </Form.Label>
               </Row>
               <Row>
                 <Form.Label>
-                  Uploaded Image: <em>placeholder</em>
+                  Uploaded Image:
+                  <ImageUploadPreview imageUrl={serviceData.image} width={75} height={75} alt="preview" />
                 </Form.Label>
               </Row>
               <Row>
                 <Form.Label>
-                  Service Price: <em>placeholder</em>
+                  Service Price: <em>{serviceData.price}</em>
                 </Form.Label>
               </Row>
               <Row>
                 <Form.Label>
-                  Car Type: <em>placeholder</em>
+                  Car Type: <em>{serviceData.carType}</em>
                 </Form.Label>
               </Row>
             </Form.Group>
@@ -69,7 +77,7 @@ function ArchiveServiceModal(props) {
           <Button className={AdminServiceStyles.addserviceformclose} variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button className={AdminServiceStyles.archiveserviceformarchive} variant="danger" onClick={handleAdd}>
+          <Button className={AdminServiceStyles.archiveserviceformarchive} variant="danger" onClick={handleDelete}>
             Archive
           </Button>
         </Modal.Footer>
