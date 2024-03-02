@@ -9,23 +9,46 @@ import rbVan from "@/public/assets/img/rbVan.svg";
 import serviceStyles from "@/styles/services.module.scss";
 // Components
 import ServiceCard from "@/components/forms/ServiceCard";
+import { useState, useEffect } from "react";
+import { Service, AppointmentData } from "@/types";
+import axios from "axios";
 
-function Services() {
+function Services({ setSelectedService, setAppointmentData }: { setSelectedService: React.Dispatch<React.SetStateAction<Service[]>>; setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>; }) {  
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/api/service")
+      .then((res) => {
+        setServices(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleServiceClick = (service: Service) => { 
+    setSelectedService((prevServices) => [...prevServices, service]);
+
+    setAppointmentData((prevData) => ({
+      ...prevData,
+      servicesId: [...prevData.servicesId, service._id], // Add the service id to the servicesId array
+    }));
+  }
+
   return (
     <main>
       <Container>
         <Row className="mb-5">
-          <ServiceCard title="Washover" price="32,000.00" category="Paint" />
-          <ServiceCard title="Under Coating Rubber" price="3500.00" category="Paint" />
-          <ServiceCard title="Rims/Mags Repaint" price="2,500.00" category="Paint" />
-          <ServiceCard title="Single Panel Repair" price="4,500.00" category="Repair" />
-          <ServiceCard title="Multiple Panel Repair" price="3,500.00" category="Repair" />
-          <ServiceCard title="Exterior Detailing" price="2,500.00" category="Detailing" />
-          <ServiceCard title="Exterior Detailing Black Colors" price="3,500.00" category="Detailing" />
-          <ServiceCard title="Interior Detailing" price="2,500.00" category="Detailing" />
-          <ServiceCard title="Glass Detailing" price="3,500.00" category="Detailing" />
-          <ServiceCard title="Engine Detailing" price="2,500.00" category="Detailing" />
-          <ServiceCard title="Headlight Pair Detailing" price="1,500.00" category="Detailing" />
+          {services.map((service) => (
+            <ServiceCard
+              key={service._id}
+              image={service.image}
+              title={service.name}
+              price={service.price}
+              handleServiceClick={() => handleServiceClick(service)}
+            />
+          ))}
         </Row>
       </Container>
     </main>

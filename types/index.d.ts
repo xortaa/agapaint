@@ -19,10 +19,9 @@ export interface Service {
   carType: string;
 }
 
-export interface Appointment {
-  _id: string;
-  customer: Customer;
-  service: Service;
+export interface AppointmentData {
+  customerId: string;
+  servicesId: string[];
   firstName: string;
   lastName: string;
   email: string;
@@ -32,4 +31,7 @@ export interface Appointment {
   requests: string;
   date: string;
   time: string;
+  carManufacturer: string;
+  carType: string;
 }
+
