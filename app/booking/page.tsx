@@ -17,6 +17,7 @@ import Services from "@/components/forms/Services";
 import { useForm } from "react-hook-form";
 import { AppointmentData, Service } from "@/types";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 // Car Type Step
 
@@ -148,11 +149,13 @@ const Step5 = ({
   onBack,
   appointmentData,
   selectedService,
+  bookAppointment,
 }: {
   onNext: () => void;
   onBack: () => void;
   appointmentData: AppointmentData;
   selectedService: Service[];
+  bookAppointment: () => void;
 }) => (
   <div>
     <h2 className="fw-bold mb-3">Confirm Details</h2>
@@ -208,7 +211,15 @@ const Step5 = ({
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
         Back
       </Button>
-      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-bold" onClick={onNext}>
+      <Button
+        variant="warning"
+        type="submit"
+        className="ps-4 pe-4 fw-bold"
+        onClick={() => {
+          bookAppointment();
+          onNext();
+        }}
+      >
         Book Appointment
       </Button>
     </div>
@@ -244,9 +255,10 @@ function bookAppointment() {
 
   // Form Validation
   const [validated, setValidated] = useState(false);
+  const { data: session } = useSession();
   const [appointmentData, setAppointmentData] = useState<AppointmentData>({
     customerId: "",
-    plateNumber: "",
+    plateNumber: "ABC 123",
     firstName: "",
     lastName: "",
     email: "",
@@ -269,14 +281,23 @@ function bookAppointment() {
     formState: { errors },
   } = useForm<AppointmentData>();
 
-  useEffect(() => {}, []);
-
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     if (Object.keys(errors).length === 0) {
       nextStep(); // Call onNext with nextStep if all fields are valid
       setValidated(true);
-      axios.post
     }
+  };
+
+  const bookAppointment = () => {
+    axios
+      .post("/api/appointment", {
+        ...appointmentData,
+        servicesId: selectedService.map((service) => service._id),
+        customerId: session?.user?._id,
+      })
+      .then((res) => {
+        console.log(res);
+      });
   };
 
   return (
@@ -333,6 +354,7 @@ function bookAppointment() {
                               onBack={prevStep}
                               appointmentData={appointmentData}
                               selectedService={selectedService}
+                              bookAppointment={bookAppointment}
                             />
                           )}
                           {step === 6 && <Step6 onBack={prevStep} />}
