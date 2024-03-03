@@ -1,0 +1,55 @@
+
+
+.steps {
+    list-style-type: none;
+    padding: 0;
+
+    li {
+        padding: 10px;
+        position: relative;
+        margin-bottom: 30px;
+
+        &::before {
+            content: counter(--step);
+            counter-increment: step;
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: gray;
+            color: white;
+            text-align: center;
+            line-height: 20px;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 100%;
+            width: 2px;
+            height: 20px;
+            background: gray;
+        }
+
+        &.fw-bold {
+            &::before {
+                background: green; // Change to the color you want
+                color: black;
+            }
+
+            &::after {
+                background: green; // Change to the color you want
+            }
+        }
+
+        &:last-child {
+            &::after {
+                display: none;
+            }
+        }
+    }
+}

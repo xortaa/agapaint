@@ -10,7 +10,7 @@ function ServiceCard(props) {
         <Card className={`${serviceStyles.outlined} ${serviceStyles.horizontal} shadow`} >
           <Card.Body>
             <Row className="g-3">
-              <Col xs={12} sm={3} lg={5} xl={12}>
+              <Col xs={4} sm={3} lg={5} xl={12}>
                 <Card.Img
                     variant="top"
                     src="https://via.placeholder.com/72"
@@ -18,7 +18,7 @@ function ServiceCard(props) {
                     alt="..."
                 />
               </Col>
-              <Col xs={12} sm={9} lg={7} xl={12} className="lh-05">
+              <Col xs={8} sm={9} lg={7} xl={12} className="lh-05">
                 <Card.Title className="fw-semibold fs-6">{props.title}</Card.Title>
                 <p className="text-secondary mb-2">
                   <small>₱{props.price}</small>
