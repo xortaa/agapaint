@@ -10,7 +10,7 @@ import serviceStyles from "@/styles/services.module.scss";
 // Components
 import ServiceCard from "@/components/forms/ServiceCard";
 import { useState, useEffect } from "react";
-import { Service, AppointmentData } from "@/types";
+import { ServiceData, AppointmentData } from "@/types";
 import axios from "axios";
 
 function Services({
@@ -18,7 +18,7 @@ function Services({
   setAppointmentData,
   appointmentData,
 }: {
-  setSelectedService: React.Dispatch<React.SetStateAction<Service[]>>;
+  setSelectedService: React.Dispatch<React.SetStateAction<ServiceData[]>>;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
   appointmentData: AppointmentData;
 }) {
@@ -28,7 +28,7 @@ function Services({
     axios
       .get("/api/service")
       .then((res) => {
-        const filteredServices = res.data.filter((service: Service) => service.carType === appointmentData.carType);
+        const filteredServices = res.data.filter((service: ServiceData) => service.carType === appointmentData.carType);
         setServices(filteredServices);
       })
       .catch((err) => {
@@ -36,7 +36,7 @@ function Services({
       });
   }, [appointmentData.carType]);
 
-  const handleServiceClick = (service: Service) => {
+  const handleServiceClick = (service: ServiceData) => {
     setSelectedService((prevServices) => [...prevServices, service]);
 
     setAppointmentData((prevData) => ({

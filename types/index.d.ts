@@ -10,7 +10,7 @@ export interface Customer {
   role: string;
 }
 
-export interface Service {
+export interface ServiceData {
   _id: string;
   name: string;
   description: string;

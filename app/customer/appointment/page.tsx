@@ -6,13 +6,26 @@ import AptCard from "@/components/AptCard";
 
 import myProfileBg from "@/public/assets/img/myprofilebg.png";
 import myAppointmentBg from "@/public/assets/img/myAppointmentBg.png";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+
 
 function custAppointment() {
   const router = useRouter();
+  const { data: session } = useSession();
+  const [user, setUser] = useState({})
 
   const handleRowClick = () => {
     router.push("appointment/payment");
   };
+
+  useEffect(() => {
+    axios.get(`api/users/${session?.user?._id}`)
+  }, [session?.user?._id])
+
+  
 
   return (
     <main>
@@ -30,11 +43,11 @@ function custAppointment() {
               <Card.Body>
                 <Row>
                   <Col md={4} className="d-flex justify-content-center">
-                    <Image src="https://placekitten.com/171/180" roundedCircle fluid />
+                    <Image src={session?.user?.image} roundedCircle fluid />
                   </Col>
                   <Col md={8} className="align-self-center text-center text-lg-left mt-3 mt-lg-0 mt-md-0">
-                    <h3 className="fw-bold">Juan Tsoknat Dela Cruz</h3>
-                    <Card.Text>tsoknat.dimagiba.cics@ust.edu.ph</Card.Text>
+                    <h3 className="fw-bold">{session?.user?.name}</h3>
+                    <Card.Text>{session?.user?.email}</Card.Text>
                   </Col>
                 </Row>
               </Card.Body>
@@ -54,6 +67,8 @@ function custAppointment() {
           <p>Click a card to see further details of your appointment, including your balance.</p>
         </Row>
         <Row className="g-4">
+          
+
           <AptCard
             onClick={handleRowClick}
             aptId="APT #001"

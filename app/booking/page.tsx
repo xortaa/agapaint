@@ -15,7 +15,7 @@ import CarType from "@/components/forms/CarType";
 import PersonalInfo from "@/components/forms/PersonalInfo";
 import Services from "@/components/forms/Services";
 import { useForm } from "react-hook-form";
-import { AppointmentData, Service } from "@/types";
+import { AppointmentData, ServiceData } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
@@ -97,7 +97,7 @@ const Step3 = ({
 }: {
   onNext: () => void;
   onBack: () => void;
-  setSelectedService: React.Dispatch<React.SetStateAction<Service[]>>;
+  setSelectedService: React.Dispatch<React.SetStateAction<ServiceData[]>>;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
   appointmentData: AppointmentData;
 }) => (
@@ -156,7 +156,7 @@ const Step5 = ({
   onNext: () => void;
   onBack: () => void;
   appointmentData: AppointmentData;
-  selectedService: Service[];
+  selectedService: ServiceData[];
   bookAppointment: () => void;
 }) => (
   <div>
@@ -273,7 +273,7 @@ function bookAppointment() {
     carType: "",
     servicesId: [],
   });
-  const [selectedService, setSelectedService] = useState<Service[]>([]);
+  const [selectedService, setSelectedService] = useState<ServiceData[]>([]);
   const totalPrice = selectedService.reduce((total, service) => total + service.price, 0);
 
   const {
