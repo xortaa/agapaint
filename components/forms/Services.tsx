@@ -34,7 +34,7 @@ function Services({
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [appointmentData.carType]);
 
   const handleServiceClick = (service: Service) => {
     setSelectedService((prevServices) => [...prevServices, service]);
