@@ -306,6 +306,11 @@ function bookAppointment() {
       });
   };
 
+  const date = appointmentData.date ? new Date(appointmentData.date) : null;
+  const formattedDate = date
+    ? `${date.toLocaleString("default", { month: "long" })} ${date.getDate()}, ${date.getFullYear()}`
+    : "";
+
   return (
     <main>
       <Container fluid className="agapaint-bg min-vh-100">
@@ -383,7 +388,7 @@ function bookAppointment() {
                         {/* Date Time */}
                         <div className="d-flex">
                           <p className="lh-1">Date</p>
-                          <p className="ms-auto fw-bold lh-1">{appointmentData.date}</p>
+                          <p className="ms-auto fw-bold lh-1">{formattedDate}</p>
                         </div>
                         <div className="d-flex">
                           <p className="lh-1">Time</p>
