@@ -2,14 +2,6 @@ export interface AdminHeaderProps {
   title: string;
   subtitle: string;
 }
-
-export interface Customer {
-  _id: string;
-  email: string;
-  username: string;
-  role: string;
-}
-
 export interface ServiceData {
   _id: string;
   name: string;
