@@ -30,21 +30,77 @@
   font-size: 1.2em;
 }
 
-.cardContent {
-  padding: 20px;
+.cardTitle1 {
+  position: relative;
+  padding-top: 40px;
+  font-size: calc(.7em + 1vw);
+  font-weight: 500;
   text-align: center;
-  font-size: 1.5em;
-  font-weight: 600;
-  color: var(--agapaint-yellow);
-  background-color: #100c08;
-  border-radius: 10px;
-  box-shadow: 0 0 15px 1.5px var(--agapaint-yellow);
-  margin: 10px;
-  transition: all 0.3s ease-in-out;
+  color: white;
+  margin-bottom: 0;
+  z-index: 2;
 }
 
-.cardContent:hover {
-  background-color: var(--agapaint-yellow);
-  color: #100c08;
-  box-shadow: 0 0 15px 0 #100c08;
+.cardPrice1 {
+  position: relative;
+  font-size: calc(1.6em + 1vw);
+  font-weight: bolder;
+  color: var(--agapaint-yellow);
+  margin-bottom: 0;
+  text-align: center;
+  z-index: 2;
 }
+
+.cardDescription1 {
+  position: relative;
+  font-size: 1em;
+  font-weight: calc(0.8em + 1vw);
+  padding-bottom: 10px;
+  text-align: center;
+  color: white;
+  z-index: 2;
+}
+
+.cardImg1 {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 15px; 
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    border-radius: 15px; 
+  }
+}
+
+.card {
+  position: relative;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 15px; 
+  transition: transform 0.3s;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+    border-radius: 15px; 
+  }
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
