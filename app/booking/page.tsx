@@ -93,17 +93,19 @@ const Step3 = ({
   onBack,
   setSelectedService,
   setAppointmentData,
+  appointmentData,
 }: {
   onNext: () => void;
   onBack: () => void;
   setSelectedService: React.Dispatch<React.SetStateAction<Service[]>>;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
+  appointmentData: AppointmentData;
 }) => (
   <div>
     <h2 className="fw-bold">Book an Appointment</h2>
     <p className="lead">Choose desired services for your car type</p>
     {/* Services */}
-    <Services setSelectedService={setSelectedService} setAppointmentData={setAppointmentData} />
+    <Services setSelectedService={setSelectedService} setAppointmentData={setAppointmentData} appointmentData={appointmentData}/>
     {/* Nav Buttons */}
     <div className="d-flex justify-content-between">
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
@@ -343,6 +345,7 @@ function bookAppointment() {
                               onBack={prevStep}
                               setSelectedService={setSelectedService}
                               setAppointmentData={setAppointmentData}
+                              appointmentData={appointmentData}
                             />
                           )}
                           {step === 4 && (

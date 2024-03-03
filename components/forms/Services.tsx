@@ -13,28 +13,37 @@ import { useState, useEffect } from "react";
 import { Service, AppointmentData } from "@/types";
 import axios from "axios";
 
-function Services({ setSelectedService, setAppointmentData }: { setSelectedService: React.Dispatch<React.SetStateAction<Service[]>>; setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>; }) {  
+function Services({
+  setSelectedService,
+  setAppointmentData,
+  appointmentData,
+}: {
+  setSelectedService: React.Dispatch<React.SetStateAction<Service[]>>;
+  setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
+  appointmentData: AppointmentData;
+}) {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
     axios
       .get("/api/service")
       .then((res) => {
-        setServices(res.data);
+        const filteredServices = res.data.filter((service: Service) => service.carType === appointmentData.carType);
+        setServices(filteredServices);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
-  const handleServiceClick = (service: Service) => { 
+  const handleServiceClick = (service: Service) => {
     setSelectedService((prevServices) => [...prevServices, service]);
 
     setAppointmentData((prevData) => ({
       ...prevData,
       servicesId: [...prevData.servicesId, service._id], // Add the service id to the servicesId array
     }));
-  }
+  };
 
   return (
     <main>
