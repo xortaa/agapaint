@@ -22,7 +22,7 @@ a {
   --agapaint-pink: #ff37bc;
   --agapaint-black: #141414;
   --agapaint-bg: #f8f8f8;
-  --agapaint-light: #f0f6ff
+  --agapaint-light: #f0f6ff;
 }
 .agapaint-yellow {
   color: var(--agapaint-yellow);
@@ -46,7 +46,7 @@ a {
 
 .agapaint-light {
   background-color: var(--agapaint-light);
-} 
+}
 
 .slide-enter {
   transform: translateX(100%);
@@ -66,12 +66,12 @@ a {
   transition: transform 300ms ease-in-out;
 }
 
-.lh-05{
-   line-height: 0.7;
+.lh-05 {
+  line-height: 0.7;
 }
 
 .p-6 {
-  padding: 6rem !important
+  padding: 6rem !important;
 }
 
 #radio-cards-container {
@@ -135,4 +135,82 @@ a {
 
 .radio-card.selected .radio-card-check {
   display: inline-flex;
+}
+
+.vertical-point-progress {
+  list-style-type: none;
+  padding: 3;
+  display: flex;
+  flex-direction: column;
+  counter-reset: step;
+
+  @media (max-width: 768px) {
+    flex-direction: row;
+  }
+
+  li {
+    padding: 10px;
+    position: relative;
+    margin-bottom: 30px;
+
+    @media (max-width: 768px) {
+      margin-bottom: 0;
+      margin-right: 30px;
+    }
+
+    &::before {
+      content: counter(step);
+      counter-increment: step;
+      position: absolute;
+      left: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: gray;
+      color: white;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @media (max-width: 768px) {
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: -6px;
+      top: 100%;
+      width: 2px;
+      height: 20px;
+      background: gray;
+      
+
+      @media (max-width: 768px) {
+        top: 10px;
+        left: 100%;
+        width: 30px;
+        height: 2px;
+      }
+    }
+
+    &.fw-bold {
+      &::before,
+      &::after {
+        background: var(--agapaint-yellow);
+      }
+    }
+
+    &:last-child {
+      &::after {
+        display: none;
+      }
+    }
+  }
 }

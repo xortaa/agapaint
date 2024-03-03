@@ -7,7 +7,7 @@ import bookDesktop from "@/public/assets/img/bookDesktop.svg";
 import bookMobile from "@/public/assets/img/bookMobile.svg";
 import logoSecondary from "@/public/assets/logo/logoSecondaryBlack.png";
 // SCSS
-import styles from "@/styles/bookApt.module.scss";
+import styles from "@/styles/booking.module.scss";
 // Icons
 import { FaCar, FaTruck, FaBus } from "react-icons/fa";
 // Components
@@ -29,8 +29,8 @@ const Step1 = ({
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
 }) => (
   <div>
-    <h2 className="fw-bold">Book an Appointment</h2>
-    <p className="lead">Choose a car type</p>
+    <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
+    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0 ">Choose a car type</p>
     {/* Car Type Radio Button */}
     <div className="d-flex flex-column">
       <CarType setAppointmentData={setAppointmentData} />
@@ -55,8 +55,8 @@ const Step2 = ({
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
 }) => (
   <div>
-    <h2 className="fw-bold">Book an Appointment</h2>
-    <p className="lead">Choose a desired date and time</p>
+    <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
+    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose a desired date and time</p>
     {/* Date */}
     <Form.Group className="mb-3" controlId="formBasicEmail">
       <Form.Label>Appointment Date</Form.Label>
@@ -102,8 +102,8 @@ const Step3 = ({
   appointmentData: AppointmentData;
 }) => (
   <div>
-    <h2 className="fw-bold">Book an Appointment</h2>
-    <p className="lead">Choose desired services for your car type</p>
+    <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
+    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose desired services for your car type</p>
     {/* Services */}
     <Services
       setSelectedService={setSelectedService}
@@ -133,8 +133,8 @@ const Step4 = ({
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
 }) => (
   <div>
-    <h2 className="fw-bold">Book an Appointment</h2>
-    <p className="lead">Please provide your personal information</p>
+    <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
+    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Please provide your personal information</p>
     {/* Personal Info */}
     <PersonalInfo setAppointmentData={setAppointmentData} />
     {/* Nav Buttons */}
@@ -164,7 +164,7 @@ const Step5 = ({
   bookAppointment: () => void;
 }) => (
   <div>
-    <h2 className="fw-bold mb-3">Confirm Details</h2>
+    <h2 className="fw-bold mb-3 ps-4 ps-lg-0 pe-4 pe-lg-0">Confirm Details</h2>
     {/* Confirmation */}
     <Row className="lh-05 mb-1">
       <Col>
@@ -235,7 +235,7 @@ const Step5 = ({
 // Thank you Step
 const Step6 = ({ onBack }) => (
   <div className="d-flex flex-column justify-content-center" style={{ height: "400px" }}>
-    <h2 className="fw-bold">Thank you for your booking!</h2>
+    <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Thank you for your booking!</h2>
     {/* Thank you */}
     <p className="lead">
       An email containing instruction on how to pay your booking appointment will be sent to your provided email. Your
@@ -254,7 +254,11 @@ const Step6 = ({ onBack }) => (
 
 function bookAppointment() {
   // Nav Progress
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
+  const navSteps = ["Car Type", "Date & Time", "Services", "Personal Info", "Confirm Details", "Finish"]; // Add or remove steps as needed
+  const handleStepClick = (stepNumber) => {
+    setStep(stepNumber);
+  };
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
@@ -306,6 +310,7 @@ function bookAppointment() {
       });
   };
 
+
   const date = appointmentData.date ? new Date(appointmentData.date) : null;
   const formattedDate = date
     ? `${date.toLocaleString("default", { month: "long" })} ${date.getDate()}, ${date.getFullYear()}`
@@ -314,20 +319,21 @@ function bookAppointment() {
   return (
     <main>
       <Container fluid className="agapaint-bg min-vh-100">
-        <Row>
+        <Row className="justify-content-center">
           <Row className="align-items-center justify-content-center">
             <img src={logoSecondary.src} style={{ width: "20rem" }} />
           </Row>
-          <Row className="p-5 pt-0 justify-content-center">
+          <Row className="pt-0 p-3 p-lg-5 pt-lg-0 justify-content-center gap-4 gap-lg-0">
             {/* Main Content */}
             <Col lg={9}>
-              <Card className="border-0 p-2 shadow-sm" style={{ borderRadius: "20px" }}>
+              <Card className="border-0 p-lg-2 p-0 shadow-sm" style={{ borderRadius: "20px" }}>
                 <Card.Body>
                   <Row>
                     {/* Progress Column */}
                     <Col lg={3}>
                       <Card style={{ height: "100%", borderRadius: "13px", overflow: "hidden" }}>
                         <Card.Img
+                          className="d-none d-lg-block"
                           src={bookDesktop.src}
                           style={{
                             height: "100%",
@@ -335,11 +341,33 @@ function bookAppointment() {
                             borderRadius: "13px",
                           }}
                         />
+                        <Card.Img
+                          className="d-sm-block d-lg-none"
+                          src={bookMobile.src}
+                          style={{
+                            height: "100%",
+                            objectFit: "cover",
+                            borderRadius: "13px",
+                          }}
+                        />
+                        <Card.ImgOverlay className="text-white">
+                          <ul className="vertical-point-progress">
+                            {navSteps.map((navstep, index) => (
+                              <li key={index + 1} className={index + 1 === step ? "fw-bold" : ""} onClick={() => handleStepClick(index + 1)}>
+                                <span className="ps-3" style={{ fontSize: "14px" }}>
+                                  {navstep}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </Card.ImgOverlay>
                       </Card>
                     </Col>
 
                     {/* Form Column */}
-                    <Col lg={9} class Name="p-5 ps-4 pb-3">
+
+                    <Col lg={9} className="p-1 p-lg-5 ps-lg-4 pt-3 pb-3">
+
                       <Row>
                         <Form noValidate validated={validated} onSubmit={handleSubmit(onSubmit)}>
                           {step === 1 && <Step1 onNext={nextStep} setAppointmentData={setAppointmentData} />}
