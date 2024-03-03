@@ -30,7 +30,7 @@ function AdminManageServicePage() {
           {/* Side Bar Nav */}
 
           {/* Header Row */}
-          <AdminHeader title="Manage Inventory" subtitle="View and track your inventory materials" />
+          <AdminHeader title="Manage Services" subtitle="View all your services offered" />
 
           {/* Search Row */}
           <Col>
@@ -92,8 +92,7 @@ function AdminManageServicePage() {
                   <td>{service.carType}</td>
                   <td>
                     <EditService setServices={setServices} serviceData={service} />
-                    <ArchiveServiceModal
-                    setServices={setServices} serviceData={service} />
+                    <ArchiveServiceModal setServices={setServices} serviceData={service} />
                   </td>
                 </tr>
               ))
