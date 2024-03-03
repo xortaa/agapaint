@@ -9,23 +9,26 @@ import myAppointmentBg from "@/public/assets/img/myAppointmentBg.png";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-
+import { User } from "@/types";
 
 function custAppointment() {
   const router = useRouter();
   const { data: session } = useSession();
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState<User | null>(null);
 
   const handleRowClick = () => {
     router.push("appointment/payment");
   };
 
   useEffect(() => {
-    axios.get(`api/users/${session?.user?._id}`)
-  }, [session?.user?._id])
-
-  
+    if (session?.user?._id) {
+      console.log(session);
+      axios
+        .get(`/api/users/${session?.user?._id}`)
+        .then((res) => setUser(res.data))
+        .catch((err) => console.log(err));
+    }
+  }, [session?.user?._id]);
 
   return (
     <main>
@@ -67,42 +70,30 @@ function custAppointment() {
           <p>Click a card to see further details of your appointment, including your balance.</p>
         </Row>
         <Row className="g-4">
-          
-
-          <AptCard
-            onClick={handleRowClick}
-            aptId="APT #001"
-            aptDate="January, 6, 2024"
-            aptTime="12:30 PM"
-            carInfo="Sedan Kia Rio 2016"
-            plateNo="PLT 456"
-            paymentTerm="Partial"
-            totalServiceAmount="7,800.00"
-            serviceStatus="Complete"
-          />
-          {/* Placeholder */}
-          <AptCard
-            onClick={handleRowClick}
-            aptId="APT #002"
-            aptDate="November 18, 2023"
-            aptTime="10:00 AM"
-            carInfo="Honda Civic 2016"
-            plateNo="SHJ 891"
-            paymentTerm="Partial"
-            totalServiceAmount="20,000.00"
-            serviceStatus="Ongoing"
-          />
-          <AptCard
-            onClick={handleRowClick}
-            aptId="APT #003"
-            aptDate="October 22, 2023"
-            aptTime="4:00 PM"
-            carInfo="Honda Civic 2016"
-            plateNo="KAI 140"
-            paymentTerm="Full"
-            totalServiceAmount="30,000.00"
-            serviceStatus="Pending"
-          />
+          {!user ? (
+            <p>Loading...</p>
+          ) : (
+            user.appointment.map((apt) => {
+              const date = new Date(apt.date);
+              const formattedDate = `${date.toLocaleString("default", {
+                month: "long",
+              })} ${date.getDate()}, ${date.getFullYear()}`;
+              return (
+                <AptCard
+                  key={apt._id}
+                  onClick={handleRowClick}
+                  aptId={apt._id}
+                  aptDate={formattedDate}
+                  aptTime={apt.time}
+                  carInfo={`${apt.carManufacturer} ${apt.carModel}`}
+                  plateNo={apt.plateNumber}
+                  paymentTerm={apt.status}
+                  totalServiceAmount={apt.servicesId.reduce((acc, service) => acc + service.price, 0)}
+                  serviceStatus={apt.status}
+                />
+              );
+            })
+          )}
         </Row>
       </Container>
 

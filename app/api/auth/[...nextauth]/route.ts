@@ -31,15 +31,16 @@ const handler: NextAuthOptions = NextAuth({
     }),
   ],
   callbacks: {
-    async session({session}) { 
+    async session({ session }) {
       const sessionUser = await User.findOne({ email: session.user.email });
-       if (sessionUser) {
+      if (sessionUser) {
         session.user = {
           ...session.user,
           _id: sessionUser._id.toString(),
         };
+        return session;
       }
-      return session
+      return null;
     },
     async signIn({ account, profile }) {
       try {
