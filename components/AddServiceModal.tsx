@@ -32,14 +32,16 @@ function AddServiceModal({setServices}: {setServices: React.Dispatch<React.SetSt
     setImageUrl(result.info.secure_url);
   }
 
-  const onSubmit = (data: Service) => {
-    const newData = { ...data, image: imageUrl };
-    axios.post("/api/service", newData).then((res) => {
-      console.log(res);
-      setServices((prev) => [...prev, newData]); 
-      handleClose();
-    });
-  };
+const onSubmit = (data: Service) => {
+  const newData = { ...data, image: imageUrl };
+  axios.post("/api/service", newData).then((res) => {
+    console.log(res);
+    // Use the service document from the server response
+    const newService = res.data;
+    setServices((prev) => [...prev, newService]);
+    handleClose();
+  });
+};
 
   return (
     <>

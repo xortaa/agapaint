@@ -13,7 +13,12 @@ export const GET = async (req: NextRequest) => {
     }
 
     await connectToDatabase();
-    const users = await User.find().populate("appointment");
+    const users = await User.find().populate({
+      path: "appointment",
+      populate: {
+        path: "servicesId",
+      },
+    });
     return NextResponse.json(users, { status: 200 });
   } catch (error) {
     console.log(error);
