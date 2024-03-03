@@ -105,7 +105,11 @@ const Step3 = ({
     <h2 className="fw-bold">Book an Appointment</h2>
     <p className="lead">Choose desired services for your car type</p>
     {/* Services */}
-    <Services setSelectedService={setSelectedService} setAppointmentData={setAppointmentData} appointmentData={appointmentData}/>
+    <Services
+      setSelectedService={setSelectedService}
+      setAppointmentData={setAppointmentData}
+      appointmentData={appointmentData}
+    />
     {/* Nav Buttons */}
     <div className="d-flex justify-content-between">
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
@@ -305,8 +309,6 @@ function bookAppointment() {
   return (
     <main>
       <Container fluid className="agapaint-bg min-vh-100">
-        <button onClick={() => console.log(appointmentData)}>check appointment data</button>
-        <button onClick={() => console.log(selectedService)}>check selected services</button>
         <Row>
           <Row className="align-items-center justify-content-center">
             <img src={logoSecondary.src} style={{ width: "20rem" }} />
