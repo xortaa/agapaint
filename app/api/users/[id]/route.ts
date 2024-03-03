@@ -11,7 +11,12 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
     const token = await getToken({ req, secret });
 
     await connectToDatabase();
-    const user = await User.findById(id).populate("appointment");
+    const user = await User.findById(id).populate({
+      path: "appointment",
+      populate: {
+        path: "servicesId",
+      },
+    });
 
     if (token.email === process.env.ADMIN_EMAIL || token.email === user.email) {
       return NextResponse.json(user, { status: 200 });

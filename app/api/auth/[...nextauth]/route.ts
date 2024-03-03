@@ -3,9 +3,18 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import User from "@/models/user";
 import connectToDatabase from "@/utils/database";
+import { DefaultSession } from "next-auth";
 
 const clientId = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      _id: string;
+    } & DefaultSession["user"];
+  }
+}
 
 const handler: NextAuthOptions = NextAuth({
   providers: [
@@ -22,6 +31,17 @@ const handler: NextAuthOptions = NextAuth({
     }),
   ],
   callbacks: {
+    async session({ session }) {
+      const sessionUser = await User.findOne({ email: session.user.email });
+      if (sessionUser) {
+        session.user = {
+          ...session.user,
+          _id: sessionUser._id.toString(),
+        };
+        return session;
+      }
+      return null;
+    },
     async signIn({ account, profile }) {
       try {
         await connectToDatabase();

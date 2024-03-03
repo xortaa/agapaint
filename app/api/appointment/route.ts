@@ -1,5 +1,6 @@
 import connectToDatabase from "@/utils/database";
 import Appointment from "@/models/appointment";
+import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
@@ -8,7 +9,13 @@ export const POST = async (req: NextRequest) => {
   try {
     await connectToDatabase();
     const appointment = await Appointment.create(appointmentData);
-    console.log(appointment);
+
+    const customer = await User.findById(appointment.customerId);
+
+    customer.appointment.push(appointment._id);
+
+    await customer.save();
+
     return NextResponse.json(appointment, { status: 200 });
   } catch (error) {
     console.log(error);
