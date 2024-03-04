@@ -254,7 +254,7 @@ const Step6 = ({ onBack }) => (
 
 function bookAppointment() {
   // Nav Progress
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   const navSteps = ["Car Type", "Date & Time", "Services", "Personal Info", "Confirm Details", "Finish"]; // Add or remove steps as needed
   const handleStepClick = (stepNumber) => {
     setStep(stepNumber);
