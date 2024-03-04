@@ -62,7 +62,7 @@ function Navbar() {
             </li>
             <li>
               <Link href="/booking" className={navStyles.ulItem}>
-              <Button className={navStyles.btnLog}>Book Now</Button>
+              <Button variant="warning" className={navStyles.btnLog}>Book Now</Button>
               </Link>
             </li>
             <li>
