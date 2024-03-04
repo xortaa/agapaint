@@ -9,8 +9,15 @@ import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons
 import { Service } from "@/types";
 import axios from "axios";
 import ImageUploadPreview from "./ImageUploadPreview";
+import { Faq, FaqData } from "@/types";
 
-function ArchiveQuestionModal() {
+function ArchiveQuestionModal({
+  faqData,
+  setFaqs,
+}: {
+  faqData: Faq;
+  setFaqs: React.Dispatch<React.SetStateAction<Faq[]>>;
+}) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
 
@@ -18,6 +25,14 @@ function ArchiveQuestionModal() {
     setShow(false);
     setError("");
   };
+
+  const onDelete = (faqData: Faq) => {
+    axios.delete(`/api/faq/${faqData._id}`).then((res) => {
+      setFaqs((prev) => prev.filter((faq) => faq._id !== faqData._id));
+      handleClose();
+    });
+  };
+
   const handleShow = () => setShow(true);
   return (
     <>
@@ -35,12 +50,12 @@ function ArchiveQuestionModal() {
             <Form.Group className="mb-3">
               <Row>
                 <Form.Label>
-                  Question: <em>placeholder</em>
+                  Question: <em>{faqData.question}</em>
                 </Form.Label>
               </Row>
               <Row>
                 <Form.Label>
-                  Description: <em>placeholder</em>
+                  Description: <em>{faqData.answer}</em>
                 </Form.Label>
               </Row>
             </Form.Group>
@@ -50,7 +65,7 @@ function ArchiveQuestionModal() {
           <Button className={AdminFAQStyles.addqformclose} variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button className={AdminFAQStyles.archiveqformarchive} variant="danger">
+          <Button className={AdminFAQStyles.archiveqformarchive} variant="danger" onClick={() => onDelete(faqData)}>
             Archive
           </Button>
         </Modal.Footer>

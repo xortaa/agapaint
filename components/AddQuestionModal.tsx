@@ -7,16 +7,31 @@ import { Container, Row, Col, Table, Button, Modal, Form, InputGroup, Dropdown, 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import AdminFAQStyles from "@/styles/AdminFAQ.module.scss";
+import { Faq, FaqData } from "@/types";
+import axios from "axios";
 
-function AddQuestionModal() {
+function AddQuestionModal({ setFaqs }: { setFaqs: React.Dispatch<React.SetStateAction<Faq[]>> }) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FaqData>();
 
   const handleClose = () => {
     setShow(false);
     setError("");
   };
+
+  const onSubmit = (data: FaqData) => {
+    axios.post("/api/faq", data).then((res) => {
+      setFaqs((prev) => [...prev, res.data]);
+    });
+  };
+
   const handleShow = () => setShow(true);
+
   return (
     <>
       <Button className={AdminFAQStyles.addqbtn} variant="warning" onClick={handleShow}>
@@ -28,17 +43,17 @@ function AddQuestionModal() {
           <Modal.Title id="contained-modal-title-vcenter">Add Question</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3">
               <Form.Label>Question</Form.Label>
-              <Form.Control required type="text" isInvalid={!!error} />
-              <Form.Control.Feedback type="invalid">Please provide a service name</Form.Control.Feedback>
+              <Form.Control required type="text" isInvalid={!!error} {...register("question")} />
+              <Form.Control.Feedback type="invalid">Please provide a question</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
-              <Form.Control as="textarea" rows={3} isInvalid={!!error} required />
-              <Form.Control.Feedback type="invalid">Please provide a service description</Form.Control.Feedback>
+              <Form.Label>Answer</Form.Label>
+              <Form.Control as="textarea" rows={3} isInvalid={!!error} required {...register("answer")} />
+              <Form.Control.Feedback type="invalid">Please provide an answer</Form.Control.Feedback>
             </Form.Group>
 
             <Modal.Footer>
