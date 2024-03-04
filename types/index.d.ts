@@ -56,11 +56,22 @@ export interface Appointment {
   __v: number;
 }
 
-export interface User { 
+export interface User {
   _id: string;
   email: string;
   username: string;
   role: string;
   appointment: Appointment[];
   __v: number;
+}
+
+export interface Faq {
+  _id: string;
+  question: string;
+  answer: string;
+  __v: number;
+}
+export interface FaqData {
+  question: string;
+  answer: string;
 }
