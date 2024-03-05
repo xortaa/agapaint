@@ -68,6 +68,7 @@ const onSubmit = (data: Service) => {
                 rows={3}
                 isInvalid={!!error}
                 required
+                maxLength={95}
                 {...register("description", { required: true })}
               />
               <Form.Control.Feedback type="invalid">Please provide a service description</Form.Control.Feedback>

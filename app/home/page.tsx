@@ -27,7 +27,7 @@ function CustHome() {
       <div className={custhomeStyles.home}>
         {/* SQUARES - service, appointment, faq*/}
         <Container>
-          <Row>
+          <Row id="offerSection">
             <Col lg={12} className="text-center align-items-center mb-3">
               <h1 className={custhomeStyles.offer}>WHAT WE OFFER</h1>
               <hr className={custhomeStyles.hrCustom}></hr>
