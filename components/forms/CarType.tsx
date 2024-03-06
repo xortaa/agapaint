@@ -10,12 +10,16 @@ import rbVan from "@/public/assets/img/rbVan.svg";
 import { set } from "mongoose";
 import { AppointmentData } from "@/types";
 
-function CarType({ setAppointmentData }: { setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>> }) {
+function CarType({
+  setAppointmentData,
+}: {
+  setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
+}) {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const selectRadioCard = (cardNumber, carType) => {
     setSelectedCard(cardNumber);
-    setAppointmentData((prev) => ({...prev, carType}));
+    setAppointmentData((prev) => ({ ...prev, carType }));
   };
 
   return (
@@ -25,7 +29,7 @@ function CarType({ setAppointmentData }: { setAppointmentData: React.Dispatch<Re
         className={`radio-card radio-card-1 ${selectedCard === "1" ? "selected" : ""}`}
         onClick={() => {
           selectRadioCard("1", "Compact Car/Hatchback");
-          
+
           // setCarType("Compact Car/Hatchback");
         }}
       >
@@ -36,7 +40,7 @@ function CarType({ setAppointmentData }: { setAppointmentData: React.Dispatch<Re
           <div className="radio-card-icon">
             <Image src={rbHatchback.src} />
           </div>
-          <div className="radio-card-label">Compact Car/Hatchback</div>
+          <div className="radio-card-label">Hatchback</div>
         </div>
       </div>
       {/* Sedan: Radio Card 2 */}

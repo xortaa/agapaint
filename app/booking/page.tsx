@@ -36,7 +36,12 @@ const Step1 = ({
       <CarType setAppointmentData={setAppointmentData} />
     </div>
     <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
-      <Button variant="warning" type="submit" className="ps-4 pe-4 ms-auto fw-medium" onClick={onNext}>
+      <Button
+        variant="warning"
+        type="submit"
+        className="ps-4 pe-4 ms-auto fw-medium me-3 me-lg-0 mt-3"
+        onClick={onNext}
+      >
         Next
       </Button>
     </div>
@@ -54,9 +59,9 @@ const Step2 = ({
   onBack: () => void;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
 }) => (
-  <div>
-    <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
-    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose a desired date and time</p>
+  <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
+    <h2 className="fw-bold">Book an Appointment</h2>
+    <p className="lead">Choose a desired date and time</p>
     {/* Date */}
     <Form.Group className="mb-3" controlId="formBasicEmail">
       <Form.Label>Appointment Date</Form.Label>
@@ -111,7 +116,7 @@ const Step3 = ({
       appointmentData={appointmentData}
     />
     {/* Nav Buttons */}
-    <div className="d-flex justify-content-between">
+    <div className="d-flex justify-content-between ps-4 ps-lg-0 pe-4 pe-lg-0">
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
         Back
       </Button>
@@ -132,9 +137,9 @@ const Step4 = ({
   onBack: () => void;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
 }) => (
-  <div>
-    <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
-    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Please provide your personal information</p>
+  <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
+    <h2 className="fw-bold">Client Information</h2>
+    <p className="lead">Please provide your personal information</p>
     {/* Personal Info */}
     <PersonalInfo setAppointmentData={setAppointmentData} />
     {/* Nav Buttons */}
@@ -142,7 +147,7 @@ const Step4 = ({
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
         Back
       </Button>
-      <Button variant="warning" type="submit" className="ps-4 pe-4">
+      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium" onClick={onNext}>
         Next
       </Button>
     </div>
@@ -163,16 +168,16 @@ const Step5 = ({
   selectedService: ServiceData[];
   bookAppointment: () => void;
 }) => (
-  <div>
-    <h2 className="fw-bold mb-3 ps-4 ps-lg-0 pe-4 pe-lg-0">Confirm Details</h2>
+  <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
+    <h2 className="fw-bold">Confirm Details</h2>
     {/* Confirmation */}
-    <Row className="lh-05 mb-1">
-      <Col>
-        <h5 className="mb-3">Personal Information</h5>
+    <Row className="lh-05 mb-1 small">
+      <Col xs={12} md={6}>
+        <h6 className="mb-3">Client Information</h6>
         <p>
           <span className="fw-semibold">Name:</span> {appointmentData.firstName} {appointmentData.lastName}
         </p>
-        <p>
+        <p className="lh-sm">
           <span className="fw-semibold">Email:</span> {appointmentData.email}
         </p>
         <p>
@@ -180,8 +185,8 @@ const Step5 = ({
         </p>
         <hr />
       </Col>
-      <Col>
-        <h5 className="mb-3">Appointment Details</h5>
+      <Col xs={12} md={6}>
+        <h6 className="mb-3">Appointment Details</h6>
         <p>
           <span className="fw-semibold">Car Type:</span> {appointmentData.carType}
         </p>
@@ -193,7 +198,7 @@ const Step5 = ({
         </p>
         <hr />
       </Col>
-      <h5 className="mb-3">Services Selected</h5>
+      <h6 className="mb-3">Services Selected</h6>
       <p>
         <span className="fw-semibold">Services: </span>
         {selectedService.map((service) => (
@@ -201,7 +206,7 @@ const Step5 = ({
         ))}
       </p>
       <hr />
-      <h5 className="mb-3">Vehicle Information</h5>
+      <h6 className="mb-3">Vehicle Information</h6>
       <p>
         <span className="fw-semibold">Car Manufacturer:</span> {appointmentData.carManufacturer}
       </p>
@@ -209,24 +214,34 @@ const Step5 = ({
         <span className="fw-semibold">Car Model:</span> {appointmentData.carModel}
       </p>
       <p>
+        <span className="fw-semibold">Plate#:</span> {appointmentData.plateNumber}
+      </p>
+      <p>
         <span className="fw-semibold">Comments/ Request:</span> {appointmentData.requests}
+      </p>
+      <hr />
+      <p className="lh-sm small">
+        NOTE: THAT WE ARE NOT RESPONSIBLE FOR ANY ITEMS LEFT ON THE VEHICLE <br />I hereby agree voluntarily to drop the
+        key for my vehicle for servicing and acknowledge that any damage or wrong service given due to false information
+        given above our company will not be responsible. I hereby declare that i have read all the instructions above
+        keenly.
       </p>
     </Row>
     {/* Nav Buttons */}
-    <div className="d-flex justify-content-between mt-4">
-      <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
-        Back
-      </Button>
+    <div className="d-sm-grid">
       <Button
         variant="warning"
         type="submit"
-        className="ps-4 pe-4 fw-bold"
+        className="fw-bold p-2 w-100 mb-2"
         onClick={() => {
           bookAppointment();
           onNext();
         }}
       >
-        Book Appointment
+        Book My Appointment
+      </Button>
+      <Button variant="outline-dark" type="submit" className="ps-4 pe-4 w-100" onClick={onBack}>
+        Back
       </Button>
     </div>
   </div>
@@ -234,17 +249,17 @@ const Step5 = ({
 
 // Thank you Step
 const Step6 = ({ onBack }) => (
-  <div className="d-flex flex-column justify-content-center" style={{ height: "400px" }}>
-    <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Thank you for your booking!</h2>
+  <div className="d-flex flex-column justify-content-center ps-4 ps-lg-0 pe-4 pe-lg-0" style={{ height: "50vh" }}>
+    <h2 className="fw-bold">Thank you for your booking!</h2>
     {/* Thank you */}
-    <p className="lead">
+    <p className="responsive-text">
       An email containing instruction on how to pay your booking appointment will be sent to your provided email. Your
       appointment is put on hold until proof of downpayment has been received.
     </p>
     {/* Nav Buttons */}
     <div className="d-flex justify-content-between">
       <Link href="./customer/appointment">
-        <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium">
+        <Button variant="warning" type="submit" className="ps-4 pe-4 fw-bold">
           Go to My Appointments
         </Button>
       </Link>
@@ -254,8 +269,8 @@ const Step6 = ({ onBack }) => (
 
 function bookAppointment() {
   // Nav Progress
-  const [step, setStep] = useState(1);
-  const navSteps = ["Car Type", "Date & Time", "Services", "Personal Info", "Confirm Details", "Finish"]; // Add or remove steps as needed
+  const [step, setStep] = useState(6);
+  const navSteps = ["Car Type", "Date & Time", "Services", "Client Info", "Confirm Details", "Finish"]; // Add or remove steps as needed
   const handleStepClick = (stepNumber) => {
     setStep(stepNumber);
   };
@@ -310,7 +325,6 @@ function bookAppointment() {
       });
   };
 
-
   const date = appointmentData.date ? new Date(appointmentData.date) : null;
   const formattedDate = date
     ? `${date.toLocaleString("default", { month: "long" })} ${date.getDate()}, ${date.getFullYear()}`
@@ -331,7 +345,10 @@ function bookAppointment() {
                   <Row>
                     {/* Progress Column */}
                     <Col lg={3}>
-                      <Card style={{ height: "100%", borderRadius: "13px", overflow: "hidden" }}>
+                      <Card
+                        className="d-none d-lg-block"
+                        style={{ height: "100%", borderRadius: "13px", overflow: "hidden" }}
+                      >
                         <Card.Img
                           className="d-none d-lg-block"
                           src={bookDesktop.src}
@@ -341,19 +358,14 @@ function bookAppointment() {
                             borderRadius: "13px",
                           }}
                         />
-                        <Card.Img
-                          className="d-sm-block d-lg-none"
-                          src={bookMobile.src}
-                          style={{
-                            height: "100%",
-                            objectFit: "cover",
-                            borderRadius: "13px",
-                          }}
-                        />
                         <Card.ImgOverlay className="text-white">
                           <ul className="vertical-point-progress">
                             {navSteps.map((navstep, index) => (
-                              <li key={index + 1} className={index + 1 === step ? "fw-bold" : ""} onClick={() => handleStepClick(index + 1)}>
+                              <li
+                                key={index + 1}
+                                className={index + 1 === step ? "fw-bold" : ""}
+                                onClick={() => handleStepClick(index + 1)}
+                              >
                                 <span className="ps-3" style={{ fontSize: "14px" }}>
                                   {navstep}
                                 </span>
@@ -366,8 +378,7 @@ function bookAppointment() {
 
                     {/* Form Column */}
 
-                    <Col lg={9} className="p-1 p-lg-5 ps-lg-4 pt-3 pb-3">
-
+                    <Col lg={9} className="p-1 p-lg-5 ps-lg-4 pt-3 pb-3  pt-2  pe-lg-4">
                       <Row>
                         <Form noValidate validated={validated} onSubmit={handleSubmit(onSubmit)}>
                           {step === 1 && <Step1 onNext={nextStep} setAppointmentData={setAppointmentData} />}
