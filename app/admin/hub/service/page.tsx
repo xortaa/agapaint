@@ -11,6 +11,8 @@ import ArchiveServiceModal from "@/components/ArchiveServiceModal";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Service } from "@/types";
+import SuccessAlert from "@/components/alerts/SuccessAlert";
+import ErrorAlert from "@/components/alerts/ErrorAlert";
 
 function AdminManageServicePage() {
   const [services, setServices] = useState<Service[]>([]);
@@ -60,6 +62,12 @@ function AdminManageServicePage() {
               </div>
             </Row>
           </Col>
+        </Row>
+
+        {/* Alerts */}
+        <Row className="ps-2 pe-2">
+          <SuccessAlert title="Service" action="added/updated/deleted" />
+          <ErrorAlert title="Adding/Updating/Deleting Service" />
         </Row>
 
         <Table hover className="align-middle text-left">

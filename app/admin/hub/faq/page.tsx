@@ -9,10 +9,12 @@ import EditQuestionModal from "@/components/EditQuestionModal";
 import ArchiveQuestionModal from "@/components/ArchiveQuestionModal";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {Faq} from "@/types"
+import { Faq } from "@/types";
+import SuccessAlert from "@/components/alerts/SuccessAlert";
+import ErrorAlert from "@/components/alerts/ErrorAlert";
 
 function ManageFAQPage() {
-  const [faqs, setFaqs] = useState<Faq[]>([]); 
+  const [faqs, setFaqs] = useState<Faq[]>([]);
 
   useEffect(() => {
     axios.get("/api/faq").then((res) => {
@@ -52,11 +54,17 @@ function ManageFAQPage() {
                 </Dropdown>
 
                 <div className="ms-auto d-flex gap-2">
-                  <AddQuestionModal setFaqs={setFaqs}/>
+                  <AddQuestionModal setFaqs={setFaqs} />
                 </div>
               </div>
             </Row>
           </Col>
+        </Row>
+
+        {/* Alerts */}
+        <Row className="ps-2 pe-2">
+          <SuccessAlert title="FAQ" action="added/updated/deleted" />
+          <ErrorAlert title="Adding/Updating/Deleting FAQ" />
         </Row>
 
         <Table hover className="align-middle text-left">
@@ -75,8 +83,8 @@ function ManageFAQPage() {
                 <td>{faq.question}</td>
                 <td>{faq.answer}</td>
                 <td>
-                  <EditQuestionModal setFaqs={setFaqs} faqData={faq}/>
-                  <ArchiveQuestionModal setFaqs={setFaqs} faqData={faq}/>
+                  <EditQuestionModal setFaqs={setFaqs} faqData={faq} />
+                  <ArchiveQuestionModal setFaqs={setFaqs} faqData={faq} />
                 </td>
               </tr>
             ))}

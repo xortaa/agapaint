@@ -7,6 +7,8 @@ import { Container, Row, Col, Card, Image, Button, Table } from "react-bootstrap
 //component
 import AdminHeader from "@/components/AdminHeader";
 import ServiceStatus from "@/components/ServiceStatus";
+import SuccessAlert from "@/components/alerts/SuccessAlert";
+import ErrorAlert from "@/components/alerts/ErrorAlert";
 
 //icons
 import { FaRegCalendarDays } from "react-icons/fa6";
@@ -229,6 +231,12 @@ function AdminSales() {
               <MdFileDownload /> Download Report
             </Button>
           </Col>
+        </Row>
+
+        {/* Alerts */}
+        <Row className="ps-2 pe-2 mt-3">
+          <SuccessAlert title="Service Revenue File" action="downloading" />
+          <ErrorAlert title="Downloading Service Revenue File" />
         </Row>
 
         {/* Table  */}

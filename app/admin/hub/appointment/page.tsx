@@ -26,7 +26,8 @@ import PaymentStatus from "@/components/PaymentStatus";
 import AdminHeader from "@/components/AdminHeader";
 import AptDetails from "@/components/AptDetails";
 import AptMaterial from "@/components/AptMaterial";
-import { Metadata } from 'next'
+import SuccessAlert from "@/components/alerts/SuccessAlert";
+import ErrorAlert from "@/components/alerts/ErrorAlert";
  
 function manageAppointment() {
   // Show Appointment Detail
@@ -101,19 +102,10 @@ function manageAppointment() {
                 </Col>
               </Row>
 
-              {/* Conditional Render: Alerts */}
-              <Row className="ps-2 pe-2" hidden>
-                <Alert variant="success">
-                  <p className="mb-0">
-                    Hooray! <strong>Material Used for APT#1</strong> is added successfully!
-                  </p>
-                </Alert>
-
-                <Alert variant="danger" hidden>
-                  <p className="mb-0">
-                    Oops! <strong>Material Used for APT#1</strong> is not added, Please try again!
-                  </p>
-                </Alert>
+              {/* Alerts */}
+              <Row className="ps-2 pe-2" >
+                <SuccessAlert title="Material Used for APT#1" action="added/updated/deleted"/>
+                <ErrorAlert title="Adding/Updating/Deleting Material Used for APT#1"/>
               </Row>
 
               {/* Confirmed Appointments */}

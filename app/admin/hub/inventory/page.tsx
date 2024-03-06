@@ -11,6 +11,8 @@ import InvUpdateMaterialModal from "@/components/InvUpdateMaterialModal";
 import InvArchiveMaterialModal from "@/components/InvArchiveMaterialModal";
 import InvUpdateLogModal from "@/components/InvUpdateLogModal";
 import InvArchiveLogModal from "@/components/InvArchiveLogModal";
+import SuccessAlert from "@/components/alerts/SuccessAlert";
+import ErrorAlert from "@/components/alerts/ErrorAlert";
 
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
 import { useState } from "react";
@@ -59,6 +61,12 @@ function manageInventory() {
               </div>
             </Row>
           </Col>
+        </Row>
+
+        {/* Alerts */}
+        <Row className="ps-2 pe-2">
+          <SuccessAlert title="Category/Material/Log" action="added/updated/deleted" />
+          <ErrorAlert title="Adding/Updating/Deleting Category/Material/Log" />
         </Row>
 
         {/* Categories Table */}
