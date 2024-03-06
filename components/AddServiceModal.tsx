@@ -10,7 +10,7 @@ import UploadButton from "./UploadButton";
 import ImageUploadPreview from "./ImageUploadPreview";
 import { Service } from "@/types";
 
-function AddServiceModal({setServices}: {setServices: React.Dispatch<React.SetStateAction<Service[]>>}) {
+function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.SetStateAction<Service[]>> }) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
   const [imageUrl, setImageUrl] = useState<string | undefined>(null);
@@ -32,16 +32,17 @@ function AddServiceModal({setServices}: {setServices: React.Dispatch<React.SetSt
     setImageUrl(result.info.secure_url);
   }
 
-const onSubmit = (data: Service) => {
-  const newData = { ...data, image: imageUrl };
-  axios.post("/api/service", newData).then((res) => {
-    console.log(res);
-    // Use the service document from the server response
-    const newService = res.data;
-    setServices((prev) => [...prev, newService]);
-    handleClose();
-  });
-};
+  const onSubmit = (data: Service) => {
+    const newData = { ...data, image: imageUrl };
+    axios.post("/api/service", newData).then((res) => {
+      console.log(res);
+      // Use the service document from the server response
+      const newService = res.data;
+      setServices((prev) => [...prev, newService]);
+      handleClose();
+    });
+  };
+
 
   return (
     <>
@@ -96,8 +97,14 @@ const onSubmit = (data: Service) => {
 
             <Form.Group className="mb-3">
               <Form.Label>Car Type</Form.Label>
-              <Form.Control type="text" isInvalid={!!error} required {...register("carType")} />
-              <Form.Control.Feedback type="invalid">Please provide a car type</Form.Control.Feedback>
+              <div className="d-flex">
+                {["Hatchback", "Sedan", "SUV/AUv", "Van"].map((carType) => (
+                  <div key={`inline-checkbox`} className="mb-3">
+                    <Form.Check inline label={carType} name={carType} type="checkbox" id={carType} />
+                  </div>
+                ))}
+              </div>
+              <Form.Control.Feedback type="invalid">Please choose a car type</Form.Control.Feedback>
             </Form.Group>
 
             {imageUrl && (
