@@ -122,7 +122,14 @@ function UpdateServiceModal({
 
             <Form.Group className="mb-3">
               <Form.Label>Car Type</Form.Label>
-              <Form.Control type="text" isInvalid={!!error} required {...register("carType")} />
+              <div className="d-flex">
+                {["Hatchback", "Sedan", "SUV/AUv", "Van"].map((carType) => (
+                  <div key={`inline-checkbox`} className="mb-3">
+                    <Form.Check inline label={carType} name={carType} type="checkbox" id={carType} />
+                  </div>
+                ))}
+              </div>
+              {/* <Form.Control type="text" isInvalid={!!error} required {...register("carType")} /> */}
               <Form.Control.Feedback type="invalid">Please provide a car type</Form.Control.Feedback>
             </Form.Group>
 
