@@ -41,93 +41,66 @@ function custServices() {
           </Row>
 
           {/* list of services */}
-          <Row style={{ paddingTop: "20px" }}>
+          <Row style={{ paddingTop: "20px" }} className="justify-content-center">
             <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
               <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
                 <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
                   <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
                   <Card.Text className={serviceStyles.cardDescription1}>This is a short description</Card.Text>
                 </Card.ImgOverlay>
               </Card>
             </Col>
 
-            <Col lg={4} md={6} sm={12} xs={12}  style={{ paddingTop: "20px" }}>
-              <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
-                <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
-                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
-                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description so ayon kita sa right side gang 3 lines lang keri</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-            </Col>
-
             <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
               <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
                 <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
-                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
-                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description pag mahaba nilagay mo edi gg ka bat kase mahaba di dapat mahaba short description nga</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-            </Col>
-
-            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
-              <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
-                <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
-                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
-                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description pag mahaba nilagay mo edi gg ka bat kase mahaba di dapat mahaba short description nga</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-            </Col>
-
-            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
-              <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
-                <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
-                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
-                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description pag mahaba nilagay mo edi gg ka bat kase mahaba di dapat mahaba short description nga</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-            </Col>
-
-            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
-              <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
-                <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
                   <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
                   <Card.Text className={serviceStyles.cardDescription1}>This is a short description</Card.Text>
+                </Card.ImgOverlay>
+              </Card>
+            </Col>
+
+            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
+              <Card className={serviceStyles.card}>
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
+                <Card.ImgOverlay>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
+                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
+                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description</Card.Text>
+                </Card.ImgOverlay>
+              </Card>
+            </Col>
+
+            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
+              <Card className={serviceStyles.card}>
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
+                <Card.ImgOverlay>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
+                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
+                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description</Card.Text>
+                </Card.ImgOverlay>
+              </Card>
+            </Col>
+
+            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
+              <Card className={serviceStyles.card}>
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
+                <Card.ImgOverlay>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
+                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
+                  <Card.Text className={serviceStyles.cardDescription1}>
+                    This is a short description na aabot hanggang 90 characters ata patingin nga wow abot hanggang 3rd
+                    row aju nice nice
+                  </Card.Text>
                 </Card.ImgOverlay>
               </Card>
             </Col>
@@ -143,93 +116,66 @@ function custServices() {
           </Row>
 
           {/* list of services */}
-          <Row style={{ paddingTop: "20px" }}>
+          <Row style={{ paddingTop: "20px" }} className="justify-content-center">
             <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
               <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
                 <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
                   <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
                   <Card.Text className={serviceStyles.cardDescription1}>This is a short description</Card.Text>
                 </Card.ImgOverlay>
               </Card>
             </Col>
 
-            <Col lg={4} md={6} sm={12} xs={12}  style={{ paddingTop: "20px" }}>
-              <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
-                <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
-                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
-                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description so ayon kita sa right side gang 3 lines lang keri</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-            </Col>
-
             <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
               <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
                 <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
-                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
-                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description pag mahaba nilagay mo edi gg ka bat kase mahaba di dapat mahaba short description nga</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-            </Col>
-
-            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
-              <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
-                <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
-                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
-                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description pag mahaba nilagay mo edi gg ka bat kase mahaba di dapat mahaba short description nga</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-            </Col>
-
-            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
-              <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
-                <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
-                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
-                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description pag mahaba nilagay mo edi gg ka bat kase mahaba di dapat mahaba short description nga</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-            </Col>
-
-            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
-              <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
-                <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
                   <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
                   <Card.Text className={serviceStyles.cardDescription1}>This is a short description</Card.Text>
+                </Card.ImgOverlay>
+              </Card>
+            </Col>
+
+            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
+              <Card className={serviceStyles.card}>
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
+                <Card.ImgOverlay>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
+                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
+                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description</Card.Text>
+                </Card.ImgOverlay>
+              </Card>
+            </Col>
+
+            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
+              <Card className={serviceStyles.card}>
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
+                <Card.ImgOverlay>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
+                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
+                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description</Card.Text>
+                </Card.ImgOverlay>
+              </Card>
+            </Col>
+
+            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
+              <Card className={serviceStyles.card}>
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
+                <Card.ImgOverlay>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
+                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
+                  <Card.Text className={serviceStyles.cardDescription1}>
+                    This is a short description na aabot hanggang 90 characters ata patingin nga wow abot hanggang 3rd
+                    row aju nice nice
+                  </Card.Text>
                 </Card.ImgOverlay>
               </Card>
             </Col>
@@ -243,100 +189,72 @@ function custServices() {
               <h1 className={serviceStyles.serviceTitle2}>Detailing Services</h1>
             </Col>
           </Row>
-          
+
           {/* list of services */}
-          <Row style={{ paddingTop: "20px" }}>
+          <Row style={{ paddingTop: "20px" }} className="justify-content-center">
             <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
               <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
                 <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
                   <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
                   <Card.Text className={serviceStyles.cardDescription1}>This is a short description</Card.Text>
                 </Card.ImgOverlay>
               </Card>
             </Col>
 
-            <Col lg={4} md={6} sm={12} xs={12}  style={{ paddingTop: "20px" }}>
-              <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
-                <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
-                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
-                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description so ayon kita sa right side gang 3 lines lang keri</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-            </Col>
-
             <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
               <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
                 <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
-                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
-                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description pag mahaba nilagay mo edi gg ka bat kase mahaba di dapat mahaba short description nga</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-            </Col>
-
-            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
-              <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
-                <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
-                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
-                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description pag mahaba nilagay mo edi gg ka bat kase mahaba di dapat mahaba short description nga</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-            </Col>
-
-            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
-              <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
-                <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
-                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
-                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description pag mahaba nilagay mo edi gg ka bat kase mahaba di dapat mahaba short description nga</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-            </Col>
-
-            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
-              <Card className={serviceStyles.card}>
-                <Card.Img
-                  src="/assets/img/custServiceBG.jpg"
-                  alt="Card image"
-                  className={serviceStyles.cardImg1}
-                />
-                <Card.ImgOverlay>
-                <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
                   <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
                   <Card.Text className={serviceStyles.cardDescription1}>This is a short description</Card.Text>
+                </Card.ImgOverlay>
+              </Card>
+            </Col>
+
+            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
+              <Card className={serviceStyles.card}>
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
+                <Card.ImgOverlay>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
+                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
+                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description</Card.Text>
+                </Card.ImgOverlay>
+              </Card>
+            </Col>
+
+            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
+              <Card className={serviceStyles.card}>
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
+                <Card.ImgOverlay>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
+                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
+                  <Card.Text className={serviceStyles.cardDescription1}>This is a short description</Card.Text>
+                </Card.ImgOverlay>
+              </Card>
+            </Col>
+
+            <Col lg={4} md={6} sm={12} xs={12} style={{ paddingTop: "20px" }}>
+              <Card className={serviceStyles.card}>
+                <Card.Img src="/assets/img/custServiceBG.jpg" alt="Card image" className={serviceStyles.cardImg1} />
+                <Card.ImgOverlay>
+                  <Card.Title className={serviceStyles.cardTitle1}>Service title</Card.Title>
+                  <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
+                  <Card.Text className={serviceStyles.cardPrice1}>Php 10,000.00</Card.Text>
+                  <Card.Text className={serviceStyles.cardDescription1}>
+                    This is a short description na aabot hanggang 90 characters ata patingin nga wow abot hanggang 3rd
+                    row aju nice nice
+                  </Card.Text>
                 </Card.ImgOverlay>
               </Card>
             </Col>
           </Row>
-          
 
           {/* note */}
           <Row>
