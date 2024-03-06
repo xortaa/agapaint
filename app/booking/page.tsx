@@ -9,7 +9,7 @@ import logoSecondary from "@/public/assets/logo/logoSecondaryBlack.png";
 // SCSS
 import styles from "@/styles/booking.module.scss";
 // Icons
-import { FaCar, FaTruck, FaBus } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 // Components
 import CarType from "@/components/forms/CarType";
 import PersonalInfo from "@/components/forms/PersonalInfo";
@@ -269,7 +269,7 @@ const Step6 = ({ onBack }) => (
 
 function bookAppointment() {
   // Nav Progress
-  const [step, setStep] = useState(6);
+  const [step, setStep] = useState(1);
   const navSteps = ["Car Type", "Date & Time", "Services", "Client Info", "Confirm Details", "Finish"]; // Add or remove steps as needed
   const handleStepClick = (stepNumber) => {
     setStep(stepNumber);
@@ -334,9 +334,17 @@ function bookAppointment() {
     <main>
       <Container fluid className="agapaint-bg min-vh-100">
         <Row className="justify-content-center">
-          <Row className="align-items-center justify-content-center">
-            <img src={logoSecondary.src} style={{ width: "20rem" }} />
-          </Row>
+        <Row className="justify-content-center">
+          <Col>
+            <Link href="/" className="align-items-center justify-content-center text-decoration-none d-flex">
+              <FaArrowLeft className="text-dark ms-3 d-none d-md-inline" size={25} />
+              <FaArrowLeft className="text-dark ms-3 d-md-none" size={15} />
+              <img src={logoSecondary.src} style={{ width: "20rem", margin: "auto" }} className="d-none d-md-inline" />
+              <img src={logoSecondary.src} style={{ width: "15rem", margin: "auto" }} className="d-md-none" />
+            </Link>
+          </Col>
+        </Row>
+
           <Row className="pt-0 p-3 p-lg-5 pt-lg-0 justify-content-center gap-4 gap-lg-0">
             {/* Main Content */}
             <Col lg={9}>
@@ -366,7 +374,7 @@ function bookAppointment() {
                                 className={index + 1 === step ? "fw-bold" : ""}
                                 onClick={() => handleStepClick(index + 1)}
                               >
-                                <span className="ps-3" style={{ fontSize: "14px" }}>
+                                <span className="ps-3 progress-text">
                                   {navstep}
                                 </span>
                               </li>

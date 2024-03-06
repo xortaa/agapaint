@@ -158,7 +158,7 @@ a {
   li {
     padding: 10px;
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 
     @media (max-width: 768px) {
       margin-bottom: 0;
@@ -193,17 +193,10 @@ a {
       content: "";
       position: absolute;
       left: -6px;
-      top: 100%;
+      top: 80%;
       width: 2px;
-      height: 20px;
+      height: 50px;
       background: gray;
-
-      @media (max-width: 768px) {
-        top: 10px;
-        left: 100%;
-        width: 30px;
-        height: 2px;
-      }
     }
 
     &.fw-bold {
@@ -230,5 +223,25 @@ a {
 @media (min-width: 992px) {
   .responsive-text {
     font-size: 1.25rem; /* same as .lead */
+  }
+}
+
+@media (min-width: 990px) and (max-width: 1400px) {
+  .progress-text {
+    padding-left: 0;
+    font-size: 8px;
+    line-height: 0.5em;
+  }
+}
+
+@media (min-width: 998px) and (max-width: 1400px) {
+  .progress-text {
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 1401px) {
+  .progress-text {
+    font-size: 14px;
   }
 }
