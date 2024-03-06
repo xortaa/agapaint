@@ -38,6 +38,15 @@ function AptCard({
             </Col>
           </Row>
 
+          <Row className="justify-content-between">
+            <Col>
+              <p>Services</p>
+            </Col>
+            <Col className="text-end">
+              <p className="fw-bold">Services Placeholder</p>
+            </Col>
+          </Row>
+
           <hr />
 
           <Row className="justify-content-between">
