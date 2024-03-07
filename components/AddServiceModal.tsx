@@ -100,7 +100,7 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
             <Form.Group className="mb-3">
               <Form.Label>Car Type</Form.Label>
               <div className="d-flex">
-                {["Hatchback", "Sedan", "SUV/AUv", "Van"].map((carType) => (
+                {["Hatchback", "Sedan", "SUV/AUV", "Van"].map((carType) => (
                   <div key={`inline-checkbox`} className="mb-3">
                     <Form.Check inline label={carType} name={carType} type="checkbox" id={carType} {...register(carType as keyof Service)}/>
                   </div>
