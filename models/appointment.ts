@@ -55,8 +55,12 @@ const AppointmentSchema = new Schema({
   },
   status: {
     type: String,
-    default: "Pending"
-  }
+    default: "Pending",
+  },
+  paymentTerm: {
+    type: String,
+    enum: ["Full", "Partial"],
+  },
 });
 
 const Appointment = models.Appointment || model("Appointment", AppointmentSchema);
