@@ -9,7 +9,7 @@ import myAppointmentBg from "@/public/assets/img/myAppointmentBg.png";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { User } from "@/types";
+import { Appointment, User } from "@/types";
 
 function custAppointment() {
   const router = useRouter();
@@ -73,23 +73,12 @@ function custAppointment() {
           {!user ? (
             <p>Loading...</p>
           ) : (
-            user.appointment.map((apt) => {
-              const date = new Date(apt.date);
-              const formattedDate = `${date.toLocaleString("default", {
-                month: "long",
-              })} ${date.getDate()}, ${date.getFullYear()}`;
+            user.appointment.map((apt: Appointment) => {
               return (
                 <AptCard
                   key={apt._id}
+                  appointment={apt}
                   onClick={handleRowClick}
-                  aptId={apt._id}
-                  aptDate={formattedDate}
-                  aptTime={apt.time}
-                  carInfo={`${apt.carManufacturer} ${apt.carModel}`}
-                  plateNo={apt.plateNumber}
-                  paymentTerm={apt.paymentTerm}
-                  totalServiceAmount={apt.servicesId.reduce((acc, service) => acc + service.price, 0)}
-                  serviceStatus={apt.status}
                 />
               );
             })
