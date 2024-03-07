@@ -8,12 +8,18 @@ function PersonalInfo({
 }: {
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
 }) {
+  const optionToPaymentTerm = {
+    option1: "Full",
+    option2: "Partial",
+  };
 
   //  Payment Term
   const [selectedOption, setSelectedOption] = useState("option1");
 
   const handleOptionChange = (optionId) => {
     setSelectedOption(optionId);
+    const paymentTerm = optionToPaymentTerm[optionId];
+    setAppointmentData((prev) => ({ ...prev, paymentTerm }));
   };
 
   return (

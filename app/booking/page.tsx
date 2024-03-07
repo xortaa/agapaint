@@ -295,6 +295,7 @@ function bookAppointment() {
     time: "",
     carType: "",
     servicesId: [],
+    paymentTerm: "Full",
   });
   const [selectedService, setSelectedService] = useState<ServiceData[]>([]);
   const totalPrice = selectedService.reduce((total, service) => total + service.price, 0);
@@ -334,16 +335,20 @@ function bookAppointment() {
     <main>
       <Container fluid className="agapaint-bg min-vh-100">
         <Row className="justify-content-center">
-        <Row className="justify-content-center">
-          <Col>
-            <Link href="/" className="align-items-center justify-content-center text-decoration-none d-flex">
-              <FaArrowLeft className="text-dark ms-3 d-none d-md-inline" size={25} />
-              <FaArrowLeft className="text-dark ms-3 d-md-none" size={15} />
-              <img src={logoSecondary.src} style={{ width: "20rem", margin: "auto" }} className="d-none d-md-inline" />
-              <img src={logoSecondary.src} style={{ width: "15rem", margin: "auto" }} className="d-md-none" />
-            </Link>
-          </Col>
-        </Row>
+          <Row className="justify-content-center">
+            <Col>
+              <Link href="/" className="align-items-center justify-content-center text-decoration-none d-flex">
+                <FaArrowLeft className="text-dark ms-3 d-none d-md-inline" size={25} />
+                <FaArrowLeft className="text-dark ms-3 d-md-none" size={15} />
+                <img
+                  src={logoSecondary.src}
+                  style={{ width: "20rem", margin: "auto" }}
+                  className="d-none d-md-inline"
+                />
+                <img src={logoSecondary.src} style={{ width: "15rem", margin: "auto" }} className="d-md-none" />
+              </Link>
+            </Col>
+          </Row>
 
           <Row className="pt-0 p-3 p-lg-5 pt-lg-0 justify-content-center gap-4 gap-lg-0">
             {/* Main Content */}
@@ -374,9 +379,7 @@ function bookAppointment() {
                                 className={index + 1 === step ? "fw-bold" : ""}
                                 onClick={() => handleStepClick(index + 1)}
                               >
-                                <span className="ps-3 progress-text">
-                                  {navstep}
-                                </span>
+                                <span className="ps-3 progress-text">{navstep}</span>
                               </li>
                             ))}
                           </ul>
