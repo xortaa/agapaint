@@ -25,6 +25,7 @@ export interface AppointmentData {
   time: string;
   carManufacturer: string;
   carType: string;
+  paymentTerm: "Full" | "Partial";
 }
 
 export interface Service {
@@ -53,6 +54,7 @@ export interface Appointment {
   date: string;
   time: string;
   status: string;
+  paymentTerm: "Full" | "Partial";
   __v: number;
 }
 
