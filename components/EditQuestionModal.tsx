@@ -12,7 +12,13 @@ import { MdEdit } from "react-icons/md";
 import axios from "axios";
 import { Faq, FaqData } from "@/types";
 
-function EditQuestionModal({ faqData, setFaqs }: { faqData: Faq; setFaqs: React.Dispatch<React.SetStateAction<Faq[]>> }) {
+function EditQuestionModal({
+  faqData,
+  setFaqs,
+}: {
+  faqData: Faq;
+  setFaqs: React.Dispatch<React.SetStateAction<Faq[]>>;
+}) {
   const [faq, setFaq] = useState<Faq>();
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
@@ -37,12 +43,12 @@ function EditQuestionModal({ faqData, setFaqs }: { faqData: Faq; setFaqs: React.
     setError("");
   };
 
-const onSubmit = (data: FaqData) => {
-  axios.patch(`/api/faq/${faqData._id}`, data).then((res) => {
-    setFaqs((prev) => prev.map((faq) => (faq._id === faqData._id ? res.data : faq)));
-    handleClose();
-  });
-};
+  const onSubmit = (data: FaqData) => {
+    axios.patch(`/api/faq/${faqData._id}`, data).then((res) => {
+      setFaqs((prev) => prev.map((faq) => (faq._id === faqData._id ? res.data : faq)));
+      handleClose();
+    });
+  };
 
   const handleShow = () => setShow(true);
   return (

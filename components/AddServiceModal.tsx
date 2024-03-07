@@ -33,7 +33,9 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
   }
 
   const onSubmit = (data: Service) => {
-    const newData = { ...data, image: imageUrl };
+    const selectedCarTypes = ["Hatchback", "Sedan", "SUV/AUv", "Van"].filter((carType) => data[carType]);
+    const carTypeString = selectedCarTypes.join(", ");
+    const newData = { ...data, image: imageUrl, carType: carTypeString };
     axios.post("/api/service", newData).then((res) => {
       console.log(res);
       // Use the service document from the server response
@@ -100,7 +102,7 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
               <div className="d-flex">
                 {["Hatchback", "Sedan", "SUV/AUv", "Van"].map((carType) => (
                   <div key={`inline-checkbox`} className="mb-3">
-                    <Form.Check inline label={carType} name={carType} type="checkbox" id={carType} />
+                    <Form.Check inline label={carType} name={carType} type="checkbox" id={carType} {...register(carType as keyof Service)}/>
                   </div>
                 ))}
               </div>
