@@ -87,7 +87,7 @@ function custAppointment() {
                   aptTime={apt.time}
                   carInfo={`${apt.carManufacturer} ${apt.carModel}`}
                   plateNo={apt.plateNumber}
-                  paymentTerm={apt.status}
+                  paymentTerm={apt.paymentTerm}
                   totalServiceAmount={apt.servicesId.reduce((acc, service) => acc + service.price, 0)}
                   serviceStatus={apt.status}
                 />
