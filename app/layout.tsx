@@ -13,6 +13,8 @@ const poppins = Poppins({
    variable: '--font-poppins',
    weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
  });
+//  Toast CSS
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
   title: "AGAPAINT",

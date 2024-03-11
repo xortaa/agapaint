@@ -11,10 +11,40 @@ import ArchiveServiceModal from "@/components/ArchiveServiceModal";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Service } from "@/types";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import Zoom from "next-auth/providers/zoom";
 
 function AdminManageServicePage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // const notify = () => {
+  //   toast.success("🦄 Wow so easy!", {
+  //     position: "bottom-right",
+  //     autoClose: 5000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //     theme: "light",
+  //     transition: Bounce,
+  //   });
+  // };
+
+  // const resolveAfter3Sec = new Promise((resolve) => setTimeout(resolve, 2000));
+  // toast.promise(resolveAfter3Sec, {
+  //   pending: "Promise is pending",
+  //   success: "Promise resolved 👌",
+  //   error: "Promise rejected 🤯",
+  // });
+
+  const toastPromise = () => new Promise((resolve) => setTimeout(resolve, 3000));
+  toast.promise(toastPromise, {
+    pending: "Promise is pending",
+    success: "Promise resolved 👌",
+    error: "Promise rejected 🤯",
+  });
 
   useEffect(() => {
     axios.get("/api/service").then((res) => {
@@ -27,7 +57,22 @@ function AdminManageServicePage() {
     <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
         <Row>
-          {/* Side Bar Nav */}
+          {/* Toast */}
+          <button onClick={toastPromise}>Notify !</button>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            limit={5}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Bounce}
+          />
 
           {/* Header Row */}
           <AdminHeader title="Manage Services" subtitle="View all your services offered" />
