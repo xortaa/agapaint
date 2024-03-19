@@ -11,6 +11,7 @@ import { Pencil } from "react-bootstrap-icons";
 import { MdEdit } from "react-icons/md";
 import axios from "axios";
 import { Faq, FaqData } from "@/types";
+import { toast } from "react-toastify";
 
 function EditQuestionModal({
   faqData,
@@ -44,9 +45,28 @@ function EditQuestionModal({
   };
 
   const onSubmit = (data: FaqData) => {
-    axios.patch(`/api/faq/${faqData._id}`, data).then((res) => {
-      setFaqs((prev) => prev.map((faq) => (faq._id === faqData._id ? res.data : faq)));
-      handleClose();
+    const UpdateFaq = new Promise((resolve, reject) => {
+      axios
+        .patch(`/api/faq/${faqData._id}`, data)
+        .then((res) => {
+          handleClose();
+
+          // Resolve the promise after 2 seconds
+          setTimeout(() => {
+            setFaqs((prev) => prev.map((faq) => (faq._id === faqData._id ? res.data : faq)));
+            resolve("Success");
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("Failed to update FAQ: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(UpdateFaq, {
+      pending: "Updating FAQ...",
+      success: "FAQ updated!",
+      error: "Failed to update FAQ, Please try again.",
     });
   };
 

@@ -1,18 +1,22 @@
 "use client";
 
 import React from "react";
+// Styles
 import { Container, Row, Col, Table, Button, Modal, Form, InputGroup, Dropdown, FormControl } from "react-bootstrap";
-import AdminHeader from "@/components/AdminHeader";
 import { Funnel, Search } from "react-bootstrap-icons";
+// Components
+import AdminHeader from "@/components/AdminHeader";
 import AddQuestionModal from "@/components/AddQuestionModal";
 import EditQuestionModal from "@/components/EditQuestionModal";
 import ArchiveQuestionModal from "@/components/ArchiveQuestionModal";
+import ToastPromise from "@/components/ToastPromise";
+// Utilities
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {Faq} from "@/types"
+import { Faq } from "@/types";
 
 function ManageFAQPage() {
-  const [faqs, setFaqs] = useState<Faq[]>([]); 
+  const [faqs, setFaqs] = useState<Faq[]>([]);
 
   useEffect(() => {
     axios.get("/api/faq").then((res) => {
@@ -24,7 +28,8 @@ function ManageFAQPage() {
     <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
         <Row>
-          {/* Side Bar Nav */}
+          {/* Toast Component */}
+          <ToastPromise />
 
           {/* Header Row */}
           <AdminHeader title="Manage FAQs" subtitle="View all your frequently asnwered questions" />
@@ -52,7 +57,7 @@ function ManageFAQPage() {
                 </Dropdown>
 
                 <div className="ms-auto d-flex gap-2">
-                  <AddQuestionModal setFaqs={setFaqs}/>
+                  <AddQuestionModal setFaqs={setFaqs} />
                 </div>
               </div>
             </Row>
@@ -64,7 +69,7 @@ function ManageFAQPage() {
             <tr>
               <th>ID</th>
               <th>Question</th>
-              <th>Description</th>
+              <th>Answer</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -75,8 +80,8 @@ function ManageFAQPage() {
                 <td>{faq.question}</td>
                 <td>{faq.answer}</td>
                 <td>
-                  <EditQuestionModal setFaqs={setFaqs} faqData={faq}/>
-                  <ArchiveQuestionModal setFaqs={setFaqs} faqData={faq}/>
+                  <EditQuestionModal setFaqs={setFaqs} faqData={faq} />
+                  <ArchiveQuestionModal setFaqs={setFaqs} faqData={faq} />
                 </td>
               </tr>
             ))}

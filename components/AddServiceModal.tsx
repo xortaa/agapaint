@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import UploadButton from "./UploadButton";
 import ImageUploadPreview from "./ImageUploadPreview";
-import { Bounce, ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Service } from "@/types";
 
 function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.SetStateAction<Service[]>> }) {

@@ -10,6 +10,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import UploadButton from "./UploadButton";
 import ImageUploadPreview from "./ImageUploadPreview";
+import { toast } from "react-toastify";
 
 function UpdateServiceModal({
   setServices,
@@ -56,9 +57,28 @@ function UpdateServiceModal({
     if (imageUrl) {
       newData.image = imageUrl;
     }
-    axios.patch(`/api/service/${serviceData._id}`, newData).then((res) => {
-      setServices((prev) => prev.map((service) => (service._id === serviceData._id ? newData : service)));
-      handleClose();
+    const UpdateService = new Promise((resolve, reject) => {
+      axios
+        .patch(`/api/service/${serviceData._id}`, newData)
+        .then((res) => {
+          handleClose();
+
+          // Resolve the promise after 1 seconds
+          setTimeout(() => {
+            setServices((prev) => prev.map((service) => (service._id === serviceData._id ? newData : service)));
+            resolve("Success");
+          }, 1000);
+        })
+        .catch((error) => {
+          console.error("Failed to update service: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(UpdateService, {
+      pending: "Updating service...",
+      success: "Service updated!",
+      error: "Failed to update service, Please try again.",
     });
   };
 

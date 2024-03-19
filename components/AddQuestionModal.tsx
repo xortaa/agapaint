@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import AdminFAQStyles from "@/styles/AdminFAQ.module.scss";
 import { Faq, FaqData } from "@/types";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function AddQuestionModal({ setFaqs }: { setFaqs: React.Dispatch<React.SetStateAction<Faq[]>> }) {
   const [show, setShow] = useState(false);
@@ -25,8 +26,28 @@ function AddQuestionModal({ setFaqs }: { setFaqs: React.Dispatch<React.SetStateA
   };
 
   const onSubmit = (data: FaqData) => {
-    axios.post("/api/faq", data).then((res) => {
-      setFaqs((prev) => [...prev, res.data]);
+    const AddFaq = new Promise((resolve, reject) => {
+      axios
+        .post("/api/faq", data)
+        .then((res) => {
+          handleClose();
+
+          // Resolve the promise after 2 seconds
+          setTimeout(() => {
+            setFaqs((prev) => [...prev, res.data]);
+            resolve("Success");
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("Failed to add question: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(AddFaq, {
+      pending: "Adding FAQ...",
+      success: "New FAQ added!",
+      error: "Failed to add FAQ, Please try again.",
     });
   };
 
