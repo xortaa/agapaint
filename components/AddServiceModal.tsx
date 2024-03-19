@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import UploadButton from "./UploadButton";
 import ImageUploadPreview from "./ImageUploadPreview";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import { Service } from "@/types";
 
 function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.SetStateAction<Service[]>> }) {
@@ -36,15 +37,32 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
     const selectedCarTypes = ["Hatchback", "Sedan", "SUV/AUv", "Van"].filter((carType) => data[carType]);
     const carTypeString = selectedCarTypes.join(", ");
     const newData = { ...data, image: imageUrl, carType: carTypeString };
-    axios.post("/api/service", newData).then((res) => {
-      console.log(res);
-      // Use the service document from the server response
-      const newService = res.data;
-      setServices((prev) => [...prev, newService]);
-      handleClose();
-    });
-  };
 
+    const AddService = new Promise((resolve, reject) => {
+      axios.post("/api/service", newData)
+        .then((res) => {
+          // Use the service document from the server response
+          const newService = res.data;
+          handleClose();
+  
+          // Resolve the promise after 2 seconds
+          setTimeout(() => {
+            setServices((prev) => [...prev, newService]);
+            resolve('Success');
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("Failed to add new service: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(AddService, {
+      pending: "Adding service...",
+      success: "New service added!",
+      error: "Failed to add service, Please try again.",
+    }); 
+  };
 
   return (
     <>

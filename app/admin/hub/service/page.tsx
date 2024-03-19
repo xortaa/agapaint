@@ -18,34 +18,6 @@ function AdminManageServicePage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // const notify = () => {
-  //   toast.success("🦄 Wow so easy!", {
-  //     position: "bottom-right",
-  //     autoClose: 5000,
-  //     hideProgressBar: false,
-  //     closeOnClick: true,
-  //     pauseOnHover: true,
-  //     draggable: true,
-  //     progress: undefined,
-  //     theme: "light",
-  //     transition: Bounce,
-  //   });
-  // };
-
-  // const resolveAfter3Sec = new Promise((resolve) => setTimeout(resolve, 2000));
-  // toast.promise(resolveAfter3Sec, {
-  //   pending: "Promise is pending",
-  //   success: "Promise resolved 👌",
-  //   error: "Promise rejected 🤯",
-  // });
-
-  const toastPromise = () => new Promise((resolve) => setTimeout(resolve, 3000));
-  toast.promise(toastPromise, {
-    pending: "Promise is pending",
-    success: "Promise resolved 👌",
-    error: "Promise rejected 🤯",
-  });
-
   useEffect(() => {
     axios.get("/api/service").then((res) => {
       setServices(res.data);
@@ -57,8 +29,7 @@ function AdminManageServicePage() {
     <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
         <Row>
-          {/* Toast */}
-          <button onClick={toastPromise}>Notify !</button>
+          {/* Toast Container */}
           <ToastContainer
             position="bottom-right"
             autoClose={5000}
@@ -72,6 +43,7 @@ function AdminManageServicePage() {
             pauseOnHover
             theme="light"
             transition={Bounce}
+            stacked
           />
 
           {/* Header Row */}
