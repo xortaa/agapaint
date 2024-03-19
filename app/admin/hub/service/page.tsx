@@ -2,7 +2,19 @@
 
 import React from "react";
 import AdminServiceStyles from "@/styles/AdminService.module.scss";
-import { Container, Row, Col, Table, Button, Modal, Form, InputGroup, Dropdown, FormControl } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Table,
+  Button,
+  Modal,
+  Form,
+  InputGroup,
+  Dropdown,
+  FormControl,
+  Placeholder,
+} from "react-bootstrap";
 import AdminHeader from "@/components/AdminHeader";
 import { Funnel, Search } from "react-bootstrap-icons";
 import AddService from "@/components/AddServiceModal";
@@ -11,6 +23,7 @@ import ArchiveServiceModal from "@/components/ArchiveServiceModal";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Service } from "@/types";
+import PlaceholderRow from "@/components/PlaceholderRow";
 
 function AdminManageServicePage() {
   const [services, setServices] = useState<Service[]>([]);
@@ -76,10 +89,10 @@ function AdminManageServicePage() {
           </thead>
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan={7}>Loading...</td>
-              </tr>
+              // Placeholder Component
+              <PlaceholderRow col="7" />
             ) : (
+              // Render the actual data
               services.map((service: Service, index) => (
                 <tr key={service._id}>
                   <td>{service._id}</td>
