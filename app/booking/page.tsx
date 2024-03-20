@@ -1,7 +1,7 @@
 "use client";
 import { Container, Row, Col, Card, Form, Button, Image } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import Link from "@/components/Link";
 // Images
 import bookDesktop from "@/public/assets/img/bookDesktop.svg";
 import bookMobile from "@/public/assets/img/bookMobile.svg";

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { Button } from "react-bootstrap";
 import { FaBars, FaUserAlt } from "react-icons/fa";
 import navStyles from "@/styles/navbar.module.scss";
 import Image from "next/image";
+import Link from "@/components/Link";
 
 function Navbar() {
   const navbarRef = useRef(null);
@@ -24,7 +24,7 @@ function Navbar() {
     };
   }, []);
 
-  useEffect(() => { 
+  useEffect(() => {
     const storedActiveItem = localStorage.getItem("activeItem");
     if (storedActiveItem) {
       setActiveItem(storedActiveItem);
@@ -43,11 +43,21 @@ function Navbar() {
 
   return (
     <>
-      <div className={navStyles.overlay} onClick={handleBarsClick} style={{ display: isNavVisible ? 'block' : 'none' }} />
+      <div
+        className={navStyles.overlay}
+        onClick={handleBarsClick}
+        style={{ display: isNavVisible ? "block" : "none" }}
+      />
       <div ref={navbarRef} className={navStyles.navbar1}>
         <Link href="/">
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Image src="/assets/img/icon.png" alt="logo" width={70} height={70} onClick={() => handleItemClick("home")}/>
+            <Image
+              src="/assets/img/icon.png"
+              alt="logo"
+              width={70}
+              height={70}
+              onClick={() => handleItemClick("home")}
+            />
             <span className={navStyles.spanText} style={{ marginLeft: "10px" }} onClick={() => handleItemClick("home")}>
               AGAPAINT
             </span>
@@ -65,7 +75,10 @@ function Navbar() {
               </Link>
             </li>
             <li onClick={() => handleItemClick("services")}>
-              <Link href="/customer/service" className={`${navStyles.ulItem} ${activeItem === "services" ? navStyles.active : ""}`}>
+              <Link
+                href="/customer/service"
+                className={`${navStyles.ulItem} ${activeItem === "services" ? navStyles.active : ""}`}
+              >
                 Services
               </Link>
             </li>
@@ -75,12 +88,18 @@ function Navbar() {
               </Link>
             </li>
             <li onClick={() => handleItemClick("booking")}>
-              <Link href="/booking" className={`${navStyles.ulItem} ${activeItem === "booking" ? navStyles.active : ""}`}>
+              <Link
+                href="/booking"
+                className={`${navStyles.ulItem} ${activeItem === "booking" ? navStyles.active : ""}`}
+              >
                 <Button className={navStyles.btnLog}>Book Now</Button>
               </Link>
             </li>
             <li onClick={() => handleItemClick("signup")}>
-              <Link href="/customer/signup" className={`${navStyles.ulItem} ${activeItem === "signup" ? navStyles.active : ""}`}>
+              <Link
+                href="/customer/signup"
+                className={`${navStyles.ulItem} ${activeItem === "signup" ? navStyles.active : ""}`}
+              >
                 <FaUserAlt color="#fff" size={25} />
               </Link>
             </li>

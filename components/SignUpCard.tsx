@@ -1,5 +1,5 @@
 import { Card } from "react-bootstrap";
-import Link from "next/link";
+import Link from "@/components/Link";
 import GoogleButton from "react-google-button";
 import { signIn } from "next-auth/react";
 
