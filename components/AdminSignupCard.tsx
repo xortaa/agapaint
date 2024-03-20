@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import Link from "@/components/Link";
 import { Button, Card, Container, Row, Col, Image } from "react-bootstrap";
 import GoogleButton from "react-google-button";
 
