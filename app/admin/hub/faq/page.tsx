@@ -14,13 +14,17 @@ import ToastPromise from "@/components/ToastPromise";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Faq } from "@/types";
+import { set } from "mongoose";
+import PlaceholderRow from "@/components/PlaceholderRow";
 
 function ManageFAQPage() {
   const [faqs, setFaqs] = useState<Faq[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios.get("/api/faq").then((res) => {
       setFaqs(res.data);
+      setLoading(false);
     });
   }, []);
 
@@ -74,17 +78,23 @@ function ManageFAQPage() {
             </tr>
           </thead>
           <tbody>
-            {faqs.map((faq) => (
-              <tr key={faq._id}>
-                <td>{faq._id}</td>
-                <td>{faq.question}</td>
-                <td>{faq.answer}</td>
-                <td>
-                  <EditQuestionModal setFaqs={setFaqs} faqData={faq} />
-                  <ArchiveQuestionModal setFaqs={setFaqs} faqData={faq} />
-                </td>
-              </tr>
-            ))}
+            {loading ? (
+              // Placeholder Component
+              <PlaceholderRow col="4" />
+            ) : (
+              // Render the actual data
+              faqs.map((faq) => (
+                <tr key={faq._id}>
+                  <td>{faq._id}</td>
+                  <td>{faq.question}</td>
+                  <td>{faq.answer}</td>
+                  <td>
+                    <EditQuestionModal setFaqs={setFaqs} faqData={faq} />
+                    <ArchiveQuestionModal setFaqs={setFaqs} faqData={faq} />
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </Table>
       </Container>

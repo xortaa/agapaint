@@ -14,7 +14,7 @@ import InvArchiveLogModal from "@/components/InvArchiveLogModal";
 
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
 import { useState } from "react";
-import Link from "next/link";
+import Link from "@/components/Link";
 
 function manageInventory() {
   return (

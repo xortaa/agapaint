@@ -3,7 +3,7 @@
 import React from "react";
 import custhomeStyles from "@/styles/home.module.scss";
 import { Container, Row, Col, Card, Image, Button } from "react-bootstrap";
-import Link from "next/link";
+import Link from "@/components/Link";
 import { RiServiceFill } from "react-icons/ri";
 import { MdGppGood } from "react-icons/md";
 import { FaPeopleCarryBox } from "react-icons/fa6";
