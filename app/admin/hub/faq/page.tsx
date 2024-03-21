@@ -1,12 +1,16 @@
 "use client";
 
 import React from "react";
+// Styles
 import { Container, Row, Col, Table, Button, Modal, Form, InputGroup, Dropdown, FormControl } from "react-bootstrap";
-import AdminHeader from "@/components/AdminHeader";
 import { Funnel, Search } from "react-bootstrap-icons";
+// Components
+import AdminHeader from "@/components/AdminHeader";
 import AddQuestionModal from "@/components/AddQuestionModal";
 import EditQuestionModal from "@/components/EditQuestionModal";
 import ArchiveQuestionModal from "@/components/ArchiveQuestionModal";
+import ToastPromise from "@/components/ToastPromise";
+// Utilities
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Faq } from "@/types";
@@ -28,7 +32,8 @@ function ManageFAQPage() {
     <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
         <Row>
-          {/* Side Bar Nav */}
+          {/* Toast Component */}
+          <ToastPromise />
 
           {/* Header Row */}
           <AdminHeader title="Manage FAQs" subtitle="View all your frequently asnwered questions" />
@@ -68,7 +73,7 @@ function ManageFAQPage() {
             <tr>
               <th>ID</th>
               <th>Question</th>
-              <th>Description</th>
+              <th>Answer</th>
               <th>Actions</th>
             </tr>
           </thead>

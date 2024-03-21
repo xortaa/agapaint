@@ -7,6 +7,7 @@ import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons
 import { Service } from "@/types";
 import axios from "axios";
 import ImageUploadPreview from "./ImageUploadPreview";
+import { toast } from "react-toastify";
 
 function ArchiveServiceModal({
   setServices,
@@ -23,10 +24,27 @@ function ArchiveServiceModal({
   const handleShow = () => setShow(true);
 
   const handleDelete = () => {
-    axios.delete(`/api/service/${serviceData._id}`).then((res) => {
-      setServices((prev) => prev.filter((service) => service._id !== serviceData._id));
-      console.log(res);
-      handleClose();
+    const DeleteService = new Promise((resolve, reject) => {
+      axios.delete(`/api/service/${serviceData._id}`)
+        .then((res) => {
+          handleClose();
+
+          // Resolve the promise after 2 seconds
+          setTimeout(() => {
+            setServices((prev) => prev.filter((service) => service._id !== serviceData._id));
+            resolve('Success');
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("Failed to delete service: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(DeleteService, {
+      pending: "Archiving service...",
+      success: "Service Archived!",
+      error: "Failed to archive service, Please try again.",
     });
   };
 

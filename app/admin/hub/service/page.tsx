@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+// Styles
 import AdminServiceStyles from "@/styles/AdminService.module.scss";
 import {
   Container,
@@ -17,9 +18,13 @@ import {
 } from "react-bootstrap";
 import AdminHeader from "@/components/AdminHeader";
 import { Funnel, Search } from "react-bootstrap-icons";
+// Components
+import AdminHeader from "@/components/AdminHeader";
 import AddService from "@/components/AddServiceModal";
 import EditService from "@/components/UpdateServiceModal";
 import ArchiveServiceModal from "@/components/ArchiveServiceModal";
+import ToastPromise from "@/components/ToastPromise";
+// Utilities
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Service } from "@/types";
@@ -40,7 +45,8 @@ function AdminManageServicePage() {
     <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
         <Row>
-          {/* Side Bar Nav */}
+          {/* Toast Component */}
+          <ToastPromise />
 
           {/* Header Row */}
           <AdminHeader title="Manage Services" subtitle="View all your services offered" />

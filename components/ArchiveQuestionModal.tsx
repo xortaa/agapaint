@@ -10,6 +10,7 @@ import { Service } from "@/types";
 import axios from "axios";
 import ImageUploadPreview from "./ImageUploadPreview";
 import { Faq, FaqData } from "@/types";
+import { toast } from "react-toastify";
 
 function ArchiveQuestionModal({
   faqData,
@@ -27,9 +28,27 @@ function ArchiveQuestionModal({
   };
 
   const onDelete = (faqData: Faq) => {
-    axios.delete(`/api/faq/${faqData._id}`).then((res) => {
-      setFaqs((prev) => prev.filter((faq) => faq._id !== faqData._id));
-      handleClose();
+    const ArchiveFaq = new Promise((resolve, reject) => {
+      axios.delete(`/api/faq/${faqData._id}`)
+        .then((res) => {
+          handleClose();
+
+          // Resolve the promise after 2 seconds
+          setTimeout(() => {
+            setFaqs((prev) => prev.filter((faq) => faq._id !== faqData._id));
+            resolve('Success');
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("Failed to archive question: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(ArchiveFaq, {
+      pending: "Archiving FAQ...",
+      success: "FAQ archived!",
+      error: "Failed to archive FAQ, Please try again.",
     });
   };
 
