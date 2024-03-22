@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 function InvAddCatModal({ setCategories }: { setCategories: React.Dispatch<React.SetStateAction<Category[]>> }) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
-  
+
   const {
     register,
     handleSubmit,
@@ -26,7 +26,7 @@ function InvAddCatModal({ setCategories }: { setCategories: React.Dispatch<React
   const handleShow = () => setShow(true);
 
   const onSubmit = (data: Category) => {
-    const newData = { ...data};
+    const newData = { ...data };
 
     const AddCategory = new Promise((resolve, reject) => {
       axios
@@ -75,9 +75,7 @@ function InvAddCatModal({ setCategories }: { setCategories: React.Dispatch<React
                 isInvalid={!!errors.name}
                 {...register("name", { required: "Please provide a category name" })}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.name && errors.name.message}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.name && errors.name.message}</Form.Control.Feedback>
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>

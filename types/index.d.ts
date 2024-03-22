@@ -87,3 +87,17 @@ export interface Category {
 export interface CategoryData {
   name: string;
 }
+
+export interface Material {
+  _id: string;
+  name: string;
+  category: Category;
+  quantity: number;
+  __v: number;
+}
+
+export interface MaterialData {
+  name: string;
+  category: Category;
+  quantity: number;
+}

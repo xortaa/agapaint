@@ -17,19 +17,29 @@ import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons
 import { useState, useEffect } from "react";
 import Link from "@/components/Link";
 
-import { Category } from "@/types";
+import { Category, Material } from "@/types";
 import axios from "axios";
 import ToastPromise from "@/components/ToastPromise";
 
 function manageInventory() {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [materials, setMaterials] = useState<Material[]>([]);
+  const [catLoading, setCatLoading] = useState(true);
+  const [matLoading, setMatLoading] = useState(true);
 
   // Category: Get all categories
   useEffect(() => {
     axios.get("/api/category").then((res) => {
       setCategories(res.data);
-      setLoading(false);
+      setCatLoading(false);
+    });
+  }, []);
+
+  // Material: get all materials
+  useEffect(() => {
+    axios.get("/api/material").then((res) => {
+      setMaterials(res.data);
+      setMatLoading(false);
     });
   }, []);
 
@@ -69,7 +79,7 @@ function manageInventory() {
                 <div className="ms-auto d-flex gap-2">
                   <InvAddCatModal setCategories={setCategories} />
                   {/* Add Material Modal */}
-                  <InvAddMaterialModal />
+                  <InvAddMaterialModal setMaterials={setMaterials}/>
                   {/* Add Log Modal */}
                   <InvAddLogModal />
                 </div>
@@ -138,21 +148,27 @@ function manageInventory() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Weber Red</td>
-                    <td>
-                      <Badge bg="primary" pill>
-                        Color Paint
-                      </Badge>
-                    </td>
-                    <td>1 L</td>
-                    <td>
-                      <InvUpdateMaterialModal />
-
-                      <InvArchiveMaterialModal />
-                    </td>
-                  </tr>
+                  {/* Placeholder Component */}
+                  {matLoading ? (
+                    <PlaceholderRow col="5" />
+                  ) : (
+                    materials.map((material: Material, index) => (
+                      <tr key={material._id}>
+                        <td>{index + 1}</td>
+                        <td>{material.name}</td>
+                        <td>
+                          <Badge pill bg="warning" text="dark">
+                            {categories.find(category => category._id === material.category)?.name || 'No Category'}
+                          </Badge>
+                        </td>
+                        <td>{material.quantity}</td>
+                        <td>
+                          <InvUpdateMaterialModal />
+                          <InvArchiveMaterialModal />
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </Table>
             </Card>
@@ -171,7 +187,7 @@ function manageInventory() {
                   </tr>
                 </thead>
                 <tbody>
-                  {loading ? (
+                  {catLoading ? (
                     // Placeholder Component
                     <PlaceholderRow col="3" />
                   ) : (
