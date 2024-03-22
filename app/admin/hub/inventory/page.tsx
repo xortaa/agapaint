@@ -11,17 +11,34 @@ import InvUpdateMaterialModal from "@/components/InvUpdateMaterialModal";
 import InvArchiveMaterialModal from "@/components/InvArchiveMaterialModal";
 import InvUpdateLogModal from "@/components/InvUpdateLogModal";
 import InvArchiveLogModal from "@/components/InvArchiveLogModal";
+import PlaceholderRow from "@/components/PlaceholderRow";
 
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "@/components/Link";
 
+import { Category } from "@/types";
+import axios from "axios";
+import ToastPromise from "@/components/ToastPromise";
+
 function manageInventory() {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Category: Get all categories
+  useEffect(() => {
+    axios.get("/api/category").then((res) => {
+      setCategories(res.data);
+      setLoading(false);
+    });
+  }, []);
+
   return (
     <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
         <Row>
-          {/* Side Bar Nav */}
+          {/* Toast Component */}
+          <ToastPromise />
 
           {/* Header Row */}
           <AdminHeader title="Manage Inventory" subtitle="View and track your inventory materials" />
@@ -50,7 +67,7 @@ function manageInventory() {
 
                 {/* Add Category Modal */}
                 <div className="ms-auto d-flex gap-2">
-                  <InvAddCatModal />
+                  <InvAddCatModal setCategories={setCategories} />
                   {/* Add Material Modal */}
                   <InvAddMaterialModal />
                   {/* Add Log Modal */}
@@ -58,71 +75,6 @@ function manageInventory() {
                 </div>
               </div>
             </Row>
-          </Col>
-        </Row>
-
-        {/* Categories Table */}
-        <Row className="mb-4">
-          <Col>
-            <h6 className="fw-bold agapaint-yellow mb-3">Categories</h6>
-            <Card className="border-0 rounded">
-              <Table striped hover className="align-middle responsive">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Category Name</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Paint</td>
-                    <td>
-                      <InvUpdateCatModal />
-                      <InvArchiveCategoryModal />
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Card>
-          </Col>
-        </Row>
-
-        {/* Materials Table */}
-        <Row className="mb-4">
-          <Col>
-            <h6 className="fw-bold agapaint-yellow mb-3">Materials</h6>
-            <Card className="border-0 rounded">
-              <Table striped hover className="align-middle responsive">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Material Name</th>
-                    <th>Category</th>
-                    <th>Current Stock</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Weber Red</td>
-                    <td>
-                      <Badge bg="primary" pill>
-                        Color Paint
-                      </Badge>
-                    </td>
-                    <td>1 L</td>
-                    <td>
-                      <InvUpdateMaterialModal />
-
-                      <InvArchiveMaterialModal />
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Card>
           </Col>
         </Row>
 
@@ -164,6 +116,76 @@ function manageInventory() {
                       <InvArchiveLogModal />
                     </td>
                   </tr>
+                </tbody>
+              </Table>
+            </Card>
+          </Col>
+        </Row>
+
+        {/* Materials Table */}
+        <Row className="mb-4">
+          <Col xs={8}>
+            <h6 className="fw-bold agapaint-yellow mb-3">Current Materials Stock</h6>
+            <Card className="border-0 rounded">
+              <Table striped hover className="align-middle responsive">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Material Name</th>
+                    <th>Category</th>
+                    <th>Current Stock</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Weber Red</td>
+                    <td>
+                      <Badge bg="primary" pill>
+                        Color Paint
+                      </Badge>
+                    </td>
+                    <td>1 L</td>
+                    <td>
+                      <InvUpdateMaterialModal />
+
+                      <InvArchiveMaterialModal />
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Card>
+          </Col>
+
+          {/* Categories Table */}
+          <Col xs={4}>
+            <h6 className="fw-bold agapaint-yellow mb-3">Categories</h6>
+            <Card className="border-0 rounded">
+              <Table hover className="align-middle responsive">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Category Name</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    // Placeholder Component
+                    <PlaceholderRow col="3" />
+                  ) : (
+                    categories.map((category: Category, index) => (
+                      <tr key={category._id}>
+                        <td>{index + 1}</td>
+                        <td>{category.name}</td>
+                        <td>
+                          <InvUpdateCatModal setCategories={setCategories} categoryData={category} id={category._id} />
+                          <InvArchiveCategoryModal setCategories={setCategories} categoryData={category} />
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </Table>
             </Card>

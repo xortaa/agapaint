@@ -77,3 +77,13 @@ export interface FaqData {
   question: string;
   answer: string;
 }
+
+export interface Category {
+  _id: string;
+  name: string;
+  __v: number;
+}
+
+export interface CategoryData {
+  name: string;
+}

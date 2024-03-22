@@ -9,12 +9,12 @@ function ToastPromise() {
       hideProgressBar={false}
       newestOnTop
       rtl={false}
-      pauseOnFocusLoss
+      // pauseOnFocusLoss
       draggable
       pauseOnHover
       theme="colored"
       transition={Bounce}
-      stacked
+      // stacked
     />
   );
 }
