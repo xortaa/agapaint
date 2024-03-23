@@ -30,7 +30,7 @@ const Step1 = ({
 }) => (
   <div>
     <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
-    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0 ">Choose a car type</p>
+    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0 ">Choose a vehicle type</p>
     {/* Car Type Radio Button */}
     <div className="d-flex flex-column">
       <CarType setAppointmentData={setAppointmentData} />
@@ -108,7 +108,7 @@ const Step3 = ({
 }) => (
   <div>
     <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
-    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose desired services for your car type</p>
+    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose desired services for your vehicle type</p>
     {/* Services */}
     <Services
       setSelectedService={setSelectedService}
@@ -188,7 +188,7 @@ const Step5 = ({
       <Col xs={12} md={6}>
         <h6 className="mb-3">Appointment Details</h6>
         <p>
-          <span className="fw-semibold">Car Type:</span> {appointmentData.carType}
+          <span className="fw-semibold">Vehicle Type:</span> {appointmentData.carType}
         </p>
         <p>
           <span className="fw-semibold">Date:</span> {appointmentData.date}
@@ -208,10 +208,10 @@ const Step5 = ({
       <hr />
       <h6 className="mb-3">Vehicle Information</h6>
       <p>
-        <span className="fw-semibold">Car Manufacturer:</span> {appointmentData.carManufacturer}
+        <span className="fw-semibold">Vehicle Manufacturer:</span> {appointmentData.carManufacturer}
       </p>
       <p>
-        <span className="fw-semibold">Car Model:</span> {appointmentData.carModel}
+        <span className="fw-semibold">Vehicle Model:</span> {appointmentData.carModel}
       </p>
       <p>
         <span className="fw-semibold">Plate#:</span> {appointmentData.plateNumber}
@@ -270,7 +270,7 @@ const Step6 = ({ onBack }) => (
 function bookAppointment() {
   // Nav Progress
   const [step, setStep] = useState(1);
-  const navSteps = ["Car Type", "Date & Time", "Services", "Client Info", "Confirm Details", "Finish"]; // Add or remove steps as needed
+  const navSteps = ["Vehicle Type", "Date & Time", "Services", "Client Info", "Confirm Details", "Finish"]; // Add or remove steps as needed
   const handleStepClick = (stepNumber) => {
     setStep(stepNumber);
   };

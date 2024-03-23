@@ -16,7 +16,6 @@ import {
   FormControl,
   Placeholder,
 } from "react-bootstrap";
-import AdminHeader from "@/components/AdminHeader";
 import { Funnel, Search } from "react-bootstrap-icons";
 // Components
 import AdminHeader from "@/components/AdminHeader";
