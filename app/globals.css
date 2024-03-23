@@ -48,6 +48,10 @@ a {
   background-color: var(--agapaint-light);
 }
 
+.agapaint-yellow-bg {
+  background-color: var(--agapaint-yellow);
+}
+
 .slide-enter {
   transform: translateX(100%);
 }

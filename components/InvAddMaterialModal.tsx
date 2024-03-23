@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, Form, Row, Col } from "react-bootstrap";
+import { Button, Modal, Form, Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { Material, MaterialData, Category } from "@/types";
 
-function InvAddMaterialModal({ setMaterials }: { setMaterials: React.Dispatch<React.SetStateAction<Material[]>> }) {
+function InvAddMaterialModal({
+  setMaterials,
+  disabled,
+}: {
+  setMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
+  disabled?: boolean;
+}) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
@@ -27,12 +33,14 @@ function InvAddMaterialModal({ setMaterials }: { setMaterials: React.Dispatch<Re
 
   const handleShow = () => setShow(true);
 
-  // Category: Get all categories for select dropdown
+  // Category: Get all categories for select dropdown and fetch newly added cat every time the modal is shown
   useEffect(() => {
-    axios.get("/api/category").then((res) => {
-      setCategories(res.data);
-    });
-  }, []);
+    if (show) {
+      axios.get("/api/category").then((res) => {
+        setCategories(res.data);
+      });
+    }
+  }, [show]);
 
   const onSubmit = (data: Material) => {
     const newData = { ...data };
@@ -46,11 +54,10 @@ function InvAddMaterialModal({ setMaterials }: { setMaterials: React.Dispatch<Re
           handleClose();
           console.log(newMaterial);
 
-          // Resolve the promise after 2 seconds
           setTimeout(() => {
             setMaterials((prev) => [...prev, newMaterial]);
             resolve("Success");
-          }, 2000);
+          }, 1000);
         })
         .catch((error) => {
           console.error("Failed to add new material: ", error);
@@ -67,9 +74,27 @@ function InvAddMaterialModal({ setMaterials }: { setMaterials: React.Dispatch<Re
 
   return (
     <>
-      <Button style={{ backgroundColor: "#17A2B8 ", border: "none" }} onClick={handleShow}>
-        <FaPlus /> Add Material
-      </Button>
+      {disabled ? (
+        <OverlayTrigger overlay={<Tooltip id="button-tooltip">Add a category first!</Tooltip>} placement="bottom">
+          <span className="d-inline-block">
+            <Button
+              disabled={disabled}
+              style={{ backgroundColor: "#17A2B8 ", border: "none", pointerEvents: "none" }}
+              onClick={handleShow}
+            >
+              <FaPlus /> Add Material
+            </Button>
+          </span>
+        </OverlayTrigger>
+      ) : (
+        <Button
+          disabled={disabled}
+          style={{ backgroundColor: "#17A2B8 ", border: "none" }}
+          onClick={handleShow}
+        >
+          <FaPlus /> Add Material
+        </Button>
+      )}
 
       <Modal show={show} onHide={handleClose}>
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -102,7 +127,7 @@ function InvAddMaterialModal({ setMaterials }: { setMaterials: React.Dispatch<Re
                   </Form.Select>
                 </Col>
                 <Col>
-                  <Form.Label>Current Stock</Form.Label>
+                  <Form.Label>Initial Stock</Form.Label>
                   <Form.Control
                     type="number"
                     placeholder="Enter current stock"

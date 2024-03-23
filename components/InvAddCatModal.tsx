@@ -35,12 +35,11 @@ function InvAddCatModal({ setCategories }: { setCategories: React.Dispatch<React
           // Use the category document from the server response
           const newCategory = res.data;
           handleClose();
-
-          // Resolve the promise after 2 seconds
+          
           setTimeout(() => {
             setCategories((prev) => [...prev, newCategory]);
             resolve("Success");
-          }, 2000);
+          }, 1000);
         })
         .catch((error) => {
           console.error("Failed to add new category: ", error);

@@ -27,12 +27,11 @@ function InvArchiveCategoryModal({
         .delete(`/api/category/${categoryData._id}`)
         .then((res) => {
           handleClose();
-
-          // Resolve the promise after 2 seconds
+          
           setTimeout(() => {
             setCategories((prev) => prev.filter((category) => category._id !== categoryData._id));
             resolve("Success");
-          }, 2000);
+          }, 1000);
         })
         .catch((error) => {
           console.error("Failed to archive category: ", error);

@@ -53,7 +53,6 @@ function InvUpdateCategoryModal({
         .then((res) => {
           handleClose();
 
-          // Resolve the promise after 1 second
           setTimeout(() => {
             setCategories((prev) => prev.map((category) => (category._id === categoryData._id ? res.data : category)));
             resolve("Success");

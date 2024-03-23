@@ -14,7 +14,7 @@ function ToastPromise() {
       pauseOnHover
       theme="colored"
       transition={Bounce}
-      // stacked
+      stacked
     />
   );
 }
