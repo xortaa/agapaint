@@ -34,7 +34,6 @@ export const GET = async (req: NextRequest) => {
 
     await connectToDatabase();
     const category = await Category.find({});
-    console.log(category);
     return NextResponse.json(category, { status: 200 });
   } catch (error) {
     console.log(error);
