@@ -34,7 +34,7 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
   }
 
   const onSubmit = (data: Service) => {
-    const selectedCarTypes = ["Hatchback", "Sedan", "SUV/AUv", "Van"].filter((carType) => data[carType]);
+    const selectedCarTypes = ["Hatchback", "Sedan", "SUV/AUv", "Van", "Others"].filter((carType) => data[carType]);
     const carTypeString = selectedCarTypes.join(", ");
     const newData = { ...data, image: imageUrl, carType: carTypeString };
 
@@ -118,7 +118,7 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
             <Form.Group className="mb-3">
               <Form.Label>Car Type</Form.Label>
               <div className="d-flex">
-                {["Hatchback", "Sedan", "SUV/AUV", "Van"].map((carType) => (
+                {["Hatchback", "Sedan", "SUV/AUV", "Van", "Others"].map((carType) => (
                   <div key={`inline-checkbox`} className="mb-3">
                     <Form.Check inline label={carType} name={carType} type="checkbox" id={carType} {...register(carType as keyof Service)}/>
                   </div>

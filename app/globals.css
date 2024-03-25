@@ -74,6 +74,10 @@ a {
   padding: 6rem !important;
 }
 
+.full-width {
+  grid-column: 1 / -1;
+}
+
 #radio-cards-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Create three columns for large screens */
@@ -249,4 +253,12 @@ a {
   .progress-text {
     font-size: 14px;
   }
+}
+
+/* Progress Step 2 */
+.sideBar {
+  height: 100%;
+}
+.stepSummary {
+  height: 100%;
 }

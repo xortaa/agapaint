@@ -130,7 +130,24 @@ function CarType({
           <div className="radio-card-label">Bicycle</div>
         </div>
       </div>
+      {/* Others: Radio Card 7 */}
+      <div
+        className={`radio-card radio-card-6 full-width ${selectedCard === "7" ? "selected" : ""}`}
+        onClick={() => {
+          selectRadioCard("7", "Others");
+        }}
+      >
+        <div className="radio-card-check">
+          <FaCheckCircle className="text-warning h4" />
+        </div>
+        <div className="text-center">
+          <div className="radio-card-label lh-sm">Others (Truck, Bus, etc.) <br /><span className="small fs-6 text-secondary fst-italic fw-light text-wrap">*Price may vary based on size</span></div>
+        </div>
+      </div>
+
     </div>
+    
+    
   );
 }
 

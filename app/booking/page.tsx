@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { AppointmentData, ServiceData } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Stepper from "@keyvaluesystems/react-stepper";
 
 // Car Type Step
 
@@ -169,7 +170,7 @@ const Step5 = ({
   bookAppointment: () => void;
 }) => (
   <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
-    <h2 className="fw-bold">Confirm Details</h2>
+    <h2 className="fw-bold">Review Details</h2>
     {/* Confirmation */}
     <Row className="lh-05 mb-1 small">
       <Col xs={12} md={6}>
@@ -207,15 +208,23 @@ const Step5 = ({
       </p>
       <hr />
       <h6 className="mb-3">Vehicle Information</h6>
-      <p>
-        <span className="fw-semibold">Vehicle Manufacturer:</span> {appointmentData.carManufacturer}
-      </p>
-      <p>
-        <span className="fw-semibold">Vehicle Model:</span> {appointmentData.carModel}
-      </p>
-      <p>
-        <span className="fw-semibold">Plate#:</span> {appointmentData.plateNumber}
-      </p>
+      <Col>
+        <p>
+          <span className="fw-semibold">Vehicle Manufacturer:</span> {appointmentData.carManufacturer}
+        </p>
+        <p>
+          <span className="fw-semibold">Vehicle Model:</span> {appointmentData.carModel}
+        </p>
+      </Col>
+      <Col>
+        <p>
+          <span className="fw-semibold">Color:</span> {appointmentData.carColor}
+        </p>
+
+        <p>
+          <span className="fw-semibold">Plate#:</span> {appointmentData.plateNumber}
+        </p>
+      </Col>
       <p>
         <span className="fw-semibold">Comments/ Request:</span> {appointmentData.requests}
       </p>
@@ -223,8 +232,8 @@ const Step5 = ({
       <p className="lh-sm small">
         NOTE: THAT WE ARE NOT RESPONSIBLE FOR ANY ITEMS LEFT ON THE VEHICLE <br />I hereby agree voluntarily to drop the
         key for my vehicle for servicing and acknowledge that any damage or wrong service given due to false information
-        given above our company will not be responsible. I hereby declare that i have read all the instructions above
-        keenly.
+        given above our company will not be responsible. I hereby declare that all information given above is true and I
+        agree to the terms and conditions of Agapaint.
       </p>
     </Row>
     {/* Nav Buttons */}
@@ -259,7 +268,7 @@ const Step6 = ({ onBack }) => (
     {/* Nav Buttons */}
     <div className="d-flex justify-content-between">
       <Link href="./customer/appointment">
-        <Button variant="warning" type="submit" className="ps-4 pe-4 fw-bold">
+        <Button variant="warning" className="ps-4 pe-4 fw-bold">
           Go to My Appointments
         </Button>
       </Link>
@@ -267,16 +276,102 @@ const Step6 = ({ onBack }) => (
   </div>
 );
 
+interface NavStep {
+  stepLabel: string;
+  stepNumber: number;
+  completed: boolean;
+}
+
 function bookAppointment() {
   // Nav Progress
   const [step, setStep] = useState(1);
-  const navSteps = ["Vehicle Type", "Date & Time", "Services", "Client Info", "Confirm Details", "Finish"]; // Add or remove steps as needed
-  const handleStepClick = (stepNumber) => {
-    setStep(stepNumber);
+  const [navSteps, setNavSteps] = useState<NavStep[]>([
+    {
+      stepLabel: "Vehicle Type",
+      stepNumber: 1,
+      completed: false,
+    },
+    {
+      stepLabel: "Date & Time",
+      stepNumber: 2,
+      completed: false,
+    },
+    {
+      stepLabel: "Services",
+      stepNumber: 3,
+      completed: false,
+    },
+    {
+      stepLabel: "Client Info",
+      stepNumber: 4,
+      completed: false,
+    },
+    {
+      stepLabel: "Review Details",
+      stepNumber: 5,
+      completed: false,
+    },
+    {
+      stepLabel: "Finish",
+      stepNumber: 6,
+      completed: false,
+    },
+  ]);
+
+  const handleStepClick = (clickedStep) => {
+    const updatedSteps = navSteps.map(step =>
+      step.stepNumber === clickedStep.stepNumber ? { ...step, completed: false } : step
+    );
+
+    setNavSteps(updatedSteps);
+    setStep(clickedStep.stepNumber);
   };
 
-  const nextStep = () => setStep(step + 1);
-  const prevStep = () => setStep(step - 1);
+  const styles = {
+    LineSeparator: () => ({
+      backgroundColor: "#f1b038",
+    }),
+    ActiveNode: () => ({
+      backgroundColor: "#f1b038",
+    }),
+    CompletedNode: () => ({
+      backgroundColor: "#f1b038",
+    }),
+    InactiveLineSeparator: () => ({
+      backgroundColor: "gray",
+    }),
+    ActiveLabelTitle: () => ({
+      color: "#f1b038",
+      fontWeight: "700",
+    }),
+    LabelTitle: () => ({
+      color: "white",
+      fontWeight: "300",
+    })
+    
+  };
+
+  const nextStep = () => {
+    setStep((prevStep) => {
+      setNavSteps((prevSteps) =>
+        prevSteps.map((step, index) => (index === prevStep - 1 ? { ...step, completed: true } : step))
+      );
+
+      return prevStep + 1;
+    });
+  };
+
+  const prevStep = () => {
+    setStep((prevStep) => {
+      const previousStep = prevStep - 1;
+
+      setNavSteps((prevSteps) =>
+        prevSteps.map((step, index) => (index === previousStep ? { ...step, completed: false } : step))
+      );
+
+      return previousStep;
+    });
+  };
 
   // Form Validation
   const [validated, setValidated] = useState(false);
@@ -296,6 +391,7 @@ function bookAppointment() {
     carType: "",
     servicesId: [],
     paymentTerm: "Full",
+    carColor: "",
   });
   const [selectedService, setSelectedService] = useState<ServiceData[]>([]);
   const totalPrice = selectedService.reduce((total, service) => total + service.price, 0);
@@ -369,10 +465,12 @@ function bookAppointment() {
                             height: "100%",
                             objectFit: "cover",
                             borderRadius: "13px",
+                            filter: "brightness(0.7)"
                           }}
                         />
                         <Card.ImgOverlay className="text-white">
-                          <ul className="vertical-point-progress">
+                          {/* Progress Stepper 1 */}
+                          {/* <ul className="vertical-point-progress">
                             {navSteps.map((navstep, index) => (
                               <li
                                 key={index + 1}
@@ -382,7 +480,20 @@ function bookAppointment() {
                                 <span className="ps-3 progress-text">{navstep}</span>
                               </li>
                             ))}
-                          </ul>
+                          </ul> */}
+                          {/* Progress Stepper 2 */}
+                          <div className="sideBar">
+                            <div className="stepSummary">
+                              <Stepper
+                                steps={navSteps}
+                                currentStepIndex={step - 1}
+                                orientation="vertical"
+                                labelPosition="right"
+                                onStepClick={handleStepClick}
+                                styles={styles}
+                              />
+                            </div>
+                          </div>
                         </Card.ImgOverlay>
                       </Card>
                     </Col>

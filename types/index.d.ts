@@ -26,6 +26,7 @@ export interface AppointmentData {
   carManufacturer: string;
   carType: string;
   paymentTerm: "Full" | "Partial";
+  carColor: string;
 }
 
 export interface Service {
