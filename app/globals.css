@@ -48,6 +48,10 @@ a {
   background-color: var(--agapaint-light);
 }
 
+.agapaint-yellow-bg {
+  background-color: var(--agapaint-yellow);
+}
+
 .slide-enter {
   transform: translateX(100%);
 }
@@ -244,4 +248,64 @@ a {
   .progress-text {
     font-size: 14px;
   }
+}
+.my-google-button div {
+  width: 40px !important;
+  height: 40px !important;
+  margin-left: -15px !important;
+}
+
+.my-google-button div svg {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.brand-wrapper {
+  margin-bottom: 10px;
+}
+.brand-wrapper .logo {
+  height: 100px;
+  margin-left: -20px;
+}
+
+.login-card {
+  border: 0;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px 0 rgba(172, 168, 168, 0.43);
+  overflow: hidden;
+}
+
+.login-card .card-body {
+  padding: 85px 60px 60px;
+}
+@media (max-width: 422px) {
+  .login-card .card-body {
+    padding: 35px 30px;
+  }
+}
+.login-card-description {
+  font-size: 25px;
+  color: #000;
+  font-weight: normal;
+  margin-bottom: 23px;
+}
+.login-card .forgot-password-link {
+  font-size: 14px;
+  color: #919aa3;
+  margin-bottom: 12px;
+}
+.login-card-footer-text {
+  font-size: 16px;
+  color: #0d2366;
+  margin-bottom: 60px;
+}
+@media (max-width: 767px) {
+  .login-card-footer-text {
+    margin-bottom: 24px;
+  }
+}
+.login-card-footer-nav a {
+  font-size: 14px;
+  color: #919aa3;
+  cursor: pointer;
 }

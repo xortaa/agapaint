@@ -1,11 +1,20 @@
 import React, { useState } from "react";
-import { Button, Modal, Form, Row, Col} from "react-bootstrap";
+import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { FaArchive } from "react-icons/fa";
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
+import { Material, MaterialData } from "@/types";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-function InvArchiveMaterialModal() {
+function InvArchiveMaterialModal({
+  materialData,
+  setMaterials,
+}: {
+  materialData: Material;
+  setMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
+}) {
   const [show, setShow] = useState(false);
-  const [material, setMaterial] = useState("");
+  const [material, setMaterial] = useState<Material>();
   const [error, setError] = useState("");
 
   const handleClose = () => {
@@ -13,13 +22,30 @@ function InvArchiveMaterialModal() {
     setError("");
   };
   const handleShow = () => setShow(true);
-  const handleAdd = () => {
-    if (material.trim() === "") {
-      setError("Please provide a material name");
-    } else {
-      console.log(material);
-      handleClose();
-    }
+  const onDelete = (data: Material) => {
+    const ArchiveMaterial = new Promise((resolve, reject) => {
+      axios
+        .delete(`/api/material/${materialData._id}`)
+        .then((res) => {
+          handleClose();
+
+          // Resolve the promise after 1 seconds
+          setTimeout(() => {
+            setMaterials((prev) => prev.filter((material) => material._id !== materialData._id));
+            resolve("Success");
+          }, 1000);
+        })
+        .catch((error) => {
+          console.error("Failed to archive material: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(ArchiveMaterial, {
+      pending: "Archiving Material...",
+      success: "Material archived!",
+      error: "Failed to archive Material, Please try again.",
+    });
   };
 
   return (
@@ -33,26 +59,18 @@ function InvArchiveMaterialModal() {
           <Modal.Title>Archive Material</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <h6>Are you sure you want to archive?</h6>
-            <Form>
-                <Form.Group className="mb-3">
-                  <Row>
-                  <Form.Label>Material Name: <em>placeholder</em></Form.Label>
-                  </Row>
-                  <Row>
-                  <Form.Label>Category Name: <em>placeholder</em></Form.Label>
-                  </Row>
-                  <Row>
-                  <Form.Label>Current Stock: <em>placeholder</em></Form.Label>
-                  </Row> 
-                </Form.Group>
-            </Form>
+          Are you sure you want to archive?
+          <br />
+          <br />
+          Material Name: <em>{materialData.name}</em>
+          <br />
+          Current Stock: <em>{materialData.quantity}</em>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="danger" onClick={handleAdd}>
+          <Button variant="danger" onClick={() => onDelete(materialData)}>
             Archive
           </Button>
         </Modal.Footer>

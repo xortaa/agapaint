@@ -7,11 +7,11 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
   const id = params.id;
   const secret = process.env.JWT_SECRET;
   try {
-    const token = await getToken({ req, secret });
+    // const token = await getToken({ req, secret });
 
-    if (!token || token.email !== process.env.ADMIN_EMAIL) {
-      return NextResponse.json("Unauthorized", { status: 401 });
-    }
+    // if (!token || token.email !== process.env.ADMIN_EMAIL) {
+    //   return NextResponse.json("Unauthorized", { status: 401 });
+    // }
 
     await connectToDatabase();
     const material = await Materials.findById(id);
@@ -27,11 +27,11 @@ export const PATCH = async (req: NextRequest, { params }: { params: { id: string
   const materialData = await req.json();
   const secret = process.env.JWT_SECRET;
   try {
-    const token = await getToken({ req, secret });
+    // const token = await getToken({ req, secret });
 
-    if (!token || token.email !== process.env.ADMIN_EMAIL) {
-      return NextResponse.json("Unauthorized", { status: 401 });
-    }
+    // if (!token || token.email !== process.env.ADMIN_EMAIL) {
+    //   return NextResponse.json("Unauthorized", { status: 401 });
+    // }
 
     await connectToDatabase();
     const material = await Materials.findByIdAndUpdate(id, materialData, { new: true });
@@ -46,11 +46,11 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
   const id = params.id;
   const secret = process.env.JWT_SECRET;
   try {
-    const token = await getToken({ req, secret });
+    // const token = await getToken({ req, secret });
 
-    if (!token || token.email !== process.env.ADMIN_EMAIL) {
-      return NextResponse.json("Unauthorized", { status: 401 });
-    }
+    // if (!token || token.email !== process.env.ADMIN_EMAIL) {
+    //   return NextResponse.json("Unauthorized", { status: 401 });
+    // }
 
     await connectToDatabase();
     const deletedMaterial = await Materials.findByIdAndDelete(id);

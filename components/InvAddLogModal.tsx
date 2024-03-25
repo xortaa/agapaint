@@ -1,12 +1,12 @@
 "use client";
-import { Modal, Row, Col, Button, Form, InputGroup, ButtonGroup } from "react-bootstrap";
+import { Modal, Row, Col, Button, Form, InputGroup, ButtonGroup, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useState } from "react";
 
 import { FaPlus } from "react-icons/fa";
 
 import logStyles from "@/styles/logModal.module.scss";
 
-function LogModal() {
+function LogModal({ disabled }: { disabled: boolean }) {
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false); // Add this line
 
@@ -32,10 +32,30 @@ function LogModal() {
 
   return (
     <main>
-      <Button style={{ backgroundColor: "#084298", border: "none" }} onClick={handleShow}>
-        <FaPlus className="me-2" />
-        Add Log
-      </Button>
+      {disabled ? (
+        <OverlayTrigger overlay={<Tooltip id="button-tooltip">Add a material first!</Tooltip>} placement="bottom">
+          <span className="d-inline-block">
+            <Button
+              disabled={disabled}
+              style={{ backgroundColor: "#084298", border: "none", pointerEvents: "none" }}
+              onClick={handleShow}
+            >
+              <FaPlus className="me-2" />
+              Add Log
+            </Button>
+          </span>
+        </OverlayTrigger>
+      ) : (
+        <Button
+          disabled={disabled}
+          style={{ backgroundColor: "#084298", border: "none" }}
+          onClick={handleShow}
+        >
+          <FaPlus className="me-2" />
+          Add Log
+        </Button>
+      )}
+
       <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add Log</Modal.Title>

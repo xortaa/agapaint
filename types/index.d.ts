@@ -77,3 +77,27 @@ export interface FaqData {
   question: string;
   answer: string;
 }
+
+export interface Category {
+  _id: string;
+  name: string;
+  __v: number;
+}
+
+export interface CategoryData {
+  name: string;
+}
+
+export interface Material {
+  _id: string;
+  name: string;
+  category: Category;
+  quantity: number;
+  __v: number;
+}
+
+export interface MaterialData {
+  name: string;
+  category: Category;
+  quantity: number;
+}

@@ -7,6 +7,9 @@ import footerbg from "@/public/assets/img/footerbg.png";
 import horilogo from "@/public/assets/img/horilogo.png";
 import { Row, Col, Container } from "react-bootstrap";
 import { GeoAlt, Envelope, Telephone, Facebook, Instagram } from "react-bootstrap-icons";
+import PrivacyPolicyModal from "@/components/PrivacyPolicyModal";
+import TermsOfServiceModal from "@/components/TermsOfServiceModal";
+import { color } from "chart.js/helpers";
 
 function CustomFooter() {
   return (
@@ -62,10 +65,27 @@ function CustomFooter() {
         </Row>
         <br />
 
+        {/* terms of services and privacy policy */}
+        <Row>
+          <Col lg={12} className="text-center">
+            <style type="text/css">
+              {`
+                a {
+                  color: #fff;
+                  cursor: pointer;
+                }
+              `}
+            </style>
+            <TermsOfServiceModal />
+            <PrivacyPolicyModal />
+          </Col>
+        </Row>
+        <br />
+
         {/* copy right */}
         <Row>
           <Col lg={12} className="text-center">
-            <p className={footerStyles.footerYellow}>Copyright &copy; 2020 All Rights Reserved</p>
+            <p className={footerStyles.footerYellow}>Copyright &copy; 2020 All Rights Reserved </p>
           </Col>
         </Row>
       </Container>
