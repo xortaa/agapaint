@@ -1,78 +1,157 @@
-import React, { useState } from "react";
-import { Button, Modal, Form, Row, Col } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Modal, Form, Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { Material, MaterialData, Category } from "@/types";
 
-function InvAddMaterialModal() {
+function InvAddMaterialModal({
+  setMaterials,
+  disabled,
+}: {
+  setMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
+  disabled?: boolean;
+}) {
   const [show, setShow] = useState(false);
-  const [material, setMaterial] = useState("");
   const [error, setError] = useState("");
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm<Material>();
 
   const handleClose = () => {
     setShow(false);
     setError("");
+    reset();
   };
+
   const handleShow = () => setShow(true);
-  const handleAdd = () => {
-    if (material.trim() === "") {
-      setError("Please provide a material name");
-    } else {
-      console.log(material);
-      handleClose();
+
+  // Category: Get all categories for select dropdown and fetch newly added cat every time the modal is shown
+  useEffect(() => {
+    if (show) {
+      axios.get("/api/category").then((res) => {
+        setCategories(res.data);
+      });
     }
+  }, [show]);
+
+  const onSubmit = (data: Material) => {
+    const newData = { ...data };
+
+    const AddMaterial = new Promise((resolve, reject) => {
+      axios
+        .post("/api/material", newData)
+        .then((res) => {
+          // Use the material document from the server response
+          const newMaterial = res.data;
+          handleClose();
+          console.log(newMaterial);
+
+          setTimeout(() => {
+            setMaterials((prev) => [...prev, newMaterial]);
+            resolve("Success");
+          }, 1000);
+        })
+        .catch((error) => {
+          console.error("Failed to add new material: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(AddMaterial, {
+      pending: "Adding material...",
+      success: "New material added!",
+      error: "Failed to add material, Please try again.",
+    });
   };
 
   return (
     <>
-      <Button style={{ backgroundColor: "#17A2B8 ", border: "none" }} onClick={handleShow}>
-        <FaPlus /> Add Material
-      </Button>
+      {disabled ? (
+        <OverlayTrigger overlay={<Tooltip id="button-tooltip">Add a category first!</Tooltip>} placement="bottom">
+          <span className="d-inline-block">
+            <Button
+              disabled={disabled}
+              style={{ backgroundColor: "#17A2B8 ", border: "none", pointerEvents: "none" }}
+              onClick={handleShow}
+            >
+              <FaPlus /> Add Material
+            </Button>
+          </span>
+        </OverlayTrigger>
+      ) : (
+        <Button
+          disabled={disabled}
+          style={{ backgroundColor: "#17A2B8 ", border: "none" }}
+          onClick={handleShow}
+        >
+          <FaPlus /> Add Material
+        </Button>
+      )}
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Material</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Material</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
             <Form.Group className="mb-3">
               <Form.Label>Material Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter material name"
-                value={material}
-                onChange={(e) => setMaterial(e.target.value)}
-                isInvalid={!!error}
+                placeholder="Enter a material name"
+                isInvalid={!!errors.name}
                 required
+                {...register("name", { required: "Please provide a material name" })}
               />
-              <Form.Control.Feedback type="invalid">Please provide a material name</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.name && errors.name.message}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Row>
                 <Col>
                   <Form.Label>Category Name</Form.Label>
-                  <Form.Select aria-level={1} required>
-                    <option>Color Paint</option>
-                    <option>Wood Paint</option>
-                    <option>Other</option>
+                  <Form.Select aria-label="Select category" required {...register("category")}>
+                    {categories.map((category: Category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.name}
+                      </option>
+                    ))}
                   </Form.Select>
                 </Col>
                 <Col>
-                  <Form.Label>Current Stock</Form.Label>
-                  <Form.Control type="number" placeholder="Enter current stock" min="0" isInvalid={!!error} />
-                  <Form.Control.Feedback type="invalid">Please provide current stock</Form.Control.Feedback>
+                  <Form.Label>Initial Stock</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter current stock"
+                    min="0"
+                    isInvalid={!!errors.quantity}
+                    required
+                    {...register("quantity", { required: "Please provide provide current stock" })}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.quantity && errors.quantity.message}
+                  </Form.Control.Feedback>
                 </Col>
               </Row>
             </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleAdd} style={{ backgroundColor: "#17A2B8 ", border: "none" }}>
-            Add
-          </Button>
-        </Modal.Footer>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" type="submit" style={{ backgroundColor: "#17A2B8 ", border: "none" }}>
+              Add
+            </Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </>
   );

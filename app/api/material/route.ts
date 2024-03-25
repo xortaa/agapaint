@@ -6,11 +6,11 @@ import { getToken } from "next-auth/jwt";
 export const GET = async (req: NextRequest) => {
   const secret = process.env.JWT_SECRET;
   try {
-    const token = await getToken({ req, secret });
+    // const token = await getToken({ req, secret });
 
-    if (!token || token.email !== process.env.ADMIN_EMAIL) {
-      return NextResponse.json("Unauthorized", { status: 401 });
-    }
+    // if (!token || token.email !== process.env.ADMIN_EMAIL) {
+    //   return NextResponse.json("Unauthorized", { status: 401 });
+    // }
 
     await connectToDatabase();
     const material = await Materials.find({});
@@ -24,14 +24,15 @@ export const GET = async (req: NextRequest) => {
 export const POST = async (req: NextRequest) => {
   const secret = process.env.JWT_SECRET;
   try {
-    const token = await getToken({ req, secret });
+    // const token = await getToken({ req, secret });
 
-    if (!token || token.email !== process.env.ADMIN_EMAIL) {
-      return NextResponse.json("Unauthorized", { status: 401 });
-    }
+    // if (!token || token.email !== process.env.ADMIN_EMAIL) {
+    //   return NextResponse.json("Unauthorized", { status: 401 });
+    // }
     await connectToDatabase();
     const materialData = await req.json();
     const newMaterial = new Materials(materialData);
+    await newMaterial.save();
     return NextResponse.json(newMaterial, { status: 200 });
   } catch (error) {
     console.log(error);

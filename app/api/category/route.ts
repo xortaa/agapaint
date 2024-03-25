@@ -7,16 +7,16 @@ export const POST = async (req: NextRequest) => {
   const categoryData = await req.json();
   const secret = process.env.JWT_SECRET;
   try {
-    const token = await getToken({ req, secret });
+    // const token = await getToken({ req, secret });
 
-    if (!token || token.email !== process.env.ADMIN_EMAIL) {
-      return NextResponse.json("Unauthorized", { status: 401 });
-    }
+    // if (!token || token.email !== process.env.ADMIN_EMAIL) {
+    //   return NextResponse.json("Unauthorized", { status: 401 });
+    // }
 
     await connectToDatabase();
-    const category = await Category.create(categoryData);
-    console.log(category);
-    return NextResponse.json(category, { status: 200 });
+    const newCategory = new Category(categoryData);
+    await newCategory.save();
+    return NextResponse.json(newCategory, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json("Can't create category", { status: 500 });
@@ -26,11 +26,11 @@ export const POST = async (req: NextRequest) => {
 export const GET = async (req: NextRequest) => {
   const secret = process.env.JWT_SECRET;
   try {
-    const token = await getToken({ req, secret });
+    // const token = await getToken({ req, secret });
 
-    if (!token || token.email !== process.env.ADMIN_EMAIL) {
-      return NextResponse.json("Unauthorized", { status: 401 });
-    }
+    // if (!token || token.email !== process.env.ADMIN_EMAIL) {
+    //   return NextResponse.json("Unauthorized", { status: 401 });
+    // }
 
     await connectToDatabase();
     const category = await Category.find({});

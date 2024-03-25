@@ -4,6 +4,7 @@ import React from "react";
 import Link from "@/components/Link";
 import { Button, Card, Container, Row, Col, Image } from "react-bootstrap";
 import GoogleButton from "react-google-button";
+import { signIn } from "next-auth/react";
 
 //scss
 import signUpStyles from "@/styles/adminSignup.module.scss";
@@ -21,11 +22,15 @@ function SignIn() {
             To access Agapaint Hub, please make sure your email is registered:
           </Card.Text>
           {/* Google Auth Button */}
-          <div className="my-4 mx-2">
+          <div className="my-2 mx-2">
             <GoogleButton
+              style={{ fontFamily: "", borderRadius: "5px", color: "#000", border: "1px solid #A9A9A9" }}
+              className="w-100 fw-medium d-flex justify-content-center align-items-center my-google-button"
+              type="light"
               onClick={() => {
-                console.log("Google button clicked");
+                signIn("google", { callbackUrl: "/" });
               }}
+              label="Continue with Google"
             />
           </div>
           <hr className="my-4 mx-3" />
