@@ -38,6 +38,11 @@
     color: white;
 }
 
+.generateButton:active {
+    background-color: var(--agapaint-yellow) !important;
+    color: white;
+}
+
 .datePicker {
     width: 120px;
     padding: none;
