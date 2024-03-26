@@ -1,5 +1,5 @@
 "use client";
-import { Container, Row, Col, Image, Table, Badge, InputGroup, Card } from "react-bootstrap";
+import { Container, Row, Col, Image, Table, Badge, InputGroup, Card, Button } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import AptCard from "@/components/AptCard";
@@ -10,6 +10,10 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Appointment, User } from "@/types";
+import Footer from "@/components/CustomerFooter";
+import Navbar from "@/components/CustomerNav";
+import Banner from "@/components/Banner";
+import Link from "next/link";
 
 function custAppointment() {
   const router = useRouter();
@@ -30,63 +34,87 @@ function custAppointment() {
     }
   }, [session?.user?._id]);
 
+  let capitalizedFullName = "";
+  let capitalizedFirstName = "";
+  if (session && session.user && session.user.name) {
+    const nameParts = session.user.name.split(" ");
+    const firstName = nameParts[0].toLowerCase();
+    capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+    capitalizedFullName = nameParts
+      .map((namePart) => {
+        const lowerCaseNamePart = namePart.toLowerCase();
+        return lowerCaseNamePart.charAt(0).toUpperCase() + lowerCaseNamePart.slice(1);
+      })
+      .join(" ");
+  }
+
   return (
-    <main>
+    <main className="agapaint-bg">
       {/* Navbar Here */}
+      <Navbar />
 
       {/* My Profile Header */}
-      <Header img={myProfileBg.src} text="My Profile" color="agapaint-yellow" />
+      {/* BreadCrumbs */}
+      <Banner userFName={capitalizedFirstName} page="profile" />
 
-      {/* My Profile Body */}
-      <Container className="p-5 justify-content-around">
-        <Row className="d-flex justify-content-center">
-          <Col xl={3} lg={2} />
-          <Col xl={6} lg={8}>
-            <Card className="mx-auto shadow border-0">
-              <Card.Body>
-                <Row>
-                  <Col md={4} className="d-flex justify-content-center">
-                    <Image src={session?.user?.image} roundedCircle fluid />
-                  </Col>
-                  <Col md={8} className="align-self-center text-center text-lg-left mt-3 mt-lg-0 mt-md-0">
-                    <h3 className="fw-bold">{session?.user?.name}</h3>
-                    <Card.Text>{session?.user?.email}</Card.Text>
-                  </Col>
+      {/* Body */}
+      <Container className="p-5">
+        <Row className="pt-3">
+          {/* Profile Column */}
+          <Col lg={3}>
+            <Card style={{ borderRadius: "15px" }}>
+              <Card.Body className="p-4 pt-5 text-center">
+                <Image src={session?.user?.image} roundedCircle width={110} />
+                <p className="fs-5 fw-semibold mt-3 mb-1">{capitalizedFullName}</p>
+                <Badge pill bg="success-subtle" className="mb-3 text-success-emphasis fw-normal">
+                  Client
+                </Badge>
+                {/* Book Appointment */}
+                <Button variant="warning" className="mb-3" style={{ padding: "0.50rem 1rem", fontSize: "0.85rem" }}>
+                  Book New Appointment
+                </Button>
+                {/* Email */}
+                <Card style={{ borderRadius: "18px", backgroundColor: "#f6f8f9" }}>
+                  <Card.Body>
+                    <p className="text-start text-secondary mb-1" style={{ fontSize: "0.8rem" }}>
+                      Google Email
+                    </p>
+                    <Card.Text className="text-start" style={{ fontSize: "0.8rem" }}>
+                      {session?.user?.email}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col lg={9}>
+            <Card style={{ borderRadius: "15px" }}>
+              <Card.Body className="p-4">
+                <div className="d-flex justify-content-between">
+                  <p className="mb-1 fw-semibold text-dark text-start fs-5">My Appointments</p>
+                  <p className="small text-end text-secondary">
+                    Click to see further details of your appointment, including your balance.
+                  </p>
+                </div>
+                <hr className="mt-2" />
+                List View
+                Card View
+                <Row className="g-4">
+                  {!user ? (
+                    <p>Loading...</p>
+                  ) : (
+                    user.appointment.map((apt: Appointment) => {
+                      return <AptCard key={apt._id} appointment={apt} onClick={handleRowClick} />;
+                    })
+                  )}
                 </Row>
               </Card.Body>
             </Card>
           </Col>
-          <Col xl={3} lg={2} />
         </Row>
       </Container>
-
-      {/* My Appointments Header */}
-      <Header img={myAppointmentBg.src} text="My Appointment" color="agapaint-black" />
-
-      {/* My Appointments Body */}
-      <Container className="p-5 justify-content-around mb-5">
-        <Row className="d-flex mb-2">
-          <h1 className="agapaint-yellow fw-bold">Appointment Overview</h1>
-          <p>Click a card to see further details of your appointment, including your balance.</p>
-        </Row>
-        <Row className="g-4">
-          {!user ? (
-            <p>Loading...</p>
-          ) : (
-            user.appointment.map((apt: Appointment) => {
-              return (
-                <AptCard
-                  key={apt._id}
-                  appointment={apt}
-                  onClick={handleRowClick}
-                />
-              );
-            })
-          )}
-        </Row>
-      </Container>
-
       {/* Footer Here */}
+      <Footer />
     </main>
   );
 }

@@ -309,3 +309,11 @@ a {
   color: #919aa3;
   cursor: pointer;
 }
+
+.breadcrumb .breadcrumb-item+.breadcrumb-item::before {
+  color: white;
+}
+
+.breadcrumb-item a {
+  text-decoration: none !important;
+}
