@@ -200,7 +200,7 @@ function manageInventory() {
                           <td>{material.quantity}</td>
                           <td>
                             <InvUpdateMaterialModal
-                              setMaterials={setActiveMaterials}
+                              setActiveMaterials={setActiveMaterials}
                               materialData={material}
                               id={material._id}
                               activeCategories={activeCategories}

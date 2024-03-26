@@ -18,7 +18,6 @@ function InvUpdateCategoryModal({
 }) {
   const [show, setShow] = useState(false);
   const [category, setCategory] = useState<Category>();
-  const [newCategory, setNewCategory] = useState(""); // New state variable
   const [error, setError] = useState("");
 
   const {
