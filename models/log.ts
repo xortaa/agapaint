@@ -26,10 +26,6 @@ const logSchema = new Schema({
     type: String,
     required: true,
   },
-  isArchived: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const Log = models.Log || model("Log", logSchema);
