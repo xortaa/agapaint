@@ -13,7 +13,9 @@ function Navbar2() {
   const { data: session } = useSession();
 
   const handleSignOut = async () => {
-    await signOut();
+    await signOut({
+      callbackUrl: `${window.location.origin}/`
+    });
   };
 
   useEffect(() => {
@@ -129,4 +131,3 @@ function Navbar2() {
 }
 
 export default Navbar2;
-

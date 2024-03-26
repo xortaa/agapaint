@@ -11,8 +11,10 @@ import { Appointment, User } from "@/types";
 import paymentStatusBg from "@/public/assets/img/paymentStatusBg.png";
 import Footer from "@/components/CustomerFooter";
 import Navbar from "@/components/CustomerNav";
+import Navbar2 from "@/components/CustomerNav2";
 import Banner from "@/components/Banner";
 import StatusBadge from "@/components/StatusBadge";
+import { getSession } from "next-auth/react";
 
 function custPayment() {
   const router = useRouter();
@@ -40,10 +42,22 @@ function custPayment() {
     capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
   }
 
+  // Logged in
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const checkSignInStatus = async () => {
+    const session = await getSession();
+    return session ? true : false;
+  };
+
+  useEffect(() => {
+    checkSignInStatus().then((isSignedIn) => setIsSignedIn(isSignedIn));
+  }, []);
+
   return (
     <main>
       {/* Navbar */}
-      <Navbar />
+      {isSignedIn ? <Navbar2 /> : <Navbar />}
 
       {/* New Banner */}
       <Banner page="payment" />

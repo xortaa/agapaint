@@ -12,12 +12,15 @@ import axios from "axios";
 import { Appointment, User } from "@/types";
 import Footer from "@/components/CustomerFooter";
 import Navbar from "@/components/CustomerNav";
+import Navbar2 from "@/components/CustomerNav2";
 import Banner from "@/components/Banner";
 import Link from "next/link";
 import { List, Grid, Check2 } from "react-bootstrap-icons";
 import AptList from "@/components/AptList";
 import PlaceholderRow from "@/components/PlaceholderRow";
 import PlaceholderCard from "@/components/PlaceholderCard";
+import { getSession } from "next-auth/react";
+import icon from "@/public/assets/img/iconApt.svg";
 
 function custAppointment() {
   const router = useRouter();
@@ -73,10 +76,22 @@ function custAppointment() {
     setView(false);
   };
 
+  // Logged in?
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const checkSignInStatus = async () => {
+    const session = await getSession();
+    return session ? true : false;
+  };
+
+  useEffect(() => {
+    checkSignInStatus().then((isSignedIn) => setIsSignedIn(isSignedIn));
+  }, []);
+
   return (
     <main className="agapaint-bg">
       {/* Navbar Here */}
-      <Navbar />
+      {isSignedIn ? <Navbar2 /> : <Navbar />}
 
       {/* My Profile Header */}
       {/* BreadCrumbs */}
@@ -184,9 +199,20 @@ function custAppointment() {
                           <th className="fw-semibold text-end">Amount</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody style={{ cursor: "pointer" }}>
                         {!user ? (
                           <PlaceholderRow col="5" />
+                        ) : user.appointment.length === 0 ? (
+                          <tr>
+                            <td colSpan={5} className="text-center p-5">
+                              <Image src={icon.src} fluid width={50} />
+                              <p className="fs-3 text-secondary mt-3 mb-0">No appointments scheduled yet</p>
+                              <p className="fs-3 text-secondary mb-0">Let's get started with your first one.</p>
+                              <p className="text-secondary">
+                                Kickstart your Agapaint adventure! Book your appointment now!
+                              </p>
+                            </td>
+                          </tr>
                         ) : (
                           user.appointment.map((apt: Appointment) => (
                             <AptList key={apt._id} appointment={apt} onClick={handleRowClick} />
@@ -197,6 +223,13 @@ function custAppointment() {
                   ) : // Card View
                   !user ? (
                     <PlaceholderCard />
+                  ) : !user || user.appointment.length === 0 ? (
+                    <div className="text-center p-5">
+                      <Image src={icon.src} fluid width={50} />
+                      <p className="fs-3 text-secondary mt-3 mb-0">No appointments scheduled yet</p>
+                      <p className="fs-3 text-secondary mb-0">Let's get started with your first one.</p>
+                      <p className="text-secondary">Kickstart your Agapaint adventure! Book your appointment now!</p>
+                    </div>
                   ) : (
                     user.appointment.map((apt: Appointment) => (
                       <AptCard key={apt._id} appointment={apt} onClick={handleRowClick} />
