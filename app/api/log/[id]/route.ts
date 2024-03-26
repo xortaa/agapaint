@@ -33,7 +33,7 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
     }
 
     await connectToDatabase();
-    const deletedLog = await Log.findByIdAndDelete(id);
+    const deletedLog = await Log.findByIdAndUpdate(id, { isArchived: true }, { new: true });
     return NextResponse.json(deletedLog, { status: 200 });
   } catch (error) {
     console.log(error);

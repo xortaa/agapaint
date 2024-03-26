@@ -81,6 +81,7 @@ export interface FaqData {
 export interface Category {
   _id: string;
   name: string;
+  isArchived: boolean;
   __v: number;
 }
 
@@ -93,6 +94,7 @@ export interface Material {
   name: string;
   category: Category;
   quantity: number;
+  isArchived: boolean;
   __v: number;
 }
 
@@ -119,5 +121,6 @@ export interface Log {
   transactionDate: Date;
   notes: string;
   updatedBy: string;
+  isArchived: boolean;
   __v: number;
 }

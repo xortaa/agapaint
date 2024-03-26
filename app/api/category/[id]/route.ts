@@ -53,7 +53,7 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
     // }
 
     await connectToDatabase();
-    const deletedCategory = await Category.findByIdAndDelete(id);
+    const deletedCategory = await Category.findByIdAndUpdate(id, { isArchived: true }, { new: true });
     return NextResponse.json(deletedCategory, { status: 200 });
   } catch (error) {
     console.log(error);

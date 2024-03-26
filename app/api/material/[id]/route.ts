@@ -53,7 +53,7 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
     // }
 
     await connectToDatabase();
-    const deletedMaterial = await Materials.findByIdAndDelete(id);
+    const deletedMaterial = await Materials.findByIdAndUpdate(id, { isArchived: true }, { new: true });
     return NextResponse.json(deletedMaterial, { status: 200 });
   } catch (error) {
     console.log(error);
