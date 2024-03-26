@@ -1,5 +1,5 @@
 "use client";
-import { Container, Row, Col, Image, Table, Badge, InputGroup, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Image, Table, Badge, InputGroup, Card, Button, ButtonGroup } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import AptCard from "@/components/AptCard";
@@ -14,6 +14,7 @@ import Footer from "@/components/CustomerFooter";
 import Navbar from "@/components/CustomerNav";
 import Banner from "@/components/Banner";
 import Link from "next/link";
+import { List, Grid, Check2 } from "react-bootstrap-icons";
 
 function custAppointment() {
   const router = useRouter();
@@ -34,6 +35,7 @@ function custAppointment() {
     }
   }, [session?.user?._id]);
 
+  // Format the name to be capitalized
   let capitalizedFullName = "";
   let capitalizedFirstName = "";
   if (session && session.user && session.user.name) {
@@ -47,6 +49,17 @@ function custAppointment() {
       })
       .join(" ");
   }
+  // View Option: List View or Card View
+  const [isListView, setIsListView] = useState(true); // add a state variable to track the active view
+  const [view, setView] = useState(false);
+  const toggleHandler = (e) => {
+    e.preventDefault();
+    setView(true);
+  };
+  const toggleHandler1 = (e) => {
+    e.preventDefault();
+    setView(false);
+  };
 
   return (
     <main className="agapaint-bg">
@@ -70,9 +83,11 @@ function custAppointment() {
                   Client
                 </Badge>
                 {/* Book Appointment */}
-                <Button variant="warning" className="mb-3" style={{ padding: "0.50rem 1rem", fontSize: "0.85rem" }}>
-                  Book New Appointment
-                </Button>
+                <Link href="/booking">
+                  <Button variant="warning" className="mb-3" style={{ padding: "0.50rem 1rem", fontSize: "0.85rem" }}>
+                    Book New Appointment
+                  </Button>
+                </Link>
                 {/* Email */}
                 <Card style={{ borderRadius: "18px", backgroundColor: "#f6f8f9" }}>
                   <Card.Body>
@@ -97,15 +112,42 @@ function custAppointment() {
                   </p>
                 </div>
                 <hr className="mt-2" />
-                List View
-                Card View
+                <ButtonGroup>
+                  <Button
+                    className="listButton btn-success-subtle"
+                    size="sm"
+                    variant={isListView ? "success" : "outline-secondary"}
+                    onClick={(e) => {
+                      toggleHandler1(e);
+                      setIsListView(true);
+                    }}
+                  >
+                    {isListView && <Check2 className="slide-in" size={24} />}
+                    <List size={20} />
+                  </Button>
+                  <Button
+                    className="cardButton"
+                    size="sm"
+                    variant={!isListView ? "secondary" : "outline-secondary"}
+                    onClick={(e) => {
+                      toggleHandler(e);
+                      setIsListView(false);
+                    }}
+                  >
+                    {!isListView && <Check2 className="slide-in" size={24} />}
+                    <Grid size={20} />
+                  </Button>
+                </ButtonGroup>
+
                 <Row className="g-4">
-                  {!user ? (
+                  {!view ? (
+                    <h1></h1>
+                  ) : !user ? (
                     <p>Loading...</p>
                   ) : (
-                    user.appointment.map((apt: Appointment) => {
-                      return <AptCard key={apt._id} appointment={apt} onClick={handleRowClick} />;
-                    })
+                    user.appointment.map((apt: Appointment) => (
+                      <AptCard key={apt._id} appointment={apt} onClick={handleRowClick} />
+                    ))
                   )}
                 </Row>
               </Card.Body>
