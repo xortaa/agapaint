@@ -131,28 +131,31 @@ function manageInventory() {
                   {logLoading ? (
                     <PlaceholderRow col="8" />
                   ) : (
-                    [...logs].reverse().map((log, index) => (
-                      <tr key={log._id}>
-                        <td>{logs.length - index}</td>
-                        <td>
-                          <Badge bg={log.transactionType === "IN" ? "success" : "danger"} pill>
-                            {log.transactionType}
-                          </Badge>
-                        </td>
-                        <td>{log.material.name}</td>
-                        <td>{log.transactionQuantity}</td>
-                        <td>{materials.find((material) => material._id === log.material._id).quantity}</td>
-                        <td>{log.notes}</td>
-                        <td>
-                          {new Date(log.transactionDate).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                        </td>
-                        <td>{log.updatedBy}</td>
-                      </tr>
-                    ))
+                    [...logs].reverse().map((log, index) => {
+                      const material = materials.find((material) => material._id === log.material._id);
+                      return (
+                        <tr key={log._id}>
+                          <td>{logs.length - index}</td>
+                          <td>
+                            <Badge bg={log.transactionType === "IN" ? "success" : "danger"} pill>
+                              {log.transactionType}
+                            </Badge>
+                          </td>
+                          <td>{material ? material.name : "Material not found"}</td>
+                          <td>{log.transactionQuantity}</td>
+                          <td>{material ? material.quantity : "N/A"}</td>
+                          <td>{log.notes}</td>
+                          <td>
+                            {new Date(log.transactionDate).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })}
+                          </td>
+                          <td>{log.updatedBy}</td>
+                        </tr>
+                      );
+                    })
                   )}
                 </tbody>
               </Table>
