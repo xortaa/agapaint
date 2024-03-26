@@ -7,11 +7,20 @@ import { FaPlus } from "react-icons/fa";
 import logStyles from "@/styles/logModal.module.scss";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { LogData, Material } from "@/types";
+import { LogData, Material, Log } from "@/types";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
+import { set } from "mongoose";
 
-function LogModal({ disabled, materials }: { disabled: boolean; materials: Material[] }) {
+function LogModal({
+  disabled,
+  materials,
+  setLogs,
+}: {
+  disabled: boolean;
+  materials: Material[];
+  setLogs: React.Dispatch<React.SetStateAction<Log[]>>;
+}) {
   const { data: session } = useSession();
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false); // Add this line
@@ -32,9 +41,9 @@ function LogModal({ disabled, materials }: { disabled: boolean; materials: Mater
       axios
         .post("/api/log", newData)
         .then((res) => {
-          const newLog = res.data;
+          const newLog: Log = { ...res.data, material: selectedMaterial };
           setShow(false);
-          console.log(newLog);
+          setLogs((prevLogs) => [...prevLogs, newLog]);
 
           setTimeout(() => {
             resolve("Success");
