@@ -8,19 +8,16 @@ const logSchema = new Schema({
   transactionType: {
     type: String,
     required: true,
+    enum: ["IN", "OUT"],
   },
-  quantity: {
+  transactionQuantity: {
     type: Number,
-    required: true,
-  },
-  date: {
-    type: Date,
     required: true,
   },
   notes: {
     type: String,
   },
-  updateDate: {
+  transactionDate: {
     type: Date,
     default: Date.now,
     required: true,
@@ -28,10 +25,6 @@ const logSchema = new Schema({
   updatedBy: {
     type: String,
     required: true,
-  },
-  isArchived: {
-    type: Boolean,
-    default: false,
   },
 });
 
