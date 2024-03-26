@@ -94,7 +94,12 @@ function manageInventory() {
                     categories={categories}
                   />
                   {/* Add Log Modal */}
-                  <InvAddLogModal disabled={!materials.length} materials={materials} setLogs={setLogs}/>
+                  <InvAddLogModal
+                    disabled={!materials.length}
+                    materials={materials}
+                    setLogs={setLogs}
+                    setMaterials={setMaterials}
+                  />
                 </div>
               </div>
             </Row>
@@ -130,9 +135,15 @@ function manageInventory() {
                       </td>
                       <td>{log.material.name}</td>
                       <td>{log.transactionQuantity}</td>
-                      <td>{log.material.quantity}</td>
+                      <td>{materials.find((material) => material._id === log.material._id).quantity}</td>
                       <td>{log.notes}</td>
-                      <td>{new Date(log.transactionDate).toDateString()}</td>
+                      <td>
+                        {new Date(log.transactionDate).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </td>
                       <td>{log.updatedBy}</td>
                     </tr>
                   ))}

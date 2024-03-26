@@ -15,10 +15,12 @@ function LogModal({
   disabled,
   materials,
   setLogs,
+  setMaterials,
 }: {
   disabled: boolean;
   materials: Material[];
   setLogs: React.Dispatch<React.SetStateAction<Log[]>>;
+  setMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
 }) {
   const { data: session } = useSession();
   const [validated, setValidated] = useState(false);
@@ -43,6 +45,20 @@ function LogModal({
           const newLog: Log = { ...res.data, material: selectedMaterial };
           setShow(false);
           setLogs((prevLogs) => [...prevLogs, newLog]);
+          setMaterials((prevMaterials) => {
+            return prevMaterials.map((material) => {
+              if (material._id === newLog.material._id) {
+                return {
+                  ...material,
+                  quantity:
+                    newLog.transactionType === "IN"
+                      ? material.quantity + newLog.transactionQuantity
+                      : material.quantity - newLog.transactionQuantity,
+                };
+              }
+              return material;
+            });
+          });
 
           setTimeout(() => {
             resolve("Success");
