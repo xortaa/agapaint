@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+// import { getSession } from 'next-auth/client';
 import custhomeStyles from "@/styles/home.module.scss";
 import { Container, Row, Col, Card, Image, Button } from "react-bootstrap";
-import Link from "@/components/Link";
+import Link from "next/link";
 import { RiServiceFill } from "react-icons/ri";
 import { MdGppGood } from "react-icons/md";
 import { FaPeopleCarryBox } from "react-icons/fa6";
@@ -16,12 +17,25 @@ import about3 from "@/public/assets/img/about3.png";
 import Header from "@/components/CustomerHeader";
 import Footer from "@/components/CustomerFooter";
 import Navbar from "@/components/CustomerNav";
+import Navbar2 from "@/components/CustomerNav2";
 import Header2 from "@/components/Header";
+import { getSession } from "next-auth/react";
 
 function CustHome() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const checkSignInStatus = async () => {
+    const session = await getSession();
+    return session ? true : false;
+  };
+
+  useEffect(() => {
+    checkSignInStatus().then((isSignedIn) => setIsSignedIn(isSignedIn));
+  }, []);
+
   return (
     <>
-      <Navbar />
+      {isSignedIn ? <Navbar2 /> : <Navbar />}
       <Header />
 
       <div className={custhomeStyles.home}>

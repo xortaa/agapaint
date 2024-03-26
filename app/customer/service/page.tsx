@@ -2,13 +2,29 @@
 
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import Navbar from "@/components/CustomerNav";
+import Navbar2 from "@/components/CustomerNav2";
 import Footer from "@/components/CustomerFooter";
 import serviceStyles from "@/styles/custService.module.scss";
+import { getSession } from "next-auth/react";
+import { useState, useEffect } from "react";
 
 function custServices() {
+
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const checkSignInStatus = async () => {
+    const session = await getSession();
+    return session ? true : false;
+  };
+
+  useEffect(() => {
+    checkSignInStatus().then(isSignedIn => setIsSignedIn(isSignedIn));
+  }, []);
+  
+
   return (
     <>
-      <Navbar />
+      {isSignedIn ? <Navbar2 /> : <Navbar />}
 
       <div
         className={serviceStyles.headerBg}

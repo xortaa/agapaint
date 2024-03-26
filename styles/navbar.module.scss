@@ -200,3 +200,36 @@
 .bodyOverlay {
   overflow: hidden;
 }
+
+.customImage {
+  height: 2.5em;
+  width: 2.5em; 
+}
+
+.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.dropdown {
+  color: var(--agapaint-yellow);
+  outline: none;
+  border: none;
+}
+
+.dropdown:hover {
+  color: var(--agapaint-yellow);
+}
+
+.dropdown::after {
+  color: var(--agapaint-yellow);
+}
+
+.dropdownItem {
+  padding: 10px 20px;
+}
+
+.dropdownItem:hover {
+  background: #F5F5F5;
+  color: black;
+}
