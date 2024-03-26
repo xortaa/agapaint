@@ -20,9 +20,10 @@ import axios from "axios";
 import ToastPromise from "@/components/ToastPromise";
 
 function manageInventory() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [allCategories, setAllCategories] = useState<Category[]>([]);
   const [materials, setMaterials] = useState<Material[]>([]);
   const [logs, setLogs] = useState<Log[]>([]);
+  const [activeCategories, setActiveCategories] = useState<Category[]>([]);
   const [catLoading, setCatLoading] = useState(true);
   const [matLoading, setMatLoading] = useState(true);
   const [logLoading, setLogLoading] = useState(true);
@@ -37,7 +38,8 @@ function manageInventory() {
 
     const getCategories = () => {
       axios.get("/api/category").then((res) => {
-        setCategories(res.data);
+        setActiveCategories(res.data.filter((category:Category) => category.isArchived === false));
+        setAllCategories(res.data);
         setCatLoading(false);
       });
     };
@@ -89,12 +91,12 @@ function manageInventory() {
 
                 {/* Add Category Modal */}
                 <div className="ms-auto d-flex gap-2">
-                  <InvAddCatModal setCategories={setCategories} />
+                  <InvAddCatModal setActiveCategories={setActiveCategories} />
                   {/* Add Material Modal */}
                   <InvAddMaterialModal
                     setMaterials={setMaterials}
-                    disabled={!categories.length}
-                    categories={categories}
+                    disabled={!activeCategories.length}
+                    activeCategories={activeCategories}
                   />
                   {/* Add Log Modal */}
                   <InvAddLogModal
@@ -190,7 +192,7 @@ function manageInventory() {
                           <td>{material.name}</td>
                           <td>
                             <Badge pill bg="warning" text="dark">
-                              {categories.find((category) => category._id === String(material.category))?.name ||
+                              {allCategories.find((category) => category._id === String(material.category))?.name ||
                                 "Uncategorized"}
                             </Badge>
                           </td>
@@ -200,7 +202,7 @@ function manageInventory() {
                               setMaterials={setMaterials}
                               materialData={material}
                               id={material._id}
-                              categories={categories}
+                              activeCategories={activeCategories}
                             />
                             <InvArchiveMaterialModal setMaterials={setMaterials} materialData={material} />
                           </td>
@@ -231,17 +233,20 @@ function manageInventory() {
                       // Placeholder Component
                       <PlaceholderRow col="3" />
                     ) : (
-                      [...categories].reverse().map((category: Category, index) => (
+                      [...activeCategories].reverse().map((category: Category, index) => (
                         <tr key={category._id}>
-                          <td>{categories.length - index}</td>
+                          <td>{activeCategories.length - index}</td>
                           <td>{category.name}</td>
                           <td>
                             <InvUpdateCatModal
-                              setCategories={setCategories}
+                              setActiveCategories={setActiveCategories}
                               categoryData={category}
                               id={category._id}
                             />
-                            <InvArchiveCategoryModal setCategories={setCategories} categoryData={category} />
+                            <InvArchiveCategoryModal
+                              setActiveCategories={setActiveCategories}
+                              categoryData={category}
+                            />
                           </td>
                         </tr>
                       ))
