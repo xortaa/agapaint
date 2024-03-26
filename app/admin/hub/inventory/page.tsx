@@ -131,9 +131,9 @@ function manageInventory() {
                   {logLoading ? (
                     <PlaceholderRow col="8" />
                   ) : (
-                    logs.map((log, index) => (
+                    [...logs].reverse().map((log, index) => (
                       <tr key={log._id}>
-                        <td>{index + 1}</td>
+                        <td>{logs.length - index}</td>
                         <td>
                           <Badge bg={log.transactionType === "IN" ? "success" : "danger"} pill>
                             {log.transactionType}
@@ -181,9 +181,9 @@ function manageInventory() {
                     {matLoading ? (
                       <PlaceholderRow col="5" />
                     ) : (
-                      materials.map((material: Material, index) => (
+                      [...materials].reverse().map((material: Material, index) => (
                         <tr key={material._id}>
-                          <td>{index + 1}</td>
+                          <td>{materials.length - index}</td>
                           <td>{material.name}</td>
                           <td>
                             <Badge pill bg="warning" text="dark">
@@ -228,9 +228,9 @@ function manageInventory() {
                       // Placeholder Component
                       <PlaceholderRow col="3" />
                     ) : (
-                      categories.map((category: Category, index) => (
+                      [...categories].reverse().map((category: Category, index) => (
                         <tr key={category._id}>
-                          <td>{index + 1}</td>
+                          <td>{categories.length - index}</td>
                           <td>{category.name}</td>
                           <td>
                             <InvUpdateCatModal
