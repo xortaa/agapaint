@@ -7,11 +7,11 @@ import { useForm } from "react-hook-form";
 import { Material, MaterialData, Category } from "@/types";
 
 function InvAddMaterialModal({
-  setMaterials,
+  setActiveMaterials,
   disabled,
   activeCategories,
 }: {
-  setMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
+  setActiveMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
   disabled?: boolean;
   activeCategories: Category[];
 }) {
@@ -34,21 +34,19 @@ function InvAddMaterialModal({
 
   const handleShow = () => setShow(true);
 
-  // Category: Get all categories for select dropdown and fetch newly added cat every time the modal is shown
   const onSubmit = (data: Material) => {
-    const newData = { ...data };
+    const category = activeCategories.find((category) => category._id === String(data.category));
 
     const AddMaterial = new Promise((resolve, reject) => {
       axios
-        .post("/api/material", newData)
+        .post("/api/material", data)
         .then((res) => {
-          // Use the material document from the server response
-          const newMaterial = res.data;
-          handleClose();
-          console.log(newMaterial);
+          const newMaterial = { ...res.data, category: category ? category : res.data.category };
 
+          console.log(newMaterial);
+          handleClose();
           setTimeout(() => {
-            setMaterials((prev) => [...prev, newMaterial]);
+            setActiveMaterials((prev) => [...prev, newMaterial]);
             resolve("Success");
           }, 1000);
         })

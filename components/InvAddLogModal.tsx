@@ -13,14 +13,14 @@ import { toast } from "react-toastify";
 
 function LogModal({
   disabled,
-  materials,
+  activeMaterials,
   setLogs,
-  setMaterials,
+  setActiveMaterials,
 }: {
   disabled: boolean;
-  materials: Material[];
+  activeMaterials: Material[];
   setLogs: React.Dispatch<React.SetStateAction<Log[]>>;
-  setMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
+  setActiveMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
 }) {
   const { data: session } = useSession();
   const [validated, setValidated] = useState(false);
@@ -45,7 +45,7 @@ function LogModal({
           const newLog: Log = { ...res.data, material: selectedMaterial };
           setShow(false);
           setLogs((prevLogs) => [...prevLogs, newLog]);
-          setMaterials((prevMaterials) => {
+          setActiveMaterials((prevMaterials) => {
             return prevMaterials.map((material) => {
               if (material._id === newLog.material._id) {
                 return {
@@ -148,7 +148,7 @@ function LogModal({
                   required
                   {...register("material")}
                   onChange={(e) => {
-                    const selected = materials.find((material) => material._id === e.target.value);
+                    const selected = activeMaterials.find((material) => material._id === e.target.value);
                     setSelectedMaterial(selected || null);
                     setCurrentStock(selected ? selected?.quantity : null);
                   }}
@@ -156,7 +156,7 @@ function LogModal({
                   <option value="" disabled selected>
                     Select a Material
                   </option>
-                  {materials.map((material) => (
+                  {activeMaterials.map((material) => (
                     <option key={material._id} value={material._id}>
                       {material.name}
                     </option>

@@ -21,9 +21,10 @@ import ToastPromise from "@/components/ToastPromise";
 
 function manageInventory() {
   const [allCategories, setAllCategories] = useState<Category[]>([]);
-  const [materials, setMaterials] = useState<Material[]>([]);
+  const [allMaterials, setAllMaterials] = useState<Material[]>([]);
   const [logs, setLogs] = useState<Log[]>([]);
   const [activeCategories, setActiveCategories] = useState<Category[]>([]);
+  const [activeMaterials, setActiveMaterials] = useState<Material[]>([]);
   const [catLoading, setCatLoading] = useState(true);
   const [matLoading, setMatLoading] = useState(true);
   const [logLoading, setLogLoading] = useState(true);
@@ -31,7 +32,8 @@ function manageInventory() {
   useEffect(() => {
     const getMaterials = () => {
       axios.get("/api/material").then((res) => {
-        setMaterials(res.data);
+        setAllMaterials(res.data);
+        setActiveMaterials(res.data.filter((material:Material) => material.isArchived === false));
         setMatLoading(false);
       });
     };
@@ -94,16 +96,16 @@ function manageInventory() {
                   <InvAddCatModal setActiveCategories={setActiveCategories} />
                   {/* Add Material Modal */}
                   <InvAddMaterialModal
-                    setMaterials={setMaterials}
+                    setActiveMaterials={setActiveMaterials}
                     disabled={!activeCategories.length}
                     activeCategories={activeCategories}
                   />
                   {/* Add Log Modal */}
                   <InvAddLogModal
-                    disabled={!materials.length}
-                    materials={materials}
+                    disabled={!activeMaterials.length}
+                    activeMaterials={activeMaterials}
                     setLogs={setLogs}
-                    setMaterials={setMaterials}
+                    setActiveMaterials={setActiveMaterials}
                   />
                 </div>
               </div>
@@ -134,7 +136,7 @@ function manageInventory() {
                     <PlaceholderRow col="8" />
                   ) : (
                     [...logs].reverse().map((log, index) => {
-                      const material = materials.find((material) => material._id === log.material._id);
+                      const material = activeMaterials.find((material) => material._id === log.material._id);
                       return (
                         <tr key={log._id}>
                           <td>{logs.length - index}</td>
@@ -186,25 +188,24 @@ function manageInventory() {
                     {matLoading ? (
                       <PlaceholderRow col="5" />
                     ) : (
-                      [...materials].reverse().map((material: Material, index) => (
+                      [...activeMaterials].reverse().map((material: Material, index) => (
                         <tr key={material._id}>
-                          <td>{materials.length - index}</td>
+                          <td>{activeMaterials.length - index}</td>
                           <td>{material.name}</td>
                           <td>
                             <Badge pill bg="warning" text="dark">
-                              {allCategories.find((category) => category._id === String(material.category))?.name ||
-                                "Uncategorized"}
+                              {material.category.name}
                             </Badge>
                           </td>
                           <td>{material.quantity}</td>
                           <td>
                             <InvUpdateMaterialModal
-                              setMaterials={setMaterials}
+                              setMaterials={setActiveMaterials}
                               materialData={material}
                               id={material._id}
                               activeCategories={activeCategories}
                             />
-                            <InvArchiveMaterialModal setMaterials={setMaterials} materialData={material} />
+                            <InvArchiveMaterialModal setMaterials={setActiveMaterials} materialData={material} />
                           </td>
                         </tr>
                       ))
