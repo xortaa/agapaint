@@ -9,11 +9,11 @@ import { Material, MaterialData, Category } from "@/types";
 function InvAddMaterialModal({
   setMaterials,
   disabled,
-  categories,
+  activeCategories,
 }: {
   setMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
   disabled?: boolean;
-  categories: Category[];
+  activeCategories: Category[];
 }) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
@@ -108,7 +108,7 @@ function InvAddMaterialModal({
                 <Col>
                   <Form.Label>Category Name</Form.Label>
                   <Form.Select aria-label="Select category" required {...register("category")}>
-                    {categories.map((category: Category) => (
+                    {activeCategories.map((category: Category) => (
                       <option key={category._id} value={category._id}>
                         {category.name}
                       </option>

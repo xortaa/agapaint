@@ -7,10 +7,10 @@ import { toast } from "react-toastify";
 
 function InvArchiveCategoryModal({
   categoryData,
-  setCategories,
+  setActiveCategories,
 }: {
   categoryData: Category;
-  setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  setActiveCategories: React.Dispatch<React.SetStateAction<Category[]>>;
 }) {
   const [show, setShow] = useState(false);
   const [category, setCategory] = useState<Category>();
@@ -29,7 +29,7 @@ function InvArchiveCategoryModal({
           handleClose();
           
           setTimeout(() => {
-            setCategories((prev) => prev.filter((category) => category._id !== categoryData._id));
+            setActiveCategories((prev) => prev.filter((category) => category._id !== categoryData._id));
             resolve("Success");
           }, 1000);
         })
