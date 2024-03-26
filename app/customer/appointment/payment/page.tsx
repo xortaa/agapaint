@@ -4,34 +4,49 @@ import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import paymentStyles from "@/styles/payment.module.scss";
 import { ArrowLeft, CarFrontFill, CreditCard } from "react-bootstrap-icons";
-
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Appointment, User } from "@/types";
 import paymentStatusBg from "@/public/assets/img/paymentStatusBg.png";
+import Footer from "@/components/CustomerFooter";
+import Navbar from "@/components/CustomerNav";
+import Banner from "@/components/Banner";
+import StatusBadge from "@/components/StatusBadge";
 
 function custPayment() {
   const router = useRouter();
+  const { data: session } = useSession();
+  const [user, setUser] = useState<User | null>(null);
 
   const handleRowClick = () => {
     router.push("../appointment");
   };
 
+  useEffect(() => {
+    if (session?.user?._id) {
+      console.log(session);
+      axios
+        .get(`/api/users/${session?.user?._id}`)
+        .then((res) => setUser(res.data))
+        .catch((err) => console.log(err));
+    }
+  }, [session?.user?._id]);
+
+  let capitalizedFirstName = "";
+  if (session && session.user && session.user.name) {
+    const nameParts = session.user.name.split(" ");
+    const firstName = nameParts[0].toLowerCase();
+    capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+  }
+
   return (
     <main>
-      {/* Payment Status header with back to profile button*/}
-      <header className={paymentStyles.head}>
-        <Image src={paymentStatusBg.src} alt="" />
-        <div className={paymentStyles.buttonOverlay}>
-          <Button variant="outline-warning" onClick={handleRowClick}>
-            <span className="d-none d-md-inline">Back to Profile</span>
-            <span className="d-md-none">
-              <ArrowLeft size={25} />
-            </span>
-          </Button>
-        </div>
-        <div className={paymentStyles.textOverlay}>
-          <h1 className={`fw-bold display-4 agapaint-yellow`}>Payment Status</h1>
-          <p className="text-white">View the balance and dues of your appointment</p>
-        </div>
-      </header>
+      {/* Navbar */}
+      <Navbar />
+
+      {/* New Banner */}
+      <Banner page="payment" />
 
       {/* Payment Status Body */}
       <Container className="p-5 justify-content-around mb-5">
@@ -86,9 +101,7 @@ function custPayment() {
                 <Card className="shadow-sm">
                   <Card.Body>
                     <Card.Title className="fw-bold">
-                      <Badge pill bg="primary">
-                        For Release
-                      </Badge>
+                      <StatusBadge status="Pending"/>
                     </Card.Title>
                     <Card.Text>Service Status</Card.Text>
                   </Card.Body>
@@ -161,6 +174,7 @@ function custPayment() {
       </Container>
 
       {/* Footer Here */}
+      <Footer />
     </main>
   );
 }

@@ -309,3 +309,37 @@ a {
   color: #919aa3;
   cursor: pointer;
 }
+
+.breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+  color: white;
+}
+
+.breadcrumb-item a {
+  text-decoration: none !important;
+}
+
+.listButton {
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-top-left-radius: 5em !important;
+  border-bottom-left-radius: 5em !important;
+}
+
+.cardButton {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top-right-radius: 5em !important;
+  border-bottom-right-radius: 5em !important;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.slide-in {
+  animation: slideIn 0.3s ease-in-out;
+}
