@@ -12,6 +12,7 @@ import paymentStatusBg from "@/public/assets/img/paymentStatusBg.png";
 import Footer from "@/components/CustomerFooter";
 import Navbar from "@/components/CustomerNav";
 import Banner from "@/components/Banner";
+import StatusBadge from "@/components/StatusBadge";
 
 function custPayment() {
   const router = useRouter();
@@ -41,23 +42,6 @@ function custPayment() {
 
   return (
     <main>
-      {/* Payment Status header with back to profile button*/}
-      {/* <header className={paymentStyles.head}>
-        <Image src={paymentStatusBg.src} alt="" />
-        <div className={paymentStyles.buttonOverlay}>
-          <Button variant="outline-warning" onClick={handleRowClick}>
-            <span className="d-none d-md-inline">Back to Profile</span>
-            <span className="d-md-none">
-              <ArrowLeft size={25} />
-            </span>
-          </Button>
-        </div>
-        <div className={paymentStyles.textOverlay}>
-          <h1 className={`fw-bold display-4 agapaint-yellow`}>Payment Status</h1>
-          <p className="text-white">View the balance and dues of your appointment</p>
-        </div>
-      </header> */}
-
       {/* Navbar */}
       <Navbar />
 
@@ -117,9 +101,7 @@ function custPayment() {
                 <Card className="shadow-sm">
                   <Card.Body>
                     <Card.Title className="fw-bold">
-                      <Badge pill bg="primary">
-                        For Release
-                      </Badge>
+                      <StatusBadge status="Pending"/>
                     </Card.Title>
                     <Card.Text>Service Status</Card.Text>
                   </Card.Body>
