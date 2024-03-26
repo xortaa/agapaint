@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import saleStyles from "@/styles/adminSales.module.scss";
-import { Container, Row, Col, Card, Image, Button, Table } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Table } from "react-bootstrap";
 
 //component
 import AdminHeader from "@/components/AdminHeader";
@@ -16,7 +16,6 @@ import { MdFileDownload } from "react-icons/md";
 
 //line graph
 import { Chart, LineController, CategoryScale, LinearScale, PointElement, LineElement } from "chart.js";
-import { BoxSeam } from "react-bootstrap-icons";
 Chart.register(LineController, CategoryScale, LinearScale, PointElement, LineElement);
 
 //date picker
@@ -40,23 +39,14 @@ function AdminSales() {
       chartInstance.current = new Chart(chartRef.current, {
         type: "line",
         data: {
-          labels: [0, 10, 20, 30, 40, 50, 60], // Replace with your labels
+          labels: [10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000], // x-axis labels aka Revenue
           datasets: [
             {
               label: "Appointments",
-              data: [20, 30, 20, 60, 50, 30, 40], // Replace with your data for Appointments
+              data: [20, 30, 20, 60, 50, 30, 40, 10, 40, 10], // y axis aka Appointments count
               backgroundColor: "rgba(71, 225, 167, 1)",
               borderColor: "rgb(71, 225, 167)",
               pointBackgroundColor: "var(--agapaint-blue)",
-              borderWidth: 1,
-              fill: true,
-            },
-            {
-              label: "Revenue",
-              data: [10, 20, 10, 50, 60, 20, 30], // Replace with your data for Revenue
-              backgroundColor: "rgba(194, 116, 161, 1)",
-              borderColor: "rgb(194, 116, 161)",
-              pointBackgroundColor: "var(--agapaint-pink)",
               borderWidth: 1,
               fill: true,
             },
@@ -64,8 +54,18 @@ function AdminSales() {
         },
         options: {
           scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Revenue'
+              }
+            },
             y: {
               beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Appointments'
+              }
             },
           },
         },

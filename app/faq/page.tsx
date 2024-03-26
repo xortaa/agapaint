@@ -7,14 +7,22 @@ import faqStyles from "@/styles/faq.module.scss";
 import { Container, Accordion, Row } from "react-bootstrap";
 
 import { useState, useEffect } from "react";
+import { getSession } from "next-auth/react";
 
 //nav
 import Navbar from "@/components/CustomerNav";
+import Navbar2 from "@/components/CustomerNav2";
 import axios from "axios";
 import { Faq } from "@/types";
 
 const page = () => {
   const [faqs, setFaqs] = useState<Faq[]>([]);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const checkSignInStatus = async () => {
+    const session = await getSession();
+    return session ? true : false;
+  };
 
   useEffect(() => {
     const fetchFaqs = async () => {
@@ -23,13 +31,14 @@ const page = () => {
       });
     };
     fetchFaqs();
+    checkSignInStatus().then(isSignedIn => setIsSignedIn(isSignedIn));
   }, []);
 
   return (
     <main className={faqStyles.background} style={{ backgroundImage: "url(/assets/img/faqbg.png)" }}>
       <Container className="justify-content-center">
         {/*    navbar here */}
-        <Navbar />
+        {isSignedIn ? <Navbar2 /> : <Navbar />}
         <h1 className={faqStyles.faqtitle}>Frequently Asked Questions</h1>
       </Container>
 
