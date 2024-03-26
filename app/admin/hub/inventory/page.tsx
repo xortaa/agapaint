@@ -25,6 +25,7 @@ function manageInventory() {
   const [logs, setLogs] = useState<Log[]>([]);
   const [catLoading, setCatLoading] = useState(true);
   const [matLoading, setMatLoading] = useState(true);
+  const [logLoading, setLogLoading] = useState(true);
 
   useEffect(() => {
     const getMaterials = () => {
@@ -42,8 +43,10 @@ function manageInventory() {
     };
 
     const getLogs = () => {
+      setLogLoading(true);
       axios.get("/api/log").then((res) => {
         setLogs(res.data);
+        setLogLoading(false);
       });
     };
 
@@ -125,28 +128,32 @@ function manageInventory() {
                   </tr>
                 </thead>
                 <tbody>
-                  {logs.map((log, index) => (
-                    <tr key={log._id}>
-                      <td>{index + 1}</td>
-                      <td>
-                        <Badge bg={log.transactionType === "IN" ? "success" : "danger"} pill>
-                          {log.transactionType}
-                        </Badge>
-                      </td>
-                      <td>{log.material.name}</td>
-                      <td>{log.transactionQuantity}</td>
-                      <td>{materials.find((material) => material._id === log.material._id).quantity}</td>
-                      <td>{log.notes}</td>
-                      <td>
-                        {new Date(log.transactionDate).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
-                      </td>
-                      <td>{log.updatedBy}</td>
-                    </tr>
-                  ))}
+                  {logLoading ? (
+                    <PlaceholderRow col="8" />
+                  ) : (
+                    logs.map((log, index) => (
+                      <tr key={log._id}>
+                        <td>{index + 1}</td>
+                        <td>
+                          <Badge bg={log.transactionType === "IN" ? "success" : "danger"} pill>
+                            {log.transactionType}
+                          </Badge>
+                        </td>
+                        <td>{log.material.name}</td>
+                        <td>{log.transactionQuantity}</td>
+                        <td>{materials.find((material) => material._id === log.material._id).quantity}</td>
+                        <td>{log.notes}</td>
+                        <td>
+                          {new Date(log.transactionDate).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </td>
+                        <td>{log.updatedBy}</td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </Table>
             </Card>
