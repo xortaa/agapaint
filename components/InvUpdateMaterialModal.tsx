@@ -11,14 +11,15 @@ function InvUpdateMaterialModal({
   setMaterials,
   materialData,
   id,
+  categories,
 }: {
   setMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
   materialData: Material;
   id: string;
+  categories: Category[];
 }) {
   const [show, setShow] = useState(false);
   const [material, setMaterial] = useState<Material>();
-  const [categories, setCategories] = useState<Category[]>([]);
   const [error, setError] = useState("");
 
   const {
@@ -37,13 +38,6 @@ function InvUpdateMaterialModal({
       }
     });
   }, []);
-
-  // Category: Get all categories for select dropdown and fetch newly added cat every time the modal is shown
-  useEffect(() => {
-    axios.get("/api/category").then((res) => {
-      setCategories(res.data);
-    });
-  });
 
   const handleClose = () => {
     setShow(false);

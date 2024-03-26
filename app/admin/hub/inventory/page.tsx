@@ -27,20 +27,23 @@ function manageInventory() {
   const [catLoading, setCatLoading] = useState(true);
   const [matLoading, setMatLoading] = useState(true);
 
-  // Category: Get all categories
   useEffect(() => {
-    axios.get("/api/category").then((res) => {
-      setCategories(res.data);
-      setCatLoading(false);
-    });
-  }, []);
+    const getMaterials = () => {
+      axios.get("/api/material").then((res) => {
+        setMaterials(res.data);
+        setMatLoading(false);
+      });
+    };
 
-  // Material: get all materials
-  useEffect(() => {
-    axios.get("/api/material").then((res) => {
-      setMaterials(res.data);
-      setMatLoading(false);
-    });
+    const getCategories = () => {
+      axios.get("/api/category").then((res) => {
+        setCategories(res.data);
+        setCatLoading(false);
+      });
+    };
+
+    getMaterials();
+    getCategories();
   }, []);
 
   return (
@@ -79,9 +82,9 @@ function manageInventory() {
                 <div className="ms-auto d-flex gap-2">
                   <InvAddCatModal setCategories={setCategories} />
                   {/* Add Material Modal */}
-                  <InvAddMaterialModal setMaterials={setMaterials} disabled={!categories.length} />
+                  <InvAddMaterialModal setMaterials={setMaterials} disabled={!categories.length} categories={categories}/>
                   {/* Add Log Modal */}
-                  <InvAddLogModal disabled={!materials.length} />
+                  <InvAddLogModal disabled={!materials.length} materials={materials} />
                 </div>
               </div>
             </Row>
@@ -169,6 +172,7 @@ function manageInventory() {
                               setMaterials={setMaterials}
                               materialData={material}
                               id={material._id}
+                              categories={categories}
                             />
                             <InvArchiveMaterialModal setMaterials={setMaterials} materialData={material} />
                           </td>

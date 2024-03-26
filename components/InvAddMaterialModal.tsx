@@ -9,13 +9,14 @@ import { Material, MaterialData, Category } from "@/types";
 function InvAddMaterialModal({
   setMaterials,
   disabled,
+  categories,
 }: {
   setMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
   disabled?: boolean;
+  categories: Category[];
 }) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
-  const [categories, setCategories] = useState<Category[]>([]);
 
   const {
     register,
@@ -34,14 +35,6 @@ function InvAddMaterialModal({
   const handleShow = () => setShow(true);
 
   // Category: Get all categories for select dropdown and fetch newly added cat every time the modal is shown
-  useEffect(() => {
-    if (show) {
-      axios.get("/api/category").then((res) => {
-        setCategories(res.data);
-      });
-    }
-  }, [show]);
-
   const onSubmit = (data: Material) => {
     const newData = { ...data };
 
@@ -87,11 +80,7 @@ function InvAddMaterialModal({
           </span>
         </OverlayTrigger>
       ) : (
-        <Button
-          disabled={disabled}
-          style={{ backgroundColor: "#17A2B8 ", border: "none" }}
-          onClick={handleShow}
-        >
+        <Button disabled={disabled} style={{ backgroundColor: "#17A2B8 ", border: "none" }} onClick={handleShow}>
           <FaPlus /> Add Material
         </Button>
       )}
