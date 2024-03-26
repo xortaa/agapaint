@@ -1,5 +1,6 @@
 import connectToDatabase from "@/utils/database";
 import Log from "@/models/log";
+import Material from "@/models/material";
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
@@ -22,7 +23,15 @@ export const GET = async (req: NextRequest) => {
 };
 
 export const POST = async (req: NextRequest) => {
-  const logData = await req.json();
+  const {
+    material: materialId,
+    transactionType,
+    transactionQuantity,
+    notes,
+    transactionDate,
+    updatedBy,
+  } = await req.json();
+
   const secret = process.env.JWT_SECRET;
   try {
     const token = await getToken({ req, secret });
@@ -32,7 +41,28 @@ export const POST = async (req: NextRequest) => {
     }
 
     await connectToDatabase();
-    const log = await Log.create(logData);
+
+    let update: any;
+    if (transactionType === "IN") {
+      update = { $inc: { quantity: transactionQuantity } };
+    } else if (transactionType === "OUT") {
+      update = { $inc: { quantity: -transactionQuantity } };
+    }
+
+    const material = await Material.findByIdAndUpdate(materialId, update, { new: true });
+    if (!material) {
+      return NextResponse.json("Material not found", { status: 404 });
+    }
+
+    const log = await Log.create({
+      material: materialId,
+      transactionType,
+      transactionQuantity,
+      notes,
+      transactionDate,
+      updatedBy,
+    });
+
     return NextResponse.json(log, { status: 200 });
   } catch (error) {
     console.log(error);
