@@ -9,8 +9,6 @@ import InvArchiveCategoryModal from "@/components/InvArchiveCategoryModal";
 import InvAddMaterialModal from "@/components/InvAddMaterialModal";
 import InvUpdateMaterialModal from "@/components/InvUpdateMaterialModal";
 import InvArchiveMaterialModal from "@/components/InvArchiveMaterialModal";
-import InvUpdateLogModal from "@/components/InvUpdateLogModal";
-import InvArchiveLogModal from "@/components/InvArchiveLogModal";
 import PlaceholderRow from "@/components/PlaceholderRow";
 
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
@@ -96,7 +94,7 @@ function manageInventory() {
                     categories={categories}
                   />
                   {/* Add Log Modal */}
-                  <InvAddLogModal disabled={!materials.length} materials={materials} />
+                  <InvAddLogModal disabled={!materials.length} materials={materials} setLogs={setLogs}/>
                 </div>
               </div>
             </Row>
@@ -119,46 +117,25 @@ function manageInventory() {
                     <th>Notes</th>
                     <th>Update Date</th>
                     <th>Update By</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                    {logs.map((log, index) => (
-                      <tr key={log._id}>
-                        <td>{index + 1}</td>
-                        <td>
-                          <Badge bg={log.transactionType === "IN" ? "success" : "danger"} pill>
-                            {log.transactionType}
-                          </Badge>
-                        </td>
-                        <td>{log.material.name}</td>
-                        <td>{log.transactionQuantity}</td>
-                        <td>{log.material.quantity}</td>
-                        <td>{log.notes}</td>
-                        <td>{new Date(log.transactionDate).toDateString()}</td>
-                        <td>{log.updatedBy}</td>
-                        <td>
-                          <InvUpdateLogModal />
-                          <InvArchiveLogModal />
-                        </td>
-                      </tr>
-                    ))}
-                    {/* <td>1</td>
-                    <td>
-                      <Badge bg="success" pill>
-                        In
-                      </Badge>
-                    </td>
-                    <td>Weber Red</td>
-                    <td>0</td>
-                    <td>1 L</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td className="d-flex">
-                      <InvUpdateLogModal />
-                      <InvArchiveLogModal />
-                    </td> */}
+                  {logs.map((log, index) => (
+                    <tr key={log._id}>
+                      <td>{index + 1}</td>
+                      <td>
+                        <Badge bg={log.transactionType === "IN" ? "success" : "danger"} pill>
+                          {log.transactionType}
+                        </Badge>
+                      </td>
+                      <td>{log.material.name}</td>
+                      <td>{log.transactionQuantity}</td>
+                      <td>{log.material.quantity}</td>
+                      <td>{log.notes}</td>
+                      <td>{new Date(log.transactionDate).toDateString()}</td>
+                      <td>{log.updatedBy}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
             </Card>
