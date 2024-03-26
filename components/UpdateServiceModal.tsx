@@ -7,7 +7,7 @@ import { MdEdit } from "react-icons/md";
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
 import { Service } from "@/types";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import UploadButton from "./UploadButton";
 import ImageUploadPreview from "./ImageUploadPreview";
 import { toast } from "react-toastify";
@@ -29,6 +29,7 @@ function UpdateServiceModal({
     handleSubmit,
     setValue,
     watch,
+    control,
     formState: { errors },
   } = useForm<Service>();
 
@@ -143,13 +144,26 @@ function UpdateServiceModal({
             <Form.Group className="mb-3">
               <Form.Label>Car Type</Form.Label>
               <div className="d-flex">
-                {["Hatchback", "Sedan", "SUV/AUv", "Van"].map((carType) => (
+                {["Hatchback", "Sedan", "SUV/AUV", "Van", "Others"].map((carType) => (
                   <div key={`inline-checkbox`} className="mb-3">
-                    <Form.Check inline label={carType} name={carType} type="checkbox" id={carType} />
+                    <Controller
+                      control={control}
+                      name="carType"
+                      render={({ field }) => (
+                        <Form.Check
+                          inline
+                          label={carType}
+                          name={carType}
+                          type="checkbox"
+                          id={carType}
+                          checked={field.value === carType}
+                          onChange={(e) => field.onChange(e.target.checked ? carType : null)}
+                        />
+                      )}
+                    />
                   </div>
                 ))}
               </div>
-              {/* <Form.Control type="text" isInvalid={!!error} required {...register("carType")} /> */}
               <Form.Control.Feedback type="invalid">Please provide a car type</Form.Control.Feedback>
             </Form.Group>
 
