@@ -101,3 +101,23 @@ export interface MaterialData {
   category: Category;
   quantity: number;
 }
+
+export interface LogData {
+  material: string;
+  transactionType: "IN" | "OUT";
+  transactionQuantity: number;
+  transactionDate: Date;
+  notes: string;
+  updatedBy: string;
+}
+
+export interface Log {
+  _id: string;
+  material: Material;
+  transactionType: "IN" | "OUT";
+  transactionQuantity: number;
+  transactionDate: Date;
+  notes: string;
+  updatedBy: string;
+  __v: number;
+}
