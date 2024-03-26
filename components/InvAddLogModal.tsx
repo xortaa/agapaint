@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form";
 import { LogData, Material, Log } from "@/types";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
-import { set } from "mongoose";
 
 function LogModal({
   disabled,
