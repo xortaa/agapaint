@@ -30,11 +30,9 @@ function InvAddCatModal({
   const handleShow = () => setShow(true);
 
   const onSubmit = (data: Category) => {
-    const newData = { ...data };
-
     const AddCategory = new Promise((resolve, reject) => {
       axios
-        .post("/api/category", newData)
+        .post("/api/category", data)
         .then((res) => {
           // Use the category document from the server response
           const newCategory = res.data;
