@@ -17,13 +17,14 @@ import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons
 import { useState, useEffect } from "react";
 import Link from "@/components/Link";
 
-import { Category, Material } from "@/types";
+import { Category, Material, Log } from "@/types";
 import axios from "axios";
 import ToastPromise from "@/components/ToastPromise";
 
 function manageInventory() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [materials, setMaterials] = useState<Material[]>([]);
+  const [logs, setLogs] = useState<Log[]>([]);
   const [catLoading, setCatLoading] = useState(true);
   const [matLoading, setMatLoading] = useState(true);
 
@@ -42,8 +43,15 @@ function manageInventory() {
       });
     };
 
+    const getLogs = () => {
+      axios.get("/api/log").then((res) => {
+        setLogs(res.data);
+      });
+    };
+
     getMaterials();
     getCategories();
+    getLogs();
   }, []);
 
   return (
@@ -82,7 +90,11 @@ function manageInventory() {
                 <div className="ms-auto d-flex gap-2">
                   <InvAddCatModal setCategories={setCategories} />
                   {/* Add Material Modal */}
-                  <InvAddMaterialModal setMaterials={setMaterials} disabled={!categories.length} categories={categories}/>
+                  <InvAddMaterialModal
+                    setMaterials={setMaterials}
+                    disabled={!categories.length}
+                    categories={categories}
+                  />
                   {/* Add Log Modal */}
                   <InvAddLogModal disabled={!materials.length} materials={materials} />
                 </div>
@@ -111,8 +123,27 @@ function manageInventory() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
+                    {logs.map((log, index) => (
+                      <tr key={log._id}>
+                        <td>{index + 1}</td>
+                        <td>
+                          <Badge bg={log.transactionType === "IN" ? "success" : "danger"} pill>
+                            {log.transactionType}
+                          </Badge>
+                        </td>
+                        <td>{log.material.name}</td>
+                        <td>{log.transactionQuantity}</td>
+                        <td>{log.material.quantity}</td>
+                        <td>{log.notes}</td>
+                        <td>{new Date(log.transactionDate).toDateString()}</td>
+                        <td>{log.updatedBy}</td>
+                        <td>
+                          <InvUpdateLogModal />
+                          <InvArchiveLogModal />
+                        </td>
+                      </tr>
+                    ))}
+                    {/* <td>1</td>
                     <td>
                       <Badge bg="success" pill>
                         In
@@ -127,8 +158,7 @@ function manageInventory() {
                     <td className="d-flex">
                       <InvUpdateLogModal />
                       <InvArchiveLogModal />
-                    </td>
-                  </tr>
+                    </td> */}
                 </tbody>
               </Table>
             </Card>
