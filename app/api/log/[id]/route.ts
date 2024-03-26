@@ -14,8 +14,7 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
     }
 
     await connectToDatabase();
-    const log = await Log.findById(id);
-    console.log(log);
+    const log = await Log.findById(id).populate("material");
     return NextResponse.json(log, { status: 200 });
   } catch (error) {
     console.log(error);

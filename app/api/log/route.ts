@@ -13,7 +13,7 @@ export const GET = async (req: NextRequest) => {
     }
 
     await connectToDatabase();
-    const logs = await Log.find({});
+    const logs = await Log.find({}).populate("material");
     return NextResponse.json(logs, { status: 200 });
   } catch (error) {
     console.log(error);
