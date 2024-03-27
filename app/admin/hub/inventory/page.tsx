@@ -33,14 +33,14 @@ function manageInventory() {
     const getMaterials = () => {
       axios.get("/api/material").then((res) => {
         setAllMaterials(res.data);
-        setActiveMaterials(res.data.filter((material:Material) => material.isArchived === false));
+        setActiveMaterials(res.data.filter((material: Material) => material.isArchived === false));
         setMatLoading(false);
       });
     };
 
     const getCategories = () => {
       axios.get("/api/category").then((res) => {
-        setActiveCategories(res.data.filter((category:Category) => category.isArchived === false));
+        setActiveCategories(res.data.filter((category: Category) => category.isArchived === false));
         setAllCategories(res.data);
         setCatLoading(false);
       });
@@ -62,6 +62,7 @@ function manageInventory() {
   return (
     <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
+        <button onClick={() => console.log(logs)}>CLICK ME 2</button>
         <Row>
           {/* Toast Component */}
           <ToastPromise />
@@ -136,7 +137,13 @@ function manageInventory() {
                     <PlaceholderRow col="8" />
                   ) : (
                     [...logs].reverse().map((log, index) => {
-                      const material = activeMaterials.find((material) => material._id === log.material._id);
+                      const mergedMaterials = [
+                        ...allMaterials,
+                        ...activeMaterials.filter(
+                          (activeMaterial) => !allMaterials.some((material) => material._id === activeMaterial._id)
+                        ),
+                      ];
+                      const material = mergedMaterials.find((material) => material._id === log.material._id);
                       return (
                         <tr key={log._id}>
                           <td>{logs.length - index}</td>
