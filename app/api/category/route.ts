@@ -7,11 +7,11 @@ export const POST = async (req: NextRequest) => {
   const categoryData = await req.json();
   const secret = process.env.JWT_SECRET;
   try {
-    // const token = await getToken({ req, secret });
+    const token = await getToken({ req, secret });
 
-    // if (!token || token.email !== process.env.ADMIN_EMAIL) {
-    //   return NextResponse.json("Unauthorized", { status: 401 });
-    // }
+    if (!token || token.email !== process.env.ADMIN_EMAIL) {
+      return NextResponse.json("Unauthorized", { status: 401 });
+    }
 
     await connectToDatabase();
     const newCategory = new Category(categoryData);
@@ -26,11 +26,11 @@ export const POST = async (req: NextRequest) => {
 export const GET = async (req: NextRequest) => {
   const secret = process.env.JWT_SECRET;
   try {
-    // const token = await getToken({ req, secret });
+    const token = await getToken({ req, secret });
 
-    // if (!token || token.email !== process.env.ADMIN_EMAIL) {
-    //   return NextResponse.json("Unauthorized", { status: 401 });
-    // }
+    if (!token || token.email !== process.env.ADMIN_EMAIL) {
+      return NextResponse.json("Unauthorized", { status: 401 });
+    }
 
     await connectToDatabase();
     const category = await Category.find({});
