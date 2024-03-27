@@ -9,38 +9,54 @@ import InvArchiveCategoryModal from "@/components/InvArchiveCategoryModal";
 import InvAddMaterialModal from "@/components/InvAddMaterialModal";
 import InvUpdateMaterialModal from "@/components/InvUpdateMaterialModal";
 import InvArchiveMaterialModal from "@/components/InvArchiveMaterialModal";
-import InvUpdateLogModal from "@/components/InvUpdateLogModal";
-import InvArchiveLogModal from "@/components/InvArchiveLogModal";
 import PlaceholderRow from "@/components/PlaceholderRow";
 
 import { Search, Funnel, PlusLg, Pencil, InboxFill } from "react-bootstrap-icons";
 import { useState, useEffect } from "react";
 import Link from "@/components/Link";
 
-import { Category, Material } from "@/types";
+import { Category, Material, Log } from "@/types";
 import axios from "axios";
 import ToastPromise from "@/components/ToastPromise";
 
 function manageInventory() {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [materials, setMaterials] = useState<Material[]>([]);
+  const [allCategories, setAllCategories] = useState<Category[]>([]);
+  const [allMaterials, setAllMaterials] = useState<Material[]>([]);
+  const [logs, setLogs] = useState<Log[]>([]);
+  const [activeCategories, setActiveCategories] = useState<Category[]>([]);
+  const [activeMaterials, setActiveMaterials] = useState<Material[]>([]);
   const [catLoading, setCatLoading] = useState(true);
   const [matLoading, setMatLoading] = useState(true);
+  const [logLoading, setLogLoading] = useState(true);
 
-  // Category: Get all categories
   useEffect(() => {
-    axios.get("/api/category").then((res) => {
-      setCategories(res.data);
-      setCatLoading(false);
-    });
-  }, []);
+    const getMaterials = () => {
+      axios.get("/api/material").then((res) => {
+        setAllMaterials(res.data);
+        setActiveMaterials(res.data.filter((material: Material) => material.isArchived === false));
+        setMatLoading(false);
+      });
+    };
 
-  // Material: get all materials
-  useEffect(() => {
-    axios.get("/api/material").then((res) => {
-      setMaterials(res.data);
-      setMatLoading(false);
-    });
+    const getCategories = () => {
+      axios.get("/api/category").then((res) => {
+        setActiveCategories(res.data.filter((category: Category) => category.isArchived === false));
+        setAllCategories(res.data);
+        setCatLoading(false);
+      });
+    };
+
+    const getLogs = () => {
+      setLogLoading(true);
+      axios.get("/api/log").then((res) => {
+        setLogs(res.data);
+        setLogLoading(false);
+      });
+    };
+
+    getMaterials();
+    getCategories();
+    getLogs();
   }, []);
 
   return (
@@ -77,11 +93,21 @@ function manageInventory() {
 
                 {/* Add Category Modal */}
                 <div className="ms-auto d-flex gap-2">
-                  <InvAddCatModal setCategories={setCategories} />
+                  <InvAddCatModal setActiveCategories={setActiveCategories} />
                   {/* Add Material Modal */}
-                  <InvAddMaterialModal setMaterials={setMaterials} disabled={!categories.length} />
+                  <InvAddMaterialModal
+                    setActiveMaterials={setActiveMaterials}
+                    disabled={!activeCategories.length}
+                    activeCategories={activeCategories}
+                  />
                   {/* Add Log Modal */}
-                  <InvAddLogModal disabled={!materials.length} />
+                  <InvAddLogModal
+                    disabled={!activeMaterials.length}
+                    activeMaterials={activeMaterials}
+                    setLogs={setLogs}
+                    setActiveMaterials={setActiveMaterials}
+                    setAllMaterials={setAllMaterials}
+                  />
                 </div>
               </div>
             </Row>
@@ -104,28 +130,44 @@ function manageInventory() {
                     <th>Notes</th>
                     <th>Update Date</th>
                     <th>Update By</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>
-                      <Badge bg="success" pill>
-                        In
-                      </Badge>
-                    </td>
-                    <td>Weber Red</td>
-                    <td>0</td>
-                    <td>1 L</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td className="d-flex">
-                      <InvUpdateLogModal />
-                      <InvArchiveLogModal />
-                    </td>
-                  </tr>
+                  {logLoading ? (
+                    <PlaceholderRow col="8" />
+                  ) : (
+                    [...logs].reverse().map((log, index) => {
+                      const mergedMaterials = [
+                        ...allMaterials,
+                        ...activeMaterials.filter(
+                          (activeMaterial) => !allMaterials.some((material) => material._id === activeMaterial._id)
+                        ),
+                      ];
+                      const material = mergedMaterials.find((material) => material._id === log.material._id);
+                      return (
+                        <tr key={log._id}>
+                          <td>{logs.length - index}</td>
+                          <td>
+                            <Badge bg={log.transactionType === "IN" ? "success" : "danger"} pill>
+                              {log.transactionType}
+                            </Badge>
+                          </td>
+                          <td>{material ? material.name : "Material not found"}</td>
+                          <td>{log.transactionQuantity}</td>
+                          <td>{log.stock}</td>
+                          <td>{log.notes}</td>
+                          <td>
+                            {new Date(log.transactionDate).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })}
+                          </td>
+                          <td>{log.updatedBy}</td>
+                        </tr>
+                      );
+                    })
+                  )}
                 </tbody>
               </Table>
             </Card>
@@ -153,24 +195,24 @@ function manageInventory() {
                     {matLoading ? (
                       <PlaceholderRow col="5" />
                     ) : (
-                      materials.map((material: Material, index) => (
+                      [...activeMaterials].reverse().map((material: Material, index) => (
                         <tr key={material._id}>
-                          <td>{index + 1}</td>
+                          <td>{activeMaterials.length - index}</td>
                           <td>{material.name}</td>
                           <td>
                             <Badge pill bg="warning" text="dark">
-                              {categories.find((category) => category._id === String(material.category))?.name ||
-                                "Uncategorized"}
+                              {material.category.name}
                             </Badge>
                           </td>
                           <td>{material.quantity}</td>
                           <td>
                             <InvUpdateMaterialModal
-                              setMaterials={setMaterials}
+                              setActiveMaterials={setActiveMaterials}
                               materialData={material}
                               id={material._id}
+                              activeCategories={activeCategories}
                             />
-                            <InvArchiveMaterialModal setMaterials={setMaterials} materialData={material} />
+                            <InvArchiveMaterialModal setMaterials={setActiveMaterials} materialData={material} />
                           </td>
                         </tr>
                       ))
@@ -199,17 +241,20 @@ function manageInventory() {
                       // Placeholder Component
                       <PlaceholderRow col="3" />
                     ) : (
-                      categories.map((category: Category, index) => (
+                      [...activeCategories].reverse().map((category: Category, index) => (
                         <tr key={category._id}>
-                          <td>{index + 1}</td>
+                          <td>{activeCategories.length - index}</td>
                           <td>{category.name}</td>
                           <td>
                             <InvUpdateCatModal
-                              setCategories={setCategories}
+                              setActiveCategories={setActiveCategories}
                               categoryData={category}
                               id={category._id}
                             />
-                            <InvArchiveCategoryModal setCategories={setCategories} categoryData={category} />
+                            <InvArchiveCategoryModal
+                              setActiveCategories={setActiveCategories}
+                              categoryData={category}
+                            />
                           </td>
                         </tr>
                       ))

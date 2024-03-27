@@ -6,7 +6,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 
-function InvAddCatModal({ setCategories }: { setCategories: React.Dispatch<React.SetStateAction<Category[]>> }) {
+function InvAddCatModal({
+  setActiveCategories,
+}: {
+  setActiveCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+}) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
 
@@ -26,18 +30,16 @@ function InvAddCatModal({ setCategories }: { setCategories: React.Dispatch<React
   const handleShow = () => setShow(true);
 
   const onSubmit = (data: Category) => {
-    const newData = { ...data };
-
     const AddCategory = new Promise((resolve, reject) => {
       axios
-        .post("/api/category", newData)
+        .post("/api/category", data)
         .then((res) => {
           // Use the category document from the server response
           const newCategory = res.data;
           handleClose();
-          
+
           setTimeout(() => {
-            setCategories((prev) => [...prev, newCategory]);
+            setActiveCategories((prev) => [...prev, newCategory]);
             resolve("Success");
           }, 1000);
         })

@@ -5,6 +5,7 @@ const MaterialSchema = new Schema({
   category: {
     type: Schema.Types.ObjectId,
     ref: "Category",
+    default: "Uncategorized",
   },
   name: {
     type: String,

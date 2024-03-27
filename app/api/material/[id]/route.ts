@@ -14,7 +14,7 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
     // }
 
     await connectToDatabase();
-    const material = await Materials.findById(id);
+    const material = await Materials.findById(id).populate("category");
     return NextResponse.json(material, { status: 200 });
   } catch (error) {
     console.log(error);
@@ -53,7 +53,7 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
     // }
 
     await connectToDatabase();
-    const deletedMaterial = await Materials.findByIdAndDelete(id);
+    const deletedMaterial = await Materials.findByIdAndUpdate(id, { isArchived: true }, { new: true });
     return NextResponse.json(deletedMaterial, { status: 200 });
   } catch (error) {
     console.log(error);

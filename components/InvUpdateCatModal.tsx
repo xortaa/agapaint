@@ -8,17 +8,16 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 function InvUpdateCategoryModal({
-  setCategories,
+  setActiveCategories,
   categoryData,
   id,
 }: {
-  setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  setActiveCategories: React.Dispatch<React.SetStateAction<Category[]>>;
   categoryData: Category;
   id: string;
 }) {
   const [show, setShow] = useState(false);
   const [category, setCategory] = useState<Category>();
-  const [newCategory, setNewCategory] = useState(""); // New state variable
   const [error, setError] = useState("");
 
   const {
@@ -54,7 +53,7 @@ function InvUpdateCategoryModal({
           handleClose();
 
           setTimeout(() => {
-            setCategories((prev) => prev.map((category) => (category._id === categoryData._id ? res.data : category)));
+            setActiveCategories((prev) => prev.map((category) => (category._id === categoryData._id ? res.data : category)));
             resolve("Success");
           }, 1000);
         })

@@ -8,17 +8,18 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 function InvUpdateMaterialModal({
-  setMaterials,
+  setActiveMaterials,
   materialData,
   id,
+  activeCategories,
 }: {
-  setMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
+  setActiveMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
   materialData: Material;
   id: string;
+  activeCategories: Category[];
 }) {
   const [show, setShow] = useState(false);
   const [material, setMaterial] = useState<Material>();
-  const [categories, setCategories] = useState<Category[]>([]);
   const [error, setError] = useState("");
 
   const {
@@ -38,13 +39,6 @@ function InvUpdateMaterialModal({
     });
   }, []);
 
-  // Category: Get all categories for select dropdown and fetch newly added cat every time the modal is shown
-  useEffect(() => {
-    axios.get("/api/category").then((res) => {
-      setCategories(res.data);
-    });
-  });
-
   const handleClose = () => {
     setShow(false);
     setError("");
@@ -52,15 +46,19 @@ function InvUpdateMaterialModal({
   const handleShow = () => setShow(true);
 
   const onUpdate = (data: Material) => {
-    let newData = { ...data };
+    const category = activeCategories.find((category) => category._id === String(data.category));
+
     const UpdateMaterial = new Promise((resolve, reject) => {
       axios
-        .patch(`/api/material/${materialData._id}`, newData)
+        .patch(`/api/material/${materialData._id}`, data)
         .then((res) => {
+          const updatedMaterial = { ...res.data, category: category ? category : res.data.category };
           handleClose();
 
           setTimeout(() => {
-            setMaterials((prev) => prev.map((material) => (material._id === materialData._id ? res.data : material)));
+            setActiveMaterials((prev) =>
+              prev.map((material) => (material._id === materialData._id ? updatedMaterial : material))
+            );
             resolve("Success");
           }, 1000);
         })
@@ -105,8 +103,12 @@ function InvUpdateMaterialModal({
               <Row>
                 <Col>
                   <Form.Label>Category Name</Form.Label>
-                  <Form.Select aria-label="Select category" required {...register("category")}>
-                    {categories.map((category: Category) => (
+                  <Form.Select
+                    aria-label="Select category"
+                    required
+                    {...register("category")}                   
+                  >
+                    {activeCategories.map((category: Category) => (
                       <option key={category._id} value={category._id}>
                         {category.name}
                       </option>

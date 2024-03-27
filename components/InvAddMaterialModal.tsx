@@ -7,15 +7,16 @@ import { useForm } from "react-hook-form";
 import { Material, MaterialData, Category } from "@/types";
 
 function InvAddMaterialModal({
-  setMaterials,
+  setActiveMaterials,
   disabled,
+  activeCategories,
 }: {
-  setMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
+  setActiveMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
   disabled?: boolean;
+  activeCategories: Category[];
 }) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
-  const [categories, setCategories] = useState<Category[]>([]);
 
   const {
     register,
@@ -33,29 +34,19 @@ function InvAddMaterialModal({
 
   const handleShow = () => setShow(true);
 
-  // Category: Get all categories for select dropdown and fetch newly added cat every time the modal is shown
-  useEffect(() => {
-    if (show) {
-      axios.get("/api/category").then((res) => {
-        setCategories(res.data);
-      });
-    }
-  }, [show]);
-
   const onSubmit = (data: Material) => {
-    const newData = { ...data };
+    const category = activeCategories.find((category) => category._id === String(data.category));
 
     const AddMaterial = new Promise((resolve, reject) => {
       axios
-        .post("/api/material", newData)
+        .post("/api/material", data)
         .then((res) => {
-          // Use the material document from the server response
-          const newMaterial = res.data;
-          handleClose();
-          console.log(newMaterial);
+          const newMaterial = { ...res.data, category: category ? category : res.data.category };
 
+          console.log(newMaterial);
+          handleClose();
           setTimeout(() => {
-            setMaterials((prev) => [...prev, newMaterial]);
+            setActiveMaterials((prev) => [...prev, newMaterial]);
             resolve("Success");
           }, 1000);
         })
@@ -87,11 +78,7 @@ function InvAddMaterialModal({
           </span>
         </OverlayTrigger>
       ) : (
-        <Button
-          disabled={disabled}
-          style={{ backgroundColor: "#17A2B8 ", border: "none" }}
-          onClick={handleShow}
-        >
+        <Button disabled={disabled} style={{ backgroundColor: "#17A2B8 ", border: "none" }} onClick={handleShow}>
           <FaPlus /> Add Material
         </Button>
       )}
@@ -119,7 +106,7 @@ function InvAddMaterialModal({
                 <Col>
                   <Form.Label>Category Name</Form.Label>
                   <Form.Select aria-label="Select category" required {...register("category")}>
-                    {categories.map((category: Category) => (
+                    {activeCategories.map((category: Category) => (
                       <option key={category._id} value={category._id}>
                         {category.name}
                       </option>
