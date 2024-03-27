@@ -16,11 +16,13 @@ function LogModal({
   activeMaterials,
   setLogs,
   setActiveMaterials,
+  setAllMaterials,
 }: {
   disabled: boolean;
   activeMaterials: Material[];
   setLogs: React.Dispatch<React.SetStateAction<Log[]>>;
   setActiveMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
+  setAllMaterials: React.Dispatch<React.SetStateAction<Material[]>>;
 }) {
   const { data: session } = useSession();
   const [validated, setValidated] = useState(false);
@@ -36,40 +38,41 @@ function LogModal({
   } = useForm<LogData>();
 
   const onSubmit = (data: LogData) => {
-    const newData = { ...data, updatedBy: session.user.name };
-
     const AddLog = new Promise((resolve, reject) => {
+      const selectedMaterialQuantity = selectedMaterial.quantity;
+      const transactionQuantity = Number(data.transactionQuantity); // Ensure it's a number
+      const newQuantity =
+        data.transactionType === "IN"
+          ? selectedMaterialQuantity + transactionQuantity
+          : selectedMaterialQuantity - transactionQuantity;
+
+      const newData = { ...data, updatedBy: session.user.name, stock: newQuantity };
+
       axios
         .post("/api/log", newData)
         .then((res) => {
-          const newLog: Log = { ...res.data, material: selectedMaterial };
+          // Fetch the updated logs and materials from the server
+          return axios.get("/api/log");
+        })
+        .then((res) => {
+          setLogs(res.data);
+          return axios.get("/api/material");
+        })
+        .then((res) => {
+          setAllMaterials(res.data);
+          setActiveMaterials(res.data.filter((material: Material) => material.isArchived === false));
+          // Update the selectedMaterial state
+          const updatedSelectedMaterial = res.data.find((material: Material) => material._id === selectedMaterial._id);
+          setSelectedMaterial(updatedSelectedMaterial || null);
+          setCurrentStock(updatedSelectedMaterial ? updatedSelectedMaterial.quantity : null);
           setShow(false);
-          setLogs((prevLogs) => [...prevLogs, newLog]);
-          setActiveMaterials((prevMaterials) => {
-            return prevMaterials.map((material) => {
-              if (material._id === newLog.material._id) {
-                return {
-                  ...material,
-                  quantity:
-                    newLog.transactionType === "IN"
-                      ? material.quantity + newLog.transactionQuantity
-                      : material.quantity - newLog.transactionQuantity,
-                };
-              }
-              return material;
-            });
-          });
-
-          setTimeout(() => {
-            resolve("Success");
-          }, 1000);
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to add new log: ", error);
           reject(error);
         });
     });
-
     toast.promise(AddLog, {
       pending: "Adding log...",
       success: "New log added!",

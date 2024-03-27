@@ -62,7 +62,6 @@ function manageInventory() {
   return (
     <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
-        <button onClick={() => console.log(logs)}>CLICK ME 2</button>
         <Row>
           {/* Toast Component */}
           <ToastPromise />
@@ -107,6 +106,7 @@ function manageInventory() {
                     activeMaterials={activeMaterials}
                     setLogs={setLogs}
                     setActiveMaterials={setActiveMaterials}
+                    setAllMaterials={setAllMaterials}
                   />
                 </div>
               </div>
@@ -154,7 +154,7 @@ function manageInventory() {
                           </td>
                           <td>{material ? material.name : "Material not found"}</td>
                           <td>{log.transactionQuantity}</td>
-                          <td>{material ? material.quantity : "N/A"}</td>
+                          <td>{log.stock}</td>
                           <td>{log.notes}</td>
                           <td>
                             {new Date(log.transactionDate).toLocaleDateString("en-US", {

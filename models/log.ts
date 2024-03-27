@@ -26,6 +26,9 @@ const logSchema = new Schema({
     type: String,
     required: true,
   },
+  stock: { 
+    type: Number, 
+  }
 });
 
 const Log = models.Log || model("Log", logSchema);

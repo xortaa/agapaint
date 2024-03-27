@@ -111,6 +111,7 @@ export interface LogData {
   transactionDate: Date;
   notes: string;
   updatedBy: string;
+  stock: number;
 }
 
 export interface Log {
@@ -122,5 +123,6 @@ export interface Log {
   notes: string;
   updatedBy: string;
   isArchived: boolean;
+  stock: number;
   __v: number;
 }

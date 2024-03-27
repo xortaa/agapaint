@@ -23,14 +23,7 @@ export const GET = async (req: NextRequest) => {
 };
 
 export const POST = async (req: NextRequest) => {
-  const {
-    material: materialId,
-    transactionType,
-    transactionQuantity,
-    notes,
-    transactionDate,
-    updatedBy,
-  } = await req.json();
+  const logData = await req.json();
 
   const secret = process.env.JWT_SECRET;
   try {
@@ -43,25 +36,18 @@ export const POST = async (req: NextRequest) => {
     await connectToDatabase();
 
     let update: any;
-    if (transactionType === "IN") {
-      update = { $inc: { quantity: transactionQuantity } };
-    } else if (transactionType === "OUT") {
-      update = { $inc: { quantity: -transactionQuantity } };
+    if (logData.transactionType === "IN") {
+      update = { $inc: { quantity: logData.transactionQuantity } };
+    } else if (logData.transactionType === "OUT") {
+      update = { $inc: { quantity: - logData.transactionQuantity } };
     }
 
-    const material = await Material.findByIdAndUpdate(materialId, update, { new: true });
+    const material = await Material.findByIdAndUpdate(logData.material, update, { new: true });
     if (!material) {
       return NextResponse.json("Material not found", { status: 404 });
     }
 
-    const log = await Log.create({
-      material: materialId,
-      transactionType,
-      transactionQuantity,
-      notes,
-      transactionDate,
-      updatedBy,
-    });
+    const log = await Log.create(logData);
 
     return NextResponse.json(log, { status: 200 });
   } catch (error) {
