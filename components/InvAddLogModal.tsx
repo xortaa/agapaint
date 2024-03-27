@@ -1,6 +1,6 @@
 "use client";
 import { Modal, Row, Col, Button, Form, InputGroup, ButtonGroup, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { FaPlus } from "react-icons/fa";
 
@@ -37,10 +37,11 @@ function LogModal({
     formState: { errors },
   } = useForm<LogData>();
 
+
   const onSubmit = (data: LogData) => {
     const AddLog = new Promise((resolve, reject) => {
       const selectedMaterialQuantity = selectedMaterial.quantity;
-      const transactionQuantity = Number(data.transactionQuantity); // Ensure it's a number
+      const transactionQuantity = Number(data.transactionQuantity); 
       const newQuantity =
         data.transactionType === "IN"
           ? selectedMaterialQuantity + transactionQuantity
@@ -51,7 +52,6 @@ function LogModal({
       axios
         .post("/api/log", newData)
         .then((res) => {
-          // Fetch the updated logs and materials from the server
           return axios.get("/api/log");
         })
         .then((res) => {
@@ -60,8 +60,11 @@ function LogModal({
         })
         .then((res) => {
           setAllMaterials(res.data);
-          setActiveMaterials(res.data.filter((material: Material) => material.isArchived === false));
-          // Update the selectedMaterial state
+          setActiveMaterials((prev) =>
+            prev.map((material) =>
+              material._id === selectedMaterial._id ? { ...material, quantity: newQuantity } : material
+            )
+          );
           const updatedSelectedMaterial = res.data.find((material: Material) => material._id === selectedMaterial._id);
           setSelectedMaterial(updatedSelectedMaterial || null);
           setCurrentStock(updatedSelectedMaterial ? updatedSelectedMaterial.quantity : null);
@@ -80,7 +83,6 @@ function LogModal({
     });
   };
 
-  //  Trans Type
   type OptionType = "IN" | "OUT";
   const [selectedOption, setSelectedOption] = useState<OptionType>("IN");
 
@@ -89,8 +91,8 @@ function LogModal({
     setValue("transactionType", option);
   };
 
-  const handleClose = () => setShow(false); // Add this function
-  const handleShow = () => setShow(true); // Add this function
+  const handleClose = () => setShow(false); 
+  const handleShow = () => setShow(true);
 
   return (
     <main>
