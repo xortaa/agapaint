@@ -1,13 +1,13 @@
 .collapsed_sidebar,
 .displayed_sidebar {
   height: 100vh;
-  width: 75px; /* collapsed width */
+  width: 80px; /* collapsed width */
   top: 0;
   left: 0;
   margin: 0;
   position: fixed;
   background-color: #f1b038;
-  padding-top: 13px;
+  padding-top: 12px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -15,6 +15,7 @@
   border-bottom-right-radius: 10px;
   transition: width 0.3s ease;
   color: #000;
+  text-decoration: none;
 }
 
 .displayed_sidebar {
@@ -42,20 +43,46 @@
 }
 
 .sidebar_collapsed_link {
-  padding: 15px 20px;
+  padding: 6px 0px;
   color: black;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   z-index: 1;
   transition: 0.3s;
   margin: 7px 0px;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  text-decoration: none;
+}
+
+.custom_ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.signout_displayed {
+  padding: 12px 20px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 530;
+  color: black;
+  display: block;
+  z-index: 1;
+  transition: 0.2s;
+  margin: 7px 0px;
+
+  &:hover {
+    color: white;
+  }
 }
 
 .active_link {
   color: white;
-  border-left: 5px solid white;
-  font-size: 21px;
-  font-weight: 600;
-  padding-left: 8px;
+  background-color: hsl(40, 90%, 50%);
 }
 
 .custom_hr {
