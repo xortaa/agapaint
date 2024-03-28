@@ -1,11 +1,11 @@
 import { Schema, model, models } from "mongoose";
 
 const AppointmentSchema = new Schema({
-  customer: {
+  customerId: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  service: {
+  servicesId: {
     type: [Schema.Types.ObjectId],
     ref: "Service",
     required: true,
@@ -30,6 +30,14 @@ const AppointmentSchema = new Schema({
     type: String,
     required: true,
   },
+  carType: {
+    type: String,
+    required: true,
+  },
+  carManufacturer: {
+    type: String,
+    required: true,
+  },
   carModel: {
     type: String,
     required: true,
@@ -44,6 +52,14 @@ const AppointmentSchema = new Schema({
   time: {
     type: String,
     required: true,
+  },
+  status: {
+    type: String,
+    default: "Pending",
+  },
+  paymentTerm: {
+    type: String,
+    enum: ["Full", "Partial"],
   },
 });
 

@@ -19,20 +19,11 @@ const UserSchema = new Schema({
     enum: ["customer", "admin"],
     default: "customer",
   },
-});
-
-// if customer then add these fields
-const CustomerSchema = new Schema({
-  balance: {
-    type: Number,
-    default: 0,
-  },
   appointment: {
     type: [Schema.Types.ObjectId],
     ref: "Appointment",
   },
 });
-UserSchema.discriminator("Customer", CustomerSchema);
 
 const User = models.User || model("User", UserSchema);
 

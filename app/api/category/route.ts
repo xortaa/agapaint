@@ -14,9 +14,9 @@ export const POST = async (req: NextRequest) => {
     }
 
     await connectToDatabase();
-    const category = await Category.create(categoryData);
-    console.log(category);
-    return NextResponse.json(category, { status: 200 });
+    const newCategory = new Category(categoryData);
+    await newCategory.save();
+    return NextResponse.json(newCategory, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json("Can't create category", { status: 500 });
@@ -34,7 +34,6 @@ export const GET = async (req: NextRequest) => {
 
     await connectToDatabase();
     const category = await Category.find({});
-    console.log(category);
     return NextResponse.json(category, { status: 200 });
   } catch (error) {
     console.log(error);

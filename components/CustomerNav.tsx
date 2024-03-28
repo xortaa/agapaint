@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "react-bootstrap";
@@ -6,9 +8,9 @@ import navStyles from "@/styles/navbar.module.scss";
 import Image from "next/image";
 
 function Navbar() {
-  // for sticky navbar
   const navbarRef = useRef(null);
   const [isNavVisible, setIsNavVisible] = useState(false);
+  const [activeItem, setActiveItem] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,52 +26,64 @@ function Navbar() {
     };
   }, []);
 
+  useEffect(() => { 
+    const storedActiveItem = localStorage.getItem("activeItem");
+    if (storedActiveItem) {
+      setActiveItem(storedActiveItem);
+    }
+  }, []);
+
   const handleBarsClick = () => {
     setIsNavVisible(!isNavVisible);
+    document.body.classList.toggle(navStyles.bodyOverlay, isNavVisible);
+  };
+
+  const handleItemClick = (itemName) => {
+    setActiveItem(itemName);
+    localStorage.setItem("activeItem", itemName);
   };
 
   return (
     <>
+      <div className={navStyles.overlay} onClick={handleBarsClick} style={{ display: isNavVisible ? 'block' : 'none' }} />
       <div ref={navbarRef} className={navStyles.navbar1}>
-      <Link href="/">
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Image src="/assets/img/icon.png" alt="logo" width={70} height={70} />
-              <span className={navStyles.spanText} style={{ marginLeft: '10px' }}>AGAPAINT</span>
-            </div>
+        <Link href="/">
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Image src="/assets/img/icon.png" alt="logo" width={70} height={70} onClick={() => handleItemClick("home")}/>
+            <span className={navStyles.spanText} style={{ marginLeft: "10px" }} onClick={() => handleItemClick("home")}>
+              AGAPAINT
+            </span>
+          </div>
         </Link>
 
-        {/* for clickable bar */}
+        {/* hamburger for smaller screen sizes */}
         <FaBars color="#ffc72c" className={navStyles.bars} onClick={handleBarsClick} />
+
         <div className={`${navStyles.navbar} ${isNavVisible ? navStyles.open : ""}`}>
           <ul className={navStyles.ul}>
-            <li>
-              <Link href="/" className={navStyles.ulItem}>
+            <li onClick={() => handleItemClick("home")}>
+              <Link href="/" className={`${navStyles.ulItem} ${activeItem === "home" ? navStyles.active : ""}`}>
                 Home
               </Link>
             </li>
-            <li>
-              <Link href="/services" className={navStyles.ulItem}>
+            <li onClick={() => handleItemClick("services")}>
+              <Link href="/customer/service" className={`${navStyles.ulItem} ${activeItem === "services" ? navStyles.active : ""}`}>
                 Services
               </Link>
             </li>
-            <li>
-              <Link href="/faq" className={navStyles.ulItem}>
+            <li onClick={() => handleItemClick("faq")}>
+              <Link href="/faq" className={`${navStyles.ulItem} ${activeItem === "faq" ? navStyles.active : ""}`}>
                 FAQ
               </Link>
             </li>
-            <li>
-              <Link href="/" className={navStyles.ulItem}>
-              <Button className={navStyles.btnLog}>Book Now</Button>
+            <li onClick={() => handleItemClick("booking")}>
+              <Link href="/booking" className={`${navStyles.ulItem} ${activeItem === "booking" ? navStyles.active : ""}`}>
+                <Button className={navStyles.btnLog}>Book Now</Button>
               </Link>
             </li>
-            {/* <li>
-              <Link href="/customer/signup">
-                <Button className={navStyles.btnSign}>Sign Up</Button>
-              </Link>
-            </li> */}
-            <li>
-              <Link href="/customer/signup">
-              <FaUserAlt color="#fff" size={25}/>
+            <li onClick={() => handleItemClick("signup")}>
+              <Link href="/customer/signup" className={`${navStyles.ulItem} ${activeItem === "signup" ? navStyles.active : ""}`}>
+                <FaUserAlt color="#fff" size={25} />
               </Link>
             </li>
           </ul>

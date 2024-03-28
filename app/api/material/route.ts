@@ -13,7 +13,7 @@ export const GET = async (req: NextRequest) => {
     }
 
     await connectToDatabase();
-    const material = await Materials.find({});
+    const material = await Materials.find({}).populate("category");
     return NextResponse.json(material, { status: 200 });
   } catch (error) {
     console.log(error);
@@ -32,6 +32,7 @@ export const POST = async (req: NextRequest) => {
     await connectToDatabase();
     const materialData = await req.json();
     const newMaterial = new Materials(materialData);
+    await newMaterial.save();
     return NextResponse.json(newMaterial, { status: 200 });
   } catch (error) {
     console.log(error);

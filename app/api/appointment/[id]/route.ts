@@ -14,7 +14,7 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
     }
 
     await connectToDatabase();
-    const appointment = await Appointment.findById(id);
+    const appointment = await Appointment.findById(id).populate("servicesId");
     return NextResponse.json(appointment, { status: 200 });
   } catch (error) {
     console.log(error);

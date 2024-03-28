@@ -1,87 +1,45 @@
 import { Container, Row, Col, Image, Table, Badge, InputGroup, Card } from "react-bootstrap";
 import custaptStyles from "@/styles/custapt.module.scss";
+import { Appointment } from "@/types";
+import StatusBadge from "@/components/StatusBadge";
 
-function AptCard({
-  onClick,
-  aptId,
-  aptDate,
-  aptTime,
-  carInfo,
-  plateNo,
-  paymentTerm,
-  totalServiceAmount,
-  serviceStatus,
-}) {
+function AptCard({ onClick, appointment }: { onClick: () => void; appointment: Appointment }) {
+  const date = new Date(appointment.date);
+  const formattedDate = `${date.toLocaleString("default", {
+    month: "long",
+  })} ${date.getDate()}, ${date.getFullYear()}`;
+  //time 12-hour format AM PM
+  const appointmentDate = new Date(`1970-01-01T${appointment.time}:00+08:00`);
+  const formattedTime = appointmentDate.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
   return (
     <Col lg={4} md={6} sm={12}>
-      <Card className={`${custaptStyles.card} p-2`} onClick={onClick}>
-        <Card.Body>
-          <h6 className="fst-italic">{aptId}</h6>
-          <h3 className="fw-bold">{aptDate}</h3>
-          <h4 className="fw-medium">{aptTime}</h4>
+      <Card className={`${custaptStyles.card} p-2`} onClick={onClick} style={{ borderRadius: "18px" }}>
+        <Card.Body className="lh-sm">
+          <div className="d-flex justify-content-between mb-3">
+            <StatusBadge status={appointment.status as "Pending" | "Ongoing" | "For Release" | "Complete"} />
+            <p className="fst-italic small">APT#1</p>
+          </div>
+          <p className="fs-5 fw-semibold mb-0">{formattedDate}</p>
+          <p className="text-secondary fw-medium">{formattedTime}</p>
           <hr />
-          <Row className="justify-content-between">
-            <Col>
-              <p>Car Info:</p>
-            </Col>
-            <Col className="text-end">
-              <p className="fw-bold">{carInfo}</p>
-            </Col>
-          </Row>
-
-          <Row className="justify-content-between">
-            <Col>
-              <p>Plate#</p>
-            </Col>
-            <Col className="text-end">
-              <p className="fw-bold">{plateNo}</p>
-            </Col>
-          </Row>
-
+          <p className="fw-semibold small mb-2">{`${appointment.carManufacturer} ${appointment.carModel} ${appointment.plateNumber}`}</p>
+          <p className="small fw-semibold mb-0">Services Availed</p>
+          {appointment.servicesId.slice(0, 3).map((service, index) => (
+            <span className="small text-secondary mb-1" key={index}>
+              {service.name},
+            </span>
+          ))}
+          {appointment.servicesId.length > 3 && <span>...</span>}
           <hr />
-
-          <Row className="justify-content-between">
-            <Col>
-              <p>Payment Term:</p>
-            </Col>
-            <Col className="text-end">
-              <p className="fw-bold">{paymentTerm}</p>
-            </Col>
-          </Row>
-
-          <Row className="justify-content-between">
-            <Col>
-              <p>Total Service Amount:</p>
-            </Col>
-            <Col className="text-end">
-              <p className="fw-bold">{totalServiceAmount}</p>
-            </Col>
-          </Row>
-
-          <hr />
-
-          <Row className="justify-content-between">
-            <Col>
-              <p>Service Status:</p>
-            </Col>
-            <Col>
-              <InputGroup className="justify-content-end">
-                <InputGroup.Text
-                  className={`fw-bold ${
-                    serviceStatus === "Ongoing"
-                      ? "text-primary"
-                      : serviceStatus === "Complete"
-                      ? "text-success"
-                      : serviceStatus === "For Release"
-                      ? "text-info"
-                      : "text-danger"
-                  }`}
-                >
-                  {serviceStatus}
-                </InputGroup.Text>
-              </InputGroup>
-            </Col>
-          </Row>
+          <p className="text-secondary small mb-2">{appointment.paymentTerm} Payment Term</p>
+          <p className="fw-semibold small mb-0">
+            Total Amount: ₱{appointment.servicesId.reduce((acc, service) => acc + service.price, 0)}
+          </p>
         </Card.Body>
       </Card>
     </Col>

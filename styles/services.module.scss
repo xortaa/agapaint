@@ -1,0 +1,20 @@
+.outlined {
+    border: 1.5px solid #fff;
+}
+
+.horizontal {
+    flex-direction: row;
+}
+
+.outlined:hover {
+    border: 1.5px solid #f1b038;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked + .outlined {
+    background-color: #f8c04723;
+    border: 1.5px solid #f1b038;
+    cursor: pointer;
+}
+
+

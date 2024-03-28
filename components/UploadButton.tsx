@@ -3,7 +3,7 @@ import { CldUploadButton } from "next-cloudinary";
 const presetName = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME;
 
 function UploadButton({ onUpload }: { onUpload: (result: any) => void }) {
-  return <CldUploadButton uploadPreset={presetName} onUpload={onUpload} />;
+  return <CldUploadButton uploadPreset={presetName} onUpload={onUpload} className="form-control" />;
 }
 export default UploadButton;
 

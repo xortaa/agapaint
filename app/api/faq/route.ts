@@ -22,7 +22,7 @@ export const GET = async (req: NextRequest) => {
 };
 
 export const POST = async (req: NextRequest) => {
-  const faqData = req.json();
+  const faqData = await req.json();
   const secret = process.env.JWT_SECRET;
   try {
     const token = await getToken({ req, secret });
@@ -33,8 +33,8 @@ export const POST = async (req: NextRequest) => {
 
     await connectToDatabase();
     const newFaq = new Faq(faqData);
-    const savedFaq = await newFaq.save();
-    return NextResponse.json(savedFaq, { status: 200 });
+    await newFaq.save();
+    return NextResponse.json(newFaq, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json("Failed to create faq", { status: 500 });

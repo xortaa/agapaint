@@ -1,31 +1,24 @@
-import { Card } from "react-bootstrap";
-import Link from "next/link";
+import { Button, Card } from "react-bootstrap";
+import Link from "@/components/Link";
 import GoogleButton from "react-google-button";
 import { signIn } from "next-auth/react";
 
 const SignUpCard = () => {
   return (
-    <Card className="shadow" style={{ borderTop: "10px solid #fdc601" }}>
-      <Card.Body className="p-5">
-        <h2 className="mb-4 fw-bold">Sign Up</h2>
-        <Card.Text className="text-dark fs-6">To access Agapaint Customer Account, please sign up:</Card.Text>
-
-        {/* Google Auth Button */}
-        <div className="my-5">
-          <GoogleButton
-            onClick={() => {
-              signIn("google", { callbackUrl: "/" });
-            }}
-          />
-        </div>
-
-        <hr className="my-4" />
-
-        <Card.Text className="text-end medium">
-          <Link href="/">Return Home</Link>
-        </Card.Text>
-      </Card.Body>
-    </Card>
+    <section>
+      {/* Google Auth Button */}
+      <div className="my-4">
+        <GoogleButton
+          style={{ fontFamily: "", borderRadius: "5px", color: "#000", border: "1px solid #A9A9A9" }}
+          className="w-100 fw-medium d-flex justify-content-center align-items-center my-google-button"
+          type="light"
+          onClick={() => {
+            signIn("google", { callbackUrl: "/" });
+          }}
+          label="Continue with Google"
+        />
+      </div>
+    </section>
   );
 };
 export default SignUpCard;

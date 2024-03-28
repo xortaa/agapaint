@@ -1,0 +1,30 @@
+.background {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #ffffff;
+  background-image: url("/public/assets/img/adminSignInBg.png");
+  height: 100vh;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.custom_card {
+  width: 400px;
+  height: fit-content;
+  padding: 13px 10px;
+  margin: 10px 0px 10px 50px;
+  border-top: 28px solid #f1b038;
+  border-radius: 0%;
+}
+
+.welcome_col_custom {
+  margin: 40px 40px;
+}

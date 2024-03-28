@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import Sidenav from "@/components/Sidenav";
 
 const AdminLayout = ({ children }) => {
@@ -15,7 +14,7 @@ const AdminLayout = ({ children }) => {
       </div>
 
       {/* for the children or the main content */}
-      <div style={{ width: contentWidth, overflowY: "auto", padding: "8px 0px 8px 10px" }}>{children}</div>
+      <div style={{ width: contentWidth, overflowY: "auto", padding: "0px" }}>{children}</div>
     </div>
   );
 };

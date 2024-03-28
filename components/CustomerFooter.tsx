@@ -7,6 +7,9 @@ import footerbg from "@/public/assets/img/footerbg.png";
 import horilogo from "@/public/assets/img/horilogo.png";
 import { Row, Col, Container } from "react-bootstrap";
 import { GeoAlt, Envelope, Telephone, Facebook, Instagram } from "react-bootstrap-icons";
+import PrivacyPolicyModal from "@/components/PrivacyPolicyModal";
+import TermsOfServiceModal from "@/components/TermsOfServiceModal";
+import { color } from "chart.js/helpers";
 
 function CustomFooter() {
   return (
@@ -32,32 +35,49 @@ function CustomFooter() {
         <Row className="d-flex text-center align-items-center">
           <Col lg={3}>
             <p className={footerStyles.footerWhite}>
-              <GeoAlt color="#FFC72C" /> &nbsp; Caloocan, Philippines, 1400
+              <GeoAlt color="#f1b038" /> &nbsp; Caloocan, Philippines, 1400
             </p>
           </Col>
 
           <Col lg={3}>
             <p className={footerStyles.footerWhite}>
-              <Envelope color="#FFC72C" /> &nbsp; luigicayetano@gmail.com
+              <Envelope color="#f1b038" /> &nbsp; luigicayetano@gmail.com
             </p>
           </Col>
 
           <Col lg>
             <p className={footerStyles.footerWhite}>
-              <Telephone color="#FFC72C" /> &nbsp; 0927 416 6562
+              <Telephone color="#f1b038" /> &nbsp; 0927 416 6562
             </p>
           </Col>
 
           <Col lg>
             <p className={footerStyles.footerWhite}>
-              <Facebook color="#FFC72C" /> &nbsp; Agapaint
+              <Facebook color="#f1b038" /> &nbsp; Agapaint
             </p>
           </Col>
 
           <Col lg>
             <p className={footerStyles.footerWhite}>
-              <Instagram color="#FFC72C" /> &nbsp; agapaintph
+              <Instagram color="#f1b038" /> &nbsp; agapaintph
             </p>
+          </Col>
+        </Row>
+        <br />
+
+        {/* terms of services and privacy policy */}
+        <Row>
+          <Col lg={12} className="text-center">
+            <style type="text/css">
+              {`
+                a {
+                  color: #fff;
+                  cursor: pointer;
+                }
+              `}
+            </style>
+            <TermsOfServiceModal />
+            <PrivacyPolicyModal />
           </Col>
         </Row>
         <br />
@@ -65,7 +85,7 @@ function CustomFooter() {
         {/* copy right */}
         <Row>
           <Col lg={12} className="text-center">
-            <p className={footerStyles.footerYellow}>Copyright &copy; 2020 All Rights Reserved</p>
+            <p className={footerStyles.footerYellow}>Copyright &copy; 2020 All Rights Reserved </p>
           </Col>
         </Row>
       </Container>

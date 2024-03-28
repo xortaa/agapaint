@@ -22,6 +22,7 @@ a {
   --agapaint-pink: #ff37bc;
   --agapaint-black: #141414;
   --agapaint-bg: #f8f8f8;
+  --agapaint-light: #f0f6ff;
 }
 .agapaint-yellow {
   color: var(--agapaint-yellow);
@@ -43,6 +44,14 @@ a {
   background-color: var(--agapaint-bg);
 }
 
+.agapaint-light {
+  background-color: var(--agapaint-light);
+}
+
+.agapaint-yellow-bg {
+  background-color: var(--agapaint-yellow);
+}
+
 .slide-enter {
   transform: translateX(100%);
 }
@@ -61,10 +70,286 @@ a {
   transition: transform 300ms ease-in-out;
 }
 
-.lh-05{
-   line-height: 0.7;
+.lh-05 {
+  line-height: 0.7;
 }
 
 .p-6 {
-  padding: 6rem !important
+  padding: 6rem !important;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+#radio-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Create three columns for large screens */
+  grid-gap: 1.3rem; /* Replace margin-right and margin-bottom */
+  
+  @media (max-width: 992px) { /* Adjust for medium to large screens */
+    grid-template-columns: repeat(2, 1fr); /* Create two columns */
+  }
+
+  @media (max-width: 768px) { /* Adjust for small screens */
+    padding: 0 1rem 0 1rem;
+  }
+}
+
+.radio-card {
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 100%; /* Make the cards take up the full width of the grid cell */
+  padding: 1rem;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.radio-card:hover {
+  border: 2px solid var(--agapaint-yellow);
+  cursor: pointer;
+}
+
+.radio-card-check {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.radio-card-check i {
+  font-size: 1.6rem;
+  color: var(--agapaint-yellow);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.radio-card-icon img {
+  width: 80px;
+}
+
+.radio-card-label {
+  margin-top: 0.5rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+
+  @media (max-width: 768px) {
+    font-size: 1rem; /* adjust as needed */
+  }
+}
+
+.radio-card-label-description {
+  margin-top: 0.5rem;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.radio-card.selected {
+  border: 2px solid var(--agapaint-yellow);
+}
+
+.radio-card.selected .radio-card-check {
+  display: inline-flex;
+}
+
+.vertical-point-progress {
+  list-style-type: none;
+  padding: 3;
+  display: flex;
+  flex-direction: column;
+  counter-reset: step;
+
+  @media (max-width: 768px) {
+    flex-direction: row;
+  }
+
+  li {
+    padding: 10px;
+    position: relative;
+    margin-bottom: 20px;
+
+    @media (max-width: 768px) {
+      margin-bottom: 0;
+      margin-right: 30px;
+    }
+
+    &::before {
+      content: counter(step);
+      counter-increment: step;
+      position: absolute;
+      left: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: gray;
+      color: white;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @media (max-width: 768px) {
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: -6px;
+      top: 80%;
+      width: 2px;
+      height: 50px;
+      background: gray;
+    }
+
+    &.fw-bold {
+      &::before,
+      &::after {
+        background: var(--agapaint-yellow);
+      }
+    }
+
+    &:last-child {
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .responsive-text {
+    font-size: 0.875rem; /* same as .small */
+  }
+}
+
+@media (min-width: 992px) {
+  .responsive-text {
+    font-size: 1.25rem; /* same as .lead */
+  }
+}
+
+@media (min-width: 990px) and (max-width: 1400px) {
+  .progress-text {
+    padding-left: 0;
+    font-size: 8px;
+    line-height: 0.5em;
+  }
+}
+
+@media (min-width: 998px) and (max-width: 1400px) {
+  .progress-text {
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 1401px) {
+  .progress-text {
+    font-size: 14px;
+  }
+}
+
+.my-google-button div {
+  width: 40px !important;
+  height: 40px !important;
+  margin-left: -15px !important;
+}
+
+.my-google-button div svg {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.brand-wrapper {
+  margin-bottom: 10px;
+}
+.brand-wrapper .logo {
+  height: 100px;
+  margin-left: -20px;
+}
+
+.login-card {
+  border: 0;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px 0 rgba(172, 168, 168, 0.43);
+  overflow: hidden;
+}
+
+.login-card .card-body {
+  padding: 85px 60px 60px;
+}
+@media (max-width: 422px) {
+  .login-card .card-body {
+    padding: 35px 30px;
+  }
+}
+.login-card-description {
+  font-size: 25px;
+  color: #000;
+  font-weight: normal;
+  margin-bottom: 23px;
+}
+.login-card .forgot-password-link {
+  font-size: 14px;
+  color: #919aa3;
+  margin-bottom: 12px;
+}
+.login-card-footer-text {
+  font-size: 16px;
+  color: #0d2366;
+  margin-bottom: 60px;
+}
+@media (max-width: 767px) {
+  .login-card-footer-text {
+    margin-bottom: 24px;
+  }
+}
+.login-card-footer-nav a {
+  font-size: 14px;
+  color: #919aa3;
+  cursor: pointer;
+}
+
+.breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+  color: white;
+}
+
+.breadcrumb-item a {
+  text-decoration: none !important;
+}
+
+.listButton {
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-top-left-radius: 5em !important;
+  border-bottom-left-radius: 5em !important;
+}
+
+.cardButton {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top-right-radius: 5em !important;
+  border-bottom-right-radius: 5em !important;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.slide-in {
+  animation: slideIn 0.3s ease-in-out;
 }
