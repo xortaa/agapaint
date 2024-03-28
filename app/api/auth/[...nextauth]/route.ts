@@ -3,16 +3,22 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import User from "@/models/user";
 import connectToDatabase from "@/utils/database";
-import { DefaultSession } from "next-auth";
+import { DefaultSession, DefaultUser } from "next-auth";
 
 const clientId = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
 declare module "next-auth" {
-  interface Session {
+  export interface Session {
     user: {
       _id: string;
+      role: string;
     } & DefaultSession["user"];
+  }
+
+  export interface User extends DefaultUser {
+    _id: string;
+    role: string;
   }
 }
 
@@ -31,18 +37,25 @@ const handler: NextAuthOptions = NextAuth({
     }),
   ],
   callbacks: {
-    async session({ session }) {
-      const sessionUser = await User.findOne({ email: session.user.email });
-      if (sessionUser) {
-        session.user = {
-          ...session.user,
-          _id: sessionUser._id.toString(),
-        };
-        return session;
-      }
-      return null;
+    session({ session }) {
+      return new Promise((resolve, reject) => {
+        User.findOne({ email: session.user.email })
+          .then((sessionUser) => {
+            if (sessionUser && sessionUser._id && sessionUser.role) {
+              session.user = {
+                ...session.user,
+                _id: sessionUser._id.toString(),
+                role: sessionUser.role,
+              };
+              resolve(session);
+            } else {
+              resolve(null);
+            }
+          })
+          .catch(reject);
+      });
     },
-    async signIn({ account, profile }) {
+    async signIn({ account, profile, user }) {
       try {
         await connectToDatabase();
 
@@ -68,7 +81,10 @@ const handler: NextAuthOptions = NextAuth({
           });
           await newUser.save();
 
-          console.log("User created:", newUser);
+          user._id = newUser._id.toString();
+        } else {
+          user._id = userExists._id.toString();
+          user.role = userExists.role;
         }
 
         console.log("Sign-in process completed successfully.");
