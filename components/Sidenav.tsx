@@ -1,14 +1,14 @@
-"use client";
-
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { Nav, Container, Image, Col, Row } from "react-bootstrap";
-import { Grid, GridFill, Calendar2Week, BoxSeam, Cart, CreditCard } from "react-bootstrap-icons";
+import { Grid, Calendar2Week, BoxArrowLeft, BoxSeam, Cart, CreditCard, QuestionSquare } from "react-bootstrap-icons";
 
 //scss
 import sidenavStyles from "@/styles/sidenav.module.scss";
 
 const Sidenav = () => {
   const [expanded, setExpanded] = useState(false);
+  const [activePage, setActivePage] = useState("");
 
   const handleMouseEnter = () => {
     setExpanded(true);
@@ -18,84 +18,200 @@ const Sidenav = () => {
     setExpanded(false);
   };
 
+  useEffect(() => {
+    const storedActivePage = localStorage.getItem("activePage");
+    if (storedActivePage) {
+      setActivePage(storedActivePage);
+    }
+  }, []);
+
+  const handleItemClick = (itemName) => {
+    setActivePage(itemName);
+    localStorage.setItem("activePage", itemName);
+  };
+
   return (
     <Container
-      className={`side-nav${expanded ? "expanded" : ""}`}
+      className={`side-nav ${expanded ? "expanded" : ""}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* COLLAPSED SIDENAV */}
       <Row>
         <Col>
-          <Nav className={sidenavStyles.collapsed_sidebar}>
-            <Image
-              src="/assets/logo/agapaintBlackLogo.png"
-              width={70}
-              height={80}
-              alt="Collapsed Logo"
-              className="mx-auto d-block mt-1 mb-5"
-            />
-            <Nav.Item className="mt-5">
-              <Nav.Link href="#" className={sidenavStyles.sidebar_collapsed_link}>
-                <Grid size={28} />
-              </Nav.Link>
-              <Nav.Link href="#" className={sidenavStyles.sidebar_collapsed_link}>
-                <Calendar2Week size={27} />
-              </Nav.Link>
-              <Nav.Link href="#" className={sidenavStyles.sidebar_collapsed_link}>
-                <BoxSeam size={27} />
-              </Nav.Link>
-              <Nav.Link href="#" className={sidenavStyles.sidebar_collapsed_link}>
-                <Cart size={27} />
-              </Nav.Link>
-              <Nav.Link href="#" className={sidenavStyles.sidebar_collapsed_link}>
-                <CreditCard size={27} />
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
+          <div className={`${sidenavStyles.collapsed_sidebar} d-flex flex-column justify-content-between`}>
+            <div>
+              <Image
+                src="/assets/logo/agapaintBlackLogo.png"
+                width={70}
+                height={80}
+                alt="Collapsed Logo"
+                className="mx-auto d-block"
+                style={{ marginTop: "10px", marginBottom: "95px" }}
+              />
+              <ul className={sidenavStyles.custom_ul}>
+                <li onClick={() => handleItemClick("dashboard")}>
+                  <Link
+                    href="dashboard"
+                    className={`${sidenavStyles.sidebar_collapsed_link} ${
+                      activePage === "dashboard" ? sidenavStyles.active_link : ""
+                    }`}
+                  >
+                    <Grid size={28} className="mb-1" /> Dashboard
+                  </Link>
+                </li>
+                <li onClick={() => handleItemClick("appointment")}>
+                  <Link
+                    href="appointment"
+                    className={`${sidenavStyles.sidebar_collapsed_link} ${
+                      activePage === "appointment" ? sidenavStyles.active_link : ""
+                    }`}
+                  >
+                    <Calendar2Week size={27} className="mb-1" /> Appointment
+                  </Link>
+                </li>
+                <li onClick={() => handleItemClick("inventory")}>
+                  <Link
+                    href="inventory"
+                    className={`${sidenavStyles.sidebar_collapsed_link} ${
+                      activePage === "inventory" ? sidenavStyles.active_link : ""
+                    }`}
+                  >
+                    <BoxSeam size={27} className="mb-1" /> Inventory
+                  </Link>
+                </li>
+                <li onClick={() => handleItemClick("service")}>
+                  <Link
+                    href="service"
+                    className={`${sidenavStyles.sidebar_collapsed_link} ${
+                      activePage === "service" ? sidenavStyles.active_link : ""
+                    }`}
+                  >
+                    <Cart size={27} className="mb-1" /> Service
+                  </Link>
+                </li>
+                <li onClick={() => handleItemClick("sales")}>
+                  <Link
+                    href="sales"
+                    className={`${sidenavStyles.sidebar_collapsed_link} ${
+                      activePage === "sales" ? sidenavStyles.active_link : ""
+                    }`}
+                  >
+                    <CreditCard size={27} /> Revenue
+                  </Link>
+                </li>
+                <li onClick={() => handleItemClick("faq")}>
+                  <Link
+                    href="faq"
+                    className={`${sidenavStyles.sidebar_collapsed_link} ${
+                      activePage === "faq" ? sidenavStyles.active_link : ""
+                    }`}
+                  >
+                    <QuestionSquare size={27} className="mb-1" /> FAQs
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <ul className={sidenavStyles.custom_ul}>
+              <li onClick={() => handleItemClick("signout")}>
+                <Link
+                  href="/"
+                  className={`${sidenavStyles.sidebar_collapsed_link} ${
+                    activePage === "signout" ? sidenavStyles.active_link : ""
+                  }`}
+                >
+                  <BoxArrowLeft size={27} />
+                </Link>
+              </li>
+            </ul>
+          </div>
         </Col>
       </Row>
 
-      {/* DISPLAYED SIDENAV */}
       <Row>
         <Col>
           {expanded && (
-            <Nav className={sidenavStyles.displayed_sidebar}>
-              <Image
-                src="/assets/logo/agapaintHubLogo.png"
-                width={155}
-                height={150}
-                alt="Collapsed Logo"
-                className="mx-auto d-block my-1"
-              />
-              <hr className={sidenavStyles.custom_hr}></hr>
+            <div className={`${sidenavStyles.displayed_sidebar} d-flex flex-column justify-content-between`}>
+              <div>
+                <Image
+                  src="/assets/logo/agapaintHubLogo.png"
+                  width={155}
+                  height={150}
+                  alt="Collapsed Logo"
+                  className="mx-auto d-block my-1"
+                />
+                <hr className={sidenavStyles.custom_hr}></hr>
 
-              <Nav.Item>
-                <Nav.Link href="dashboard" className={sidenavStyles.sidebar_displayed_link}>
-                  <Grid className="mx-2 mb-1" size={22} /> Dashboard
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="appointment" className={sidenavStyles.sidebar_displayed_link}>
-                  <Calendar2Week className="mx-2 mb-1" size={20} /> Appointment
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="inventory" className={sidenavStyles.sidebar_displayed_link}>
-                  <BoxSeam className="mx-2 mb-1" size={20} /> Inventory
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="service" className={sidenavStyles.sidebar_displayed_link}>
-                  <Cart className="mx-2 mb-1" size={20} /> Services
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="#" className={sidenavStyles.sidebar_displayed_link}>
-                  <CreditCard className="mx-2 mb-1" size={20} /> Revenue
-                </Nav.Link>
-              </Nav.Item>
-            </Nav>
+                <ul className={sidenavStyles.custom_ul}>
+                  <li onClick={() => handleItemClick("dashboard")}>
+                    <Link
+                      href="dashboard"
+                      className={`${sidenavStyles.sidebar_displayed_link} ${
+                        activePage === "dashboard" ? sidenavStyles.active_link : ""
+                      }`}
+                    >
+                      <Grid className="mx-2 mb-1" size={22} /> Dashboard
+                    </Link>
+                  </li>
+                  <li onClick={() => handleItemClick("appointment")}>
+                    <Link
+                      href="appointment"
+                      className={`${sidenavStyles.sidebar_displayed_link} ${
+                        activePage === "appointment" ? sidenavStyles.active_link : ""
+                      }`}
+                    >
+                      <Calendar2Week className="mx-2 mb-1" size={20} /> Appointment
+                    </Link>
+                  </li>
+                  <li onClick={() => handleItemClick("inventory")}>
+                    <Link
+                      href="inventory"
+                      className={`${sidenavStyles.sidebar_displayed_link} ${
+                        activePage === "inventory" ? sidenavStyles.active_link : ""
+                      }`}
+                    >
+                      <BoxSeam className="mx-2 mb-1" size={20} /> Inventory
+                    </Link>
+                  </li>
+                  <li onClick={() => handleItemClick("service")}>
+                    <Link
+                      href="service"
+                      className={`${sidenavStyles.sidebar_displayed_link} ${
+                        activePage === "service" ? sidenavStyles.active_link : ""
+                      }`}
+                    >
+                      <Cart className="mx-2 mb-1" size={20} /> Services
+                    </Link>
+                  </li>
+                  <li onClick={() => handleItemClick("sales")}>
+                    <Link
+                      href="sales"
+                      className={`${sidenavStyles.sidebar_displayed_link} ${
+                        activePage === "sales" ? sidenavStyles.active_link : ""
+                      }`}
+                    >
+                      <CreditCard className="mx-2 mb-1" size={20} /> Revenue
+                    </Link>
+                  </li>
+                  <li onClick={() => handleItemClick("faq")}>
+                    <Link
+                      href="faq"
+                      className={`${sidenavStyles.sidebar_displayed_link} ${
+                        activePage === "faq" ? sidenavStyles.active_link : ""
+                      }`}
+                    >
+                      <QuestionSquare className="mx-2 mb-1" size={20} /> FAQs
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <ul className={sidenavStyles.custom_ul}>
+                <li>
+                  <Link href="../signup" className={sidenavStyles.signout_displayed}>
+                    <BoxArrowLeft className="mx-2 mb-1" size={20} /> Sign out
+                  </Link>
+                </li>
+              </ul>
+            </div>
           )}
         </Col>
       </Row>
