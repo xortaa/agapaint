@@ -86,7 +86,7 @@ function AdminSales() {
       <Container fluid className="p-4 min-vh-100">
         {/* Admin Header */}
         <AdminHeader
-          title="Generate Service Revenue"
+          title="Service Revenue Report"
           subtitle="View all your service revenue from completed appointments"
         />
 
@@ -216,7 +216,7 @@ function AdminSales() {
         <Row>
           <Col lg={8}>
             <h3 style={{ paddingTop: "30px" }}>
-              <b>Generate Revenue for the Month</b>
+              <b>Service Revenue Report</b>
             </h3>
           </Col>
 
