@@ -27,12 +27,13 @@ import AptDetails from "@/components/AptDetails";
 import AptMaterial from "@/components/AptMaterial";
 import { Appointment, AppointmentData } from "@/types";
 import axios from "axios";
-import { set } from "mongoose";
+import ToastPromise from "@/components/ToastPromise";
 
 function manageAppointment() {
   // Show Appointment Detail
   const [showComponent, setShowComponent] = useState<Appointment | null>(null);
   const [allAppointments, setAllAppointments] = useState<Appointment[]>([]);
+  const [activeAppointments, setActiveAppointments] = useState<Appointment[]>([]);
   const [confirmedApppointments, setConfirmedAppointments] = useState<Appointment[]>([]);
   const [pendingAppointments, setPendingAppointments] = useState<Appointment[]>([]);
 
@@ -46,8 +47,7 @@ function manageAppointment() {
     const getAppointments = () => {
       axios.get("/api/appointment").then((res) => {
         setAllAppointments(res.data);
-        setConfirmedAppointments(res.data.filter((apt: Appointment) => apt.status !== "Pending"));
-        setPendingAppointments(res.data.filter((apt: Appointment) => apt.status === "Pending"));
+        setActiveAppointments(res.data.filter((apt: Appointment) => apt.isArchived === false));
       });
     };
 
@@ -58,6 +58,11 @@ function manageAppointment() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    setConfirmedAppointments(activeAppointments.filter((apt: Appointment) => apt.status !== "Pending"));
+    setPendingAppointments(activeAppointments.filter((apt: Appointment) => apt.status === "Pending"));
+  }, [activeAppointments]);
 
   // Material Used Modal
   const [muShow, setMuShow] = useState(false);
@@ -74,10 +79,10 @@ function manageAppointment() {
       <Container fluid className="p-4 min-vh-100">
         <Row>
           {/* Side Bar Nav */}
+          <ToastPromise />
 
           {/* Header Row */}
           <AdminHeader title="Manage Appointment" subtitle="View all your appointment" />
-
           {/* Search Row */}
           <CSSTransition in={true} timeout={300} classNames="slide" unmountOnExit>
             <Col>
@@ -203,15 +208,12 @@ function manageAppointment() {
               </Row>
             </Col>
           </CSSTransition>
-
           {/* Trigger to View Apt Details and Archive Modal*/}
           <CSSTransition in={showComponent !== null} timeout={300} classNames="slide" unmountOnExit>
-            <AptDetails appointment={showComponent} />
+            <AptDetails appointment={showComponent} setActiveAppointments={setActiveAppointments} />
           </CSSTransition>
-
           {/* Modal: Material Used */}
           <AptMaterial title="Material Used [APT #1]" show={muShow} hide={handleCloseModal} status="ongoing" />
-
           {/* COMPLETE STAT Modal 1 : Material Used Confirmation*/}
           {showAptMaterial && (
             <AptMaterial

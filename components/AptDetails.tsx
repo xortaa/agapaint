@@ -5,11 +5,44 @@ import { useState } from "react";
 import ServiceStatus from "@/components/ServiceStatus";
 import PaymentStatus from "@/components/PaymentStatus";
 import { Appointment } from "@/types";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-function AptDetails({ appointment }: { appointment: Appointment }) {
+function AptDetails({
+  appointment,
+  setActiveAppointments,
+}: {
+  appointment: Appointment;
+  setActiveAppointments: React.Dispatch<React.SetStateAction<Appointment[]>>;
+}) {
   //   Archive Modal
   const [smShow, setSmShow] = useState(false);
   const handleCloseModal = () => setSmShow(false);
+
+  const handleArchive = () => {
+    const archiveAppointment = new Promise((resolve, reject) => {
+      axios
+        .delete(`/api/appointment/${appointment._id}`)
+        .then((res) => {
+          handleCloseModal();
+
+          setTimeout(() => {
+            setActiveAppointments((prev) => prev.filter((apt) => apt._id !== appointment._id));
+            resolve("Success");
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("Failed to archive appointment: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(archiveAppointment, { 
+      pending: "Archiving appointment...",
+      success: "Appointment Archived!",
+      error: "Failed to archive appointment, Please try again."
+    })
+  };
 
   return (
     <>
@@ -171,16 +204,35 @@ function AptDetails({ appointment }: { appointment: Appointment }) {
         <Modal.Body>
           <p className="mb-4">Are you sure you want to archive?</p>
           <div className="lh-05">
-            <p>Appointment Id: Placeholder</p>
-            <p>Customer: Placeholder</p>
-            <p>Service Status: Placeholder</p>
+            <Row xs="auto" className="lh-05">
+              <p className="fw-bold">Customer</p>
+              <p className="ms-auto">{`${appointment.firstName} ${appointment.lastName}`}</p>
+            </Row>
+            <Row xs="auto" className="lh-05">
+              <p className="fw-bold">Date:</p>
+              <p className="ms-auto">{`${appointment.date.split("T")[0]}`}</p>
+            </Row>
+            <Row xs="auto" className="lh-05">
+              <p className="fw-bold">Time:</p>
+              <p className="ms-auto">{appointment.time}</p>
+            </Row>
+            <Row xs="auto" className="lh-05">
+              <p className="fw-bold">Service Status:</p>
+              <p className="ms-auto">{appointment.status}</p>
+            </Row>
+            <p className="fw-bold">Services Availed:</p>
+            {appointment.servicesId.map((service) => (
+              <p className="ms-auto" key={service._id}>
+                {service.name}
+              </p>
+            ))}
           </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="danger" onClick={() => console.log("Archive")}>
+          <Button variant="danger" onClick={handleArchive}>
             Archive
           </Button>
         </Modal.Footer>
