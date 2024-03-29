@@ -75,6 +75,10 @@ const AppointmentSchema = new Schema({
     type: Number,
     default: 0,
   },
+  isArchived: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Appointment = models.Appointment || model("Appointment", AppointmentSchema);
