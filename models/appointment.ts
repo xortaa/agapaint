@@ -4,6 +4,7 @@ const AppointmentSchema = new Schema({
   customerId: {
     type: Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
   servicesId: {
     type: [Schema.Types.ObjectId],
@@ -42,6 +43,10 @@ const AppointmentSchema = new Schema({
     type: String,
     required: true,
   },
+  carColor: {
+    type: String,
+    required: true,
+  },
   requests: {
     type: String,
   },
@@ -59,7 +64,12 @@ const AppointmentSchema = new Schema({
   },
   paymentTerm: {
     type: String,
+    required: true,
     enum: ["Full", "Partial"],
+  },
+  balance: {
+    type: Number,
+    default: 0,
   },
 });
 

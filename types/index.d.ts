@@ -27,6 +27,7 @@ export interface AppointmentData {
   carType: string;
   paymentTerm: "Full" | "Partial";
   carColor: string;
+  balance: number;
 }
 
 export interface Service {
@@ -41,7 +42,8 @@ export interface Service {
 
 export interface Appointment {
   _id: string;
-  customerId: string;
+  totalService: number;
+  customerId: User;
   servicesId: Service[];
   firstName: string;
   lastName: string;
@@ -56,6 +58,8 @@ export interface Appointment {
   time: string;
   status: string;
   paymentTerm: "Full" | "Partial";
+  balance: number;
+  carColor: string;
   __v: number;
 }
 
