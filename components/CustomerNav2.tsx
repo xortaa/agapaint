@@ -5,6 +5,7 @@ import { FaBars } from "react-icons/fa";
 import navStyles from "@/styles/navbar.module.scss";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
+import process from "process";
 
 function Navbar2() {
   const navbarRef = useRef(null);
@@ -14,7 +15,7 @@ function Navbar2() {
 
   const handleSignOut = async () => {
     await signOut({
-      callbackUrl: `${window.location.origin}/`
+      callbackUrl: `${window.location.origin}/`,
     });
   };
 
@@ -114,9 +115,10 @@ function Navbar2() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item className={navStyles.dropdownItem} href="/customer/appointment">
-                    My Profile
+                  <Dropdown.Item href={session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ? "/admin/hub/sales" : "/customer/appointment"}>
+                    {session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ? "Admin Dashboard" : "My Profile"}
                   </Dropdown.Item>
+
                   <Dropdown.Item className={navStyles.dropdownItem} onClick={handleSignOut}>
                     Sign Out
                   </Dropdown.Item>
