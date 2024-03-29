@@ -67,7 +67,11 @@ const AppointmentSchema = new Schema({
     required: true,
     enum: ["Full", "Partial"],
   },
-  balance: {
+  startingBalance: {
+    type: Number,
+    default: 0,
+  },
+  currentBalance: {
     type: Number,
     default: 0,
   },
