@@ -53,7 +53,7 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
     }
 
     await connectToDatabase();
-    const deletedAppointment = await Appointment.findByIdAndDelete(id);
+    const deletedAppointment = await Appointment.findByIdAndUpdate(id, { isArchived: true }, { new: true });
     return NextResponse.json(deletedAppointment, { status: 200 });
   } catch (error) {
     console.log(error);
