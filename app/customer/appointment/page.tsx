@@ -196,7 +196,7 @@ function custAppointment() {
                           </th>
                           <th className="fw-semibold">Appointment</th>
                           <th className="fw-semibold text-center">Service Status</th>
-                          <th className="fw-semibold text-end">Amount</th>
+                          <th className="fw-semibold text-end">Total</th>
                         </tr>
                       </thead>
                       <tbody style={{ cursor: "pointer" }}>
