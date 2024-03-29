@@ -43,7 +43,7 @@ function signup() {
                     </div>
                     <p className="login-card-description">Create and Sign In into your account</p>
                     <p>Your Agapaint journey begins here. Access all appointment features using your Google Account.</p>
-                    <SignUpCard />
+                    <SignUpCard role="customer"/>
                     <Link href="/" className="forgot-password-link">
                       Return to Home
                     </Link>

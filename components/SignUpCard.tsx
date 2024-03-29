@@ -3,7 +3,7 @@ import Link from "@/components/Link";
 import GoogleButton from "react-google-button";
 import { signIn } from "next-auth/react";
 
-const SignUpCard = () => {
+const SignUpCard = ({role}) => {
   return (
     <section>
       {/* Google Auth Button */}
@@ -13,7 +13,7 @@ const SignUpCard = () => {
           className="w-100 fw-medium d-flex justify-content-center align-items-center my-google-button"
           type="light"
           onClick={() => {
-            signIn("google", { callbackUrl: "/" });
+            signIn("google", { callbackUrl: role === "admin" ? "/admin/hub/appointment" : "/" });
           }}
           label="Continue with Google"
         />
