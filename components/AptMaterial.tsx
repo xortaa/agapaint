@@ -3,7 +3,7 @@ import { Modal, Form, Row, Col, Button } from "react-bootstrap";
 import { XCircle } from "react-bootstrap-icons";
 import { useState } from "react";
 
-function AptMaterial(props) {
+function AptMaterial({ title, show, hide, status }) {
   // Material Used Modal
   const [muShow, setMuShow] = useState(false);
   const [showAptMaterial, setShowAptMaterial] = useState(false);
@@ -37,14 +37,14 @@ function AptMaterial(props) {
     <>
       <Modal
         size="lg"
-        show={props.show}
+        show={show}
         onHide={() => {
-          setMuShow(props.hide);
-          setShowAptMaterial(props.hide);
+          setMuShow(hide);
+          setShowAptMaterial(hide);
         }}
       >
         <Modal.Header closeButton>
-          <Modal.Title className="fs-6">{props.title}</Modal.Title>
+          <Modal.Title className="fs-6">{title}</Modal.Title>
         </Modal.Header>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Modal.Body className="p-4">
@@ -94,10 +94,10 @@ function AptMaterial(props) {
             </Row>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={props.hide}>
+            <Button variant="secondary" onClick={hide}>
               Close
             </Button>
-            {props.status == "complete" ? (
+            {status == "complete" ? (
               <Button
                 variant="success"
                 type="submit"

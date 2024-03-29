@@ -1,22 +1,27 @@
 import { Form } from "react-bootstrap";
 import { useState } from "react";
 
-function ServiceStatus(sProps) {
+function ServiceStatus({
+  width,
+  option,
+}: {
+  width: string;
+  option: string;
+}) {
   // Service Status
-  const [selectedOption, setSelectedOption] = useState("1");
+  const [selectedOption, setSelectedOption] = useState(option);
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
-    sProps.onChange(event.target.value);
   };
 
   const getColor = () => {
     switch (selectedOption) {
-      case "4":
+      case "Complete":
         return "text-success";
-      case "3":
+      case "For Release":
         return "text-info";
-      case "2":
+      case "Ongoing":
         return "text-warning";
       default:
         return "text-danger";
@@ -28,19 +33,19 @@ function ServiceStatus(sProps) {
       value={selectedOption}
       onChange={handleChange}
       className={`fw-bold ${getColor()} `}
-      style={{ width: sProps.width as string }}
+      style={{ width: width as string }}
       size="sm"
     >
-      <option value="1" className="text-danger fw-bold">
+      <option value="Pending" className="text-danger fw-bold">
         Pending
       </option>
-      <option value="2" className="text-warning fw-bold">
+      <option value="Ongoing" className="text-warning fw-bold">
         Ongoing
       </option>
-      <option value="3" className="text-info fw-bold">
+      <option value="For Release" className="text-info fw-bold">
         For Release
       </option>
-      <option value="4" className="text-success fw-bold">
+      <option value="Complete" className="text-success fw-bold">
         Complete
       </option>
     </Form.Select>

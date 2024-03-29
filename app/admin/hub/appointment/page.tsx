@@ -14,7 +14,6 @@ import {
   Dropdown,
   Modal,
 } from "react-bootstrap";
-import { useRouter } from "next/navigation";
 import { Funnel, Search, BoxSeam } from "react-bootstrap-icons";
 import { useState, useEffect } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -26,18 +25,33 @@ import PaymentStatus from "@/components/PaymentStatus";
 import AdminHeader from "@/components/AdminHeader";
 import AptDetails from "@/components/AptDetails";
 import AptMaterial from "@/components/AptMaterial";
-import { Metadata } from 'next'
- 
+import { Appointment, AppointmentData } from "@/types";
+import axios from "axios";
+import { set } from "mongoose";
+
 function manageAppointment() {
   // Show Appointment Detail
-  const [showComponent, setShowComponent] = useState(false);
+  const [showComponent, setShowComponent] = useState<Appointment | null>(null);
+  const [allAppointments, setAllAppointments] = useState<Appointment[]>([]);
+  const [confirmedApppointments, setConfirmedAppointments] = useState<Appointment[]>([]);
+  const [pendingAppointments, setPendingAppointments] = useState<Appointment[]>([]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest("tr") && event.target.closest("Card")) {
-        setShowComponent(false);
+        setShowComponent(null);
       }
     };
+
+    const getAppointments = () => {
+      axios.get("/api/appointment").then((res) => {
+        setAllAppointments(res.data);
+        setConfirmedAppointments(res.data.filter((apt: Appointment) => apt.status !== "Pending"));
+        setPendingAppointments(res.data.filter((apt: Appointment) => apt.status === "Pending"));
+      });
+    };
+
+    getAppointments();
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -50,13 +64,6 @@ function manageAppointment() {
 
   // Service Status
   const [showAptMaterial, setShowAptMaterial] = useState(false);
-
-  const handleServiceStatusChange = (selectedValue) => {
-    if (selectedValue === "4") {
-      setShowAptMaterial(true);
-    }
-  };
-
   const handleCloseModal = () => {
     setMuShow(false);
     setShowAptMaterial(false);
@@ -69,10 +76,7 @@ function manageAppointment() {
           {/* Side Bar Nav */}
 
           {/* Header Row */}
-          <AdminHeader
-            title="Manage Appointment"
-            subtitle="View all your appointment"
-          />
+          <AdminHeader title="Manage Appointment" subtitle="View all your appointment" />
 
           {/* Search Row */}
           <CSSTransition in={true} timeout={300} classNames="slide" unmountOnExit>
@@ -135,20 +139,22 @@ function manageAppointment() {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr onClick={() => setShowComponent(true)}>
-                          <td className="fw-bold">1</td>
-                          <td>Mark Alizalde</td>
-                          <td>PLT 456</td>
-                          <td>November 15, 2023</td>
-                          <td>11:00 AM</td>
-                          <td>P10,000</td>
-                          <td>
-                            <ServiceStatus width="73%" onChange={handleServiceStatusChange} />
-                          </td>
-                          <td>
-                            <BoxSeam size={24} className="text-success" onClick={() => setMuShow(true)} />
-                          </td>
-                        </tr>
+                        {[...confirmedApppointments].reverse().map((apt: Appointment, index) => (
+                          <tr onClick={() => setShowComponent(apt)} key={apt._id}>
+                            <td className="fw-bold">{confirmedApppointments.length - index}</td>
+                            <td>{`${apt.firstName} ${apt.lastName}`}</td>
+                            <td>{apt.plateNumber}</td>
+                            <td>{apt.date.split("T")[0]}</td>
+                            <td>{apt.time}</td>
+                            <td>{apt.currentBalance}</td>
+                            <td>
+                              <ServiceStatus width="73%" option={apt.status} />
+                            </td>
+                            <td>
+                              <BoxSeam size={24} className="text-success" onClick={() => setMuShow(true)} />
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </Table>
                   </Card>
@@ -158,7 +164,7 @@ function manageAppointment() {
               {/* Pending Appointments */}
               <Row className="mb-4">
                 <Col>
-                  <h6 className="fw-bold agapaint-yellow mb-3">Confirmed Appointments</h6>
+                  <h6 className="fw-bold agapaint-yellow mb-3">Pending Appointments</h6>
                   <Card className="border-0 rounded">
                     <Table striped hover className="align-middle">
                       <thead>
@@ -174,20 +180,22 @@ function manageAppointment() {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr onClick={() => setShowComponent(true)}>
-                          <td className="fw-bold">1</td>
-                          <td>Mark Alizalde</td>
-                          <td>PLT 456</td>
-                          <td>November 15, 2023</td>
-                          <td>11:00 AM</td>
-                          <td>P10,000</td>
-                          <td>
-                            <ServiceStatus width="73%" />
-                          </td>
-                          <td>
-                            <BoxSeam size={24} className="text-success" onClick={() => setMuShow(true)} />
-                          </td>
-                        </tr>
+                        {[...pendingAppointments].reverse().map((apt: Appointment, index) => (
+                          <tr onClick={() => setShowComponent(apt)} key={apt._id}>
+                            <td className="fw-bold">{pendingAppointments.length - index}</td>
+                            <td>{`${apt.firstName} ${apt.lastName}`}</td>
+                            <td>{apt.plateNumber}</td>
+                            <td>{apt.date.split("T")[0]}</td>
+                            <td>{apt.time}</td>
+                            <td>{apt.currentBalance}</td>
+                            <td>
+                              <ServiceStatus width="73%" option={apt.status} />
+                            </td>
+                            <td>
+                              <BoxSeam size={24} className="text-success" onClick={() => setMuShow(true)} />
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </Table>
                   </Card>
@@ -197,8 +205,8 @@ function manageAppointment() {
           </CSSTransition>
 
           {/* Trigger to View Apt Details and Archive Modal*/}
-          <CSSTransition in={showComponent} timeout={300} classNames="slide" unmountOnExit>
-            <AptDetails />
+          <CSSTransition in={showComponent !== null} timeout={300} classNames="slide" unmountOnExit>
+            <AptDetails appointment={showComponent} />
           </CSSTransition>
 
           {/* Modal: Material Used */}

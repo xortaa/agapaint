@@ -4,8 +4,9 @@ import { InboxFill, CarFrontFill, GearWideConnected } from "react-bootstrap-icon
 import { useState } from "react";
 import ServiceStatus from "@/components/ServiceStatus";
 import PaymentStatus from "@/components/PaymentStatus";
+import { Appointment } from "@/types";
 
-function AptDetails() {
+function AptDetails({ appointment }: { appointment: Appointment }) {
   //   Archive Modal
   const [smShow, setSmShow] = useState(false);
   const handleCloseModal = () => setSmShow(false);
@@ -22,33 +23,37 @@ function AptDetails() {
             <hr />
             <div className="d-flex justify-content-between align-items-center">
               <h4 className="fw-bold me-3">1</h4>
-              <ServiceStatus width="43%" />
+              <ServiceStatus width="43%" option={appointment.status} />
             </div>
             <hr />
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Date</p>
-              <p className="ms-auto">Nov 15, 2023</p>
+              <p className="ms-auto">{appointment.date.split("T")[0]}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Time</p>
-              <p className="ms-auto">11:00 AM</p>
+              <p className="ms-auto">{appointment.time}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Customer</p>
-              <p className="ms-auto">Mark Alizalde</p>
+              <p className="ms-auto">
+                {appointment.firstName} {appointment.lastName}
+              </p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Email</p>
               <p className="ms-auto">
                 <a href="mailto:malizalde@gmail.com" className="text-decoration-none text-dark">
-                  malizade@gmail.com
+                  {appointment.email}
                 </a>
               </p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Contact</p>
-              <p className="ms-auto">09123456789</p>
+              <p className="ms-auto">{appointment.phoneNumber}</p>
             </Row>
+            <p className="fw-bold">Requests</p>
+            <p className="ms-auto">{appointment.requests}</p>
 
             <hr />
             <Row className="align-items-center justify-content-between lh-1">
@@ -60,12 +65,20 @@ function AptDetails() {
                   </Accordion.Header>
                   <Accordion.Body className="pb-0">
                     <Row xs="auto" className="lh-05">
-                      <p className="text-secondary">Car Model</p>
-                      <p className="ms-auto">Nissan Almera 2015</p>
+                      <p className="text-secondary">Vehicle Model</p>
+                      <p className="ms-auto">{appointment.carModel}</p>
+                    </Row>
+                    <Row xs="auto" className="lh-05">
+                      <p className="text-secondary">Vehicle Type</p>
+                      <p className="ms-auto">{appointment.carType}</p>
+                    </Row>
+                    <Row xs="auto" className="lh-05">
+                      <p className="text-secondary">Vehicle Color</p>
+                      <p className="ms-auto">{appointment.carColor}</p>
                     </Row>
                     <Row xs="auto" className="lh-05">
                       <p className="text-secondary">Plate#</p>
-                      <p className="ms-auto">PLT 456</p>
+                      <p className="ms-auto">{appointment.plateNumber}</p>
                     </Row>
                   </Accordion.Body>
                 </Accordion.Item>
@@ -75,22 +88,12 @@ function AptDetails() {
                     Services Availed
                   </Accordion.Header>
                   <Accordion.Body className="small pb-0">
-                    <Row xs="auto" className="lh-05 text-secondary">
-                      <p>Under Coating - Sedan</p>
-                      <p className="ms-auto">3,500</p>
-                    </Row>
-                    <Row xs="auto" className="lh-05 text-secondary">
-                      <p>Rims/Mags Repaint</p>
-                      <p className="ms-auto">3,500</p>
-                    </Row>
-                    <Row xs="auto" className="lh-05 text-secondary">
-                      <p>Glass Detailing</p>
-                      <p className="ms-auto">1,500</p>
-                    </Row>
-                    <Row xs="auto" className="lh-05 text-secondary">
-                      <p>Headlight Detailing</p>
-                      <p className="ms-auto">1,500</p>
-                    </Row>
+                    {appointment.servicesId.map((service) => (
+                      <Row xs="auto" className="lh-05 text-secondary" key={service._id}>
+                        <p>{service.name}</p>
+                        <p className="ms-auto">{service.price}</p>
+                      </Row>
+                    ))}
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
@@ -107,8 +110,8 @@ function AptDetails() {
                 <p className="m-0">Remaining Balance</p>
               </Col>
               <Col xs="auto" className="lh-05 text-end">
-                <p>Partial</p>
-                <p className="m-0 fs-5 fw-bold">P5,000</p>
+                <p>{appointment.paymentTerm}</p>
+                <p className="m-0 fs-5 fw-bold">{appointment.currentBalance}</p>
               </Col>
             </Row>
 
@@ -126,7 +129,7 @@ function AptDetails() {
                 <tr>
                   <td>1st</td>
                   <td>50%</td>
-                  <td>P5,000</td>
+                  <td>{appointment.startingBalance * 0.5}</td>
                   <td>
                     <PaymentStatus />
                   </td>
@@ -134,7 +137,7 @@ function AptDetails() {
                 <tr>
                   <td>2nd</td>
                   <td>25%</td>
-                  <td>P2,500</td>
+                  <td>{appointment.startingBalance * 0.25}</td>
                   <td>
                     <PaymentStatus />
                   </td>
@@ -142,7 +145,7 @@ function AptDetails() {
                 <tr>
                   <td>3rd</td>
                   <td>25%</td>
-                  <td>P2,500</td>
+                  <td>{appointment.startingBalance * 0.25}</td>
                   <td>
                     <PaymentStatus />
                   </td>
@@ -154,7 +157,7 @@ function AptDetails() {
                 <p className="m-0 fs-6">Total Service Amount</p>
               </Col>
               <Col xs="auto" className="lh-1 text-end">
-                <p className="m-0 fs-5 fw-bold">P10,000</p>
+                <p className="m-0 fs-5 fw-bold">{appointment.startingBalance}</p>
               </Col>
             </Row>
           </Card.Body>

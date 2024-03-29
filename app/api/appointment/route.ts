@@ -33,7 +33,7 @@ export const GET = async (req: NextRequest) => {
     }
 
     await connectToDatabase();
-    const appointment = await Appointment.find({}).populate("customer").populate("service");
+    const appointment = await Appointment.find({}).populate("customerId").populate("servicesId");
     console.log(appointment);
     return NextResponse.json(appointment, { status: 200 });
   } catch (error) {

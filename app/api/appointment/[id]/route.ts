@@ -14,7 +14,7 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
     }
 
     await connectToDatabase();
-    const appointment = await Appointment.findById(id).populate("servicesId");
+    const appointment = await Appointment.findById(id).populate("servicesId").populate("customerId");
     return NextResponse.json(appointment, { status: 200 });
   } catch (error) {
     console.log(error);
@@ -34,7 +34,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: { id: string
     }
 
     await connectToDatabase();
-    const updatedAppointment = await Appointment.findByIdAndUpdate(id,  appointmentData, { new: true });
+    const updatedAppointment = await Appointment.findByIdAndUpdate(id, appointmentData, { new: true });
     return NextResponse.json(updatedAppointment, { status: 200 });
   } catch (error) {
     console.log(error);
