@@ -62,6 +62,7 @@ export interface Appointment {
   startingBalance: number;
   currentBalance: number;
   carColor: string;
+  isArchived: boolean;
   __v: number;
 }
 
