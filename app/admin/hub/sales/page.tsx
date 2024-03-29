@@ -48,6 +48,7 @@ function AdminSales() {
     year: currentDate.getFullYear(),
   });
   const [isPickerOpen, setIsPickerOpen] = useState(false);
+  // Show all records
   const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
@@ -244,6 +245,7 @@ function AdminSales() {
               <h3 style={{ marginRight: "20px" }}>
                 <b>Service Revenue Report</b>
               </h3>
+              {/* Month Picker */}
               {isPickerOpen ? (
                 <div style={{ position: "relative", zIndex: 9999 }}>
                   <MonthPicker
@@ -264,6 +266,7 @@ function AdminSales() {
                 showMonthPicker={isPickerOpen}
                 size="small"
               />
+              {/* All Records */}
               <Button variant="secondary" className="ms-2 align-self-start p-2" onClick={() => setShowAll(true)}>
                 All Records
               </Button>
@@ -305,10 +308,11 @@ function AdminSales() {
                     // Render the actual data
                     appointments
                       .filter((appointment: Appointment) => {
+                        // All Records
                         if (showAll) {
                           return appointment.status === "Complete";
                         }
-
+                        // Filter by selected month
                         const date = new Date(appointment.date);
                         return (
                           appointment.status === "Complete" &&
