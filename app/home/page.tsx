@@ -19,14 +19,25 @@ import Footer from "@/components/CustomerFooter";
 import Navbar from "@/components/CustomerNav";
 import Navbar2 from "@/components/CustomerNav2";
 import Header2 from "@/components/Header";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 
 function CustHome() {
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const sessionStatus = useSession();
 
   const checkSignInStatus = async () => {
     const session = await getSession();
     return session ? true : false;
+  };
+
+  const handleItemClick = (itemName: string) => {
+    if (itemName === "booking") {
+      if (sessionStatus.status === "authenticated") {
+        window.location.href = "/booking";
+      } else {
+        window.location.href = "/customer/signup";
+      }
+    }
   };
 
   useEffect(() => {
@@ -212,11 +223,9 @@ function CustHome() {
               <div className="text-white">Book an appointment for quality automotive care.</div>
             </div>
             <div className="ms-xl-4">
-              <Link href="/customer/signup">
-                <Button variant="dark" size="lg">
-                  Book an Appointment
-                </Button>
-              </Link>
+              <Button variant="dark" size="lg" onClick={() => handleItemClick("booking")}>
+                Book an Appointment
+              </Button>
             </div>
           </Container>
         </aside>
