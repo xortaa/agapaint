@@ -5,8 +5,9 @@
   background-attachment: fixed;
   background-color: black;
   background-image: url("/public/assets/img/faqbg.png");
-  height: 150vh;
+  object-fit: cover;
   padding-top: 150px; //para di umilalim ung text sa nav
+  padding-bottom: 150px; 
 }
 
 .faqtitle {
@@ -28,8 +29,9 @@
   --bs-accordion-active-color: #f1b038;
   --bs-accordion-btn-focus-box-shadow: none;
   --bs-accordion-border-radius: 8px;
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23ffc107' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fefefe' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
   margin: auto;
-  width: 1060px;
   margin-bottom: 14px;
 }
 
@@ -42,7 +44,7 @@
 }
 
 .cardbody {
-  color: var(--Orenz, #f1b038);
+  color: var(--Orenz, #fefefe);
   background-color: #242322;
   font-size: 18px;
   font-style: normal;
@@ -61,7 +63,6 @@
   }
 
   .card {
-    width: 350px;
     margin: auto;
     margin-bottom: 14px;
   }
@@ -71,7 +72,6 @@
   }
 
   .cardbody {
-    width: 100%;
     margin: auto;
     font-size: 14px;
   }
@@ -84,7 +84,6 @@
   }
 
   .card {
-    width: 250px;
     margin: auto;
     margin-bottom: 10px;
   }
@@ -94,7 +93,6 @@
   }
 
   .cardbody {
-    width: 100%;
     margin: auto;
     font-size: 14px;
   }
