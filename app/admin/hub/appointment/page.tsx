@@ -35,6 +35,7 @@ function manageAppointment() {
   const [allAppointments, setAllAppointments] = useState<Appointment[]>([]);
   const [activeAppointments, setActiveAppointments] = useState<Appointment[]>([]);
   const [confirmedApppointments, setConfirmedAppointments] = useState<Appointment[]>([]);
+  const [awaitingAppointments, setAwaitingAppointments] = useState<Appointment[]>([]);
   const [pendingAppointments, setPendingAppointments] = useState<Appointment[]>([]);
 
   useEffect(() => {
@@ -60,7 +61,10 @@ function manageAppointment() {
   }, []);
 
   useEffect(() => {
-    setConfirmedAppointments(activeAppointments.filter((apt: Appointment) => apt.status !== "Pending"));
+    setConfirmedAppointments(
+      activeAppointments.filter((apt: Appointment) => apt.status !== "Pending" && apt.status !== "Awaiting Payment")
+    );
+    setAwaitingAppointments(activeAppointments.filter((apt: Appointment) => apt.status === "Awaiting Payment"));
     setPendingAppointments(activeAppointments.filter((apt: Appointment) => apt.status === "Pending"));
   }, [activeAppointments]);
 
@@ -147,6 +151,47 @@ function manageAppointment() {
                         {[...confirmedApppointments].reverse().map((apt: Appointment, index) => (
                           <tr onClick={() => setShowComponent(apt)} key={apt._id}>
                             <td className="fw-bold">{confirmedApppointments.length - index}</td>
+                            <td>{`${apt.firstName} ${apt.lastName}`}</td>
+                            <td>{apt.plateNumber}</td>
+                            <td>{apt.date.split("T")[0]}</td>
+                            <td>{apt.time}</td>
+                            <td>{apt.currentBalance}</td>
+                            <td>
+                              <ServiceStatus width="73%" option={apt.status} />
+                            </td>
+                            <td>
+                              <BoxSeam size={24} className="text-success" onClick={() => setMuShow(true)} />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </Card>
+                </Col>
+              </Row>
+
+              {/* Awaiting Appointments */}
+              <Row className="mb-4">
+                <Col>
+                  <h6 className="fw-bold agapaint-yellow mb-3">Awaiting Appointments</h6>
+                  <Card className="border-0 rounded">
+                    <Table striped hover className="align-middle">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Customer</th>
+                          <th>Plate#</th>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Total Service</th>
+                          <th>Service Status</th>
+                          <th>INV</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[...awaitingAppointments].reverse().map((apt: Appointment, index) => (
+                          <tr onClick={() => setShowComponent(apt)} key={apt._id}>
+                            <td className="fw-bold">{awaitingAppointments.length - index}</td>
                             <td>{`${apt.firstName} ${apt.lastName}`}</td>
                             <td>{apt.plateNumber}</td>
                             <td>{apt.date.split("T")[0]}</td>

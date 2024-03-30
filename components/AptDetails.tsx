@@ -19,7 +19,7 @@ function AptDetails({
   const [smShow, setSmShow] = useState(false);
   const [endDate, setEndDate] = useState<Date>();
   const handleCloseModal = () => setSmShow(false);
-  const [isConfirmed, setIsConfirmed] = useState(appointment.status === "Ongoing");
+  const [isApproved, setIsApproved] = useState(appointment.status === "Awaiting Payment");
   const [selectedOption, setSelectedOption] = useState(appointment.status);
   const [showChangeBalance, setShowChangeBalance] = useState(false);
   const [newBalance, setNewBalance] = useState(appointment.startingBalance);
@@ -63,21 +63,21 @@ function AptDetails({
     setStartingBalance(parseInt(e.target.value));
   };
 
-  const handleConfirmAppointment = () => {
-    const confirmAppointmentData = {
+  const handleApproveAppointment = () => {
+    const approveAppointmentData = {
       endDate,
-      status: "Ongoing",
+      status: "Awaiting Payment",
       startingBalance: newBalance,
       currentBalance: newBalance,
     };
 
-    const ConfirmAppointment = new Promise((resolve, reject) => {
+    const ApproveAppointment = new Promise((resolve, reject) => {
       axios
-        .patch(`/api/appointment/${appointment._id}`, confirmAppointmentData)
+        .patch(`/api/appointment/${appointment._id}`, approveAppointmentData)
         .then((res) => {
           setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
-          setIsConfirmed(true);
-          setSelectedOption("Ongoing");
+          setIsApproved(true);
+          setSelectedOption("Awaiting Payment");
           resolve("Success");
         })
         .catch((error) => {
@@ -86,10 +86,10 @@ function AptDetails({
         });
     });
 
-    toast.promise(ConfirmAppointment, {
-      pending: "Confirming appointment...",
-      success: "Appointment Confirmed!",
-      error: "Failed to confirm appointment, Please try again.",
+    toast.promise(ApproveAppointment, {
+      pending: "Approving appointment...",
+      success: "Appointment approved! Email has been sent to the customer.",
+      error: "Failed to approve appointment, Please try again.",
     });
   };
 
@@ -180,7 +180,7 @@ function AptDetails({
                 </Accordion.Item>
               </Accordion>
 
-              {isConfirmed ? (
+              {isApproved ? (
                 <Row xs="auto" className="lh-05 mt-5">
                   <p className="fw-bold">Target End Date</p>
                   <p className="ms-auto">
@@ -193,7 +193,7 @@ function AptDetails({
                 // ...
                 <Form.Group controlId="dob" style={{ marginLeft: "auto" }}>
                   <Form.Label className="mt-3 mb-1 small">Target End Date</Form.Label>
-                  {isConfirmed ? (
+                  {isApproved ? (
                     <p>
                       {appointment && appointment.endDate
                         ? new Date(appointment.endDate).toISOString().split("T")[0]
@@ -233,7 +233,7 @@ function AptDetails({
                   />
                 </Form.Group>
               )}
-              {isConfirmed ? null : (
+              {isApproved ? null : (
                 <Col xs="auto" className="lh-05 text-end my-2">
                   <Button className="btn btn-warning btn-sm text-white" onClick={() => setShowChangeBalance(true)}>
                     Change Balance
@@ -287,9 +287,9 @@ function AptDetails({
                 <p className="m-0 fs-5 fw-bold">{startingBalance}</p>
               </Col>
             </Row>
-            {isConfirmed ? null : (
-              <Button className="btn btn-warning text-white" onClick={handleConfirmAppointment}>
-                Confirm Appointment
+            {isApproved ? null : (
+              <Button className="btn btn-warning text-white" onClick={handleApproveAppointment}>
+                Approve Appointment
               </Button>
             )}
           </Card.Body>

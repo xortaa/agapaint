@@ -1,13 +1,7 @@
 import { Form } from "react-bootstrap";
 import { useState } from "react";
 
-function ServiceStatus({
-  width,
-  option,
-}: {
-  width: string;
-  option: string;
-}) {
+function ServiceStatus({ width, option }: { width: string; option: string }) {
   // Service Status
   const [selectedOption, setSelectedOption] = useState(option);
 
@@ -23,6 +17,8 @@ function ServiceStatus({
         return "text-info";
       case "Ongoing":
         return "text-warning";
+      case "Awaiting Payment":
+        return "text-secondary";
       default:
         return "text-danger";
     }
@@ -38,6 +34,9 @@ function ServiceStatus({
     >
       <option value="Pending" className="text-danger fw-bold">
         Pending
+      </option>
+      <option value="Awaiting Payment" className="text-secondary fw-bold">
+        Awaiting Payment
       </option>
       <option value="Ongoing" className="text-warning fw-bold">
         Ongoing
