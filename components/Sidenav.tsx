@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Nav, Container, Image, Col, Row } from "react-bootstrap";
 import { Grid, Calendar2Week, BoxArrowLeft, BoxSeam, Cart, CreditCard, QuestionSquare } from "react-bootstrap-icons";
+import { signOut } from "next-auth/react";
 
 //scss
 import sidenavStyles from "@/styles/sidenav.module.scss";
@@ -28,6 +29,12 @@ const Sidenav = () => {
   const handleItemClick = (itemName) => {
     setActivePage(itemName);
     localStorage.setItem("activePage", itemName);
+  };
+
+  const handleSignOut = async () => {
+    await signOut({
+      callbackUrl: "/admin/signup"
+    });
   };
 
   return (
@@ -206,7 +213,7 @@ const Sidenav = () => {
               </div>
               <ul className={sidenavStyles.custom_ul}>
                 <li>
-                  <Link href="../signup" className={sidenavStyles.signout_displayed}>
+                  <Link href="../admin" className={sidenavStyles.signout_displayed} onClick={handleSignOut}>
                     <BoxArrowLeft className="mx-2 mb-1" size={20} /> Sign out
                   </Link>
                 </li>

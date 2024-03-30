@@ -23,7 +23,7 @@ function SignUpPage() {
               <Card.Body className="p-5 pb-5">
                 <p className="login-card-description">Welcome back, Admin!</p>
                 <p>Your Agapaint journey continues. Let's make the most of your day, Fighting!</p>
-                <SignUpCard />
+                <SignUpCard role="admin"/>
                 <p className="small text-danger mb-0">*Agapaint Hub: Authorized Personnel Only</p>
               </Card.Body>
             </Card>
