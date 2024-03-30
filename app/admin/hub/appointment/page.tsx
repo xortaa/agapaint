@@ -185,7 +185,6 @@ function manageAppointment() {
                           <th>Time</th>
                           <th>Total Service</th>
                           <th>Service Status</th>
-                          <th>INV</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -199,9 +198,6 @@ function manageAppointment() {
                             <td>{apt.currentBalance}</td>
                             <td>
                               <ServiceStatus width="73%" option={apt.status} />
-                            </td>
-                            <td>
-                              <BoxSeam size={24} className="text-success" onClick={() => setMuShow(true)} />
                             </td>
                           </tr>
                         ))}
@@ -226,7 +222,6 @@ function manageAppointment() {
                           <th>Time</th>
                           <th>Total Service</th>
                           <th>Service Status</th>
-                          <th>INV</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -240,9 +235,6 @@ function manageAppointment() {
                             <td>{apt.currentBalance}</td>
                             <td>
                               <ServiceStatus width="73%" option={apt.status} />
-                            </td>
-                            <td>
-                              <BoxSeam size={24} className="text-success" onClick={() => setMuShow(true)} />
                             </td>
                           </tr>
                         ))}
