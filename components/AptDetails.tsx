@@ -17,7 +17,15 @@ function AptDetails({
 }) {
   //   Archive Modal
   const [smShow, setSmShow] = useState(false);
+  const [endDate, setEndDate] = useState<Date>();
   const handleCloseModal = () => setSmShow(false);
+  const [isConfirmed, setIsConfirmed] = useState(appointment.status === "Ongoing");
+  const [selectedOption, setSelectedOption] = useState(appointment.status);
+  const [showChangeBalance, setShowChangeBalance] = useState(false);
+  const [newBalance, setNewBalance] = useState(appointment.startingBalance);
+  const [startingBalance, setStartingBalance] = useState(appointment.startingBalance);
+  const [currentBalance, setCurrentBalance] = useState(appointment.currentBalance);
+  const [unformattedDate, setUnformattedDate] = useState<String>();
 
   const handleArchive = () => {
     const archiveAppointment = new Promise((resolve, reject) => {
@@ -37,11 +45,52 @@ function AptDetails({
         });
     });
 
-    toast.promise(archiveAppointment, { 
+    toast.promise(archiveAppointment, {
       pending: "Archiving appointment...",
       success: "Appointment Archived!",
-      error: "Failed to archive appointment, Please try again."
-    })
+      error: "Failed to archive appointment, Please try again.",
+    });
+  };
+
+  const handleEndDateChange = (e) => {
+    setEndDate(new Date(e.target.value));
+    setUnformattedDate(e.target.value);
+  };
+
+  const handleNewBalanceChange = (e) => {
+    setNewBalance(parseInt(e.target.value));
+    setCurrentBalance(parseInt(e.target.value));
+    setStartingBalance(parseInt(e.target.value));
+  };
+
+  const handleConfirmAppointment = () => {
+    const confirmAppointmentData = {
+      endDate,
+      status: "Ongoing",
+      startingBalance: newBalance,
+      currentBalance: newBalance,
+    };
+
+    const ConfirmAppointment = new Promise((resolve, reject) => {
+      axios
+        .patch(`/api/appointment/${appointment._id}`, confirmAppointmentData)
+        .then((res) => {
+          setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
+          setIsConfirmed(true);
+          setSelectedOption("Ongoing");
+          resolve("Success");
+        })
+        .catch((error) => {
+          console.error("Failed to confirm appointment: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(ConfirmAppointment, {
+      pending: "Confirming appointment...",
+      success: "Appointment Confirmed!",
+      error: "Failed to confirm appointment, Please try again.",
+    });
   };
 
   return (
@@ -56,7 +105,7 @@ function AptDetails({
             <hr />
             <div className="d-flex justify-content-between align-items-center">
               <h4 className="fw-bold me-3">1</h4>
-              <ServiceStatus width="43%" option={appointment.status} />
+              <ServiceStatus width="43%" option={selectedOption} />
             </div>
             <hr />
             <Row xs="auto" className="lh-05">
@@ -131,10 +180,37 @@ function AptDetails({
                 </Accordion.Item>
               </Accordion>
 
-              <Form.Group controlId="dob" style={{ marginLeft: "auto" }}>
-                <Form.Label className="mt-3 mb-1 small">Target End Date</Form.Label>
-                <Form.Control type="date" name="dob" placeholder="Target End Date" size="sm" />
-              </Form.Group>
+              {isConfirmed ? (
+                <Row xs="auto" className="lh-05 mt-5">
+                  <p className="fw-bold">Target End Date</p>
+                  <p className="ms-auto">
+                    {appointment && appointment.endDate
+                      ? new Date(appointment.endDate).toISOString().split("T")[0]
+                      : `${unformattedDate}`}
+                  </p>
+                </Row>
+              ) : (
+                // ...
+                <Form.Group controlId="dob" style={{ marginLeft: "auto" }}>
+                  <Form.Label className="mt-3 mb-1 small">Target End Date</Form.Label>
+                  {isConfirmed ? (
+                    <p>
+                      {appointment && appointment.endDate
+                        ? new Date(appointment.endDate).toISOString().split("T")[0]
+                        : `${unformattedDate}`}
+                    </p>
+                  ) : (
+                    <Form.Control
+                      type="date"
+                      name="dob"
+                      placeholder="Target End Date"
+                      size="sm"
+                      onChange={handleEndDateChange}
+                      defaultValue={appointment.date.split("T")[0]}
+                    />
+                  )}
+                </Form.Group>
+              )}
             </Row>
             <hr />
             <Row className="align-items-center justify-content-between mb-2">
@@ -144,8 +220,26 @@ function AptDetails({
               </Col>
               <Col xs="auto" className="lh-05 text-end">
                 <p>{appointment.paymentTerm}</p>
-                <p className="m-0 fs-5 fw-bold">{appointment.currentBalance}</p>
+                <p className="m-0 fs-5 fw-bold">{currentBalance}</p>
               </Col>
+              {showChangeBalance && (
+                <Form.Group controlId="dob" style={{ marginLeft: "auto" }}>
+                  <Form.Label className="mt-3 mb-1 small">New Balance</Form.Label>
+                  <Form.Control
+                    type="number"
+                    size="sm"
+                    onChange={handleNewBalanceChange}
+                    defaultValue={appointment.startingBalance}
+                  />
+                </Form.Group>
+              )}
+              {isConfirmed ? null : (
+                <Col xs="auto" className="lh-05 text-end my-2">
+                  <Button className="btn btn-warning btn-sm text-white" onClick={() => setShowChangeBalance(true)}>
+                    Change Balance
+                  </Button>
+                </Col>
+              )}
             </Row>
 
             <p className="fs-5 agapaint-yellow m-0">Breakdown</p>
@@ -162,7 +256,7 @@ function AptDetails({
                 <tr>
                   <td>1st</td>
                   <td>50%</td>
-                  <td>{appointment.startingBalance * 0.5}</td>
+                  <td>{startingBalance * 0.5}</td>
                   <td>
                     <PaymentStatus />
                   </td>
@@ -170,7 +264,7 @@ function AptDetails({
                 <tr>
                   <td>2nd</td>
                   <td>25%</td>
-                  <td>{appointment.startingBalance * 0.25}</td>
+                  <td>{startingBalance * 0.25}</td>
                   <td>
                     <PaymentStatus />
                   </td>
@@ -178,7 +272,7 @@ function AptDetails({
                 <tr>
                   <td>3rd</td>
                   <td>25%</td>
-                  <td>{appointment.startingBalance * 0.25}</td>
+                  <td>{startingBalance * 0.25}</td>
                   <td>
                     <PaymentStatus />
                   </td>
@@ -190,9 +284,14 @@ function AptDetails({
                 <p className="m-0 fs-6">Total Service Amount</p>
               </Col>
               <Col xs="auto" className="lh-1 text-end">
-                <p className="m-0 fs-5 fw-bold">{appointment.startingBalance}</p>
+                <p className="m-0 fs-5 fw-bold">{startingBalance}</p>
               </Col>
             </Row>
+            {isConfirmed ? null : (
+              <Button className="btn btn-warning text-white" onClick={handleConfirmAppointment}>
+                Confirm Appointment
+              </Button>
+            )}
           </Card.Body>
         </Card>
       </Col>

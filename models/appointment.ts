@@ -79,6 +79,9 @@ const AppointmentSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  endDate: { 
+    type: Date,
+  }
 });
 
 const Appointment = models.Appointment || model("Appointment", AppointmentSchema);
