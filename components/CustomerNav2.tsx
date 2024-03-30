@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/Link";
 import { Button, Dropdown } from "react-bootstrap";
 import { FaBars } from "react-icons/fa";
 import navStyles from "@/styles/navbar.module.scss";

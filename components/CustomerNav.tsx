@@ -1,16 +1,19 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { Button } from "react-bootstrap";
 import { FaBars, FaUserAlt } from "react-icons/fa";
 import navStyles from "@/styles/navbar.module.scss";
 import Image from "next/image";
+import Link from "@/components/Link";
+import { useSession } from "next-auth/react";
 
 function Navbar() {
   const navbarRef = useRef(null);
   const [isNavVisible, setIsNavVisible] = useState(false);
   const [activeItem, setActiveItem] = useState("");
+  const sessionStatus = useSession();
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,9 +41,22 @@ function Navbar() {
     document.body.classList.toggle(navStyles.bodyOverlay, isNavVisible);
   };
 
-  const handleItemClick = (itemName) => {
-    setActiveItem(itemName);
-    localStorage.setItem("activeItem", itemName);
+  // const handleItemClick = (itemName) => {
+  //   setActiveItem(itemName);
+  //   localStorage.setItem("activeItem", itemName);
+  // };
+
+  const handleItemClick = (itemName: string) => {
+    if (itemName === "booking") {
+      if (sessionStatus.status === "authenticated") {
+        window.location.href = "/booking";
+      } else {
+        window.location.href = "/customer/signup";
+      }
+    } else {
+      setActiveItem(itemName);
+      localStorage.setItem("activeItem", itemName);
+    }
   };
 
   return (
@@ -89,14 +105,28 @@ function Navbar() {
                 FAQ
               </Link>
             </li>
-            <li onClick={() => handleItemClick("booking")}>
+
+
+            {/* <li onClick={() => handleItemClick("booking")}>
               <Link
                 href="/booking"
                 className={`${navStyles.ulItem} ${activeItem === "booking" ? navStyles.active : ""}`}
               >
                 <Button className={navStyles.btnLog}>Book Now</Button>
               </Link>
-            </li>
+            </li> */}
+
+            <li onClick={() => handleItemClick("booking")}>
+                <Link
+                  href="#"
+                  className={`${navStyles.ulItem} ${activeItem === "booking" ? navStyles.active : ""}`}
+                >
+                  <Button className={navStyles.btnLog}>Book Now</Button>
+                </Link>
+              </li>
+
+
+
             <li onClick={() => handleItemClick("signup")}>
               <Link
                 href="/customer/signup"
