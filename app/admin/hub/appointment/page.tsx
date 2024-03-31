@@ -69,12 +69,12 @@ function manageAppointment() {
   }, [activeAppointments]);
 
   // Material Used Modal
-  const [muShow, setMuShow] = useState(false);
+  const [muShow, setMuShow] = useState<Appointment | null>(null);
 
   // Service Status
   const [showAptMaterial, setShowAptMaterial] = useState(false);
   const handleCloseModal = () => {
-    setMuShow(false);
+    setMuShow(null);
     setShowAptMaterial(false);
   };
 
@@ -165,7 +165,7 @@ function manageAppointment() {
                               />
                             </td>
                             <td>
-                              <BoxSeam size={24} className="text-success" onClick={() => setMuShow(true)} />
+                              <BoxSeam size={24} className="text-success" onClick={() => setMuShow(apt)} />
                             </td>
                           </tr>
                         ))}
@@ -265,17 +265,14 @@ function manageAppointment() {
             <AptDetails appointment={showComponent} setActiveAppointments={setActiveAppointments} />
           </CSSTransition>
           {/* Modal: Material Used */}
-          <AptMaterial title="Material Used [APT #1]" show={muShow} hide={handleCloseModal} status="ongoing" />
-          {/* COMPLETE STAT Modal 1 : Material Used Confirmation*/}
-          {showAptMaterial && (
+          {muShow !== null && (
             <AptMaterial
-              title="Finalize Material Used [APT #1]"
-              show={showAptMaterial}
+              setActiveAppointments={setActiveAppointments}
+              appointment={muShow}
+              show={muShow}
               hide={handleCloseModal}
-              status="complete"
             />
           )}
-          {/* COMPLETE STAT Modal 2: End Date Confirmation*/}
         </Row>
       </Container>
     </main>

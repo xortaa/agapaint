@@ -11,6 +11,10 @@ const AppointmentSchema = new Schema({
     ref: "Service",
     required: true,
   },
+  materialUsed: {
+    type: [Schema.Types.ObjectId],
+    ref: "MaterialUsed",
+  },
   firstName: {
     type: String,
     required: true,
@@ -79,9 +83,9 @@ const AppointmentSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  endDate: { 
+  endDate: {
     type: Date,
-  }
+  },
 });
 
 const Appointment = models.Appointment || model("Appointment", AppointmentSchema);

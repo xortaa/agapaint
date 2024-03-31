@@ -46,6 +46,7 @@ export interface Appointment {
   totalService: number;
   customerId: User;
   servicesId: Service[];
+  materialUsed: MaterialUsed[];
   firstName: string;
   lastName: string;
   email: string;
@@ -133,5 +134,13 @@ export interface Log {
   updatedBy: string;
   isArchived: boolean;
   stock: number;
+  __v: number;
+}
+
+export interface MaterialUsed { 
+  _id: string;
+  appointment: Appointment;
+  material: Material;
+  quantity: number;
   __v: number;
 }
