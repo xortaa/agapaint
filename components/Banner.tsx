@@ -36,6 +36,7 @@ function Banner(props) {
           <Breadcrumb className="text-white fw-light white-divider">
             <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
             <Breadcrumb.Item
+              href="/customer/appointment"
               active={props.page === "profile"}
               className={`text-white ${props.page === "profile" ? "fw-semibold" : ""}`}
             >
