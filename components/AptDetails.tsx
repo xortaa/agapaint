@@ -185,7 +185,7 @@ function AptDetails({
                 </Accordion.Item>
               </Accordion>
 
-              {isApproved ? (
+              {appointment.status === "Pending" ? (
                 <Row xs="auto" className="lh-05 mt-5">
                   <p className="fw-bold">Target End Date</p>
                   <p className="ms-auto">
@@ -238,7 +238,7 @@ function AptDetails({
                   />
                 </Form.Group>
               )}
-              {isApproved ? null : (
+              {appointment.status === "Pending" && (
                 <Col xs="auto" className="lh-05 text-end my-2">
                   <Button className="btn btn-warning btn-sm text-white" onClick={() => setShowChangeBalance(true)}>
                     Change Balance
@@ -292,7 +292,7 @@ function AptDetails({
                 <p className="m-0 fs-5 fw-bold">{startingBalance}</p>
               </Col>
             </Row>
-            {isApproved ? null : (
+            {appointment.status === "Pending" && (
               <Button className="btn btn-warning text-white" onClick={handleApproveAppointment}>
                 Approve Appointment
               </Button>
