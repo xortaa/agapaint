@@ -28,7 +28,12 @@ function Services({
     axios
       .get("/api/service")
       .then((res) => {
-        const filteredServices = res.data.filter((service: ServiceData) => service.carType === appointmentData.carType);
+        let filteredServices;
+        if (appointmentData.carType === "Others") {
+          filteredServices = res.data;
+        } else {
+          filteredServices = res.data.filter((service: ServiceData) => service.carType === appointmentData.carType);
+        }
         setServices(filteredServices);
       })
       .catch((err) => {

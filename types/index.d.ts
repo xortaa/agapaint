@@ -27,6 +27,8 @@ export interface AppointmentData {
   carType: string;
   paymentTerm: "Full" | "Partial";
   carColor: string;
+  startingBalance: number;
+  currentBalance: number;
 }
 
 export interface Service {
@@ -41,8 +43,10 @@ export interface Service {
 
 export interface Appointment {
   _id: string;
-  customerId: string;
+  totalService: number;
+  customerId: User;
   servicesId: Service[];
+  materialUsed: MaterialUsed[];
   firstName: string;
   lastName: string;
   email: string;
@@ -56,6 +60,11 @@ export interface Appointment {
   time: string;
   status: string;
   paymentTerm: "Full" | "Partial";
+  startingBalance: number;
+  currentBalance: number;
+  carColor: string;
+  isArchived: boolean;
+  endDate: Date;
   __v: number;
 }
 
@@ -125,5 +134,13 @@ export interface Log {
   updatedBy: string;
   isArchived: boolean;
   stock: number;
+  __v: number;
+}
+
+export interface MaterialUsed { 
+  _id: string;
+  appointment: Appointment;
+  material: Material;
+  quantity: number;
   __v: number;
 }

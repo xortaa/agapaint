@@ -14,26 +14,17 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
     }
 
     await connectToDatabase();
-    const appointment = await Appointment.findById(id)
-      .populate("servicesId")
-      .populate("customerId")
-      .populate({
-        path: "materialUsed",
-        populate: {
-          path: "material",
-          model: "Material",
-        },
-      });
-    return NextResponse.json(appointment, { status: 200 });
+    
+    return NextResponse.json({ status: 200 });
   } catch (error) {
     console.log(error);
-    return NextResponse.json("Can't find appointment", { status: 500 });
+    return NextResponse.json({ status: 500 });
   }
 };
 
 export const PATCH = async (req: NextRequest, { params }: { params: { id: string } }) => {
   const id = params.id;
-  const appointmentData = await req.json();
+  // const appointmentData = await req.json();
   const secret = process.env.JWT_SECRET;
   try {
     const token = await getToken({ req, secret });
@@ -43,11 +34,11 @@ export const PATCH = async (req: NextRequest, { params }: { params: { id: string
     }
 
     await connectToDatabase();
-    const updatedAppointment = await Appointment.findByIdAndUpdate(id, appointmentData, { new: true });
-    return NextResponse.json(updatedAppointment, { status: 200 });
+    // const updatedAppointment = await Appointment.findByIdAndUpdate(id, appointmentData, { new: true });
+    return NextResponse.json({ status: 200 });
   } catch (error) {
     console.log(error);
-    return NextResponse.json("Can't update appointment", { status: 500 });
+    return NextResponse.json({ status: 500 });
   }
 };
 
@@ -62,10 +53,10 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
     }
 
     await connectToDatabase();
-    const deletedAppointment = await Appointment.findByIdAndUpdate(id, { isArchived: true }, { new: true });
-    return NextResponse.json(deletedAppointment, { status: 200 });
+    // const deletedAppointment = await Appointment.findByIdAndUpdate(id, { isArchived: true }, { new: true });
+    return NextResponse.json({ status: 200 });
   } catch (error) {
     console.log(error);
-    return NextResponse.json("Can't delete appointment", { status: 500 });
+    return NextResponse.json({ status: 500 });
   }
 };

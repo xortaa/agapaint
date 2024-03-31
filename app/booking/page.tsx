@@ -392,6 +392,8 @@ function bookAppointment() {
     servicesId: [],
     paymentTerm: "Full",
     carColor: "",
+    startingBalance: 0,
+    currentBalance: 0
   });
   const [selectedService, setSelectedService] = useState<ServiceData[]>([]);
   const totalPrice = selectedService.reduce((total, service) => total + service.price, 0);
@@ -416,6 +418,8 @@ function bookAppointment() {
         ...appointmentData,
         servicesId: selectedService.map((service) => service._id),
         customerId: session?.user?._id,
+        startingBalance: totalPrice,
+        currentBalance: totalPrice,
       })
       .then((res) => {
         console.log(res);

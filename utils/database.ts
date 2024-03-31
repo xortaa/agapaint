@@ -28,6 +28,7 @@ const connectToDatabase = async () => {
      require("@/models/revenue");
      require("@/models/service");
      require("@/models/user");
+     require("@/models/materialUsed");
   } catch (error) {
     console.log(error);
   }
