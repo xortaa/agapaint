@@ -13,7 +13,7 @@ const SignUpCard = ({role}) => {
           className="w-100 fw-medium d-flex justify-content-center align-items-center my-google-button"
           type="light"
           onClick={() => {
-            signIn("google", { callbackUrl: role === "admin" ? "/admin/hub/appointment" : "/" });
+            signIn("google", { callbackUrl: role === "admin" ? "/admin/hub/appointment" : "/customer/appointment" });
           }}
           label="Continue with Google"
         />
