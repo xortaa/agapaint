@@ -2,7 +2,7 @@
 
 import React from "react";
 // Styles
-import { Container, Row, Col, Table, Button, Card, Form, InputGroup, Dropdown, FormControl } from "react-bootstrap";
+import { Container, Row, Col, Table, Pagination, Card, InputGroup, Dropdown, FormControl } from "react-bootstrap";
 import { Funnel, Search } from "react-bootstrap-icons";
 // Components
 import AdminHeader from "@/components/AdminHeader";
@@ -20,6 +20,26 @@ import PlaceholderRow from "@/components/PlaceholderRow";
 function ManageFAQPage() {
   const [faqs, setFaqs] = useState<Faq[]>([]);
   const [loading, setLoading] = useState(true);
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(12); //set the limit of items per page
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = faqs.slice(indexOfFirstItem, indexOfLastItem);
+
+  const pages = [];
+  for (let i = 1; i <= Math.ceil(faqs.length / itemsPerPage); i++) {
+    if (i === 1 || i === Math.ceil(faqs.length / itemsPerPage) || (i >= currentPage - 2 && i <= currentPage + 2)) {
+      pages.push(
+        <Pagination.Item key={i} active={i === currentPage} onClick={() => setCurrentPage(i)}>
+          {i}
+        </Pagination.Item>
+      );
+    } else if (i === currentPage - 3 || i === currentPage + 3) {
+      pages.push(<Pagination.Ellipsis />);
+    }
+  }
 
   useEffect(() => {
     axios.get("/api/faq").then((res) => {
@@ -60,7 +80,16 @@ function ManageFAQPage() {
                   </Dropdown.Menu>
                 </Dropdown>
 
-                <div className="ms-auto d-flex gap-2">
+                <div className="ms-auto d-flex gap-2 align-items-center">
+                  {/* Pagination */}
+                  <Pagination className="secondary-pagination m-0 me-1">
+                    <Pagination.Prev disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} />
+                    {pages}
+                    <Pagination.Next
+                      disabled={currentPage === pages.length}
+                      onClick={() => setCurrentPage(currentPage + 1)}
+                    />
+                  </Pagination>
                   <AddQuestionModal setFaqs={setFaqs} />
                 </div>
               </div>
@@ -84,7 +113,7 @@ function ManageFAQPage() {
                   <PlaceholderRow col="4" />
                 ) : (
                   // Render the actual data
-                  faqs.map((faq, index) => (
+                  currentItems.map((faq, index) => (
                     <tr key={faq._id}>
                       <td>{index + 1}</td>
                       <td>{faq.question}</td>
@@ -100,6 +129,21 @@ function ManageFAQPage() {
             </Table>
           </Card.Body>
         </Card>
+
+        {/* Another Pagination */}
+        <Row className="mt-3">
+          <div className="ms-auto d-flex gap-2 align-items-center justify-content-end">
+            {/* Pagination */}
+            <Pagination className="secondary-pagination">
+              <Pagination.Prev disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} />
+              {pages}
+              <Pagination.Next
+                disabled={currentPage === pages.length}
+                onClick={() => setCurrentPage(currentPage + 1)}
+              />
+            </Pagination>
+          </div>
+        </Row>
       </Container>
     </main>
   );
