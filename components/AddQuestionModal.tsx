@@ -17,12 +17,14 @@ function AddQuestionModal({ setFaqs }: { setFaqs: React.Dispatch<React.SetStateA
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FaqData>();
 
   const handleClose = () => {
     setShow(false);
     setError("");
+    reset();
   };
 
   const onSubmit = (data: FaqData) => {
@@ -31,12 +33,8 @@ function AddQuestionModal({ setFaqs }: { setFaqs: React.Dispatch<React.SetStateA
         .post("/api/faq", data)
         .then((res) => {
           handleClose();
-
-          // Resolve the promise after 2 seconds
-          setTimeout(() => {
-            setFaqs((prev) => [...prev, res.data]);
-            resolve("Success");
-          }, 2000);
+          setFaqs((prev) => [...prev, res.data]);
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to add question: ", error);

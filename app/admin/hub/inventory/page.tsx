@@ -114,22 +114,113 @@ function manageInventory() {
           </Col>
         </Row>
 
+        <Row className="mb-4">
+          {/* Categories Table */}
+          <Col xs={4}>
+            <h6 className="fw-bold agapaint-yellow mb-3">Categories</h6>
+            <Card className="border-0" style={{ borderRadius: "10px" }}>
+              <Card.Body className="p-2 pb-0 pt-0">
+                <Table hover className="align-middle responsive">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Category Name</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {catLoading ? (
+                      // Placeholder Component
+                      <PlaceholderRow col="3" />
+                    ) : (
+                      [...activeCategories].reverse().map((category: Category, index) => (
+                        <tr key={category._id}>
+                          <td>{activeCategories.length - index}</td>
+                          <td>{category.name}</td>
+                          <td>
+                            <InvUpdateCatModal
+                              setActiveCategories={setActiveCategories}
+                              categoryData={category}
+                              id={category._id}
+                            />
+                            <InvArchiveCategoryModal
+                              setActiveCategories={setActiveCategories}
+                              categoryData={category}
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </Table>
+              </Card.Body>
+            </Card>
+          </Col>
+          {/* Materials Table */}
+          <Col xs={8}>
+            <h6 className="fw-bold agapaint-yellow mb-3">Current Materials Stock</h6>
+            <Card className="border-0" style={{ borderRadius: "10px" }}>
+              <Card.Body className="p-2 pb-0 pt-0">
+                <Table hover className="align-middle responsive">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Material Name</th>
+                      <th>Category</th>
+                      <th>Current Stock</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {/* Placeholder Component */}
+                    {matLoading ? (
+                      <PlaceholderRow col="5" />
+                    ) : (
+                      [...activeMaterials].reverse().map((material: Material, index) => (
+                        <tr key={material._id}>
+                          <td>{activeMaterials.length - index}</td>
+                          <td>{material.name}</td>
+                          <td>
+                            <Badge pill bg="warning" text="dark">
+                              {material.category.name}
+                            </Badge>
+                          </td>
+                          <td>{material.quantity}</td>
+                          <td>
+                            <InvUpdateMaterialModal
+                              setActiveMaterials={setActiveMaterials}
+                              materialData={material}
+                              id={material._id}
+                              activeCategories={activeCategories}
+                            />
+                            <InvArchiveMaterialModal setMaterials={setActiveMaterials} materialData={material} />
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </Table>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
         {/* Inventory Log */}
         <Row className="mb-4">
           <Col>
             <h6 className="fw-bold agapaint-yellow mb-3">Inventory Logs</h6>
             <Card className="border-0 rounded">
-              <Table striped hover className="align-middle responsive">
+              <Table hover className="align-middle responsive">
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>TransType</th>
+                    <th>#</th>
+                    <th>Type</th>
                     <th>Material Name</th>
-                    <th>TranQty</th>
-                    <th>Curent Stock</th>
+                    <th>Qty</th>
+                    <th>Current Stock</th>
                     <th>Notes</th>
-                    <th>Update Date</th>
-                    <th>Update By</th>
+                    <th>Date</th>
+                    <th>Log By</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -170,98 +261,6 @@ function manageInventory() {
                   )}
                 </tbody>
               </Table>
-            </Card>
-          </Col>
-        </Row>
-
-        {/* Materials Table */}
-        <Row className="mb-4">
-          <Col xs={8}>
-            <h6 className="fw-bold agapaint-yellow mb-3">Current Materials Stock</h6>
-            <Card className="border-0" style={{ borderRadius: "10px" }}>
-              <Card.Body className="p-2 pb-0 pt-0">
-                <Table hover className="align-middle responsive">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Material Name</th>
-                      <th>Category</th>
-                      <th>Current Stock</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {/* Placeholder Component */}
-                    {matLoading ? (
-                      <PlaceholderRow col="5" />
-                    ) : (
-                      [...activeMaterials].reverse().map((material: Material, index) => (
-                        <tr key={material._id}>
-                          <td>{activeMaterials.length - index}</td>
-                          <td>{material.name}</td>
-                          <td>
-                            <Badge pill bg="warning" text="dark">
-                              {material.category.name}
-                            </Badge>
-                          </td>
-                          <td>{material.quantity}</td>
-                          <td>
-                            <InvUpdateMaterialModal
-                              setActiveMaterials={setActiveMaterials}
-                              materialData={material}
-                              id={material._id}
-                              activeCategories={activeCategories}
-                            />
-                            <InvArchiveMaterialModal setMaterials={setActiveMaterials} materialData={material} />
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </Table>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          {/* Categories Table */}
-          <Col xs={4}>
-            <h6 className="fw-bold agapaint-yellow mb-3">Categories</h6>
-            <Card className="border-0" style={{ borderRadius: "10px" }}>
-              <Card.Body className="p-2 pb-0 pt-0">
-                <Table hover className="align-middle responsive">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Category Name</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {catLoading ? (
-                      // Placeholder Component
-                      <PlaceholderRow col="3" />
-                    ) : (
-                      [...activeCategories].reverse().map((category: Category, index) => (
-                        <tr key={category._id}>
-                          <td>{activeCategories.length - index}</td>
-                          <td>{category.name}</td>
-                          <td>
-                            <InvUpdateCatModal
-                              setActiveCategories={setActiveCategories}
-                              categoryData={category}
-                              id={category._id}
-                            />
-                            <InvArchiveCategoryModal
-                              setActiveCategories={setActiveCategories}
-                              categoryData={category}
-                            />
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </Table>
-              </Card.Body>
             </Card>
           </Col>
         </Row>

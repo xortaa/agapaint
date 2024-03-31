@@ -27,11 +27,8 @@ function InvArchiveCategoryModal({
         .delete(`/api/category/${categoryData._id}`)
         .then((res) => {
           handleClose();
-          
-          setTimeout(() => {
-            setActiveCategories((prev) => prev.filter((category) => category._id !== categoryData._id));
-            resolve("Success");
-          }, 1000);
+          setActiveCategories((prev) => prev.filter((category) => category._id !== categoryData._id));
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to archive category: ", error);
@@ -50,7 +47,7 @@ function InvArchiveCategoryModal({
     <>
       <InboxFill size={20} className="text-danger" onClick={handleShow} />
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} centered>
         <Form>
           <Modal.Header closeButton>
             <Modal.Title>Archive Category</Modal.Title>

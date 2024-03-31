@@ -63,12 +63,8 @@ function UpdateServiceModal({
         .patch(`/api/service/${serviceData._id}`, newData)
         .then((res) => {
           handleClose();
-
-          // Resolve the promise after 1 seconds
-          setTimeout(() => {
-            setServices((prev) => prev.map((service) => (service._id === serviceData._id ? newData : service)));
-            resolve("Success");
-          }, 1000);
+          setServices((prev) => prev.map((service) => (service._id === serviceData._id ? newData : service)));
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to update service: ", error);

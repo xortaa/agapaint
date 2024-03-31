@@ -29,19 +29,20 @@ function LogModal({
   const [show, setShow] = useState(false); // Add this line
   const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
   const [currentStock, setCurrentStock] = useState<number | null>(null);
+  const [error, setError] = useState("");
 
   const {
     register,
     setValue,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<LogData>();
-
 
   const onSubmit = (data: LogData) => {
     const AddLog = new Promise((resolve, reject) => {
       const selectedMaterialQuantity = selectedMaterial.quantity;
-      const transactionQuantity = Number(data.transactionQuantity); 
+      const transactionQuantity = Number(data.transactionQuantity);
       const newQuantity =
         data.transactionType === "IN"
           ? selectedMaterialQuantity + transactionQuantity
@@ -68,7 +69,7 @@ function LogModal({
           const updatedSelectedMaterial = res.data.find((material: Material) => material._id === selectedMaterial._id);
           setSelectedMaterial(updatedSelectedMaterial || null);
           setCurrentStock(updatedSelectedMaterial ? updatedSelectedMaterial.quantity : null);
-          setShow(false);
+          handleClose();
           resolve("Success");
         })
         .catch((error) => {
@@ -91,7 +92,11 @@ function LogModal({
     setValue("transactionType", option);
   };
 
-  const handleClose = () => setShow(false); 
+  const handleClose = () => {
+    setShow(false);
+    setError("");
+    reset();
+  };
   const handleShow = () => setShow(true);
 
   return (
@@ -150,8 +155,8 @@ function LogModal({
                 <Form.Label>Material Name</Form.Label>
                 <Form.Select
                   aria-label="material-name-select"
-                  required
-                  {...register("material")}
+                  isInvalid={!!errors.material}
+                  {...register("material", { required: "Please select a material name" })}
                   onChange={(e) => {
                     const selected = activeMaterials.find((material) => material._id === e.target.value);
                     setSelectedMaterial(selected || null);
@@ -167,7 +172,7 @@ function LogModal({
                     </option>
                   ))}
                 </Form.Select>
-                <Form.Control.Feedback type="invalid">Please select a material name</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">{errors.material && errors.material.message}</Form.Control.Feedback>
               </Form.Group>
             </Row>
 
@@ -187,8 +192,8 @@ function LogModal({
             <Row className="mb-3">
               <Col>
                 <Form.Label>Transaction Quantity</Form.Label>
-                <Form.Control type="number" required min={0} {...register("transactionQuantity")} />
-                <Form.Control.Feedback type="invalid">Please provide a quantity</Form.Control.Feedback>
+                <Form.Control type="number" min={0} isInvalid={!!errors.transactionQuantity} {...register("transactionQuantity", { required: "Please provide a quantity" }) } />
+                <Form.Control.Feedback type="invalid">{errors.transactionQuantity && errors.transactionQuantity.message}</Form.Control.Feedback>
               </Col>
               <Col>
                 <Form.Label>Transaction Date</Form.Label>

@@ -51,11 +51,10 @@ function InvUpdateCategoryModal({
         .patch(`/api/category/${categoryData._id}`, newData)
         .then((res) => {
           handleClose();
-
-          setTimeout(() => {
-            setActiveCategories((prev) => prev.map((category) => (category._id === categoryData._id ? res.data : category)));
-            resolve("Success");
-          }, 1000);
+          setActiveCategories((prev) =>
+            prev.map((category) => (category._id === categoryData._id ? res.data : category))
+          );
+          resolve("Success");
         })
         .catch((err) => {
           console.error("Failed to update service: ", err);
@@ -73,7 +72,7 @@ function InvUpdateCategoryModal({
     <>
       <Pencil onClick={handleShow} size={20} className="text-success me-2" />
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} centered>
         <Form onSubmit={handleSubmit(onUpdate)}>
           <Modal.Header closeButton>
             <Modal.Title>Update Category</Modal.Title>

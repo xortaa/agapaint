@@ -29,15 +29,12 @@ function ArchiveQuestionModal({
 
   const onDelete = (faqData: Faq) => {
     const ArchiveFaq = new Promise((resolve, reject) => {
-      axios.delete(`/api/faq/${faqData._id}`)
+      axios
+        .delete(`/api/faq/${faqData._id}`)
         .then((res) => {
           handleClose();
-
-          // Resolve the promise after 2 seconds
-          setTimeout(() => {
-            setFaqs((prev) => prev.filter((faq) => faq._id !== faqData._id));
-            resolve('Success');
-          }, 2000);
+          setFaqs((prev) => prev.filter((faq) => faq._id !== faqData._id));
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to archive question: ", error);
@@ -59,7 +56,7 @@ function ArchiveQuestionModal({
         <FaArchive /> Archive Question
       </InboxFill>
 
-      <Modal show={show} size="lg" aria-labelledby="contained-modal-title-vcenter" centered onHide={handleClose}>
+      <Modal show={show} aria-labelledby="contained-modal-title-vcenter" centered onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">Archive Question</Modal.Title>
         </Modal.Header>

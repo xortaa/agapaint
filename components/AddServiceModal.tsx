@@ -20,12 +20,14 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<Service>();
 
   const handleClose = () => {
     setShow(false);
     setError("");
+    reset();
   };
   const handleShow = () => setShow(true);
 
@@ -39,17 +41,14 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
     const newData = { ...data, image: imageUrl, carType: carTypeString };
 
     const AddService = new Promise((resolve, reject) => {
-      axios.post("/api/service", newData)
+      axios
+        .post("/api/service", newData)
         .then((res) => {
           // Use the service document from the server response
           const newService = res.data;
           handleClose();
-  
-          // Resolve the promise after 2 seconds
-          setTimeout(() => {
-            setServices((prev) => [...prev, newService]);
-            resolve('Success');
-          }, 2000);
+          setServices((prev) => [...prev, newService]);
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to add new service: ", error);
@@ -61,7 +60,7 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
       pending: "Adding service...",
       success: "New service added!",
       error: "Failed to add service, Please try again.",
-    }); 
+    });
   };
 
   return (
@@ -120,7 +119,14 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
               <div className="d-flex">
                 {["Hatchback", "Sedan", "SUV/AUV", "Van", "Others"].map((carType) => (
                   <div key={`inline-checkbox`} className="mb-3">
-                    <Form.Check inline label={carType} name={carType} type="checkbox" id={carType} {...register(carType as keyof Service)}/>
+                    <Form.Check
+                      inline
+                      label={carType}
+                      name={carType}
+                      type="checkbox"
+                      id={carType}
+                      {...register(carType as keyof Service)}
+                    />
                   </div>
                 ))}
               </div>

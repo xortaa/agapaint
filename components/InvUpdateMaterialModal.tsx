@@ -54,13 +54,10 @@ function InvUpdateMaterialModal({
         .then((res) => {
           const updatedMaterial = { ...res.data, category: category ? category : res.data.category };
           handleClose();
-
-          setTimeout(() => {
-            setActiveMaterials((prev) =>
-              prev.map((material) => (material._id === materialData._id ? updatedMaterial : material))
-            );
-            resolve("Success");
-          }, 1000);
+          setActiveMaterials((prev) =>
+            prev.map((material) => (material._id === materialData._id ? updatedMaterial : material))
+          );
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to update material: ", error);
@@ -81,7 +78,7 @@ function InvUpdateMaterialModal({
         <MdEdit /> Update Material
       </Pencil>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} centered>
         <Form onSubmit={handleSubmit(onUpdate)}>
           <Modal.Header closeButton>
             <Modal.Title>Update Material</Modal.Title>
@@ -103,11 +100,7 @@ function InvUpdateMaterialModal({
               <Row>
                 <Col>
                   <Form.Label>Category Name</Form.Label>
-                  <Form.Select
-                    aria-label="Select category"
-                    required
-                    {...register("category")}                   
-                  >
+                  <Form.Select aria-label="Select category" required {...register("category")}>
                     {activeCategories.map((category: Category) => (
                       <option key={category._id} value={category._id}>
                         {category.name}
