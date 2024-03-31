@@ -18,7 +18,7 @@ function AptCard({ onClick, appointment }: { onClick: () => void; appointment: A
 
   return (
     <Col lg={4} md={6} sm={12}>
-      <Card className={`${custaptStyles.card} p-2`} onClick={onClick} style={{ borderRadius: "18px" }}>
+      <Card className={`${custaptStyles.card} p-2 h-100`} onClick={onClick} style={{ borderRadius: "18px" }}>
         <Card.Body className="lh-sm">
           <div className="d-flex justify-content-between mb-3">
             <StatusBadge status={appointment.status as "Pending" | "Ongoing" | "For Release" | "Complete"} />
@@ -31,7 +31,7 @@ function AptCard({ onClick, appointment }: { onClick: () => void; appointment: A
           <p className="small fw-semibold mb-0">Services Availed</p>
           {appointment.servicesId.slice(0, 3).map((service, index) => (
             <span className="small text-secondary mb-1" key={index}>
-              {service.name},
+              {service.name},{" "}
             </span>
           ))}
           {appointment.servicesId.length > 3 && <span>...</span>}
