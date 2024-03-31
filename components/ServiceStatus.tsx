@@ -1,12 +1,47 @@
 import { Form } from "react-bootstrap";
 import { useState } from "react";
+import { Appointment } from "../types";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-function ServiceStatus({ width, option }: { width: string; option: string }) {
+function ServiceStatus({
+  width,
+  option,
+  setActiveAppointments,
+  appointment,
+}: {
+  width: string;
+  option: string;
+  setActiveAppointments: React.Dispatch<React.SetStateAction<Appointment[]>>;
+  appointment: Appointment;
+}) {
   // Service Status
   const [selectedOption, setSelectedOption] = useState(option);
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
+    const data = { status: event.target.value };
+
+    const updateStatus = new Promise((resolve, reject) => {
+      axios
+        .patch(`/api/appointment/${appointment._id}`, data)
+        .then((res) => {
+          setActiveAppointments((prev) =>
+            prev.map((appointment) => (appointment._id === res.data._id ? res.data : appointment))
+          );
+          resolve(res);
+        })
+        .catch((error) => {
+          console.error("Failed to update status", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(updateStatus, {
+      pending: "Updating status...",
+      success: "Status updated!",
+      error: "Failed to update status",
+    });
   };
 
   const getColor = () => {

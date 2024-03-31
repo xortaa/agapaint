@@ -105,7 +105,12 @@ function AptDetails({
             <hr />
             <div className="d-flex justify-content-between align-items-center">
               <h4 className="fw-bold me-3">1</h4>
-              <ServiceStatus width="43%" option={selectedOption} />
+              <ServiceStatus
+                width="43%"
+                option={selectedOption}
+                setActiveAppointments={setActiveAppointments}
+                appointment={appointment}
+              />
             </div>
             <hr />
             <Row xs="auto" className="lh-05">

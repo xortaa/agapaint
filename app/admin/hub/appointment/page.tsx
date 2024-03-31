@@ -157,7 +157,12 @@ function manageAppointment() {
                             <td>{apt.time}</td>
                             <td>{apt.currentBalance}</td>
                             <td>
-                              <ServiceStatus width="73%" option={apt.status} />
+                              <ServiceStatus
+                                width="73%"
+                                option={apt.status}
+                                setActiveAppointments={setActiveAppointments}
+                                appointment={apt}
+                              />
                             </td>
                             <td>
                               <BoxSeam size={24} className="text-success" onClick={() => setMuShow(true)} />
@@ -197,7 +202,12 @@ function manageAppointment() {
                             <td>{apt.time}</td>
                             <td>{apt.currentBalance}</td>
                             <td>
-                              <ServiceStatus width="73%" option={apt.status} />
+                              <ServiceStatus
+                                width="73%"
+                                option={apt.status}
+                                setActiveAppointments={setActiveAppointments}
+                                appointment={apt}
+                              />
                             </td>
                           </tr>
                         ))}
@@ -234,7 +244,12 @@ function manageAppointment() {
                             <td>{apt.time}</td>
                             <td>{apt.currentBalance}</td>
                             <td>
-                              <ServiceStatus width="73%" option={apt.status} />
+                              <ServiceStatus
+                                width="73%"
+                                option={apt.status}
+                                setActiveAppointments={setActiveAppointments}
+                                appointment={apt}
+                              />
                             </td>
                           </tr>
                         ))}
