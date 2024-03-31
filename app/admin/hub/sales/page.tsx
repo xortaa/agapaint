@@ -2,10 +2,11 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import saleStyles from "@/styles/adminSales.module.scss";
-import { Container, Row, Col, Card, Button, Table } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Table, Pagination } from "react-bootstrap";
 
 //component
 import AdminHeader from "@/components/AdminHeader";
+import PlaceholderRow from "@/components/PlaceholderRow";
 
 //icons
 import { FaRegCalendarDays } from "react-icons/fa6";
@@ -22,13 +23,49 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import StatusBadge from "@/components/StatusBadge";
 
+// utitlities
+import axios from "axios";
+import { Appointment } from "@/types";
+
+// month picker
+import { MonthPicker, MonthInput } from "react-lite-month-picker";
+
 function AdminSales() {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [loading, setLoading] = useState(true);
 
   //date picker
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+
+  // month picker
+  const currentDate = new Date();
+  const [selectedMonthData, setSelectedMonthData] = useState({
+    month: currentDate.getMonth() + 1,
+    year: currentDate.getFullYear(),
+  });
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+  // Show all records
+  const [showAll, setShowAll] = useState(false);
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20); //set the limit of items per page
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentAppointments = appointments.slice(indexOfFirstItem, indexOfLastItem);
+
+  const pages = [];
+  for (let i = 1; i <= Math.ceil(appointments.length / itemsPerPage); i++) {
+    pages.push(
+      <Pagination.Item key={i} active={i === currentPage} onClick={() => setCurrentPage(i)}>
+        {i}
+      </Pagination.Item>
+    );
+  }
 
   useEffect(() => {
     if (chartRef.current) {
@@ -57,32 +94,30 @@ function AdminSales() {
             x: {
               title: {
                 display: true,
-                text: 'Revenue'
-              }
+                text: "Revenue",
+              },
             },
             y: {
               beginAtZero: true,
               title: {
                 display: true,
-                text: 'Appointments'
-              }
+                text: "Appointments",
+              },
             },
           },
         },
       });
     }
+    axios.get("/api/appointment").then((res) => {
+      const completedAppointments = res.data.filter((appointment) => appointment.status === "Complete");
+      setAppointments(completedAppointments);
+      setLoading(false);
+    });
+    setCurrentPage(1);
   }, []);
 
-  function setShowComponent(arg0: boolean): void {
-    throw new Error("Function not implemented.");
-  }
-
-  function setMuShow(arg0: boolean): void {
-    throw new Error("Function not implemented.");
-  }
-
   return (
-    <>
+    <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
         {/* Admin Header */}
         <AdminHeader
@@ -200,11 +235,19 @@ function AdminSales() {
               <Row className="justify-content-end">
                 <Col md="auto">
                   <label>From: &nbsp;</label>
-                  <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} className={saleStyles.datePicker} />
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date: Date) => setStartDate(date)}
+                    className={saleStyles.datePicker}
+                  />
                 </Col>
                 <Col md="auto">
                   <label>To: &nbsp;</label>
-                  <DatePicker selected={endDate} onChange={(date: Date) => setEndDate(date)} className={saleStyles.datePicker} />
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date: Date) => setEndDate(date)}
+                    className={saleStyles.datePicker}
+                  />
                 </Col>
               </Row>
               <canvas ref={chartRef} />
@@ -215,57 +258,140 @@ function AdminSales() {
         {/* Generate Revenue for the Month - header and button */}
         <Row>
           <Col lg={8}>
-            <h3 style={{ paddingTop: "30px" }}>
-              <b>Service Revenue Report</b>
-            </h3>
+            <div className="mt-1 d-flex align-items-center">
+              <h3 style={{ marginRight: "20px" }}>
+                <b>Service Revenue Report</b>
+              </h3>
+              {/* Month Picker */}
+              {isPickerOpen ? (
+                <div style={{ position: "relative", zIndex: 9999 }}>
+                  <MonthPicker
+                    setIsOpen={setIsPickerOpen}
+                    selected={selectedMonthData}
+                    onChange={(monthData) => {
+                      setSelectedMonthData(monthData);
+                      setShowAll(false);
+                    }}
+                    bgColorMonthActive="#f1b038"
+                    size="small"
+                  />
+                </div>
+              ) : null}
+              <MonthInput
+                selected={selectedMonthData}
+                setShowMonthPicker={setIsPickerOpen}
+                showMonthPicker={isPickerOpen}
+                size="small"
+              />
+              {/* All Records */}
+              <Button variant="secondary" className="ms-2 align-self-start p-2" onClick={() => setShowAll(true)}>
+                All Records
+              </Button>
+            </div>
           </Col>
 
           <Col lg={4} className="d-flex justify-content-end">
-            <Button
-              variant="0"
-              className={saleStyles.generateButton}
-              style={{ height: "50px", width: "auto", marginTop: "20px" }}
-            >
-              <MdFileDownload /> Download Report
-            </Button>
+            <div className="d-flex align-items-center gap-2 justify-content-end">
+              {/* Pagination */}
+              <Pagination className="secondary-pagination m-0 me-1">
+                <Pagination.Prev disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} />
+                {pages}
+                <Pagination.Next
+                  disabled={currentPage === pages.length}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                />
+              </Pagination>
+              <Button
+                variant="warning"
+                className={`${saleStyles.generateButton}`}
+                style={{ height: "50px", width: "auto" }}
+              >
+                <MdFileDownload /> Download Report
+              </Button>
+            </div>
           </Col>
         </Row>
 
         {/* Table  */}
         <Row>
           <Col>
-            <Card className="border-0 rounded">
-              <Table striped hover className="align-middle">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Customer</th>
-                    <th>Plate#</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Total Service</th>
-                    <th>Service Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr onClick={() => setShowComponent(true)}>
-                    <td className="fw-bold">1</td>
-                    <td>Nik Makino</td>
-                    <td>NIK 456</td>
-                    <td>November 15, 2023</td>
-                    <td>11:00 AM</td>
-                    <td>P10,000</td>
-                    <td>
-                      <StatusBadge status="Complete" />
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
+            <Card className="border-0 mt-2" style={{ borderRadius: "10px" }}>
+              <Card.Body className="p-2 pb-0 pt-0">
+                <Table hover className="align-middle">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Date</th>
+                      <th>Customer</th>
+                      <th>Plate#</th>
+
+                      <th>Service Status</th>
+                      <th>Total Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {loading ? (
+                      // Placeholder Component
+                      <PlaceholderRow col="6" />
+                    ) : (
+                      // Render the actual data
+                      currentAppointments
+                        .filter((appointment: Appointment) => {
+                          // All Records
+                          if (showAll) {
+                            return appointment.status === "Complete";
+                          }
+                          // Filter by selected month
+                          const date = new Date(appointment.date);
+                          return (
+                            appointment.status === "Complete" &&
+                            date.getMonth() + 1 === selectedMonthData.month &&
+                            date.getFullYear() === selectedMonthData.year
+                          );
+                        })
+                        .map((appointment: Appointment, index) => {
+                          const date = new Date(appointment.date);
+                          const formattedDate = `${date.toLocaleString("default", {
+                            month: "long",
+                          })} ${date.getDate()}, ${date.getFullYear()}`;
+
+                          return (
+                            <tr key={appointment._id}>
+                              <td className="fw-medium">{index + 1}</td>
+                              <td>{formattedDate}</td>
+                              <td>{`${appointment.firstName} ${appointment.lastName}`}</td>
+                              <td>{appointment.plateNumber}</td>
+                              <td>
+                                <StatusBadge status="Complete" />
+                              </td>
+                              <td className="fw-semibold">₱{appointment.currentBalance}</td>
+                            </tr>
+                          );
+                        })
+                    )}
+                  </tbody>
+                </Table>
+              </Card.Body>
             </Card>
+
+            {/* Another Pagination */}
+            <Row className="mt-3">
+              <div className="ms-auto d-flex gap-2 align-items-center justify-content-end">
+                {/* Pagination */}
+                <Pagination className="secondary-pagination">
+                  <Pagination.Prev disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} />
+                  {pages}
+                  <Pagination.Next
+                    disabled={currentPage === pages.length}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                  />
+                </Pagination>
+              </div>
+            </Row>
           </Col>
         </Row>
       </Container>
-    </>
+    </main>
   );
 }
 
