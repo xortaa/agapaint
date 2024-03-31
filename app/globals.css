@@ -353,3 +353,26 @@ a {
 .slide-in {
   animation: slideIn 0.3s ease-in-out;
 }
+
+.secondary-pagination .page-item.active .page-link {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.secondary-pagination .page-link {
+  color: #6c757d;
+}
+
+.secondary-pagination .page-link:hover {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.secondary-pagination .page-item.disabled .page-link {
+  color: #adb5bd;
+  pointer-events: none;
+  background-color: #fff;
+  border-color: #dee2e6;
+}
+
