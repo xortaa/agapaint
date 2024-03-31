@@ -34,10 +34,8 @@ function AptDetails({
         .then((res) => {
           handleCloseModal();
 
-          setTimeout(() => {
-            setActiveAppointments((prev) => prev.filter((apt) => apt._id !== appointment._id));
-            resolve("Success");
-          }, 2000);
+          setActiveAppointments((prev) => prev.filter((apt) => apt._id !== appointment._id));
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to archive appointment: ", error);
@@ -185,7 +183,7 @@ function AptDetails({
                 </Accordion.Item>
               </Accordion>
 
-              {appointment.status === "Pending" ? (
+              {appointment.status !== "Pending" ? (
                 <Row xs="auto" className="lh-05 mt-5">
                   <p className="fw-bold">Target End Date</p>
                   <p className="ms-auto">
