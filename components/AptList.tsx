@@ -44,9 +44,9 @@ function AptList({ onClick, appointment }: { onClick: () => void; appointment: A
           <p className="text-secondary m-0" style={{ fontSize: "0.85rem" }}>
             {formattedTime} •{" "}
             {appointment.servicesId.slice(0, 3).map((service, index) => (
-              <span key={index}>{service.name}</span>
+              <span key={index}>{service.name}, </span>
             ))}
-            {appointment.servicesId.length > 3 && <span>...</span>}
+            {appointment.servicesId.length > 3 && <span>{". . ."}</span>}
           </p>
         </div>
       </td>

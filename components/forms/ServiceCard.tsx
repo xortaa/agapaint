@@ -15,9 +15,9 @@ function ServiceCard({
 }) {
   return (
     <Col sm={12} lg={6} xl={4} className="p-3">
-      <label className="d-block">
-        <input type="checkbox" className="d-none" value={1} />
-        <Card className={`${serviceStyles.outlined} ${serviceStyles.horizontal} shadow`} onClick={handleServiceClick}>
+      <label className="d-block" style={{height: "100%"}}>
+        <input type="checkbox" className="d-none" value={1}/>
+        <Card className={`h-100 ${serviceStyles.outlined} ${serviceStyles.horizontal} shadow`} onClick={handleServiceClick}>
           <Card.Body>
             <Row className="g-3">
               
