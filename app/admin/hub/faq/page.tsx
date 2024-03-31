@@ -2,7 +2,7 @@
 
 import React from "react";
 // Styles
-import { Container, Row, Col, Table, Button, Modal, Form, InputGroup, Dropdown, FormControl } from "react-bootstrap";
+import { Container, Row, Col, Table, Button, Card, Form, InputGroup, Dropdown, FormControl } from "react-bootstrap";
 import { Funnel, Search } from "react-bootstrap-icons";
 // Components
 import AdminHeader from "@/components/AdminHeader";
@@ -67,36 +67,39 @@ function ManageFAQPage() {
             </Row>
           </Col>
         </Row>
-
-        <Table hover className="align-middle text-left">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Question</th>
-              <th>Answer</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              // Placeholder Component
-              <PlaceholderRow col="4" />
-            ) : (
-              // Render the actual data
-              faqs.map((faq) => (
-                <tr key={faq._id}>
-                  <td>{faq._id}</td>
-                  <td>{faq.question}</td>
-                  <td>{faq.answer}</td>
-                  <td>
-                    <EditQuestionModal setFaqs={setFaqs} faqData={faq} />
-                    <ArchiveQuestionModal setFaqs={setFaqs} faqData={faq} />
-                  </td>
+        <Card className="border-0" style={{ borderRadius: "10px" }}>
+          <Card.Body className="p-2 pb-0 pt-0">
+            <Table hover responsive className="align-middle text-left">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Question</th>
+                  <th>Answer</th>
+                  <th>Actions</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </Table>
+              </thead>
+              <tbody>
+                {loading ? (
+                  // Placeholder Component
+                  <PlaceholderRow col="4" />
+                ) : (
+                  // Render the actual data
+                  faqs.map((faq, index) => (
+                    <tr key={faq._id}>
+                      <td>{index + 1}</td>
+                      <td>{faq.question}</td>
+                      <td>{faq.answer}</td>
+                      <td>
+                        <EditQuestionModal setFaqs={setFaqs} faqData={faq} />
+                        <ArchiveQuestionModal setFaqs={setFaqs} faqData={faq} />
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </Table>
+          </Card.Body>
+        </Card>
       </Container>
     </main>
   );

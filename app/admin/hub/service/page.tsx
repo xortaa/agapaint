@@ -15,6 +15,7 @@ import {
   Dropdown,
   FormControl,
   Placeholder,
+  Card,
 } from "react-bootstrap";
 import { Funnel, Search } from "react-bootstrap-icons";
 // Components
@@ -80,43 +81,47 @@ function AdminManageServicePage() {
           </Col>
         </Row>
 
-        <Table hover className="align-middle text-left">
-          <thead>
-            <tr>
-              <th className={AdminServiceStyles.tableheader}>ID</th>
-              <th className={AdminServiceStyles.tableheader}>Image</th>
-              <th className={AdminServiceStyles.tableheader}>Service Name</th>
-              <th className={AdminServiceStyles.tableheader}>Description</th>
-              <th className={AdminServiceStyles.tableheader}>Price</th>
-              <th className={AdminServiceStyles.tableheader}>Car Type</th>
-              <th className={AdminServiceStyles.tableheader}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              // Placeholder Component
-              <PlaceholderRow col="7" />
-            ) : (
-              // Render the actual data
-              services.map((service: Service, index) => (
-                <tr key={service._id}>
-                  <td>{service._id}</td>
-                  <td>
-                    <img className={AdminServiceStyles.tableimg} src={service.image} alt="Service" />
-                  </td>
-                  <td>{service.name}</td>
-                  <td>{service.description}</td>
-                  <td>₱{service.price}</td>
-                  <td>{service.carType}</td>
-                  <td>
-                    <EditService setServices={setServices} serviceData={service} />
-                    <ArchiveServiceModal setServices={setServices} serviceData={service} />
-                  </td>
+        <Card className="border-0" style={{ borderRadius: "10px" }}>
+          <Card.Body className="p-2 pb-0 pt-0">
+            <Table hover responsive className="align-middle text-left">
+              <thead>
+                <tr>
+                  <th className={AdminServiceStyles.tableheader}>#</th>
+                  <th className={AdminServiceStyles.tableheader}>Image</th>
+                  <th className={AdminServiceStyles.tableheader}>Service Name</th>
+                  <th className={AdminServiceStyles.tableheader}>Description</th>
+                  <th className={AdminServiceStyles.tableheader}>Price</th>
+                  <th className={AdminServiceStyles.tableheader}>Car Type</th>
+                  <th className={AdminServiceStyles.tableheader}>Actions</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </Table>
+              </thead>
+              <tbody>
+                {loading ? (
+                  // Placeholder Component
+                  <PlaceholderRow col="7" />
+                ) : (
+                  // Render the actual data
+                  services.map((service: Service, index) => (
+                    <tr key={service._id}>
+                      <td>{index + 1}</td>
+                      <td>
+                        <img className={AdminServiceStyles.tableimg} src={service.image} alt="Service" />
+                      </td>
+                      <td>{service.name}</td>
+                      <td>{service.description}</td>
+                      <td>₱{service.price}</td>
+                      <td>{service.carType}</td>
+                      <td>
+                        <EditService setServices={setServices} serviceData={service} />
+                        <ArchiveServiceModal setServices={setServices} serviceData={service} />
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </Table>
+          </Card.Body>
+        </Card>
       </Container>
     </main>
   );

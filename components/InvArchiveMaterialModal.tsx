@@ -28,12 +28,8 @@ function InvArchiveMaterialModal({
         .delete(`/api/material/${materialData._id}`)
         .then((res) => {
           handleClose();
-
-          // Resolve the promise after 1 seconds
-          setTimeout(() => {
-            setMaterials((prev) => prev.filter((material) => material._id !== materialData._id));
-            resolve("Success");
-          }, 1000);
+          setMaterials((prev) => prev.filter((material) => material._id !== materialData._id));
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to archive material: ", error);
@@ -54,7 +50,7 @@ function InvArchiveMaterialModal({
         <FaArchive /> Archive Material
       </InboxFill>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Archive Material</Modal.Title>
         </Modal.Header>

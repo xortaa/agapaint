@@ -50,12 +50,8 @@ function EditQuestionModal({
         .patch(`/api/faq/${faqData._id}`, data)
         .then((res) => {
           handleClose();
-
-          // Resolve the promise after 2 seconds
-          setTimeout(() => {
-            setFaqs((prev) => prev.map((faq) => (faq._id === faqData._id ? res.data : faq)));
-            resolve("Success");
-          }, 2000);
+          setFaqs((prev) => prev.map((faq) => (faq._id === faqData._id ? res.data : faq)));
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to update FAQ: ", error);

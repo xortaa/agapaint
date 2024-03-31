@@ -37,11 +37,8 @@ function InvAddCatModal({
           // Use the category document from the server response
           const newCategory = res.data;
           handleClose();
-
-          setTimeout(() => {
-            setActiveCategories((prev) => [...prev, newCategory]);
-            resolve("Success");
-          }, 1000);
+          setActiveCategories((prev) => [...prev, newCategory]);
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to add new category: ", error);
@@ -62,7 +59,7 @@ function InvAddCatModal({
         <FaPlus /> Add Category
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} centered>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Header closeButton>
             <Modal.Title>Add Category</Modal.Title>

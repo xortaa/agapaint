@@ -25,15 +25,12 @@ function ArchiveServiceModal({
 
   const handleDelete = () => {
     const DeleteService = new Promise((resolve, reject) => {
-      axios.delete(`/api/service/${serviceData._id}`)
+      axios
+        .delete(`/api/service/${serviceData._id}`)
         .then((res) => {
           handleClose();
-
-          // Resolve the promise after 2 seconds
-          setTimeout(() => {
-            setServices((prev) => prev.filter((service) => service._id !== serviceData._id));
-            resolve('Success');
-          }, 2000);
+          setServices((prev) => prev.filter((service) => service._id !== serviceData._id));
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to delete service: ", error);

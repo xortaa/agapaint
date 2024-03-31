@@ -45,10 +45,8 @@ function InvAddMaterialModal({
 
           console.log(newMaterial);
           handleClose();
-          setTimeout(() => {
-            setActiveMaterials((prev) => [...prev, newMaterial]);
-            resolve("Success");
-          }, 1000);
+          setActiveMaterials((prev) => [...prev, newMaterial]);
+          resolve("Success");
         })
         .catch((error) => {
           console.error("Failed to add new material: ", error);
@@ -83,7 +81,7 @@ function InvAddMaterialModal({
         </Button>
       )}
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} centered>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Header closeButton>
             <Modal.Title>Add Material</Modal.Title>
@@ -95,7 +93,6 @@ function InvAddMaterialModal({
                 type="text"
                 placeholder="Enter a material name"
                 isInvalid={!!errors.name}
-                required
                 {...register("name", { required: "Please provide a material name" })}
               />
               <Form.Control.Feedback type="invalid">{errors.name && errors.name.message}</Form.Control.Feedback>
@@ -105,22 +102,28 @@ function InvAddMaterialModal({
               <Row>
                 <Col>
                   <Form.Label>Category Name</Form.Label>
-                  <Form.Select aria-label="Select category" required {...register("category")}>
+                  <Form.Select
+                    aria-label="Select category"
+                    isInvalid={!!errors.category}
+                    {...register("category", { required: "Please select a category" })}
+                  >
                     {activeCategories.map((category: Category) => (
                       <option key={category._id} value={category._id}>
                         {category.name}
                       </option>
                     ))}
                   </Form.Select>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.category && errors.category.message}
+                  </Form.Control.Feedback>
                 </Col>
                 <Col>
                   <Form.Label>Initial Stock</Form.Label>
                   <Form.Control
                     type="number"
                     placeholder="Enter current stock"
-                    min="0"
+                    min={0}
                     isInvalid={!!errors.quantity}
-                    required
                     {...register("quantity", { required: "Please provide provide current stock" })}
                   />
                   <Form.Control.Feedback type="invalid">
