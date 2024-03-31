@@ -6,7 +6,6 @@ import { Container, Row, Col, Card, Button, Table } from "react-bootstrap";
 
 //component
 import AdminHeader from "@/components/AdminHeader";
-import ServiceStatus from "@/components/ServiceStatus";
 
 //icons
 import { FaRegCalendarDays } from "react-icons/fa6";
@@ -21,6 +20,7 @@ Chart.register(LineController, CategoryScale, LinearScale, PointElement, LineEle
 //date picker
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import StatusBadge from "@/components/StatusBadge";
 
 function AdminSales() {
   const chartRef = useRef(null);
@@ -256,7 +256,7 @@ function AdminSales() {
                     <td>11:00 AM</td>
                     <td>P10,000</td>
                     <td>
-                      <ServiceStatus width="50%" />
+                      <StatusBadge status="Complete" />
                     </td>
                   </tr>
                 </tbody>
