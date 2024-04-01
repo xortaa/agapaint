@@ -364,7 +364,7 @@ function AdminSales() {
                               <td>
                                 <StatusBadge status="Complete" />
                               </td>
-                              <td className="fw-semibold">₱{appointment.currentBalance}</td>
+                              <td className="fw-semibold">₱{appointment.startingBalance}</td>
                             </tr>
                           );
                         })
