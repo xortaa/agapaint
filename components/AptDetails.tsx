@@ -100,6 +100,33 @@ function AptDetails({
     });
   };
 
+  const handleConfirmAppointment = () => { 
+    // set the appointment status to ongoing
+    const confirmAppointmentData = {
+      status: "Ongoing",
+    };
+
+    const ConfirmAppointment = new Promise((resolve, reject) => {
+      axios
+        .patch(`/api/appointment/${appointment._id}`, confirmAppointmentData)
+        .then((res) => {
+          setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
+          setSelectedOption("Ongoing");
+          resolve("Success");
+        })
+        .catch((error) => {
+          console.error("Failed to confirm appointment: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(ConfirmAppointment, {
+      pending: "Confirming appointment...",
+      success: "Appointment confirmed! Email has been sent to the customer.",
+      error: "Failed to confirm appointment, Please try again.",
+    });
+  }
+
   return (
     <>
       <Col sm={3}>
@@ -303,6 +330,11 @@ function AptDetails({
             {localAppointment.status === "Pending" && (
               <Button className="btn btn-warning text-white" onClick={handleApproveAppointment}>
                 Approve Appointment
+              </Button>
+            )}
+            {localAppointment.status === "Awaiting Payment" && (
+              <Button className="btn btn-warning text-white" onClick={handleConfirmAppointment}>
+                Confirm Appointment
               </Button>
             )}
           </Card.Body>
