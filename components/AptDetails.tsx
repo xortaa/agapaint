@@ -19,7 +19,7 @@ function AptDetails({
 }) {
   //   Archive Modal
   const [smShow, setSmShow] = useState(false);
-  const [endDate, setEndDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>(appointment.endDate);
   const handleCloseModal = () => setSmShow(false);
   const [isApproved, setIsApproved] = useState(appointment.status === "Awaiting Payment");
   const [selectedOption, setSelectedOption] = useState(appointment.status);
@@ -28,15 +28,16 @@ function AptDetails({
   const [startingBalance, setStartingBalance] = useState<number>();
   const [currentBalance, setCurrentBalance] = useState<number>();
   const [unformattedDate, setUnformattedDate] = useState<String>();
-  const [selectedAppointment, setSelectedAppointment] = useState<Appointment>(appointment);
+  const [selectedAppointment, setSelectedAppointmepnt] = useState<Appointment>(appointment);
+  const [showEndDateError, setShowEndDateError] = useState(false);
 
   useEffect(() => {
     setCurrentBalance(appointment.currentBalance);
-    setStartingBalance(appointment.startingBalance)
+    setStartingBalance(appointment.startingBalance);
   }, [appointment]);
 
   const handleArchive = () => {
-    setStartingBalance(currentBalance)
+    setStartingBalance(currentBalance);
     const archiveAppointment = new Promise((resolve, reject) => {
       axios
         .delete(`/api/appointment/${appointment._id}`)
@@ -71,6 +72,11 @@ function AptDetails({
   };
 
   const handleApproveAppointment = () => {
+    if (!endDate) {
+      setShowEndDateError(true);
+      return;
+    }
+
     const approveAppointmentData = {
       endDate,
       status: "Awaiting Payment",
@@ -85,6 +91,7 @@ function AptDetails({
           setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
           setIsApproved(true);
           setSelectedOption("Awaiting Payment");
+          setShowEndDateError(false);
           resolve("Success");
         })
         .catch((error) => {
@@ -206,7 +213,6 @@ function AptDetails({
                     {appointment.servicesId.map((service) => (
                       <Row xs="auto" className="lh-05 text-secondary" key={service._id}>
                         <p>{service.name}</p>
-                        <p className="ms-auto">{service.price}</p>
                       </Row>
                     ))}
                   </Accordion.Body>
@@ -238,9 +244,9 @@ function AptDetails({
                       placeholder="Target End Date"
                       size="sm"
                       onChange={handleEndDateChange}
-                      defaultValue={appointment.date.split("T")[0]}
                     />
                   )}
+                  {showEndDateError && <p className="text-danger">Please select a target end date</p>}
                 </Form.Group>
               )}
             </Row>
