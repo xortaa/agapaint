@@ -1,5 +1,5 @@
 import { Form } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Appointment } from "../types";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -17,6 +17,10 @@ function ServiceStatus({
 }) {
   // Service Status
   const [selectedOption, setSelectedOption] = useState(option);
+
+  useEffect(() => {
+    setSelectedOption(option);
+  }, [option]);
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
@@ -59,7 +63,9 @@ function ServiceStatus({
     }
   };
 
-  return (
+  return selectedOption === "Awaiting Payment" || selectedOption === "Pending" ? (
+    <p className={`fw-bold small ${getColor()} lh-05 mb-0`}>{selectedOption}</p>
+  ) : (
     <Form.Select
       value={selectedOption}
       onChange={handleChange}
@@ -67,12 +73,6 @@ function ServiceStatus({
       style={{ width: width as string }}
       size="sm"
     >
-      <option value="Pending" className="text-danger fw-bold">
-        Pending
-      </option>
-      <option value="Awaiting Payment" className="text-secondary fw-bold">
-        Awaiting Payment
-      </option>
       <option value="Ongoing" className="text-warning fw-bold">
         Ongoing
       </option>

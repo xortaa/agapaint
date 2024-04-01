@@ -51,18 +51,6 @@ function PersonalInfo({
       </Row>
 
       <Row className="mb-lg-3">
-        {/* Email */}
-        <Form.Group as={Col} md="6" controlId="validationCustom03">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="agapaint@gmail.com"
-            onChange={(e) => setAppointmentData((prev) => ({ ...prev, email: e.target.value }))}
-            required
-            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-          />
-          <Form.Control.Feedback type="invalid">Please provide a valid email address.</Form.Control.Feedback>
-        </Form.Group>
         {/* Phone Number */}
         <Form.Group as={Col} md="6" className="py-2 py-lg-0" controlId="validationCustom04">
           <Form.Label>Phone Number</Form.Label>

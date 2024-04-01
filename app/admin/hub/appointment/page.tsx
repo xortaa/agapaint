@@ -155,7 +155,7 @@ function manageAppointment() {
                             <td>{apt.plateNumber}</td>
                             <td>{apt.date.split("T")[0]}</td>
                             <td>{apt.time}</td>
-                            <td>{apt.currentBalance}</td>
+                            <td>{apt.startingBalance}</td>
                             <td>
                               <ServiceStatus
                                 width="73%"
@@ -200,7 +200,7 @@ function manageAppointment() {
                             <td>{apt.plateNumber}</td>
                             <td>{apt.date.split("T")[0]}</td>
                             <td>{apt.time}</td>
-                            <td>{apt.currentBalance}</td>
+                            <td>{apt.startingBalance}</td>
                             <td>
                               <ServiceStatus
                                 width="73%"
@@ -242,7 +242,7 @@ function manageAppointment() {
                             <td>{apt.plateNumber}</td>
                             <td>{apt.date.split("T")[0]}</td>
                             <td>{apt.time}</td>
-                            <td>{apt.currentBalance}</td>
+                            <td>{apt.startingBalance}</td>
                             <td>
                               <ServiceStatus
                                 width="73%"
@@ -262,7 +262,7 @@ function manageAppointment() {
           </CSSTransition>
           {/* Trigger to View Apt Details and Archive Modal*/}
           <CSSTransition in={showComponent !== null} timeout={300} classNames="slide" unmountOnExit>
-            <AptDetails appointment={showComponent} setActiveAppointments={setActiveAppointments} />
+            <AptDetails appointment={showComponent} setActiveAppointments={setActiveAppointments} activeAppointments={activeAppointments}/>
           </CSSTransition>
           {/* Modal: Material Used */}
           {muShow !== null && (

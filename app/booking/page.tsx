@@ -319,7 +319,7 @@ function bookAppointment() {
   ]);
 
   const handleStepClick = (clickedStep) => {
-    const updatedSteps = navSteps.map(step =>
+    const updatedSteps = navSteps.map((step) =>
       step.stepNumber === clickedStep.stepNumber ? { ...step, completed: false } : step
     );
 
@@ -347,8 +347,7 @@ function bookAppointment() {
     LabelTitle: () => ({
       color: "white",
       fontWeight: "300",
-    })
-    
+    }),
   };
 
   const nextStep = () => {
@@ -378,10 +377,10 @@ function bookAppointment() {
   const { data: session } = useSession();
   const [appointmentData, setAppointmentData] = useState<AppointmentData>({
     customerId: "",
+    email: session?.user?.email,
     plateNumber: "ABC 123",
     firstName: "",
     lastName: "",
-    email: "",
     phoneNumber: "",
     carManufacturer: "",
     carModel: "",
@@ -393,7 +392,7 @@ function bookAppointment() {
     paymentTerm: "Full",
     carColor: "",
     startingBalance: 0,
-    currentBalance: 0
+    currentBalance: 0,
   });
   const [selectedService, setSelectedService] = useState<ServiceData[]>([]);
   const totalPrice = selectedService.reduce((total, service) => total + service.price, 0);
@@ -420,6 +419,7 @@ function bookAppointment() {
         customerId: session?.user?._id,
         startingBalance: totalPrice,
         currentBalance: totalPrice,
+        totalPrice,
       })
       .then((res) => {
         console.log(res);
@@ -469,7 +469,7 @@ function bookAppointment() {
                             height: "100%",
                             objectFit: "cover",
                             borderRadius: "13px",
-                            filter: "brightness(0.7)"
+                            filter: "brightness(0.7)",
                           }}
                         />
                         <Card.ImgOverlay className="text-white">

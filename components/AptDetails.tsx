@@ -1,33 +1,43 @@
 import { Col, Row, Card, Table, Modal, Button, Accordion, Form } from "react-bootstrap";
 import { InboxFill, CarFrontFill, GearWideConnected } from "react-bootstrap-icons";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ServiceStatus from "@/components/ServiceStatus";
 import PaymentStatus from "@/components/PaymentStatus";
-import { Appointment } from "@/types";
+import { Appointment, AppointmentData } from "@/types";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 function AptDetails({
   appointment,
   setActiveAppointments,
+  activeAppointments,
 }: {
   appointment: Appointment;
   setActiveAppointments: React.Dispatch<React.SetStateAction<Appointment[]>>;
+  activeAppointments: Appointment[];
 }) {
   //   Archive Modal
   const [smShow, setSmShow] = useState(false);
-  const [endDate, setEndDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>(appointment.endDate);
   const handleCloseModal = () => setSmShow(false);
   const [isApproved, setIsApproved] = useState(appointment.status === "Awaiting Payment");
   const [selectedOption, setSelectedOption] = useState(appointment.status);
   const [showChangeBalance, setShowChangeBalance] = useState(false);
-  const [newBalance, setNewBalance] = useState(appointment.startingBalance);
-  const [startingBalance, setStartingBalance] = useState(appointment.startingBalance);
-  const [currentBalance, setCurrentBalance] = useState(appointment.currentBalance);
+  const [newBalance, setNewBalance] = useState<number>();
+  const [startingBalance, setStartingBalance] = useState<number>();
+  const [currentBalance, setCurrentBalance] = useState<number>();
   const [unformattedDate, setUnformattedDate] = useState<String>();
+  const [selectedAppointment, setSelectedAppointmepnt] = useState<Appointment>(appointment);
+  const [showEndDateError, setShowEndDateError] = useState(false);
+
+  useEffect(() => {
+    setCurrentBalance(appointment.currentBalance);
+    setStartingBalance(appointment.startingBalance);
+  }, [appointment]);
 
   const handleArchive = () => {
+    setStartingBalance(currentBalance);
     const archiveAppointment = new Promise((resolve, reject) => {
       axios
         .delete(`/api/appointment/${appointment._id}`)
@@ -62,6 +72,11 @@ function AptDetails({
   };
 
   const handleApproveAppointment = () => {
+    if (!endDate) {
+      setShowEndDateError(true);
+      return;
+    }
+
     const approveAppointmentData = {
       endDate,
       status: "Awaiting Payment",
@@ -76,6 +91,7 @@ function AptDetails({
           setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
           setIsApproved(true);
           setSelectedOption("Awaiting Payment");
+          setShowEndDateError(false);
           resolve("Success");
         })
         .catch((error) => {
@@ -91,6 +107,33 @@ function AptDetails({
     });
   };
 
+  const handleConfirmAppointment = () => {
+    // set the appointment status to ongoing
+    const confirmAppointmentData = {
+      status: "Ongoing",
+    };
+
+    const ConfirmAppointment = new Promise((resolve, reject) => {
+      axios
+        .patch(`/api/appointment/${appointment._id}`, confirmAppointmentData)
+        .then((res) => {
+          setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
+          setSelectedOption("Ongoing");
+          resolve("Success");
+        })
+        .catch((error) => {
+          console.error("Failed to confirm appointment: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(ConfirmAppointment, {
+      pending: "Confirming appointment...",
+      success: "Appointment confirmed! Email has been sent to the customer.",
+      error: "Failed to confirm appointment, Please try again.",
+    });
+  };
+
   return (
     <>
       <Col sm={3}>
@@ -103,12 +146,6 @@ function AptDetails({
             <hr />
             <div className="d-flex justify-content-between align-items-center">
               <h4 className="fw-bold me-3">1</h4>
-              <ServiceStatus
-                width="43%"
-                option={selectedOption}
-                setActiveAppointments={setActiveAppointments}
-                appointment={appointment}
-              />
             </div>
             <hr />
             <Row xs="auto" className="lh-05">
@@ -176,7 +213,6 @@ function AptDetails({
                     {appointment.servicesId.map((service) => (
                       <Row xs="auto" className="lh-05 text-secondary" key={service._id}>
                         <p>{service.name}</p>
-                        <p className="ms-auto">{service.price}</p>
                       </Row>
                     ))}
                   </Accordion.Body>
@@ -193,7 +229,6 @@ function AptDetails({
                   </p>
                 </Row>
               ) : (
-                // ...
                 <Form.Group controlId="dob" style={{ marginLeft: "auto" }}>
                   <Form.Label className="mt-3 mb-1 small">Target End Date</Form.Label>
                   {isApproved ? (
@@ -209,9 +244,9 @@ function AptDetails({
                       placeholder="Target End Date"
                       size="sm"
                       onChange={handleEndDateChange}
-                      defaultValue={appointment.date.split("T")[0]}
                     />
                   )}
+                  {showEndDateError && <p className="text-danger">Please select a target end date</p>}
                 </Form.Group>
               )}
             </Row>
@@ -256,30 +291,47 @@ function AptDetails({
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1st</td>
-                  <td>50%</td>
-                  <td>{startingBalance * 0.5}</td>
-                  <td>
-                    <PaymentStatus />
-                  </td>
-                </tr>
-                <tr>
-                  <td>2nd</td>
-                  <td>25%</td>
-                  <td>{startingBalance * 0.25}</td>
-                  <td>
-                    <PaymentStatus />
-                  </td>
-                </tr>
-                <tr>
-                  <td>3rd</td>
-                  <td>25%</td>
-                  <td>{startingBalance * 0.25}</td>
-                  <td>
-                    <PaymentStatus />
-                  </td>
-                </tr>
+                {appointment.payments.map((payment, index) => {
+                  let term;
+                  let percent;
+                  let amount;
+
+                  if (appointment.paymentTerm === "Partial") {
+                    if (index === 0) {
+                      term = "1st";
+                      percent = "50%";
+                      amount = startingBalance * 0.5;
+                    } else if (index === 1) {
+                      term = "2nd";
+                      percent = "25%";
+                      amount = startingBalance * 0.25;
+                    } else if (index === 2) {
+                      term = "3rd";
+                      percent = "25%";
+                      amount = startingBalance * 0.25;
+                    }
+                  } else {
+                    term = "1st";
+                    percent = "100%";
+                    amount = startingBalance;
+                  }
+
+                  return (
+                    <tr key={payment._id}>
+                      <td>{term}</td>
+                      <td>{percent}</td>
+                      <td>{amount}</td>
+                      <td>
+                        <PaymentStatus
+                          payment={payment}
+                          appointment={appointment}
+                          setActiveAppointments={setActiveAppointments}
+                          setCurrentBalance={setCurrentBalance}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </Table>
             <Row className="align-items-center justify-content-between mb-2">
@@ -293,6 +345,11 @@ function AptDetails({
             {appointment.status === "Pending" && (
               <Button className="btn btn-warning text-white" onClick={handleApproveAppointment}>
                 Approve Appointment
+              </Button>
+            )}
+            {appointment.status === "Awaiting Payment" && (
+              <Button className="btn btn-warning text-white" onClick={handleConfirmAppointment}>
+                Confirm Appointment
               </Button>
             )}
           </Card.Body>

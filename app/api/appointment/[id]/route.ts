@@ -23,7 +23,8 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
           path: "material",
           model: "Material",
         },
-      });
+      })
+      .populate("payments");
     return NextResponse.json(appointment, { status: 200 });
   } catch (error) {
     console.log(error);
