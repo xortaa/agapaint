@@ -9,11 +9,7 @@ const PaymentSchema = new Schema({
     type: String,
     default: "Unpaid",
     enum: ["Paid", "Unpaid"],
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
+  }
 });
 
 const AppointmentSchema = new Schema({

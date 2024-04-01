@@ -11,6 +11,13 @@ export interface ServiceData {
   carType: string;
 }
 
+export interface Payments {
+  _id: string;
+  amount: number;
+  status: "Paid" | "Unpaid";
+  date: Date;
+}
+
 export interface AppointmentData {
   customerId: string;
   servicesId: string[];
@@ -65,6 +72,7 @@ export interface Appointment {
   carColor: string;
   isArchived: boolean;
   endDate: Date;
+  payments: Payments[];
   __v: number;
 }
 
@@ -137,7 +145,7 @@ export interface Log {
   __v: number;
 }
 
-export interface MaterialUsed { 
+export interface MaterialUsed {
   _id: string;
   appointment: Appointment;
   material: Material;
