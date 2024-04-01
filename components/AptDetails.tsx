@@ -29,7 +29,6 @@ function AptDetails({
   const [currentBalance, setCurrentBalance] = useState<number>();
   const [unformattedDate, setUnformattedDate] = useState<String>();
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment>(appointment);
-  const [localAppointment, setLocalAppointment] = useState<Appointment>();
 
   useEffect(() => {
     setCurrentBalance(appointment.currentBalance);
