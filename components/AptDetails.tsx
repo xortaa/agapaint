@@ -132,7 +132,6 @@ function AptDetails({
       <Col sm={3}>
         <Card className="border-0 shadow-sm p-1" style={{ fontSize: "14px" }}>
           <Card.Body>
-            <h1>{localAppointment.status}</h1>
             <div className="d-flex align-items-center justify-content-between">
               <h4 className="fw-bold mb-0">Appointment Details</h4>
               <InboxFill size={24} className="me-2 text-danger" onClick={() => setSmShow(true)} />
