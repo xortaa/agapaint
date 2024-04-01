@@ -1,5 +1,21 @@
 import { Schema, model, models } from "mongoose";
 
+const PaymentSchema = new Schema({
+  amount: {
+    type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
+    default: "Unpaid",
+    enum: ["Paid", "Unpaid"],
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
 const AppointmentSchema = new Schema({
   customerId: {
     type: Schema.Types.ObjectId,
@@ -71,6 +87,7 @@ const AppointmentSchema = new Schema({
     required: true,
     enum: ["Full", "Partial"],
   },
+  payments: [PaymentSchema],
   startingBalance: {
     type: Number,
     default: 0,

@@ -8,6 +8,17 @@ export const POST = async (req: NextRequest) => {
   const appointmentData = await req.json();
   try {
     await connectToDatabase();
+
+    if (appointmentData.paymentTerm === "Partial") {
+      appointmentData.payments = [
+        { amount: appointmentData.totalPrice * 0.5, status: "Unpaid" },
+        { amount: appointmentData.totalPrice * 0.25, status: "Unpaid" },
+        { amount: appointmentData.totalPrice * 0.25, status: "Unpaid" },
+      ];
+    } else {
+      appointmentData.payments = [{ amount: appointmentData.totalPrice, status: "Unpaid" }];
+    }
+
     const appointment = await Appointment.create(appointmentData);
 
     const customer = await User.findById(appointment.customerId);
@@ -36,7 +47,8 @@ export const GET = async (req: NextRequest) => {
     const appointment = await Appointment.find({})
       .populate("customerId")
       .populate("servicesId")
-      .populate({ path: "materialUsed", populate: { path: "material", model: "Material" } });
+      .populate({ path: "materialUsed", populate: { path: "material", model: "Material" } })
+      .populate("payments");
 
     console.log(appointment);
     return NextResponse.json(appointment, { status: 200 });
