@@ -64,7 +64,7 @@ function Banner(props) {
                 </span>
               </Button>
               <p className="fs-2 fw-medium text-white pb-2" style={{ marginLeft: "10px" }}>
-                Your Appointment <span className="text-warning">#123</span>
+                Your <span className="text-warning">Appointment</span>
               </p>
             </div>
           )}
