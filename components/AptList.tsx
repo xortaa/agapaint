@@ -4,7 +4,7 @@ import { CheckCircleFill } from "react-bootstrap-icons";
 import StatusBadge from "@/components/StatusBadge";
 import { Appointment } from "@/types";
 
-function AptList({ onClick, appointment }: { onClick: () => void; appointment: Appointment }) {
+function AptList({ onClick, appointment }: { onClick: any; appointment: Appointment }) {
   const date = new Date(appointment.date);
   const formattedDate = `${date.toLocaleString("default", {
     month: "long",
@@ -52,12 +52,14 @@ function AptList({ onClick, appointment }: { onClick: () => void; appointment: A
       </td>
       {/* Status */}
       <td className="text-center">
-        <StatusBadge status={appointment.status as "Pending" | "Ongoing" | "For Release" | "Complete"} />
+        <StatusBadge
+          status={appointment.status as "Pending" | "Awaiting Payment" | "Ongoing" | "For Release" | "Complete"}
+        />
       </td>
       {/* Payment */}
       <td>
         <div className="lh-sm d-flex flex-column align-items-end">
-          <p className="fw-semibold m-0">₱{appointment.servicesId.reduce((acc, service) => acc + service.price, 0)}</p>
+          <p className="fw-semibold m-0">₱{appointment.startingBalance}</p>
           <p className="text-secondary m-0" style={{ fontSize: "0.85rem" }}>
             {appointment.paymentTerm}
           </p>

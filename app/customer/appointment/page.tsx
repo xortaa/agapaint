@@ -27,8 +27,8 @@ function custAppointment() {
   const { data: session } = useSession();
   const [user, setUser] = useState<User | null>(null);
 
-  const handleRowClick = () => {
-    router.push("appointment/payment");
+  const handleRowClick = (appointment: Appointment) => {
+    router.push(`appointment/payment?id=${appointment._id}`);
   };
 
   useEffect(() => {
@@ -215,7 +215,7 @@ function custAppointment() {
                           </tr>
                         ) : (
                           user.appointment.map((apt: Appointment) => (
-                            <AptList key={apt._id} appointment={apt} onClick={handleRowClick} />
+                            <AptList key={apt._id} appointment={apt} onClick={() => handleRowClick(apt)} />
                           ))
                         )}
                       </tbody>
@@ -232,7 +232,7 @@ function custAppointment() {
                     </div>
                   ) : (
                     user.appointment.map((apt: Appointment) => (
-                      <AptCard key={apt._id} appointment={apt} onClick={handleRowClick} />
+                      <AptCard key={apt._id} appointment={apt} onClick={() => handleRowClick(apt)} />
                     ))
                   )}
                 </Row>
