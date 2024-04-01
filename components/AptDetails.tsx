@@ -33,9 +33,11 @@ function AptDetails({
 
   useEffect(() => {
     setCurrentBalance(appointment.currentBalance);
+    setStartingBalance(appointment.startingBalance)
   }, [appointment]);
 
   const handleArchive = () => {
+    setStartingBalance(currentBalance)
     const archiveAppointment = new Promise((resolve, reject) => {
       axios
         .delete(`/api/appointment/${appointment._id}`)
@@ -293,20 +295,20 @@ function AptDetails({
                     if (index === 0) {
                       term = "1st";
                       percent = "50%";
-                      amount = currentBalance * 0.5;
+                      amount = startingBalance * 0.5;
                     } else if (index === 1) {
                       term = "2nd";
                       percent = "25%";
-                      amount = currentBalance * 0.25;
+                      amount = startingBalance * 0.25;
                     } else if (index === 2) {
                       term = "3rd";
                       percent = "25%";
-                      amount = currentBalance * 0.25;
+                      amount = startingBalance * 0.25;
                     }
                   } else {
                     term = "1st";
                     percent = "100%";
-                    amount = currentBalance;
+                    amount = startingBalance;
                   }
 
                   return (
@@ -315,7 +317,12 @@ function AptDetails({
                       <td>{percent}</td>
                       <td>{amount}</td>
                       <td>
-                        <PaymentStatus />
+                        <PaymentStatus
+                          payment={payment}
+                          appointment={appointment}
+                          setActiveAppointments={setActiveAppointments}
+                          setCurrentBalance={setCurrentBalance}
+                        />
                       </td>
                     </tr>
                   );

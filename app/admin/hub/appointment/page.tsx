@@ -155,7 +155,7 @@ function manageAppointment() {
                             <td>{apt.plateNumber}</td>
                             <td>{apt.date.split("T")[0]}</td>
                             <td>{apt.time}</td>
-                            <td>{apt.currentBalance}</td>
+                            <td>{apt.startingBalance}</td>
                             <td>
                               <ServiceStatus
                                 width="73%"
@@ -200,7 +200,7 @@ function manageAppointment() {
                             <td>{apt.plateNumber}</td>
                             <td>{apt.date.split("T")[0]}</td>
                             <td>{apt.time}</td>
-                            <td>{apt.currentBalance}</td>
+                            <td>{apt.startingBalance}</td>
                             <td>
                               <ServiceStatus
                                 width="73%"
@@ -242,7 +242,7 @@ function manageAppointment() {
                             <td>{apt.plateNumber}</td>
                             <td>{apt.date.split("T")[0]}</td>
                             <td>{apt.time}</td>
-                            <td>{apt.currentBalance}</td>
+                            <td>{apt.startingBalance}</td>
                             <td>
                               <ServiceStatus
                                 width="73%"

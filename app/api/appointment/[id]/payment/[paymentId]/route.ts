@@ -1,6 +1,6 @@
 import connectToDatabase from "@/utils/database";
-import { NextRequest, NextResponse } from "next/server";
 import Appointment from "@/models/appointment";
+import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 export const PATCH = async (req: NextRequest, { params }: { params: { id: string; paymentId: string } }) => {
@@ -26,7 +26,22 @@ export const PATCH = async (req: NextRequest, { params }: { params: { id: string
       return NextResponse.json("Can't find payment", { status: 404 });
     }
 
+    // Check the previous status of the payment
+    const previousStatus = payment.status;
+
+    // Update the payment status
     payment.status = paymentData.status;
+
+    // If the status was 'Unpaid' and is now 'Paid', subtract the payment amount from the appointment's current balance
+    if (previousStatus === "Unpaid" && paymentData.status === "Paid") {
+      appointment.currentBalance -= payment.amount;
+    }
+
+    // If the status was 'Paid' and is now 'Unpaid', add the payment amount to the appointment's current balance
+    if (previousStatus === "Paid" && paymentData.status === "Unpaid") {
+      appointment.currentBalance += payment.amount;
+    }
+
     await appointment.save();
 
     return NextResponse.json(appointment, { status: 200 });
