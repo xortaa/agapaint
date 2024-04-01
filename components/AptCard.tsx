@@ -3,7 +3,7 @@ import custaptStyles from "@/styles/custapt.module.scss";
 import { Appointment } from "@/types";
 import StatusBadge from "@/components/StatusBadge";
 
-function AptCard({ onClick, appointment }: { onClick: () => void; appointment: Appointment }) {
+function AptCard({ onClick, appointment }: { onClick: any; appointment: Appointment }) {
   const date = new Date(appointment.date);
   const formattedDate = `${date.toLocaleString("default", {
     month: "long",
@@ -21,7 +21,9 @@ function AptCard({ onClick, appointment }: { onClick: () => void; appointment: A
       <Card className={`${custaptStyles.card} p-2 h-100`} onClick={onClick} style={{ borderRadius: "18px" }}>
         <Card.Body className="lh-sm">
           <div className="d-flex justify-content-between mb-3">
-            <StatusBadge status={appointment.status as "Pending" | "Ongoing" | "For Release" | "Complete"} />
+            <StatusBadge
+              status={appointment.status as "Pending" | "Awaiting Payment" | "Ongoing" | "For Release" | "Complete"}
+            />
             <p className="fst-italic small">APT#1</p>
           </div>
           <p className="fs-5 fw-semibold mb-0">{formattedDate}</p>
@@ -37,9 +39,7 @@ function AptCard({ onClick, appointment }: { onClick: () => void; appointment: A
           {appointment.servicesId.length > 3 && <span>...</span>}
           <hr />
           <p className="text-secondary small mb-2">{appointment.paymentTerm} Payment Term</p>
-          <p className="fw-semibold small mb-0">
-            Total Amount: ₱{appointment.servicesId.reduce((acc, service) => acc + service.price, 0)}
-          </p>
+          <p className="fw-semibold small mb-0">Total Amount: ₱{appointment.startingBalance}</p>
         </Card.Body>
       </Card>
     </Col>
