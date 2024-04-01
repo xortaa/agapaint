@@ -1,7 +1,7 @@
 import { Col, Row, Card, Table, Modal, Button, Accordion, Form } from "react-bootstrap";
 import { InboxFill, CarFrontFill, GearWideConnected } from "react-bootstrap-icons";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ServiceStatus from "@/components/ServiceStatus";
 import PaymentStatus from "@/components/PaymentStatus";
 import { Appointment } from "@/types";
@@ -11,9 +11,11 @@ import { toast } from "react-toastify";
 function AptDetails({
   appointment,
   setActiveAppointments,
+  activeAppointments,
 }: {
   appointment: Appointment;
   setActiveAppointments: React.Dispatch<React.SetStateAction<Appointment[]>>;
+  activeAppointments: Appointment[];
 }) {
   //   Archive Modal
   const [smShow, setSmShow] = useState(false);
@@ -26,6 +28,13 @@ function AptDetails({
   const [startingBalance, setStartingBalance] = useState(appointment.startingBalance);
   const [currentBalance, setCurrentBalance] = useState(appointment.currentBalance);
   const [unformattedDate, setUnformattedDate] = useState<String>();
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment>(appointment);
+  const [localAppointment, setLocalAppointment] = useState<Appointment>(appointment);
+
+  // set the localAppoinment to the appointment in the Active Appointments array
+  useEffect(() => {
+    setLocalAppointment(activeAppointments.find((apt) => apt._id === appointment._id));
+  }, [activeAppointments]);
 
   const handleArchive = () => {
     const archiveAppointment = new Promise((resolve, reject) => {
@@ -96,6 +105,7 @@ function AptDetails({
       <Col sm={3}>
         <Card className="border-0 shadow-sm p-1" style={{ fontSize: "14px" }}>
           <Card.Body>
+            <h1>{localAppointment.status}</h1>
             <div className="d-flex align-items-center justify-content-between">
               <h4 className="fw-bold mb-0">Appointment Details</h4>
               <InboxFill size={24} className="me-2 text-danger" onClick={() => setSmShow(true)} />
@@ -105,40 +115,40 @@ function AptDetails({
               <h4 className="fw-bold me-3">1</h4>
               <ServiceStatus
                 width="43%"
-                option={selectedOption}
+                option={localAppointment.status}
                 setActiveAppointments={setActiveAppointments}
-                appointment={appointment}
+                appointment={localAppointment}
               />
             </div>
             <hr />
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Date</p>
-              <p className="ms-auto">{appointment.date.split("T")[0]}</p>
+              <p className="ms-auto">{localAppointment.date.split("T")[0]}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Time</p>
-              <p className="ms-auto">{appointment.time}</p>
+              <p className="ms-auto">{localAppointment.time}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Customer</p>
               <p className="ms-auto">
-                {appointment.firstName} {appointment.lastName}
+                {localAppointment.firstName} {localAppointment.lastName}
               </p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Email</p>
               <p className="ms-auto">
                 <a href="mailto:malizalde@gmail.com" className="text-decoration-none text-dark">
-                  {appointment.email}
+                  {localAppointment.email}
                 </a>
               </p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Contact</p>
-              <p className="ms-auto">{appointment.phoneNumber}</p>
+              <p className="ms-auto">{localAppointment.phoneNumber}</p>
             </Row>
             <p className="fw-bold">Requests</p>
-            <p className="ms-auto">{appointment.requests}</p>
+            <p className="ms-auto">{localAppointment.requests}</p>
 
             <hr />
             <Row className="align-items-center justify-content-between lh-1">
@@ -151,19 +161,19 @@ function AptDetails({
                   <Accordion.Body className="pb-0">
                     <Row xs="auto" className="lh-05">
                       <p className="text-secondary">Vehicle Model</p>
-                      <p className="ms-auto">{appointment.carModel}</p>
+                      <p className="ms-auto">{localAppointment.carModel}</p>
                     </Row>
                     <Row xs="auto" className="lh-05">
                       <p className="text-secondary">Vehicle Type</p>
-                      <p className="ms-auto">{appointment.carType}</p>
+                      <p className="ms-auto">{localAppointment.carType}</p>
                     </Row>
                     <Row xs="auto" className="lh-05">
                       <p className="text-secondary">Vehicle Color</p>
-                      <p className="ms-auto">{appointment.carColor}</p>
+                      <p className="ms-auto">{localAppointment.carColor}</p>
                     </Row>
                     <Row xs="auto" className="lh-05">
                       <p className="text-secondary">Plate#</p>
-                      <p className="ms-auto">{appointment.plateNumber}</p>
+                      <p className="ms-auto">{localAppointment.plateNumber}</p>
                     </Row>
                   </Accordion.Body>
                 </Accordion.Item>
@@ -173,7 +183,7 @@ function AptDetails({
                     Services Availed
                   </Accordion.Header>
                   <Accordion.Body className="small pb-0">
-                    {appointment.servicesId.map((service) => (
+                    {localAppointment.servicesId.map((service) => (
                       <Row xs="auto" className="lh-05 text-secondary" key={service._id}>
                         <p>{service.name}</p>
                         <p className="ms-auto">{service.price}</p>
@@ -183,12 +193,12 @@ function AptDetails({
                 </Accordion.Item>
               </Accordion>
 
-              {appointment.status !== "Pending" ? (
+              {localAppointment.status !== "Pending" ? (
                 <Row xs="auto" className="lh-05 mt-5">
                   <p className="fw-bold">Target End Date</p>
                   <p className="ms-auto">
-                    {appointment && appointment.endDate
-                      ? new Date(appointment.endDate).toISOString().split("T")[0]
+                    {localAppointment && localAppointment.endDate
+                      ? new Date(localAppointment.endDate).toISOString().split("T")[0]
                       : `${unformattedDate}`}
                   </p>
                 </Row>
@@ -198,7 +208,7 @@ function AptDetails({
                   <Form.Label className="mt-3 mb-1 small">Target End Date</Form.Label>
                   {isApproved ? (
                     <p>
-                      {appointment && appointment.endDate
+                      {localAppointment && localAppointment.endDate
                         ? new Date(appointment.endDate).toISOString().split("T")[0]
                         : `${unformattedDate}`}
                     </p>
@@ -209,7 +219,7 @@ function AptDetails({
                       placeholder="Target End Date"
                       size="sm"
                       onChange={handleEndDateChange}
-                      defaultValue={appointment.date.split("T")[0]}
+                      defaultValue={localAppointment.date.split("T")[0]}
                     />
                   )}
                 </Form.Group>
@@ -222,7 +232,7 @@ function AptDetails({
                 <p className="m-0">Remaining Balance</p>
               </Col>
               <Col xs="auto" className="lh-05 text-end">
-                <p>{appointment.paymentTerm}</p>
+                <p>{localAppointment.paymentTerm}</p>
                 <p className="m-0 fs-5 fw-bold">{currentBalance}</p>
               </Col>
               {showChangeBalance && (
@@ -232,11 +242,11 @@ function AptDetails({
                     type="number"
                     size="sm"
                     onChange={handleNewBalanceChange}
-                    defaultValue={appointment.startingBalance}
+                    defaultValue={localAppointment.startingBalance}
                   />
                 </Form.Group>
               )}
-              {appointment.status === "Pending" && (
+              {localAppointment.status === "Pending" && (
                 <Col xs="auto" className="lh-05 text-end my-2">
                   <Button className="btn btn-warning btn-sm text-white" onClick={() => setShowChangeBalance(true)}>
                     Change Balance
@@ -290,7 +300,7 @@ function AptDetails({
                 <p className="m-0 fs-5 fw-bold">{startingBalance}</p>
               </Col>
             </Row>
-            {appointment.status === "Pending" && (
+            {localAppointment.status === "Pending" && (
               <Button className="btn btn-warning text-white" onClick={handleApproveAppointment}>
                 Approve Appointment
               </Button>
@@ -308,22 +318,22 @@ function AptDetails({
           <div className="lh-05">
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Customer</p>
-              <p className="ms-auto">{`${appointment.firstName} ${appointment.lastName}`}</p>
+              <p className="ms-auto">{`${localAppointment.firstName} ${localAppointment.lastName}`}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Date:</p>
-              <p className="ms-auto">{`${appointment.date.split("T")[0]}`}</p>
+              <p className="ms-auto">{`${localAppointment.date.split("T")[0]}`}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Time:</p>
-              <p className="ms-auto">{appointment.time}</p>
+              <p className="ms-auto">{localAppointment.time}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Service Status:</p>
-              <p className="ms-auto">{appointment.status}</p>
+              <p className="ms-auto">{localAppointment.status}</p>
             </Row>
             <p className="fw-bold">Services Availed:</p>
-            {appointment.servicesId.map((service) => (
+            {localAppointment.servicesId.map((service) => (
               <p className="ms-auto" key={service._id}>
                 {service.name}
               </p>

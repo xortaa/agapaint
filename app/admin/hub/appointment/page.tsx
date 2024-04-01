@@ -262,7 +262,7 @@ function manageAppointment() {
           </CSSTransition>
           {/* Trigger to View Apt Details and Archive Modal*/}
           <CSSTransition in={showComponent !== null} timeout={300} classNames="slide" unmountOnExit>
-            <AptDetails appointment={showComponent} setActiveAppointments={setActiveAppointments} />
+            <AptDetails appointment={showComponent} setActiveAppointments={setActiveAppointments} activeAppointments={activeAppointments}/>
           </CSSTransition>
           {/* Modal: Material Used */}
           {muShow !== null && (

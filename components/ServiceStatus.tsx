@@ -1,5 +1,5 @@
 import { Form } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Appointment } from "../types";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -17,6 +17,10 @@ function ServiceStatus({
 }) {
   // Service Status
   const [selectedOption, setSelectedOption] = useState(option);
+
+  useEffect(() => {
+    setSelectedOption(option);
+  }, [option]);
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
