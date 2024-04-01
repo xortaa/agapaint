@@ -86,7 +86,6 @@ function custPayment() {
                 <Card.Header className="p-3 ps-4 pe-4">
                   <div className="d-flex align-items-center justify-content-between">
                     <p className="mb-0 fw-semibold text-dark fs-6">Services Availed: {appointment.servicesId.length}</p>
-                    <p className="small text-secondary mb-0 d-none d-sm-block responsive-text">Appointment # 123</p>
                   </div>
                 </Card.Header>
                 <Card.Body className="p-2 ps-4 pe-4">
@@ -122,7 +121,7 @@ function custPayment() {
                         <p className="small text-secondary mb-0 responsive-text">Full Payment Term</p>
                       )}
                     </div>
-                    <p className="fw-semibold mb-0 responsive-text">₱ 20,000.00</p>
+                    <p className="fw-semibold mb-0 responsive-text">₱ {appointment.startingBalance}</p>
                   </div>
                 </Card.Header>
                 <Card.Body className="p-4 pt-2">
