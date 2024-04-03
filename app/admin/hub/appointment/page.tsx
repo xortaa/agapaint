@@ -39,7 +39,6 @@ import axios from "axios";
 import ToastPromise from "@/components/ToastPromise";
 import PlaceholderRow from "@/components/PlaceholderRow";
 import NoRecordRow from "@/components/NoRecordRow";
-import { MonthPicker, MonthInput } from "react-lite-month-picker";
 
 function manageAppointment() {
   // Show Appointment Detail
