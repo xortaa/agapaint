@@ -112,6 +112,57 @@ function AdminSales() {
   const { data: session } = useSession();
   const reportGeneratedTime = new Date().toLocaleString();
 
+  // statistics
+  // 1 and 2: This and Last Month's Appointments
+  const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-indexed
+  const currentYear = currentDate.getFullYear();
+
+  const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+  const lastMonthYear = currentMonth === 1 ? currentYear - 1 : currentYear;
+
+  const thisMonthAppointments = [];
+  const lastMonthAppointments = [];
+
+  appointments.forEach((appointment) => {
+    const appointmentDate = new Date(appointment.date);
+    const appointmentMonth = appointmentDate.getMonth() + 1;
+    const appointmentYear = appointmentDate.getFullYear();
+
+    if (appointmentMonth === currentMonth && appointmentYear === currentYear) {
+      thisMonthAppointments.push(appointment);
+    } else if (appointmentMonth === lastMonth && appointmentYear === lastMonthYear) {
+      lastMonthAppointments.push(appointment);
+    }
+  });
+
+  const numberOfAppointmentsThisMonth = thisMonthAppointments.length;
+  const numberOfAppointmentsLastMonth = lastMonthAppointments.length;
+  let percentageDifference = 0;
+  if (numberOfAppointmentsLastMonth !== 0) {
+    percentageDifference =
+      ((numberOfAppointmentsThisMonth - numberOfAppointmentsLastMonth) / numberOfAppointmentsLastMonth) * 100;
+  } else if (numberOfAppointmentsThisMonth > 0) {
+    percentageDifference = 100;
+  }
+
+  // 3 and 4: This and Last Month's Revenue
+  let totalRevenueThisMonth = 0;
+  thisMonthAppointments.forEach((appointment) => {
+    totalRevenueThisMonth += appointment.startingBalance;
+  });
+
+  let totalRevenueLastMonth = 0;
+  lastMonthAppointments.forEach((appointment) => {
+    totalRevenueLastMonth += appointment.startingBalance;
+  });
+
+  let revenuePercentageDifference = 0;
+  if (totalRevenueLastMonth !== 0) {
+    revenuePercentageDifference = ((totalRevenueThisMonth - totalRevenueLastMonth) / totalRevenueLastMonth) * 100;
+  } else if (totalRevenueThisMonth > 0) {
+    revenuePercentageDifference = 100;
+  }
+
   useEffect(() => {
     if (chartRef.current) {
       if (chartInstance.current) {
@@ -188,12 +239,12 @@ function AdminSales() {
                       {/* # - % */}
                       <Row>
                         <Col lg={8}>
-                          <Card.Text className={saleStyles.cardBody}>101</Card.Text>
+                          <Card.Text className={saleStyles.cardBody}>{numberOfAppointmentsThisMonth}</Card.Text>
                         </Col>
 
                         <Col lg={4}>
                           <Card.Text className={saleStyles.percentGreen}>
-                            <IoMdArrowDropup size="2em" /> 32%
+                            <IoMdArrowDropup size="2em" /> {percentageDifference}%
                           </Card.Text>
                         </Col>
                       </Row>
@@ -211,12 +262,21 @@ function AdminSales() {
                       {/* php - % */}
                       <Row>
                         <Col lg={8}>
-                          <Card.Text className={saleStyles.cardBody}>₱ 9990.00</Card.Text>
+                          <Card.Text className={saleStyles.cardBody}>₱ {totalRevenueThisMonth}</Card.Text>
                         </Col>
 
                         <Col lg={4}>
-                          <Card.Text className={saleStyles.percentRed}>
-                            <IoMdArrowDropdown size="2em" /> 32%
+                          <Card.Text
+                            className={
+                              revenuePercentageDifference >= 0 ? saleStyles.percentGreen : saleStyles.percentRed
+                            }
+                          >
+                            {revenuePercentageDifference >= 0 ? (
+                              <IoMdArrowDropup size="2em" />
+                            ) : (
+                              <IoMdArrowDropdown size="2em" />
+                            )}
+                            {Math.abs(revenuePercentageDifference)}%
                           </Card.Text>
                         </Col>
                       </Row>
@@ -237,13 +297,7 @@ function AdminSales() {
                       {/* php - % */}
                       <Row>
                         <Col lg={8}>
-                          <Card.Text className={saleStyles.cardBody}>98</Card.Text>
-                        </Col>
-
-                        <Col lg={4}>
-                          <Card.Text className={saleStyles.percentRed}>
-                            <IoMdArrowDropdown size="2em" /> 32%
-                          </Card.Text>
+                          <Card.Text className={saleStyles.cardBody}>{numberOfAppointmentsLastMonth}</Card.Text>
                         </Col>
                       </Row>
                     </Card.Body>
@@ -261,13 +315,7 @@ function AdminSales() {
                       {/* php - % */}
                       <Row>
                         <Col lg={8}>
-                          <Card.Text className={saleStyles.cardBody}>₱ 11990.00</Card.Text>
-                        </Col>
-
-                        <Col lg={4}>
-                          <Card.Text className={saleStyles.percentGreen}>
-                            <IoMdArrowDropup size="2em" color="green" /> 32%
-                          </Card.Text>
+                          <Card.Text className={saleStyles.cardBody}>₱ {totalRevenueLastMonth}</Card.Text>
                         </Col>
                       </Row>
                     </Card.Body>
@@ -355,51 +403,52 @@ function AdminSales() {
                 className={`${saleStyles.generateButton}`}
                 style={{ height: "50px", width: "auto" }}
                 onClick={() => {
-                  const totalAmount = currentAppointments.reduce((total, appointment) => total + appointment.startingBalance, 0);
-                  // Convert appointments to CSV data
-                  const csvData = unparse(
-                    [
-                      ...currentAppointments.map((appointment: Appointment, index) => {
-                        const date = new Date(appointment.date);
-                        const formattedDate = `${date.toLocaleString("default", {
-                          month: "long",
-                        })} ${date.getDate()}, ${date.getFullYear()}`;
-                  
-                        return {
-                          "#": index + 1,
-                          Date: formattedDate,
-                          Name: `${appointment.firstName} ${appointment.lastName}`,
-                          "Plate Number": appointment.plateNumber,
-                          Status: "Complete",
-                          "Total Amount": `${appointment.startingBalance}`,
-                        };
-                      }),
-                      {
-                        "#": "",
-                        Date: "",
-                        Name: "",
-                        "Plate Number": "",
-                        Status: "Total",
-                        "Total Amount": totalAmount,
-                      },
-                      {
-                        "#": `---End of Agapaint Service Revenue Report for the month of ${selectedMonthData.month}/${selectedMonthData.year}---`,
-                        Date: "",
-                        Name: "",
-                        "Plate Number": "",
-                        Status: "",
-                        "Total Amount": "",
-                      },
-                      {
-                        "#": `--This report is generated by ${session?.user?.name} on ${reportGeneratedTime}--`,
-                        Date: "",
-                        Name: "",
-                        "Plate Number": "",
-                        Status: "",
-                        "Total Amount": "",
-                      },
-                    ]
+                  const totalAmount = currentAppointments.reduce(
+                    (total, appointment) => total + appointment.startingBalance,
+                    0
                   );
+                  // Convert appointments to CSV data
+                  const csvData = unparse([
+                    ...currentAppointments.map((appointment: Appointment, index) => {
+                      const date = new Date(appointment.date);
+                      const formattedDate = `${date.toLocaleString("default", {
+                        month: "long",
+                      })} ${date.getDate()}, ${date.getFullYear()}`;
+
+                      return {
+                        "#": index + 1,
+                        Date: formattedDate,
+                        Name: `${appointment.firstName} ${appointment.lastName}`,
+                        "Plate Number": appointment.plateNumber,
+                        Status: "Complete",
+                        "Total Amount": `${appointment.startingBalance}`,
+                      };
+                    }),
+                    {
+                      "#": "",
+                      Date: "",
+                      Name: "",
+                      "Plate Number": "",
+                      Status: "Total",
+                      "Total Amount": totalAmount,
+                    },
+                    {
+                      "#": `---End of Agapaint Service Revenue Report for the month of ${selectedMonthData.month}/${selectedMonthData.year}---`,
+                      Date: "",
+                      Name: "",
+                      "Plate Number": "",
+                      Status: "",
+                      "Total Amount": "",
+                    },
+                    {
+                      "#": `--This report is generated by ${session?.user?.name} on ${reportGeneratedTime}--`,
+                      Date: "",
+                      Name: "",
+                      "Plate Number": "",
+                      Status: "",
+                      "Total Amount": "",
+                    },
+                  ]);
 
                   // Create a download link
                   const csvBlob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
