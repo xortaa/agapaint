@@ -9,9 +9,9 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
   try {
     const token = await getToken({ req, secret });
 
-    // if (!token || token.email !== process.env.ADMIN_EMAIL) {
-    //   return NextResponse.json("Unauthorized", { status: 401 });
-    // }
+    if (!token) {
+      return NextResponse.json("Unauthorized", { status: 401 });
+    }
 
     await connectToDatabase();
     const appointment = await Appointment.findById(id)
@@ -25,6 +25,15 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
         },
       })
       .populate("payments");
+
+    if (!appointment) {
+      return NextResponse.json("Appointment not found", { status: 404 });
+    }
+
+    if (token.email !== process.env.ADMIN_EMAIL && token.email !== appointment.customerId.email) {
+      return NextResponse.json("Unauthorized", { status: 401 });
+    }
+
     return NextResponse.json(appointment, { status: 200 });
   } catch (error) {
     console.log(error);
