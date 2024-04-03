@@ -29,6 +29,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Service } from "@/types";
 import PlaceholderRow from "@/components/PlaceholderRow";
+import NoRecordRow from "@/components/NoRecordRow";
 
 function AdminManageServicePage() {
   const [services, setServices] = useState<Service[]>([]);
@@ -130,7 +131,7 @@ function AdminManageServicePage() {
                   <PlaceholderRow col="7" />
                 ) : (
                   // Render the actual data
-
+                  currentItems.length > 0 ? (
                   currentItems.map((service: Service, index) => (
                     <tr key={service._id}>
                       <td>{index + 1}</td>
@@ -147,6 +148,9 @@ function AdminManageServicePage() {
                       </td>
                     </tr>
                   ))
+                  ) : (
+                    <NoRecordRow colSpan={7} message="Click 'Add Service' to create a new service for your potential customers, Hwaiting!" />
+                  )
                 )}
               </tbody>
             </Table>

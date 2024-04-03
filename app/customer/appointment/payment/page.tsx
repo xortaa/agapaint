@@ -1,5 +1,5 @@
 "use client";
-import { Container, Row, Col, Image, Table, Badge, InputGroup, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Image, Table, Badge, InputGroup, Card, Button, Placeholder } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import paymentStyles from "@/styles/payment.module.scss";
@@ -17,6 +17,8 @@ import StatusBadge from "@/components/StatusBadge";
 import { getSession } from "next-auth/react";
 import PaymentStatusBadge from "@/components/PaymentStatusBadge";
 import { useSearchParams } from "next/navigation";
+import PlaceholderPayment from "@/components/PlaceholderPayment";
+
 
 function custPayment() {
   const searchParams = useSearchParams();
@@ -54,6 +56,19 @@ function custPayment() {
     capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
   }
 
+   //time 12-hour format AM PM
+  let formattedTime = '';
+  if (appointment && appointment.time) {
+    const appointmentDate = new Date(`1970-01-01T${appointment.time}:00`);
+    formattedTime = appointmentDate.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  }
+
+  // ...
+
   // Logged in
   const [isSignedIn, setIsSignedIn] = useState(false);
 
@@ -76,7 +91,7 @@ function custPayment() {
 
       {/* Body */}
       {!appointment ? (
-        <h1 className="display-1">"Loading..."</h1>
+        <PlaceholderPayment />
       ) : (
         <Container className="p-4 p-lg-5">
           <Row className="pt-1 pt-lg-3 gap-4 gap-lg-0">
@@ -226,7 +241,7 @@ function custPayment() {
                           <p className="text-secondary mb-0">Appointment Time</p>
                         </td>
                         <td className="text-end p-1">
-                          <p className="fw-semibold mb-0">{appointment.time}</p>
+                          <p className="fw-semibold mb-0">{formattedTime}</p>
                         </td>
                       </tr>
                       <tr>
@@ -250,7 +265,7 @@ function custPayment() {
                           <p className="text-secondary mb-0">Plate#</p>
                         </td>
                         <td className="text-end p-1">
-                          <p className="fw-semibold mb-0">{appointment.carColor}</p>
+                          <p className="fw-semibold mb-0">{appointment.plateNumber}</p>
                         </td>
                       </tr>
                     </tbody>

@@ -16,6 +16,7 @@ import axios from "axios";
 import { Faq } from "@/types";
 import { set } from "mongoose";
 import PlaceholderRow from "@/components/PlaceholderRow";
+import NoRecordRow from "@/components/NoRecordRow";
 
 function ManageFAQPage() {
   const [faqs, setFaqs] = useState<Faq[]>([]);
@@ -112,7 +113,7 @@ function ManageFAQPage() {
                   // Placeholder Component
                   <PlaceholderRow col="4" />
                 ) : (
-                  // Render the actual data
+                  currentItems.length > 0 ? (
                   currentItems.map((faq, index) => (
                     <tr key={faq._id}>
                       <td>{index + 1}</td>
@@ -124,6 +125,9 @@ function ManageFAQPage() {
                       </td>
                     </tr>
                   ))
+                  ) : (
+                    <NoRecordRow colSpan={4} message="Click 'Add Question' to create a new FAQ for your potential customers, Hwaiting!" />
+                  )
                 )}
               </tbody>
             </Table>

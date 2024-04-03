@@ -6,7 +6,9 @@ function PlaceholderRow(props) {
     <tr key={trIndex}>
       {Array.from({ length: props.col }).map((_, tdIndex) => (
         <td key={tdIndex}>
-          <Placeholder xs={6} size="lg" />
+          <Placeholder animation="glow">
+            <Placeholder xs={6} size="lg" />
+          </Placeholder>
         </td>
       ))}
     </tr>
