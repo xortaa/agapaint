@@ -18,6 +18,7 @@ import Link from "@/components/Link";
 import { Category, Material, Log } from "@/types";
 import axios from "axios";
 import ToastPromise from "@/components/ToastPromise";
+import NoRecordRow from "@/components/NoRecordRow";
 
 function manageInventory() {
   const [allCategories, setAllCategories] = useState<Category[]>([]);
@@ -133,6 +134,7 @@ function manageInventory() {
                       // Placeholder Component
                       <PlaceholderRow col="3" />
                     ) : (
+                      activeCategories.length > 0 ? (
                       [...activeCategories].reverse().map((category: Category, index) => (
                         <tr key={category._id}>
                           <td>{activeCategories.length - index}</td>
@@ -150,6 +152,9 @@ function manageInventory() {
                           </td>
                         </tr>
                       ))
+                      ) : (
+                        <NoRecordRow colSpan={3} message="Add a Category now to start your inventory journey" />
+                      )
                     )}
                   </tbody>
                 </Table>
@@ -176,6 +181,7 @@ function manageInventory() {
                     {matLoading ? (
                       <PlaceholderRow col="5" />
                     ) : (
+                      activeMaterials.length > 0 ? (
                       [...activeMaterials].reverse().map((material: Material, index) => (
                         <tr key={material._id}>
                           <td>{activeMaterials.length - index}</td>
@@ -197,6 +203,9 @@ function manageInventory() {
                           </td>
                         </tr>
                       ))
+                      ) : (
+                        <NoRecordRow colSpan={5} message="Add a material now to track your stocks" />
+                      )
                     )}
                   </tbody>
                 </Table>
@@ -227,6 +236,7 @@ function manageInventory() {
                   {logLoading ? (
                     <PlaceholderRow col="8" />
                   ) : (
+                    logs.length > 0 ? (
                     [...logs].reverse().map((log, index) => {
                       const mergedMaterials = [
                         ...allMaterials,
@@ -258,6 +268,9 @@ function manageInventory() {
                         </tr>
                       );
                     })
+                    ) : (
+                      <NoRecordRow colSpan={8} message="Add a log to track the ins and out of your materials" />
+                    )
                   )}
                 </tbody>
               </Table>

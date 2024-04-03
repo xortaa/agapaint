@@ -7,6 +7,7 @@ import { Container, Row, Col, Card, Button, Table, Pagination } from "react-boot
 //component
 import AdminHeader from "@/components/AdminHeader";
 import PlaceholderRow from "@/components/PlaceholderRow";
+import NoRecordRow from "@/components/NoRecordRow";
 
 //icons
 import { FaRegCalendarDays } from "react-icons/fa6";
@@ -349,25 +350,30 @@ function AdminSales() {
                             date.getFullYear() === selectedMonthData.year
                           );
                         })
-                        .map((appointment: Appointment, index) => {
-                          const date = new Date(appointment.date);
-                          const formattedDate = `${date.toLocaleString("default", {
-                            month: "long",
-                          })} ${date.getDate()}, ${date.getFullYear()}`;
+                        .length > 0 ? (
+                          currentAppointments.map((appointment: Appointment, index) => {
+                            const date = new Date(appointment.date);
+                            const formattedDate = `${date.toLocaleString("default", {
+                              month: "long",
+                            })} ${date.getDate()}, ${date.getFullYear()}`;
 
-                          return (
-                            <tr key={appointment._id}>
-                              <td className="fw-medium">{index + 1}</td>
-                              <td>{formattedDate}</td>
-                              <td>{`${appointment.firstName} ${appointment.lastName}`}</td>
-                              <td>{appointment.plateNumber}</td>
-                              <td>
-                                <StatusBadge status="Complete" />
-                              </td>
-                              <td className="fw-semibold">₱{appointment.startingBalance}</td>
-                            </tr>
-                          );
-                        })
+                            return (
+                              <tr key={appointment._id}>
+                                <td className="fw-medium">{index + 1}</td>
+                                <td>{formattedDate}</td>
+                                <td>{`${appointment.firstName} ${appointment.lastName}`}</td>
+                                <td>{appointment.plateNumber}</td>
+                                <td>
+                                  <StatusBadge status="Complete" />
+                                </td>
+                                <td className="fw-semibold">₱{appointment.startingBalance}</td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <NoRecordRow colSpan={6} message="Appointments that are complete in service and payment will show here" />
+                  
+                        )
                     )}
                   </tbody>
                 </Table>

@@ -28,6 +28,8 @@ import AptMaterial from "@/components/AptMaterial";
 import { Appointment, AppointmentData } from "@/types";
 import axios from "axios";
 import ToastPromise from "@/components/ToastPromise";
+import PlaceholderRow from "@/components/PlaceholderRow";
+import NoRecordRow from "@/components/NoRecordRow";
 
 function manageAppointment() {
   // Show Appointment Detail
@@ -37,6 +39,7 @@ function manageAppointment() {
   const [confirmedApppointments, setConfirmedAppointments] = useState<Appointment[]>([]);
   const [awaitingAppointments, setAwaitingAppointments] = useState<Appointment[]>([]);
   const [pendingAppointments, setPendingAppointments] = useState<Appointment[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -49,6 +52,7 @@ function manageAppointment() {
       axios.get("/api/appointment").then((res) => {
         setAllAppointments(res.data);
         setActiveAppointments(res.data.filter((apt: Appointment) => apt.isArchived === false));
+        setLoading(false);
       });
     };
 
@@ -148,27 +152,36 @@ function manageAppointment() {
                         </tr>
                       </thead>
                       <tbody>
-                        {[...confirmedApppointments].reverse().map((apt: Appointment, index) => (
-                          <tr onClick={() => setShowComponent(apt)} key={apt._id}>
-                            <td className="fw-bold">{confirmedApppointments.length - index}</td>
-                            <td>{`${apt.firstName} ${apt.lastName}`}</td>
-                            <td>{apt.plateNumber}</td>
-                            <td>{apt.date.split("T")[0]}</td>
-                            <td>{apt.time}</td>
-                            <td>{apt.startingBalance}</td>
-                            <td>
-                              <ServiceStatus
-                                width="73%"
-                                option={apt.status}
-                                setActiveAppointments={setActiveAppointments}
-                                appointment={apt}
-                              />
-                            </td>
-                            <td>
-                              <BoxSeam size={24} className="text-success" onClick={() => setMuShow(apt)} />
-                            </td>
-                          </tr>
-                        ))}
+                        {/* Placeholder Component */}
+                        {loading ? (
+                          <PlaceholderRow col="8" />
+                        ) : (
+                          confirmedApppointments.length > 0 ? (
+                          [...confirmedApppointments].reverse().map((apt: Appointment, index) => (
+                            <tr onClick={() => setShowComponent(apt)} key={apt._id}>
+                              <td className="fw-bold">{confirmedApppointments.length - index}</td>
+                              <td>{`${apt.firstName} ${apt.lastName}`}</td>
+                              <td>{apt.plateNumber}</td>
+                              <td>{apt.date.split("T")[0]}</td>
+                              <td>{apt.time}</td>
+                              <td>{apt.startingBalance}</td>
+                              <td>
+                                <ServiceStatus
+                                  width="73%"
+                                  option={apt.status}
+                                  setActiveAppointments={setActiveAppointments}
+                                  appointment={apt}
+                                />
+                              </td>
+                              <td>
+                                <BoxSeam size={24} className="text-success" onClick={() => setMuShow(apt)} />
+                              </td>
+                            </tr>
+                          ))
+                          ) : (
+                            <NoRecordRow colSpan={8} message="It looks like you have nothing due today. Confirm an Appointment from Awaiting and this table will show you what you need to do" />
+                          )
+                        )}
                       </tbody>
                     </Table>
                   </Card>
@@ -193,24 +206,33 @@ function manageAppointment() {
                         </tr>
                       </thead>
                       <tbody>
-                        {[...awaitingAppointments].reverse().map((apt: Appointment, index) => (
-                          <tr onClick={() => setShowComponent(apt)} key={apt._id}>
-                            <td className="fw-bold">{awaitingAppointments.length - index}</td>
-                            <td>{`${apt.firstName} ${apt.lastName}`}</td>
-                            <td>{apt.plateNumber}</td>
-                            <td>{apt.date.split("T")[0]}</td>
-                            <td>{apt.time}</td>
-                            <td>{apt.startingBalance}</td>
-                            <td>
-                              <ServiceStatus
-                                width="73%"
-                                option={apt.status}
-                                setActiveAppointments={setActiveAppointments}
-                                appointment={apt}
-                              />
-                            </td>
-                          </tr>
-                        ))}
+                        {/* Placeholder Component */}
+                        {loading ? (
+                          <PlaceholderRow col="8" />
+                        ) : (
+                          awaitingAppointments.length > 0 ? (
+                            [...awaitingAppointments].reverse().map((apt: Appointment, index) => (
+                              <tr onClick={() => setShowComponent(apt)} key={apt._id}>
+                                <td className="fw-bold">{awaitingAppointments.length - index}</td>
+                                <td>{`${apt.firstName} ${apt.lastName}`}</td>
+                                <td>{apt.plateNumber}</td>
+                                <td>{apt.date.split("T")[0]}</td>
+                                <td>{apt.time}</td>
+                                <td>{apt.startingBalance}</td>
+                                <td>
+                                  <ServiceStatus
+                                    width="73%"
+                                    option={apt.status}
+                                    setActiveAppointments={setActiveAppointments}
+                                    appointment={apt}
+                                  />
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <NoRecordRow colSpan={7} message="It looks like you have no awaiting appointments today. Approve an Appointment and this table will show you what you need to do" />
+                          )
+                        )}
                       </tbody>
                     </Table>
                   </Card>
@@ -235,24 +257,33 @@ function manageAppointment() {
                         </tr>
                       </thead>
                       <tbody>
-                        {[...pendingAppointments].reverse().map((apt: Appointment, index) => (
-                          <tr onClick={() => setShowComponent(apt)} key={apt._id}>
-                            <td className="fw-bold">{pendingAppointments.length - index}</td>
-                            <td>{`${apt.firstName} ${apt.lastName}`}</td>
-                            <td>{apt.plateNumber}</td>
-                            <td>{apt.date.split("T")[0]}</td>
-                            <td>{apt.time}</td>
-                            <td>{apt.startingBalance}</td>
-                            <td>
-                              <ServiceStatus
-                                width="73%"
-                                option={apt.status}
-                                setActiveAppointments={setActiveAppointments}
-                                appointment={apt}
-                              />
-                            </td>
-                          </tr>
-                        ))}
+                        {/* Placeholder Component */}
+                        {loading ? (
+                          <PlaceholderRow col="8" />
+                        ) : (
+                          pendingAppointments.length > 0 ? (
+                          [...pendingAppointments].reverse().map((apt: Appointment, index) => (
+                            <tr onClick={() => setShowComponent(apt)} key={apt._id}>
+                              <td className="fw-bold">{pendingAppointments.length - index}</td>
+                              <td>{`${apt.firstName} ${apt.lastName}`}</td>
+                              <td>{apt.plateNumber}</td>
+                              <td>{apt.date.split("T")[0]}</td>
+                              <td>{apt.time}</td>
+                              <td>{apt.startingBalance}</td>
+                              <td>
+                                <ServiceStatus
+                                  width="73%"
+                                  option={apt.status}
+                                  setActiveAppointments={setActiveAppointments}
+                                  appointment={apt}
+                                />
+                              </td>
+                            </tr>
+                          ))
+                          ) : (
+                            <NoRecordRow colSpan={7} message="It looks like you have nothing due today. Manifesting more appointments to come!" />
+                          )
+                        )}
                       </tbody>
                     </Table>
                   </Card>
@@ -262,7 +293,11 @@ function manageAppointment() {
           </CSSTransition>
           {/* Trigger to View Apt Details and Archive Modal*/}
           <CSSTransition in={showComponent !== null} timeout={300} classNames="slide" unmountOnExit>
-            <AptDetails appointment={showComponent} setActiveAppointments={setActiveAppointments} activeAppointments={activeAppointments}/>
+            <AptDetails
+              appointment={showComponent}
+              setActiveAppointments={setActiveAppointments}
+              activeAppointments={activeAppointments}
+            />
           </CSSTransition>
           {/* Modal: Material Used */}
           {muShow !== null && (
