@@ -14,6 +14,7 @@ import { FaRegCalendarDays } from "react-icons/fa6";
 import { FaRegCreditCard } from "react-icons/fa";
 import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
 import { MdFileDownload } from "react-icons/md";
+import { SortNumericDown, SortNumericDownAlt, SortAlphaDown, SortAlphaDownAlt } from "react-bootstrap-icons";
 
 //line graph
 import { Chart, LineController, CategoryScale, LinearScale, PointElement, LineElement } from "chart.js";
@@ -30,6 +31,10 @@ import { Appointment } from "@/types";
 
 // month picker
 import { MonthPicker, MonthInput } from "react-lite-month-picker";
+
+// CSV download
+import { unparse } from "papaparse";
+import { useSession } from "next-auth/react";
 
 function AdminSales() {
   const chartRef = useRef(null);
@@ -53,20 +58,59 @@ function AdminSales() {
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(20); //set the limit of items per page
+  const [itemsPerPage, setItemsPerPage] = useState(12); //set the limit of items per page
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentAppointments = appointments.slice(indexOfFirstItem, indexOfLastItem);
+
+  const filteredAppointments = showAll
+    ? appointments
+    : appointments.filter((appointment) => {
+        const appointmentDate = new Date(appointment.date); // assuming appointment.date is a Date object
+        return (
+          appointmentDate.getMonth() + 1 === selectedMonthData.month &&
+          appointmentDate.getFullYear() === selectedMonthData.year
+        );
+      });
+
+  // Sort function
+  const [sortField, setSortField] = useState(null);
+  const [sortDirection, setSortDirection] = useState("desc"); // 'asc' for ascending, 'desc' for descending
+  const handleSort = (field) => {
+    setSortField(field);
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+  };
+  const sortedData = [...filteredAppointments].sort((a, b) => {
+    if (!sortField) return 0;
+
+    let aValue = a[sortField];
+    let bValue = b[sortField];
+
+    // Check if the values are numeric
+    if (!isNaN(aValue) && !isNaN(bValue)) {
+      return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+    } else {
+      // Convert to string if not already
+      if (typeof aValue !== "string") aValue = String(aValue);
+      if (typeof bValue !== "string") bValue = String(bValue);
+
+      return sortDirection === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+    }
+  });
+
+  const currentAppointments = sortedData.slice(indexOfFirstItem, indexOfLastItem);
 
   const pages = [];
-  for (let i = 1; i <= Math.ceil(appointments.length / itemsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(filteredAppointments.length / itemsPerPage); i++) {
     pages.push(
       <Pagination.Item key={i} active={i === currentPage} onClick={() => setCurrentPage(i)}>
         {i}
       </Pagination.Item>
     );
   }
+
+  const { data: session } = useSession();
+  const reportGeneratedTime = new Date().toLocaleString();
 
   useEffect(() => {
     if (chartRef.current) {
@@ -285,7 +329,11 @@ function AdminSales() {
                 size="small"
               />
               {/* All Records */}
-              <Button variant="secondary" className="ms-2 align-self-start p-2" onClick={() => setShowAll(true)}>
+              <Button
+                variant={showAll ? "success" : "secondary"}
+                className="ms-2 align-self-start p-2"
+                onClick={() => setShowAll(true)}
+              >
                 All Records
               </Button>
             </div>
@@ -306,6 +354,61 @@ function AdminSales() {
                 variant="warning"
                 className={`${saleStyles.generateButton}`}
                 style={{ height: "50px", width: "auto" }}
+                onClick={() => {
+                  const totalAmount = currentAppointments.reduce((total, appointment) => total + appointment.startingBalance, 0);
+                  // Convert appointments to CSV data
+                  const csvData = unparse(
+                    [
+                      ...currentAppointments.map((appointment: Appointment, index) => {
+                        const date = new Date(appointment.date);
+                        const formattedDate = `${date.toLocaleString("default", {
+                          month: "long",
+                        })} ${date.getDate()}, ${date.getFullYear()}`;
+                  
+                        return {
+                          "#": index + 1,
+                          Date: formattedDate,
+                          Name: `${appointment.firstName} ${appointment.lastName}`,
+                          "Plate Number": appointment.plateNumber,
+                          Status: "Complete",
+                          "Total Amount": `${appointment.startingBalance}`,
+                        };
+                      }),
+                      {
+                        "#": "",
+                        Date: "",
+                        Name: "",
+                        "Plate Number": "",
+                        Status: "Total",
+                        "Total Amount": totalAmount,
+                      },
+                      {
+                        "#": `---End of Agapaint Service Revenue Report for the month of ${selectedMonthData.month}/${selectedMonthData.year}---`,
+                        Date: "",
+                        Name: "",
+                        "Plate Number": "",
+                        Status: "",
+                        "Total Amount": "",
+                      },
+                      {
+                        "#": `--This report is generated by ${session?.user?.name} on ${reportGeneratedTime}--`,
+                        Date: "",
+                        Name: "",
+                        "Plate Number": "",
+                        Status: "",
+                        "Total Amount": "",
+                      },
+                    ]
+                  );
+
+                  // Create a download link
+                  const csvBlob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+                  const csvUrl = URL.createObjectURL(csvBlob);
+                  const link = document.createElement("a");
+                  link.href = csvUrl;
+                  link.setAttribute("download", "appointments.csv");
+                  link.click();
+                }}
               >
                 <MdFileDownload /> Download Report
               </Button>
@@ -322,58 +425,82 @@ function AdminSales() {
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Date</th>
-                      <th>Customer</th>
+                      <th>
+                        Date
+                        <span onClick={() => handleSort("date")}>
+                          {sortField === "date" ? (
+                            sortDirection === "asc" ? (
+                              <SortNumericDown className="text-success" />
+                            ) : (
+                              <SortNumericDownAlt className="text-danger" />
+                            )
+                          ) : (
+                            <SortNumericDown className="text-secondary" />
+                          )}
+                        </span>
+                      </th>
+                      <th>
+                        Customer
+                        <span onClick={() => handleSort("firstName")}>
+                          {sortField === "firstName" ? (
+                            sortDirection === "asc" ? (
+                              <SortAlphaDown className="text-success" />
+                            ) : (
+                              <SortAlphaDownAlt className="text-danger" />
+                            )
+                          ) : (
+                            <SortAlphaDown className="text-secondary" />
+                          )}
+                        </span>
+                      </th>
                       <th>Plate#</th>
-
                       <th>Service Status</th>
-                      <th>Total Amount</th>
+                      <th>
+                        Total Amount{" "}
+                        <span onClick={() => handleSort("startingBalance")}>
+                          {sortField === "startingBalance" ? (
+                            sortDirection === "asc" ? (
+                              <SortNumericDown className="text-success" />
+                            ) : (
+                              <SortNumericDownAlt className="text-danger" />
+                            )
+                          ) : (
+                            <SortNumericDown className="text-secondary" />
+                          )}
+                        </span>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {loading ? (
                       // Placeholder Component
                       <PlaceholderRow col="6" />
-                    ) : (
-                      // Render the actual data
-                      currentAppointments
-                        .filter((appointment: Appointment) => {
-                          // All Records
-                          if (showAll) {
-                            return appointment.status === "Complete";
-                          }
-                          // Filter by selected month
-                          const date = new Date(appointment.date);
-                          return (
-                            appointment.status === "Complete" &&
-                            date.getMonth() + 1 === selectedMonthData.month &&
-                            date.getFullYear() === selectedMonthData.year
-                          );
-                        })
-                        .length > 0 ? (
-                          currentAppointments.map((appointment: Appointment, index) => {
-                            const date = new Date(appointment.date);
-                            const formattedDate = `${date.toLocaleString("default", {
-                              month: "long",
-                            })} ${date.getDate()}, ${date.getFullYear()}`;
+                    ) : // Render the actual data
+                    currentAppointments.length > 0 ? (
+                      currentAppointments.map((appointment: Appointment, index) => {
+                        const date = new Date(appointment.date);
+                        const formattedDate = `${date.toLocaleString("default", {
+                          month: "long",
+                        })} ${date.getDate()}, ${date.getFullYear()}`;
 
-                            return (
-                              <tr key={appointment._id}>
-                                <td className="fw-medium">{index + 1}</td>
-                                <td>{formattedDate}</td>
-                                <td>{`${appointment.firstName} ${appointment.lastName}`}</td>
-                                <td>{appointment.plateNumber}</td>
-                                <td>
-                                  <StatusBadge status="Complete" />
-                                </td>
-                                <td className="fw-semibold">₱{appointment.startingBalance}</td>
-                              </tr>
-                            );
-                          })
-                        ) : (
-                          <NoRecordRow colSpan={6} message="Appointments that are complete in service and payment will show here" />
-                  
-                        )
+                        return (
+                          <tr key={appointment._id}>
+                            <td className="fw-medium">{index + 1}</td>
+                            <td>{formattedDate}</td>
+                            <td>{`${appointment.firstName} ${appointment.lastName}`}</td>
+                            <td>{appointment.plateNumber}</td>
+                            <td>
+                              <StatusBadge status="Complete" />
+                            </td>
+                            <td className="fw-semibold">₱{appointment.startingBalance}</td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <NoRecordRow
+                        colSpan={6}
+                        message="Appointments that are complete in service and payment will show here"
+                      />
                     )}
                   </tbody>
                 </Table>
