@@ -8,6 +8,7 @@ import { Appointment, AppointmentData } from "@/types";
 import axios from "axios";
 import { toast } from "react-toastify";
 import ApproveAptModal from "@/components/ApproveAptModal";
+import ConfirmAptModal from "@/components/ConfirmAptModal";
 
 function AptDetails({
   appointment,
@@ -31,6 +32,7 @@ function AptDetails({
   const [unformattedDate, setUnformattedDate] = useState<String>();
   const [selectedAppointment, setSelectedAppointmepnt] = useState<Appointment>(appointment);
   const [showEndDateError, setShowEndDateError] = useState(false);
+  const [newEndDate, setNewEndDate] = useState<String>();
 
   useEffect(() => {
     setCurrentBalance(appointment.currentBalance);
@@ -64,6 +66,7 @@ function AptDetails({
   const handleEndDateChange = (e) => {
     setEndDate(new Date(e.target.value));
     setUnformattedDate(e.target.value);
+    setNewEndDate(e.target.value);
   };
 
   const handleNewBalanceChange = (e) => {
@@ -73,6 +76,11 @@ function AptDetails({
   };
 
   const handleApproveAppointment = () => {
+    if (!endDate) {
+      setShowEndDateError(true);
+      return;
+    }
+
     const approveAppointmentData = {
       endDate,
       status: "Awaiting Payment",
@@ -152,14 +160,25 @@ function AptDetails({
                   aptId="123"
                   aptDate={appointment.date.split("T")[0]}
                   aptTime={appointment.time}
-                  aptEndDate={endDate}
+                  aptEndDate={newEndDate}
                   totalAmount={currentBalance}
+                  setShowEndDateError={setShowEndDateError}
                 />
               )}
               {appointment.status === "Awaiting Payment" && (
-                <Button variant="success" onClick={handleConfirmAppointment}>
-                  Confirm Appointment
-                </Button>
+                // <Button variant="success" onClick={handleConfirmAppointment}>
+                //   Confirm Appointment
+                // </Button>
+                <ConfirmAptModal
+                  carryFunction={handleConfirmAppointment}
+                  aptId="123"
+                  aptDate={appointment.date.split("T")[0]}
+                  aptTime={appointment.time}
+                  aptEndDate={appointment && appointment.endDate
+                    ? new Date(appointment.endDate).toISOString().split("T")[0]
+                    : `${unformattedDate}`}
+                  totalAmount={currentBalance}
+                />
               )}
             </div>
             <hr />
@@ -189,9 +208,40 @@ function AptDetails({
               <p className="fw-bold">Contact</p>
               <p className="ms-auto">{appointment.phoneNumber}</p>
             </Row>
-            <p className="fw-bold">Requests</p>
+            <p className="fw-bold mb-0">Requests</p>
             <p className="ms-auto">{appointment.requests}</p>
 
+            {appointment.status !== "Pending" ? (
+              <Row xs="auto" className="lh-05">
+                <p className="fw-bold mb-0">Target End Date</p>
+                <p className="ms-auto">
+                  {appointment && appointment.endDate
+                    ? new Date(appointment.endDate).toISOString().split("T")[0]
+                    : `${unformattedDate}`}
+                </p>
+              </Row>
+            ) : (
+              <Form.Group controlId="dob" style={{ marginLeft: "auto" }}>
+                <Form.Label className="mt-2 mb-1 small">Target End Date</Form.Label>
+                {isApproved ? (
+                  <p>
+                    {appointment && appointment.endDate
+                      ? new Date(appointment.endDate).toISOString().split("T")[0]
+                      : `${unformattedDate}`}
+                  </p>
+                ) : (
+                  <Form.Control
+                    type="date"
+                    name="dob"
+                    placeholder="Target End Date"
+                    size="sm"
+                    onChange={handleEndDateChange}
+                    required
+                  />
+                )}
+                {showEndDateError && <p className="text-danger">Please select a target end date</p>}
+              </Form.Group>
+            )}
             <hr />
             <Row className="align-items-center justify-content-between lh-1">
               <Accordion defaultActiveKey="0" alwaysOpen>
@@ -201,16 +251,20 @@ function AptDetails({
                     Vehicle Information
                   </Accordion.Header>
                   <Accordion.Body className="pb-0">
+                  <Row xs="auto" className="lh-05">
+                      <p className="text-secondary">Manufacturer</p>
+                      <p className="ms-auto">{appointment.carManufacturer}</p>
+                    </Row>
                     <Row xs="auto" className="lh-05">
-                      <p className="text-secondary">Vehicle Model</p>
+                      <p className="text-secondary">Model</p>
                       <p className="ms-auto">{appointment.carModel}</p>
                     </Row>
                     <Row xs="auto" className="lh-05">
-                      <p className="text-secondary">Vehicle Type</p>
+                      <p className="text-secondary">Type</p>
                       <p className="ms-auto">{appointment.carType}</p>
                     </Row>
                     <Row xs="auto" className="lh-05">
-                      <p className="text-secondary">Vehicle Color</p>
+                      <p className="text-secondary">Color</p>
                       <p className="ms-auto">{appointment.carColor}</p>
                     </Row>
                     <Row xs="auto" className="lh-05">
@@ -233,37 +287,6 @@ function AptDetails({
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
-
-              {appointment.status !== "Pending" ? (
-                <Row xs="auto" className="lh-05 mt-5">
-                  <p className="fw-bold">Target End Date</p>
-                  <p className="ms-auto">
-                    {appointment && appointment.endDate
-                      ? new Date(appointment.endDate).toISOString().split("T")[0]
-                      : `${unformattedDate}`}
-                  </p>
-                </Row>
-              ) : (
-                <Form.Group controlId="dob" style={{ marginLeft: "auto" }}>
-                  <Form.Label className="mt-3 mb-1 small">Target End Date</Form.Label>
-                  {isApproved ? (
-                    <p>
-                      {appointment && appointment.endDate
-                        ? new Date(appointment.endDate).toISOString().split("T")[0]
-                        : `${unformattedDate}`}
-                    </p>
-                  ) : (
-                    <Form.Control
-                      type="date"
-                      name="dob"
-                      placeholder="Target End Date"
-                      size="sm"
-                      onChange={handleEndDateChange}
-                    />
-                  )}
-                  {showEndDateError && <p className="text-danger">Please select a target end date</p>}
-                </Form.Group>
-              )}
             </Row>
             <hr />
             <Row className="align-items-center justify-content-between mb-2">
