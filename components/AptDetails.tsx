@@ -7,6 +7,7 @@ import PaymentStatus from "@/components/PaymentStatus";
 import { Appointment, AppointmentData } from "@/types";
 import axios from "axios";
 import { toast } from "react-toastify";
+import ApproveAptModal from "@/components/ApproveAptModal";
 
 function AptDetails({
   appointment,
@@ -72,11 +73,6 @@ function AptDetails({
   };
 
   const handleApproveAppointment = () => {
-    if (!endDate) {
-      setShowEndDateError(true);
-      return;
-    }
-
     const approveAppointmentData = {
       endDate,
       status: "Awaiting Payment",
@@ -146,6 +142,25 @@ function AptDetails({
             <hr />
             <div className="d-flex justify-content-between align-items-center">
               <h4 className="fw-bold me-3">1</h4>
+              {/* Approve and Confirm Button */}
+              {appointment.status === "Pending" && (
+                // <Button variant="warning" className="text-white" onClick={handleApproveAppointment}>
+                //   Approve Appointment
+                // </Button>
+                <ApproveAptModal
+                  carryFunction={handleApproveAppointment}
+                  aptId="123"
+                  aptDate={appointment.date.split("T")[0]}
+                  aptTime={appointment.time}
+                  aptEndDate={endDate}
+                  totalAmount={currentBalance}
+                />
+              )}
+              {appointment.status === "Awaiting Payment" && (
+                <Button variant="success" onClick={handleConfirmAppointment}>
+                  Confirm Appointment
+                </Button>
+              )}
             </div>
             <hr />
             <Row xs="auto" className="lh-05">
@@ -342,16 +357,6 @@ function AptDetails({
                 <p className="m-0 fs-5 fw-bold">{startingBalance}</p>
               </Col>
             </Row>
-            {appointment.status === "Pending" && (
-              <Button className="btn btn-warning text-white" onClick={handleApproveAppointment}>
-                Approve Appointment
-              </Button>
-            )}
-            {appointment.status === "Awaiting Payment" && (
-              <Button className="btn btn-warning text-white" onClick={handleConfirmAppointment}>
-                Confirm Appointment
-              </Button>
-            )}
           </Card.Body>
         </Card>
       </Col>
