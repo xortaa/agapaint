@@ -14,6 +14,7 @@ import Navbar from "@/components/CustomerNav";
 import Navbar2 from "@/components/CustomerNav2";
 import axios from "axios";
 import { Faq } from "@/types";
+import Footer from "@/components/CustomerFooter";
 
 const page = () => {
   const [faqs, setFaqs] = useState<Faq[]>([]);
@@ -35,7 +36,8 @@ const page = () => {
   }, []);
 
   return (
-    <main className={faqStyles.background} style={{ backgroundImage: "url(/assets/img/faqbg.png)" }}>
+    <main>
+      <section className={faqStyles.background} style={{ backgroundImage: "url(/assets/img/faqbg.png)" }}>
       <Container className="justify-content-center">
         {/*    navbar here */}
         {isSignedIn ? <Navbar2 /> : <Navbar />}
@@ -54,8 +56,10 @@ const page = () => {
           </Col>
         </Row>
       </Container>
+      </section>
 
       {/* footer */}
+      <Footer />
     </main>
   );
 };

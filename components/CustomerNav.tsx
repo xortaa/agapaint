@@ -121,7 +121,7 @@ function Navbar() {
                   href="#"
                   className={`${navStyles.ulItem} ${activeItem === "booking" ? navStyles.active : ""}`}
                 >
-                  <Button className={navStyles.btnLog}>Book Now</Button>
+                  <button className={navStyles.btnLog}>Book Now</button>
                 </Link>
               </li>
 

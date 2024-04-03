@@ -9,9 +9,9 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
   try {
     const token = await getToken({ req, secret });
 
-    if (!token || token.email !== process.env.ADMIN_EMAIL) {
-      return NextResponse.json("Unauthorized", { status: 401 });
-    }
+    // if (!token || token.email !== process.env.ADMIN_EMAIL) {
+    //   return NextResponse.json("Unauthorized", { status: 401 });
+    // }
 
     await connectToDatabase();
     const appointment = await Appointment.findById(id)
