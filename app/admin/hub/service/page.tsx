@@ -17,7 +17,17 @@ import {
   Pagination,
   Card,
 } from "react-bootstrap";
-import { Funnel, Search } from "react-bootstrap-icons";
+import {
+  Funnel,
+  Search,
+  SortAlphaDown,
+  SortAlphaDownAlt,
+  SortAlphaUp,
+  SortAlphaUpAlt,
+  SortNumericDown,
+  SortNumericDownAlt,
+  SortNumericUp,
+} from "react-bootstrap-icons";
 // Components
 import AdminHeader from "@/components/AdminHeader";
 import AddService from "@/components/AddServiceModal";
@@ -35,16 +45,67 @@ function AdminManageServicePage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // search function
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(1);
+  };
+  const filteredData = services.filter((service) =>
+    Object.values(service).some((value) => value.toString().toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  // filter by car type
+  const [selectedCarType, setSelectedCarType] = useState("");
+  const handleCarTypeChange = (carType) => {
+    setSelectedCarType(carType);
+  };
+  const finalFilteredSortedData = services.filter(
+    (service) =>
+      Object.values(service).some((value) => value.toString().toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (selectedCarType === "" || service.carType.includes(selectedCarType))
+  );
+
+  // Sort function
+  const [sortField, setSortField] = useState(null);
+  const [sortDirection, setSortDirection] = useState("desc"); // 'asc' for ascending, 'desc' for descending
+  const handleSort = (field) => {
+    setSortField(field);
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+  };
+  const sortedData = [...finalFilteredSortedData].sort((a, b) => {
+    if (!sortField) return 0;
+
+    let aValue = a[sortField];
+    let bValue = b[sortField];
+
+    // Check if the values are numeric
+    if (!isNaN(aValue) && !isNaN(bValue)) {
+      return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+    } else {
+      // Convert to string if not already
+      if (typeof aValue !== "string") aValue = String(aValue);
+      if (typeof bValue !== "string") bValue = String(bValue);
+
+      return sortDirection === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+    }
+  });
+
+  // pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5); //set the limit of items per page
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = services.slice(indexOfFirstItem, indexOfLastItem);
+  const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
+  const indexOfLastItem = indexOfFirstItem + itemsPerPage;
+  // eto na laman nung table final final
+  const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
 
   const pages = [];
-  for (let i = 1; i <= Math.ceil(services.length / itemsPerPage); i++) {
-    if (i === 1 || i === Math.ceil(services.length / itemsPerPage) || (i >= currentPage - 2 && i <= currentPage + 2)) {
+  for (let i = 1; i <= Math.ceil(filteredData.length / itemsPerPage); i++) {
+    if (
+      i === 1 ||
+      i === Math.ceil(filteredData.length / itemsPerPage) ||
+      (i >= currentPage - 2 && i <= currentPage + 2)
+    ) {
       pages.push(
         <Pagination.Item key={i} active={i === currentPage} onClick={() => setCurrentPage(i)}>
           {i}
@@ -80,17 +141,27 @@ function AdminManageServicePage() {
                   <InputGroup.Text id="basic-addon1">
                     <Search size={20} />
                   </InputGroup.Text>
-                  <FormControl placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
+                  <FormControl
+                    placeholder="Search"
+                    aria-label="Search"
+                    aria-describedby="basic-addon1"
+                    onChange={handleSearchChange}
+                  />
                 </InputGroup>
                 <Dropdown>
-                  <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                  <Dropdown.Toggle variant={selectedCarType ? "success" : "secondary"} id="dropdown-basic">
                     <Funnel />
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleCarTypeChange("Hatchback")}>Hatchback</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleCarTypeChange("Sedan")}>Sedan</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleCarTypeChange("SUV/AUV")}>SUV/AUV</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleCarTypeChange("Van")}>Van</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleCarTypeChange("Motorcycle")}>Motorcycle</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleCarTypeChange("Bicycle")}>Bicycle</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleCarTypeChange("Others")}>Others</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleCarTypeChange("")}>All Record</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
 
@@ -118,10 +189,49 @@ function AdminManageServicePage() {
                 <tr>
                   <th className={AdminServiceStyles.tableheader}>#</th>
                   <th className={AdminServiceStyles.tableheader}>Image</th>
-                  <th className={AdminServiceStyles.tableheader}>Service Name</th>
+                  <th className={AdminServiceStyles.tableheader}>
+                    Service Name
+                    <span onClick={() => handleSort("name")}>
+                      {sortField === "name" ? (
+                        sortDirection === "asc" ? (
+                          <SortAlphaDown className="text-success" />
+                        ) : (
+                          <SortAlphaDownAlt className="text-danger" />
+                        )
+                      ) : (
+                        <SortAlphaDown className="text-secondary" />
+                      )}
+                    </span>
+                  </th>
                   <th className={AdminServiceStyles.tableheader}>Description</th>
-                  <th className={AdminServiceStyles.tableheader}>Price</th>
-                  <th className={AdminServiceStyles.tableheader}>Car Type</th>
+                  <th className={AdminServiceStyles.tableheader}>
+                    Price
+                    <span onClick={() => handleSort("price")}>
+                      {sortField === "price" ? (
+                        sortDirection === "asc" ? (
+                          <SortNumericDown className="text-success" />
+                        ) : (
+                          <SortNumericDownAlt className="text-danger" />
+                        )
+                      ) : (
+                        <SortNumericDown className="text-secondary" />
+                      )}
+                    </span>
+                  </th>
+                  <th className={AdminServiceStyles.tableheader}>
+                    Car Type
+                    <span onClick={() => handleSort("carType")}>
+                      {sortField === "carType" ? (
+                        sortDirection === "asc" ? (
+                          <SortAlphaDown className="text-success" />
+                        ) : (
+                          <SortAlphaDownAlt className="text-danger" />
+                        )
+                      ) : (
+                        <SortAlphaDown className="text-secondary" />
+                      )}
+                    </span>
+                  </th>
                   <th className={AdminServiceStyles.tableheader}>Actions</th>
                 </tr>
               </thead>
@@ -129,9 +239,8 @@ function AdminManageServicePage() {
                 {loading ? (
                   // Placeholder Component
                   <PlaceholderRow col="7" />
-                ) : (
-                  // Render the actual data
-                  currentItems.length > 0 ? (
+                ) : // Render the actual data
+                currentItems.length > 0 ? (
                   currentItems.map((service: Service, index) => (
                     <tr key={service._id}>
                       <td>{index + 1}</td>
@@ -148,9 +257,11 @@ function AdminManageServicePage() {
                       </td>
                     </tr>
                   ))
-                  ) : (
-                    <NoRecordRow colSpan={7} message="Click 'Add Service' to create a new service for your potential customers, Hwaiting!" />
-                  )
+                ) : (
+                  <NoRecordRow
+                    colSpan={7}
+                    message="Click 'Add Service' to create a new service for your potential customers, Hwaiting!"
+                  />
                 )}
               </tbody>
             </Table>
