@@ -129,7 +129,7 @@ function manageAppointment() {
 
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(8); //set the limit of items per page
+  const [itemsPerPage, setItemsPerPage] = useState(6); //set the limit of items per page
   const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
   const indexOfLastItem = indexOfFirstItem + itemsPerPage;
   // eto na laman nung table final final
