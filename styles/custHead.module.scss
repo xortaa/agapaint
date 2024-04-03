@@ -1,69 +1,168 @@
 .topHeader {
-    background-image: url("../public/assets/img/headerbg.png");
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    height: 100vh;
-    padding: 0;
-    margin: 0;
-    padding-top: calc(12.5em + 3vw);
+  position: relative;
+  background-image: url("../public/assets/img/headerbg.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  // padding-top: calc(10em + .5vw);
+}
+
+.yellow {
+  color: var(--agapaint-yellow);
+}
+
+.h1Top {
+  color: white;
+  font-size: calc(2em + 3vw);
+  text-align: left;
+  font-weight: 800;
+  padding: 0;
+
+  // mobile
+  @media (min-width: 320px) and (max-width: 600px) and (orientation: portrait) {
+    padding-top: calc(5.5em + 3vw);
+    font-size: calc(2.28em + 3vw);
   }
-  
-  .h1Top {
-    color: white;
+
+  // ipad mini
+  @media (min-width: 601px) and (max-width: 900px) {
+    padding-top: calc(4em + 0.01vw);
+    font-size: calc(3.5em + 3vw);
+  }
+
+  // ipad mini LANDSCAPE
+  @media (min-width: 901px) and (max-width: 1200px) and (orientation: landscape) {
+    padding-top: calc(1.9em + 2vw);
     font-size: calc(2em + 3vw);
-    text-align: left;
-    font-weight: 800;
   }
-  
-  .p {
-    color: white;
-    font-size: calc(0.75em + 1vw);
+
+  // ipad air PORTRAIT
+  @media (min-width: 901px) and (max-width: 1200px) and (orientation: portrait) {
+    padding-top: calc(4em + 0.01vw);
+    font-size: calc(5em + 3vw);
   }
-  
-  .yellow {
-    color: var(--agapaint-yellow);
+
+  // ipad pro PORTRAIT
+  @media (min-width: 1201px) and (orientation: portrait) {
+    padding-top: calc(4.4em + 2vw);
+    font-size: calc(5em + 3vw);
   }
-  
-  button.bookBtn {
-    background-color: var(--agapaint-yellow) !important;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    font-size: calc(0.3em + 1vw);
-    font-weight: 600;
-    margin-top: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-    margin-right: 18px;
+
+  // ipad air LANDSCAPE
+  @media (min-width: 1201px) and (orientation: landscape) {
+    padding-top: calc(2.2em + 3vw);
+    font-size: calc(2.3em + 3vw);
   }
-  
-  button.learnBtn {
-    background: none !important;
-    color: var(--agapaint-yellow);
-    padding: 10px 20px;
-    border: 2px solid var(--agapaint-yellow);
-    border-radius: 10px;
-    font-size: calc(0.3em + 1vw);
-    font-weight: 600;
-    margin-top: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-    margin-right: 18px;
+}
+
+.p {
+  color: white;
+  font-size: calc(0.75em + 1vw);
+
+  // mobile
+  @media (max-width: 600px) {
+    font-size: calc(0.38em + 3vw);
   }
-  
-  button.bookBtn:hover {
-    background-color: #FFCE46 !important;
-    color: black;
-    transition: transform 0.5s;
+
+  // ipad mini
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: calc(1.3em + 1vw);
   }
-  
-  button.learnBtn:hover {
-    background-color: #ffc72c !important;
-    color: black !important;
-    border: 2px solid black;
+
+  // ipad mini LANDSCAPE
+  @media (min-width: 901px) and (max-width: 1200px) and (orientation: landscape) {
+    font-size: calc(0.8em + 1vw);
   }
+
+  // ipad air PORTRAIT
+  @media (min-width: 901px) and (max-width: 1200px) and (orientation: portrait) {
+    font-size: calc(1.25em + 2vw);
+  }
+
+  // ipad air LANDSCAPE
+  @media (min-width: 1201px) and (orientation: landscape) {
+    font-size: calc(0.9em + 1vw);
+  }
+
+  // ipad pro PORTRAIT
+  @media (min-width: 1201px) and (orientation: portrait) {
+    font-size: calc(1.2em + 2vw);
+  }
+}
+
+button.learnBtn {
+  background: none !important;
+  color: var(--agapaint-yellow);
+  padding: 10px 20px;
+  border: 2px solid var(--agapaint-yellow);
+  border-radius: 10px;
+  font-size: calc(0.3em + 1vw);
+  font-weight: 600;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-right: 18px;
+
+  // mobile
+  @media (max-width: 600px) {
+    margin-top: 15px;
+    font-size: calc(0.6em + 1vw);
+  }
+
+  // ipad mini
+  @media (min-width: 601px) and (max-width: 900px) {
+    font-size: calc(1em + 1vw);
+  }
+
+  // ipad mini LANDSCAPE
+  @media (min-width: 901px) and (max-width: 1200px) and (orientation: landscape) {
+    font-size: calc(.3em + 1vw);
+  }
+
+  // ipad air PORTRAIT
+  @media (min-width: 901px) and (max-width: 1200px) and (orientation: portrait) {
+    font-size: calc(1em + 2vw);
+  }
+
+  // ipad air LANDSCAPE
+  @media (min-width: 1201px) and (orientation: landscape) {
+    font-size: calc(0.4em + 1vw);
+  }
+
+  // ipad pro PORTRAIT
+  @media (min-width: 1201px) and (orientation: portrait) {
+    font-size: calc(0.9em + 2vw);
+  }
+}
+
+button.learnBtn:hover {
+  background-color: #ffc72c !important;
+  color: black !important;
+  border: 2px solid black;
+}
+
+button.bookBtn {
+  background-color: var(--agapaint-yellow) !important;
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: calc(0.3em + 1vw);
+  font-weight: 600;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-right: 18px;
+}
+
+button.bookBtn:hover {
+  background-color: #ffce46 !important;
+  color: black;
+  transition: transform 0.5s;
+}

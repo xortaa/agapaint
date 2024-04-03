@@ -219,11 +219,11 @@ function CustHome() {
         <aside className="bg-warning rounded-3 p-sm-5">
           <Container className="d-flex align-items-center justify-content-between flex-column flex-xl-row text-center text-xl-start">
             <div className="mb-4 mb-xl-0">
-              <div className="fs-3 fw-bold text-white">Experience Precision Performance Today!</div>
+            <div className={`fs-3 fw-bold text-white ${custhomeStyles.expContainer}`}>Experience Precision Performance Today!</div>
               <div className="text-white">Book an appointment for quality automotive care.</div>
             </div>
             <div className="ms-xl-4">
-              <Button variant="dark" size="lg" onClick={() => handleItemClick("booking")}>
+              <Button variant="dark" size="lg" onClick={() => handleItemClick("booking")} className={custhomeStyles.btnBook}>
                 Book an Appointment
               </Button>
             </div>
