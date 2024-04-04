@@ -9,6 +9,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import ApproveAptModal from "@/components/ApproveAptModal";
 import ConfirmAptModal from "@/components/ConfirmAptModal";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
 
 function AptDetails({
   appointment,
@@ -33,6 +36,7 @@ function AptDetails({
   const [selectedAppointment, setSelectedAppointmepnt] = useState<Appointment>(appointment);
   const [showEndDateError, setShowEndDateError] = useState(false);
   const [newEndDate, setNewEndDate] = useState<String>();
+  const [datePickerStartDate, setDatePickerStartDate] = useState<Date>();
 
   useEffect(() => {
     setCurrentBalance(appointment.currentBalance);
@@ -67,6 +71,12 @@ function AptDetails({
     setEndDate(new Date(e.target.value));
     setUnformattedDate(e.target.value);
     setNewEndDate(e.target.value);
+  };
+
+  const handleDatePickerEndDateChange = (date) => {
+    setEndDate(date);
+    setUnformattedDate(date);
+    setNewEndDate(date);
   };
 
   const handleNewBalanceChange = (e) => {
@@ -174,9 +184,11 @@ function AptDetails({
                   aptId="123"
                   aptDate={appointment.date.split("T")[0]}
                   aptTime={appointment.time}
-                  aptEndDate={appointment && appointment.endDate
-                    ? new Date(appointment.endDate).toISOString().split("T")[0]
-                    : `${unformattedDate}`}
+                  aptEndDate={
+                    appointment && appointment.endDate
+                      ? new Date(appointment.endDate).toISOString().split("T")[0]
+                      : `${unformattedDate}`
+                  }
                   totalAmount={currentBalance}
                 />
               )}
@@ -230,13 +242,25 @@ function AptDetails({
                       : `${unformattedDate}`}
                   </p>
                 ) : (
-                  <Form.Control
-                    type="date"
-                    name="dob"
-                    placeholder="Target End Date"
-                    size="sm"
-                    onChange={handleEndDateChange}
-                    required
+                  // <Form.Control
+                  //   type="date"
+                  //   name="dob"
+                  //   placeholder="Target End Date"
+                  //   size="sm"
+                  //   onChange={handleEndDateChange}
+                  //   required
+                  // />
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date: Date) => {
+                      const dateString = format(date, "yyyy-MM-dd");
+                      const localDate = new Date(dateString);
+                      handleDatePickerEndDateChange(localDate);
+                      // setDatePickerStartDate(localDate);
+                    }}
+                    minDate={appointment.date}
+                    selectsDisabledDaysInRange
+                    className="form-control"
                   />
                 )}
                 {showEndDateError && <p className="text-danger">Please select a target end date</p>}
@@ -251,7 +275,7 @@ function AptDetails({
                     Vehicle Information
                   </Accordion.Header>
                   <Accordion.Body className="pb-0">
-                  <Row xs="auto" className="lh-05">
+                    <Row xs="auto" className="lh-05">
                       <p className="text-secondary">Manufacturer</p>
                       <p className="ms-auto">{appointment.carManufacturer}</p>
                     </Row>
