@@ -12,15 +12,18 @@ import ServiceCard from "@/components/forms/ServiceCard";
 import { useState, useEffect } from "react";
 import { ServiceData, AppointmentData } from "@/types";
 import axios from "axios";
+import { set } from "mongoose";
 
 function Services({
   setSelectedService,
   setAppointmentData,
   appointmentData,
+  setValidateService,
 }: {
   setSelectedService: React.Dispatch<React.SetStateAction<ServiceData[]>>;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
   appointmentData: AppointmentData;
+  setValidateService: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [services, setServices] = useState([]);
 
@@ -48,6 +51,7 @@ function Services({
       ...prevData,
       servicesId: [...prevData.servicesId, service._id], // Add the service id to the servicesId array
     }));
+    setValidateService(String(service._id));
   };
 
   return (

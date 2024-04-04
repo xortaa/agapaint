@@ -24,6 +24,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import { isSameDay, isSameMonth, isThisMonth, isToday, isFuture } from "date-fns";
 import { Calendar, Calendar2 } from "react-bootstrap-icons";
+import { set } from "mongoose";
+import { errorToJSON } from "next/dist/server/render";
 
 // Car Type Step
 
@@ -51,23 +53,15 @@ const Step1 = ({
       <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
       <div className="d-flex justify-content-between">
         <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose a vehicle type</p>
-        {!carType && <p className="text-danger d-none d-lg-block">Please choose a car type</p>}
+        {error && <p className="small text-danger d-none d-lg-block">Please choose a car type</p>}
       </div>
-      {!carType && (
-        <p className="ps-4 ps-lg-0 pe-4 pe-lg-0 text-danger d-sm-block d-lg-none">Please choose a car type</p>
-      )}
+      {error && <p className="ps-4 ps-lg-0 pe-4 pe-lg-0 text-danger d-sm-block d-lg-none">Please choose a car type</p>}
       {/* Car Type Radio Button */}
       <div className="d-flex flex-column">
         <CarType setAppointmentData={setAppointmentData} setCarType={setCarType} />
       </div>
       <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
-        <Button
-          variant="warning"
-          type="submit"
-          className="ps-4 pe-4 ms-auto fw-medium me-3 me-lg-0 mt-3"
-          onClick={handleNext}
-          disabled={!carType}
-        >
+        <Button variant="warning" className="ps-4 pe-4 ms-auto fw-medium me-3 me-lg-0 mt-3" onClick={handleNext}>
           Next
         </Button>
       </div>
@@ -93,75 +87,109 @@ const Step2 = ({
   startDate: Date;
   setStartDate: React.Dispatch<React.SetStateAction<Date>>;
   excludedDates: Date[];
-}) => (
-  <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
-    <h2 className="fw-bold">Book an Appointment</h2>
-    <p className="lead">Choose a desired date and time</p>
-    {/* Date */}
-    <Row className="gap-4 gap-lg-0">
-      <Col lg={6} sm={12} className="text-center">
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Appointment Date</Form.Label>
-          <br />
-          <DatePicker
-            selected={startDate}
-            onChange={(date: Date) => {
-              const dateString = format(date, "yyyy-MM-dd");
-              const localDate = new Date(dateString);
-              setStartDate(localDate);
-            }}
-            minDate={new Date()}
-            excludeDates={excludedDates}
-            selectsDisabledDaysInRange
-            className="form-control"
-            showIcon
-            icon={<Calendar2 className="ms-2" />}
-            dayClassName={(date) =>
-              isSameDay(date, startDate)
-                ? "datepicker-selected"
-                : excludedDates.some((excludedDate) => isSameDay(date, excludedDate))
-                ? "datepicker-excluded"
-                : (isToday(date) || isFuture(date)) && isThisMonth(date)
-                ? "datepicker-available"
-                : "datepicker-other-month"
-            }
-            inline
-          />
-        </Form.Group>
-        <div className="d-flex justify-content-center align-items-center gap-2">
-          <Badge bg="danger-subtle" text="danger-emphasis">
-            Not Available
-          </Badge>
-          <Badge bg="success-subtle" text="success-emphasis">
-            Available
-          </Badge>
-        </div>
-      </Col>
+}) => {
+  const [timeError, setTimeError] = useState("");
+  const [validateTime, setValidateTime] = useState("");
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAppointmentData((prev) => ({ ...prev, time: e.target.value }));
+    setValidateTime(e.target.value);
+    setTimeError("");
+  };
 
-      {/* Time */}
-      <Col lg={4} sm={12} className="text-center">
-        <Form.Group className="mb-3 text-center" controlId="formBasicEmail">
-          <Form.Label>Appointment Time</Form.Label>
-          <Form.Control
-            type="time"
-            placeholder="Enter your appointment time"
-            onChange={(e) => setAppointmentData((prev) => ({ ...prev, time: e.target.value }))}
-          />
-        </Form.Group>
-      </Col>
-    </Row>
+  const [error, setError] = useState("");
+  const handleNext = () => {
+    if (!validateTime) {
+      setTimeError("Please choose a time");
+      return;
+    }
+    if (!startDate) {
+      setError("Please choose a date");
+      return;
+    }
+    setError("");
+    setTimeError("");
+    onNext();
+  };
+  return (
+    <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
+      <h2 className="fw-bold">Book an Appointment</h2>
+      <div className="d-flex justify-content-between">
+        <p className="lead">Choose an appointment date and time</p>
+        {error && <p className="small text-danger d-none d-lg-block">Please choose a date</p>}
+      </div>
+      {error && <p className="text-danger d-sm-block d-lg-none">Please choose a date</p>}
+      {/* Date */}
+      <Row className="gap-4 gap-lg-0">
+        <Col lg={6} sm={12} className="text-center">
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Appointment Date</Form.Label>
+            <br />
+            <DatePicker
+              selected={startDate}
+              onChange={(date: Date) => {
+                const dateString = format(date, "yyyy-MM-dd");
+                const localDate = new Date(dateString);
+                setStartDate(localDate);
+              }}
+              minDate={new Date()}
+              excludeDates={excludedDates}
+              selectsDisabledDaysInRange
+              className="form-control"
+              showIcon
+              icon={<Calendar2 className="ms-2" />}
+              dayClassName={(date) => {
+                if (isSameDay(date, startDate)) {
+                  return "datepicker-selected";
+                } else if (excludedDates.some((excludedDate) => isSameDay(date, excludedDate))) {
+                  return "datepicker-excluded";
+                } else if ((isToday(date) || isFuture(date)) && isThisMonth(date)) {
+                  return "datepicker-available";
+                } else {
+                  return "datepicker-other-month";
+                }
+              }}
+              inline
+            />
+          </Form.Group>
+          <div className="d-flex justify-content-center align-items-center gap-2">
+            <Badge bg="danger-subtle" text="danger-emphasis">
+              Not Available
+            </Badge>
+            <Badge bg="success-subtle" text="success-emphasis">
+              Available
+            </Badge>
+          </div>
+        </Col>
 
-    {/* Nav Buttons */}
-    <div className="d-flex justify-content-between mt-4 pt-2">
-      <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
-        Back
-      </Button>
-      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium" onClick={onNext}>
-        Next
-      </Button>
+        {/* Time */}
+        <Col lg={4} sm={12} className="text-center">
+          <Form.Group className="mb-3 text-center" controlId="formBasicEmail">
+            <Form.Label>Appointment Time</Form.Label>
+            <Form.Control
+              type="time"
+              placeholder="Enter your appointment time"
+              onChange={handleTimeChange}
+              isInvalid={!!timeError}
+            />
+            <Form.Control.Feedback type="invalid" className="text-start">
+              {!!timeError && "Please choose a time"}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Col>
+      </Row>
+
+      {/* Nav Buttons */}
+      <div className="d-flex justify-content-between mt-4 pt-2">
+        <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
+          Back
+        </Button>
+        <Button variant="warning" className="ps-4 pe-4 fw-medium" onClick={handleNext}>
+          Next
+        </Button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Services Step
 const Step3 = ({
@@ -176,27 +204,41 @@ const Step3 = ({
   setSelectedService: React.Dispatch<React.SetStateAction<ServiceData[]>>;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
   appointmentData: AppointmentData;
-}) => (
-  <div>
-    <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
-    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose desired services for your vehicle type</p>
-    {/* Services */}
-    <Services
-      setSelectedService={setSelectedService}
-      setAppointmentData={setAppointmentData}
-      appointmentData={appointmentData}
-    />
-    {/* Nav Buttons */}
-    <div className="d-flex justify-content-between ps-4 ps-lg-0 pe-4 pe-lg-0">
-      <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
-        Back
-      </Button>
-      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium" onClick={onNext}>
-        Next
-      </Button>
+}) => {
+  const [validateService, setValidateService] = useState("");
+  const [error, setError] = useState("");
+  const handleNext = () => {
+    if (!validateService) {
+      setError("Please choose atleast one service");
+      return;
+    }
+    setError("");
+    onNext();
+  };
+  return (
+    <div>
+      <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
+      <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose desired services for your vehicle type</p>
+      {error && <p className="small text-danger d-none d-lg-block">{error}</p>}
+      {/* Services */}
+      <Services
+        setSelectedService={setSelectedService}
+        setAppointmentData={setAppointmentData}
+        appointmentData={appointmentData}
+        setValidateService={setValidateService}
+      />
+      {/* Nav Buttons */}
+      <div className="d-flex justify-content-between ps-4 ps-lg-0 pe-4 pe-lg-0">
+        <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
+          Back
+        </Button>
+        <Button variant="warning" className="ps-4 pe-4 fw-medium" onClick={handleNext}>
+          Next
+        </Button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Personal Info Step
 const Step4 = ({
@@ -218,7 +260,7 @@ const Step4 = ({
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
         Back
       </Button>
-      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium" onClick={onNext}>
+      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium">
         Next
       </Button>
     </div>
@@ -233,7 +275,7 @@ const Step5 = ({
   selectedService,
   bookAppointment,
   startDate,
-  formattedTime
+  formattedTime,
 }: {
   onNext: () => void;
   onBack: () => void;
@@ -452,7 +494,7 @@ function bookAppointment() {
   const [appointmentData, setAppointmentData] = useState<AppointmentData>({
     customerId: "",
     email: session?.user?.email,
-    plateNumber: "ABC 123",
+    plateNumber: "",
     firstName: "",
     lastName: "",
     phoneNumber: "",
@@ -481,12 +523,15 @@ function bookAppointment() {
   } = useForm<AppointmentData>();
 
   const onSubmit = () => {
-    if (Object.keys(errors).length === 0) {
-      nextStep(); // Call onNext with nextStep if all fields are valid
+    // Check if appointmentData is not empty for Personal Info
+    if (Object.values(appointmentData).filter((value) => value !== null && value !== "").length >= 14) {
+      nextStep();
+      console.log("Proceeding to next step" + Object.values(appointmentData) !== "");
+    } else {
       setValidated(true);
+      console.log("Validation failed");
     }
   };
-
   useEffect(() => {
     axios.get("/api/excludedDates").then((res) => {
       const dates = res.data.flatMap((item) => item.dates);
@@ -520,7 +565,7 @@ function bookAppointment() {
   if (time) {
     const [hours, minutes] = time.split(":");
     const hourIn12HourFormat = parseInt(hours, 10) % 12 || 12;
-    const period = parseInt(hours, 10)  >= 12 ? "PM" : "AM";
+    const period = parseInt(hours, 10) >= 12 ? "PM" : "AM";
     formattedTime = `${hourIn12HourFormat}:${minutes} ${period}`;
   }
 
