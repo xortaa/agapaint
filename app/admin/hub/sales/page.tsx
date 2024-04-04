@@ -433,7 +433,7 @@ function AdminSales() {
                       "Total Amount": totalAmount,
                     },
                     {
-                      "#": `---End of Agapaint Service Revenue Report for the month of ${selectedMonthData.month}/${selectedMonthData.year}---`,
+                      "#": showAll ? `---End of Agapaint Service Revenue Report for all records---` : `---End of Agapaint Service Revenue Report for the month of ${selectedMonthData.month}/${selectedMonthData.year}---`,
                       Date: "",
                       Name: "",
                       "Plate Number": "",
