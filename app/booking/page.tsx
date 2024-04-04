@@ -417,7 +417,7 @@ function bookAppointment() {
   const [selectedService, setSelectedService] = useState<ServiceData[]>([]);
   const totalPrice = selectedService.reduce((total, service) => total + service.price, 0);
   const currentDate = new Date();
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date>();
   const [excludedDates, setExcludedDates] = useState<Date[]>();
 
   const {
