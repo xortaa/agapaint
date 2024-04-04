@@ -213,7 +213,7 @@ const Sidenav = () => {
               </div>
               <ul className={sidenavStyles.custom_ul}>
                 <li>
-                  <Link href="../admin" className={sidenavStyles.signout_displayed} onClick={handleSignOut}>
+                  <Link href="signup" className={sidenavStyles.signout_displayed} onClick={handleSignOut}>
                     <BoxArrowLeft className="mx-2 mb-1" size={20} /> Sign out
                   </Link>
                 </li>
