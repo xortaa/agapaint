@@ -463,7 +463,6 @@ function bookAppointment() {
 
   return (
     <main>
-      <button onClick={() => console.log(excludedDates)}>Click me</button>
       <Container fluid className="agapaint-bg min-vh-100">
         <Row className="justify-content-center">
           <Row className="justify-content-center">
