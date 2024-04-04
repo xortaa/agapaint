@@ -36,7 +36,8 @@ function AptDetails({
   const [selectedAppointment, setSelectedAppointmepnt] = useState<Appointment>(appointment);
   const [showEndDateError, setShowEndDateError] = useState(false);
   const [newEndDate, setNewEndDate] = useState<String>();
-  const [datePickerStartDate, setDatePickerStartDate] = useState<Date>();
+  // const [datePickerStartDate, setDatePickerStartDate] = useState<Date>();
+  const [localAppointment, setLocalAppointment] = useState<Appointment>(appointment);
 
   useEffect(() => {
     setCurrentBalance(appointment.currentBalance);
@@ -103,6 +104,7 @@ function AptDetails({
         .patch(`/api/appointment/${appointment._id}`, approveAppointmentData)
         .then((res) => {
           setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
+          setLocalAppointment(res.data);
           setIsApproved(true);
           setSelectedOption("Awaiting Payment");
           setShowEndDateError(false);
@@ -132,6 +134,7 @@ function AptDetails({
         .patch(`/api/appointment/${appointment._id}`, confirmAppointmentData)
         .then((res) => {
           setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
+          setLocalAppointment(res.data);  
           setSelectedOption("Ongoing");
           resolve("Success");
         })
@@ -161,32 +164,32 @@ function AptDetails({
             <div className="d-flex justify-content-between align-items-center">
               <h4 className="fw-bold me-3">1</h4>
               {/* Approve and Confirm Button */}
-              {appointment.status === "Pending" && (
+              {localAppointment.status === "Pending" && (
                 // <Button variant="warning" className="text-white" onClick={handleApproveAppointment}>
                 //   Approve Appointment
                 // </Button>
                 <ApproveAptModal
                   carryFunction={handleApproveAppointment}
                   aptId="123"
-                  aptDate={appointment.date.split("T")[0]}
-                  aptTime={appointment.time}
+                  aptDate={localAppointment.date.split("T")[0]}
+                  aptTime={localAppointment.time}
                   aptEndDate={newEndDate}
                   totalAmount={currentBalance}
                   setShowEndDateError={setShowEndDateError}
                 />
               )}
-              {appointment.status === "Awaiting Payment" && (
+              {localAppointment.status === "Awaiting Payment" && (
                 // <Button variant="success" onClick={handleConfirmAppointment}>
                 //   Confirm Appointment
                 // </Button>
                 <ConfirmAptModal
                   carryFunction={handleConfirmAppointment}
                   aptId="123"
-                  aptDate={appointment.date.split("T")[0]}
-                  aptTime={appointment.time}
+                  aptDate={localAppointment.date.split("T")[0]}
+                  aptTime={localAppointment.time}
                   aptEndDate={
-                    appointment && appointment.endDate
-                      ? new Date(appointment.endDate).toISOString().split("T")[0]
+                    localAppointment && localAppointment.endDate
+                      ? new Date(localAppointment.endDate).toISOString().split("T")[0]
                       : `${unformattedDate}`
                   }
                   totalAmount={currentBalance}
@@ -196,39 +199,39 @@ function AptDetails({
             <hr />
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Date</p>
-              <p className="ms-auto">{appointment.date.split("T")[0]}</p>
+              <p className="ms-auto">{localAppointment.date.split("T")[0]}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Time</p>
-              <p className="ms-auto">{appointment.time}</p>
+              <p className="ms-auto">{localAppointment.time}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Customer</p>
               <p className="ms-auto">
-                {appointment.firstName} {appointment.lastName}
+                {localAppointment.firstName} {localAppointment.lastName}
               </p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Email</p>
               <p className="ms-auto">
                 <a href="mailto:malizalde@gmail.com" className="text-decoration-none text-dark">
-                  {appointment.email}
+                  {localAppointment.email}
                 </a>
               </p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Contact</p>
-              <p className="ms-auto">{appointment.phoneNumber}</p>
+              <p className="ms-auto">{localAppointment.phoneNumber}</p>
             </Row>
             <p className="fw-bold mb-0">Requests</p>
             <p className="ms-auto">{appointment.requests}</p>
 
-            {appointment.status !== "Pending" ? (
+            {localAppointment.status !== "Pending" ? (
               <Row xs="auto" className="lh-05">
                 <p className="fw-bold mb-0">Target End Date</p>
                 <p className="ms-auto">
-                  {appointment && appointment.endDate
-                    ? new Date(appointment.endDate).toISOString().split("T")[0]
+                  {localAppointment && localAppointment.endDate
+                    ? new Date(localAppointment.endDate).toISOString().split("T")[0]
                     : `${unformattedDate}`}
                 </p>
               </Row>
@@ -237,8 +240,8 @@ function AptDetails({
                 <Form.Label className="mt-2 mb-1 small">Target End Date</Form.Label>
                 {isApproved ? (
                   <p>
-                    {appointment && appointment.endDate
-                      ? new Date(appointment.endDate).toISOString().split("T")[0]
+                    {localAppointment && localAppointment.endDate
+                      ? new Date(localAppointment.endDate).toISOString().split("T")[0]
                       : `${unformattedDate}`}
                   </p>
                 ) : (
@@ -258,7 +261,7 @@ function AptDetails({
                       handleDatePickerEndDateChange(localDate);
                       // setDatePickerStartDate(localDate);
                     }}
-                    minDate={appointment.date}
+                    minDate={localAppointment.date}
                     selectsDisabledDaysInRange
                     className="form-control"
                   />
@@ -277,23 +280,23 @@ function AptDetails({
                   <Accordion.Body className="pb-0">
                     <Row xs="auto" className="lh-05">
                       <p className="text-secondary">Manufacturer</p>
-                      <p className="ms-auto">{appointment.carManufacturer}</p>
+                      <p className="ms-auto">{localAppointment.carManufacturer}</p>
                     </Row>
                     <Row xs="auto" className="lh-05">
                       <p className="text-secondary">Model</p>
-                      <p className="ms-auto">{appointment.carModel}</p>
+                      <p className="ms-auto">{localAppointment.carModel}</p>
                     </Row>
                     <Row xs="auto" className="lh-05">
                       <p className="text-secondary">Type</p>
-                      <p className="ms-auto">{appointment.carType}</p>
+                      <p className="ms-auto">{localAppointment.carType}</p>
                     </Row>
                     <Row xs="auto" className="lh-05">
                       <p className="text-secondary">Color</p>
-                      <p className="ms-auto">{appointment.carColor}</p>
+                      <p className="ms-auto">{localAppointment.carColor}</p>
                     </Row>
                     <Row xs="auto" className="lh-05">
                       <p className="text-secondary">Plate#</p>
-                      <p className="ms-auto">{appointment.plateNumber}</p>
+                      <p className="ms-auto">{localAppointment.plateNumber}</p>
                     </Row>
                   </Accordion.Body>
                 </Accordion.Item>
@@ -303,7 +306,7 @@ function AptDetails({
                     Services Availed
                   </Accordion.Header>
                   <Accordion.Body className="small pb-0">
-                    {appointment.servicesId.map((service) => (
+                    {localAppointment.servicesId.map((service) => (
                       <Row xs="auto" className="lh-05 text-secondary" key={service._id}>
                         <p>{service.name}</p>
                       </Row>
@@ -319,7 +322,7 @@ function AptDetails({
                 <p className="m-0">Remaining Balance</p>
               </Col>
               <Col xs="auto" className="lh-05 text-end">
-                <p>{appointment.paymentTerm}</p>
+                <p>{localAppointment.paymentTerm}</p>
                 <p className="m-0 fs-5 fw-bold">{currentBalance}</p>
               </Col>
               {showChangeBalance && (
@@ -329,11 +332,11 @@ function AptDetails({
                     type="number"
                     size="sm"
                     onChange={handleNewBalanceChange}
-                    defaultValue={appointment.startingBalance}
+                    defaultValue={localAppointment.startingBalance}
                   />
                 </Form.Group>
               )}
-              {appointment.status === "Pending" && (
+              {localAppointment.status === "Pending" && (
                 <Col xs="auto" className="lh-05 text-end my-2">
                   <Button className="btn btn-warning btn-sm text-white" onClick={() => setShowChangeBalance(true)}>
                     Change Balance
@@ -353,12 +356,12 @@ function AptDetails({
                 </tr>
               </thead>
               <tbody>
-                {appointment.payments.map((payment, index) => {
+                {localAppointment.payments.map((payment, index) => {
                   let term;
                   let percent;
                   let amount;
 
-                  if (appointment.paymentTerm === "Partial") {
+                  if (localAppointment.paymentTerm === "Partial") {
                     if (index === 0) {
                       term = "1st";
                       percent = "50%";
@@ -386,7 +389,7 @@ function AptDetails({
                       <td>
                         <PaymentStatus
                           payment={payment}
-                          appointment={appointment}
+                          appointment={localAppointment}
                           setActiveAppointments={setActiveAppointments}
                           setCurrentBalance={setCurrentBalance}
                         />
@@ -417,22 +420,22 @@ function AptDetails({
           <div className="lh-05">
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Customer</p>
-              <p className="ms-auto">{`${appointment.firstName} ${appointment.lastName}`}</p>
+              <p className="ms-auto">{`${localAppointment.firstName} ${localAppointment.lastName}`}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Date:</p>
-              <p className="ms-auto">{`${appointment.date.split("T")[0]}`}</p>
+              <p className="ms-auto">{`${localAppointment.date.split("T")[0]}`}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Time:</p>
-              <p className="ms-auto">{appointment.time}</p>
+              <p className="ms-auto">{localAppointment.time}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Service Status:</p>
-              <p className="ms-auto">{appointment.status}</p>
+              <p className="ms-auto">{localAppointment.status}</p>
             </Row>
             <p className="fw-bold">Services Availed:</p>
-            {appointment.servicesId.map((service) => (
+            {localAppointment.servicesId.map((service) => (
               <p className="ms-auto" key={service._id}>
                 {service.name}
               </p>
