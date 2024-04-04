@@ -56,7 +56,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: { id: string
 
     await connectToDatabase();
 
-    if ((appointmentData.status = "Ongoing")) {
+    if ((appointmentData.status === "Ongoing")) {
       const appointment = await Appointment.findById(id);
 
       const excludedDates = eachDayOfInterval({
