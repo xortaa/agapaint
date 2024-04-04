@@ -121,7 +121,7 @@ const Sidenav = () => {
             <ul className={sidenavStyles.custom_ul}>
               <li onClick={() => handleItemClick("signout")}>
                 <Link
-                  href="/"
+                  href="signup"
                   className={`${sidenavStyles.sidebar_collapsed_link} ${
                     activePage === "signout" ? sidenavStyles.active_link : ""
                   }`}
