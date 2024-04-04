@@ -249,7 +249,7 @@ function custPayment() {
                           <p className="text-secondary mb-0">Vehicle</p>
                         </td>
                         <td className="text-end p-1">
-                          <p className="fw-semibold mb-0">{appointment.carModel}</p>
+                          <p className="fw-semibold mb-0">{appointment.carManufacturer} {appointment.carModel}</p>
                         </td>
                       </tr>
                       <tr>

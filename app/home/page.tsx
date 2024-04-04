@@ -143,75 +143,103 @@ function CustHome() {
           </Container>
         </aside>
 
-        <Container fluid>
-          <Row>
-            <Col
-              lg={6}
-              className="order-lg-2 text-white"
-              style={{
-                backgroundImage: `url(${about1.src})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            ></Col>
-            <Col lg={6} className="order-lg-1 my-auto p-6">
-              <h2>The Beginning</h2>
-              <p className="lead mb-0">
-                AGAPAINT, established in 2020, is a shop that specializes in Automotive Detailing, Ceramic & Graphene
-                Coating, and Body Repair and Repaint Services using the highest quality products, tools, and materials
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col
-              lg={6}
-              className="text-white"
-              style={{
-                backgroundImage: `url(${about2.src})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            ></Col>
-            <Col lg={6} className="my-auto p-6">
-              <h2>Mission and Values</h2>
-              <p className="lead mb-0">
-                AGAPAINT offers comprehensive automotive services with various packages for all vehicle types. Whether
-                you require interior work or a basic detail, we specialize in enhancing painting, detailing, and ceramic
-                coating services.
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col
-              lg={6}
-              className="order-lg-2 text-white"
-              style={{
-                backgroundImage: `url(${about3.src})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            ></Col>
-            <Col lg={6} className="order-lg-1 my-auto p-6">
-              <h2>Team Commitment</h2>
-              <p className="lead mb-0">
-                At AGAPAINT, we are more than just a team – we are a family united by our love for cars and our
-                dedication to exceeding customer expectations. When you trust us with your vehicle, you can rest assured
-                that you are in the hands of skilled professionals who care deeply about delivering outstanding results.
-              </p>
-            </Col>
+        <section className="py-3 py-md-5 mt-4">
+          <Container className="p-4 p-lg-0">
+            <Row className="gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+              <Col xs={12} lg={6} xl={5}>
+                <Image
+                  src={about1.src}
+                  alt="About 1"
+                  fluid
+                  rounded
+                  loading="lazy"
+                  style={{ height: "25rem", objectFit: "cover" }}
+                />
+              </Col>
+              <Col xs={12} lg={6} xl={7}>
+                <Row className="justify-content-xl-center">
+                  <Col xs={12} xl={11}>
+                    <h2 className="mb-3">Who Are We?</h2>
+                    <p className="lead fs-4 text-secondary mb-3">
+                      AGAPAINT, established in 2020, is a shop that specializes in Automotive Detailing, Ceramic &
+                      Graphene Coating, and Body Repair and Repaint Services using the highest quality products, tools,
+                      and materials
+                    </p>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Container>
+        </section>
 
-            {/* Map Embed */}
-          </Row>
-          <Row>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.3388184008886!2d121.0353128748887!3d14.749931485754274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b0386a31d5d1%3A0xc75f36c9f7afed54!2sCamarin%20Rd%2C%20173%2C%20Caloocan%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1708529662079!5m2!1sen!2sph"
-              width="800"
-              height="400"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
-          </Row>
-        </Container>
+        <section className="py-3 py-md-5">
+          <Container className="p-4 p-lg-0">
+            <Row className="gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+              <Col xs={12} lg={6} xl={7} className="order-2 order-lg-1">
+                <Row className="justify-content-xl-center">
+                  <Col xs={12} xl={11}>
+                    <h2 className="mb-3">Mission and Values</h2>
+                    <p className="lead fs-4 text-secondary mb-3">
+                      AGAPAINT offers comprehensive automotive services with various packages for all vehicle types.
+                      Whether you require interior work or a basic detail, we specialize in enhancing painting,
+                      detailing, and ceramic coating services.
+                    </p>
+                  </Col>
+                </Row>
+              </Col>
+              <Col xs={12} lg={6} xl={5} className="order-1 order-lg-2">
+                <Image
+                  src={about2.src}
+                  alt="About 1"
+                  fluid
+                  rounded
+                  loading="lazy"
+                  style={{ height: "25rem", objectFit: "cover" }}
+                />
+              </Col>
+            </Row>
+          </Container>
+        </section>
+
+        <section className="py-3 py-md-5 mb-4">
+          <Container className="p-4 p-lg-0">
+            <Row className="gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+              <Col xs={12} lg={6} xl={5}>
+                <Image
+                  src={about3.src}
+                  alt="About 1"
+                  fluid
+                  rounded
+                  loading="lazy"
+                  style={{ height: "25rem", objectFit: "cover" }}
+                />
+              </Col>
+              <Col xs={12} lg={6} xl={7}>
+                <Row className="justify-content-xl-center">
+                  <Col xs={12} xl={11}>
+                    <h2 className="mb-3">Team Commitment</h2>
+                    <p className="lead fs-4 text-secondary mb-3">
+                      At AGAPAINT, we are more than just a team – we are a family united by our love for cars and our
+                      dedication to exceeding customer expectations. When you trust us with your vehicle, you can rest
+                      assured that you are in the hands of skilled professionals who care deeply about delivering
+                      outstanding results.
+                    </p>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Container>
+        </section>
+
+        <Row>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.3388184008886!2d121.0353128748887!3d14.749931485754274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b0386a31d5d1%3A0xc75f36c9f7afed54!2sCamarin%20Rd%2C%20173%2C%20Caloocan%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1708529662079!5m2!1sen!2sph"
+            width="800"
+            height="400"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </Row>
       </section>
 
       <Container className="p-5 mt-4 mb-4">
@@ -219,11 +247,18 @@ function CustHome() {
         <aside className="bg-warning rounded-3 p-sm-5">
           <Container className="d-flex align-items-center justify-content-between flex-column flex-xl-row text-center text-xl-start">
             <div className="mb-4 mb-xl-0">
-            <div className={`fs-3 fw-bold text-white ${custhomeStyles.expContainer}`}>Experience Precision Performance Today!</div>
+              <div className={`fs-3 fw-bold text-white ${custhomeStyles.expContainer}`}>
+                Experience Precision Performance Today!
+              </div>
               <div className="text-white">Book an appointment for quality automotive care.</div>
             </div>
             <div className="ms-xl-4">
-              <Button variant="dark" size="lg" onClick={() => handleItemClick("booking")} className={custhomeStyles.btnBook}>
+              <Button
+                variant="dark"
+                size="lg"
+                onClick={() => handleItemClick("booking")}
+                className={custhomeStyles.btnBook}
+              >
                 Book an Appointment
               </Button>
             </div>
