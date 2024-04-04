@@ -28,7 +28,6 @@ export interface AppointmentData {
   plateNumber: string;
   carModel: string;
   requests: string;
-  date: string;
   time: string;
   carManufacturer: string;
   carType: string;

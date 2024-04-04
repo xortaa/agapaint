@@ -19,6 +19,9 @@ import { AppointmentData, ServiceData } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Stepper from "@keyvaluesystems/react-stepper";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
 
 // Car Type Step
 
@@ -55,21 +58,37 @@ const Step2 = ({
   onNext,
   onBack,
   setAppointmentData,
+  currentDate,
+  startDate,
+  setStartDate,
+  excludedDates,
 }: {
   onNext: () => void;
   onBack: () => void;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
+  currentDate: Date;
+  startDate: Date;
+  setStartDate: React.Dispatch<React.SetStateAction<Date>>;
+  excludedDates: Date[];
 }) => (
   <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
     <h2 className="fw-bold">Book an Appointment</h2>
     <p className="lead">Choose a desired date and time</p>
     {/* Date */}
-    <Form.Group className="mb-3" controlId="formBasicEmail">
+    <Form.Group className="mb-3" controlId="formBasicEmail" style={{ display: "flex", flexDirection: "column" }}>
       <Form.Label>Appointment Date</Form.Label>
-      <Form.Control
-        type="date"
-        placeholder="Enter your appointment date"
-        onChange={(e) => setAppointmentData((prev) => ({ ...prev, date: e.target.value }))}
+
+      <DatePicker
+        selected={startDate}
+        onChange={(date: Date) => {
+          const dateString = format(date, "yyyy-MM-dd");
+          const localDate = new Date(dateString);
+          setStartDate(localDate);
+        }}
+        minDate={new Date()}
+        excludeDates={excludedDates}
+        selectsDisabledDaysInRange
+        className="form-control"
       />
     </Form.Group>
     {/* Time */}
@@ -162,12 +181,14 @@ const Step5 = ({
   appointmentData,
   selectedService,
   bookAppointment,
+  startDate,
 }: {
   onNext: () => void;
   onBack: () => void;
   appointmentData: AppointmentData;
   selectedService: ServiceData[];
   bookAppointment: () => void;
+  startDate: Date;
 }) => (
   <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
     <h2 className="fw-bold">Review Details</h2>
@@ -192,7 +213,7 @@ const Step5 = ({
           <span className="fw-semibold">Vehicle Type:</span> {appointmentData.carType}
         </p>
         <p>
-          <span className="fw-semibold">Date:</span> {appointmentData.date}
+          <span className="fw-semibold">Date:</span> {startDate.toDateString()}
         </p>
         <p>
           <span className="fw-semibold">Time:</span> {appointmentData.time}
@@ -385,7 +406,6 @@ function bookAppointment() {
     carManufacturer: "",
     carModel: "",
     requests: "",
-    date: "",
     time: "",
     carType: "",
     servicesId: [],
@@ -396,6 +416,9 @@ function bookAppointment() {
   });
   const [selectedService, setSelectedService] = useState<ServiceData[]>([]);
   const totalPrice = selectedService.reduce((total, service) => total + service.price, 0);
+  const currentDate = new Date();
+  const [startDate, setStartDate] = useState(new Date());
+  const [excludedDates, setExcludedDates] = useState<Date[]>();
 
   const {
     register,
@@ -411,6 +434,13 @@ function bookAppointment() {
     }
   };
 
+  useEffect(() => {
+    axios.get("/api/excludedDates").then((res) => {
+      const dates = res.data.flatMap((item) => item.dates);
+      setExcludedDates(dates);
+    });
+  }, []);
+
   const bookAppointment = () => {
     axios
       .post("/api/appointment", {
@@ -420,19 +450,20 @@ function bookAppointment() {
         startingBalance: totalPrice,
         currentBalance: totalPrice,
         totalPrice,
+        date: startDate,
       })
       .then((res) => {
         console.log(res);
       });
   };
 
-  const date = appointmentData.date ? new Date(appointmentData.date) : null;
-  const formattedDate = date
-    ? `${date.toLocaleString("default", { month: "long" })} ${date.getDate()}, ${date.getFullYear()}`
+  const formattedDate = startDate
+    ? `${startDate.toLocaleString("default", { month: "long" })} ${startDate.getDate()}, ${startDate.getFullYear()}`
     : "";
 
   return (
     <main>
+      <button onClick={() => console.log(excludedDates)}>Click me</button>
       <Container fluid className="agapaint-bg min-vh-100">
         <Row className="justify-content-center">
           <Row className="justify-content-center">
@@ -509,7 +540,15 @@ function bookAppointment() {
                         <Form noValidate validated={validated} onSubmit={handleSubmit(onSubmit)}>
                           {step === 1 && <Step1 onNext={nextStep} setAppointmentData={setAppointmentData} />}
                           {step === 2 && (
-                            <Step2 onNext={nextStep} onBack={prevStep} setAppointmentData={setAppointmentData} />
+                            <Step2
+                              onNext={nextStep}
+                              onBack={prevStep}
+                              setAppointmentData={setAppointmentData}
+                              currentDate={currentDate}
+                              startDate={startDate}
+                              setStartDate={setStartDate}
+                              excludedDates={excludedDates}
+                            />
                           )}
                           {step === 3 && (
                             <Step3
@@ -530,6 +569,7 @@ function bookAppointment() {
                               appointmentData={appointmentData}
                               selectedService={selectedService}
                               bookAppointment={bookAppointment}
+                              startDate={startDate}
                             />
                           )}
                           {step === 6 && <Step6 onBack={prevStep} />}

@@ -42,7 +42,7 @@ function ApproveAptModal({ carryFunction, aptId, aptDate, aptTime, aptEndDate, t
               </tr>
               <tr className="table-warning">
                 <td>Target End Date</td>
-                <td className="fw-semibold">{aptEndDate}</td>
+                <td className="fw-semibold">{aptEndDate && aptEndDate.toLocaleDateString()}</td>
               </tr>
               <tr className="table-warning">
                 <td>Total Service Amount</td>

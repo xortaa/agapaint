@@ -1,7 +1,9 @@
 import connectToDatabase from "@/utils/database";
 import { NextRequest, NextResponse } from "next/server";
 import Appointment from "@/models/appointment";
+import ExcludedDates from "@/models/excludedDates";
 import { getToken } from "next-auth/jwt";
+import { eachDayOfInterval, format } from "date-fns";
 
 export const GET = async (req: NextRequest, { params }: { params: { id: string } }) => {
   const id = params.id;
@@ -53,6 +55,22 @@ export const PATCH = async (req: NextRequest, { params }: { params: { id: string
     }
 
     await connectToDatabase();
+
+    if ((appointmentData.status = "Ongoing")) {
+      const appointment = await Appointment.findById(id);
+
+      const excludedDates = eachDayOfInterval({
+        start: appointment.date,
+        end: appointment.endDate,
+      }).map((date) => format(date, "yyyy,M,d"));
+
+      await ExcludedDates.create({ dates: excludedDates });
+
+      const updatedAppointment = await Appointment.findByIdAndUpdate(id, appointmentData, { new: true });
+
+      return NextResponse.json(updatedAppointment, { status: 200 });
+    }
+
     const updatedAppointment = await Appointment.findByIdAndUpdate(id, appointmentData, { new: true });
     return NextResponse.json(updatedAppointment, { status: 200 });
   } catch (error) {
