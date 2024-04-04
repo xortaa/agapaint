@@ -1,5 +1,5 @@
 "use client";
-import { Container, Row, Col, Card, Form, Button, Image } from "react-bootstrap";
+import { Container, Row, Col, Card, Form, Button, Image, Badge } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import Link from "@/components/Link";
 // Images
@@ -22,6 +22,8 @@ import Stepper from "@keyvaluesystems/react-stepper";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
+import { isSameDay, isSameMonth, isThisMonth, isToday, isFuture } from "date-fns";
+import { Calendar, Calendar2 } from "react-bootstrap-icons";
 
 // Car Type Step
 
@@ -31,26 +33,47 @@ const Step1 = ({
 }: {
   onNext: () => void;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
-}) => (
-  <div>
-    <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
-    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0 ">Choose a vehicle type</p>
-    {/* Car Type Radio Button */}
-    <div className="d-flex flex-column">
-      <CarType setAppointmentData={setAppointmentData} />
+}) => {
+  const [carType, setCarType] = useState("");
+  const [error, setError] = useState("");
+
+  const handleNext = () => {
+    if (!carType) {
+      setError("Car Type is required");
+    } else {
+      setError("");
+      onNext();
+    }
+  };
+
+  return (
+    <div>
+      <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
+      <div className="d-flex justify-content-between">
+        <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose a vehicle type</p>
+        {!carType && <p className="text-danger d-none d-lg-block">Please choose a car type</p>}
+      </div>
+      {!carType && (
+        <p className="ps-4 ps-lg-0 pe-4 pe-lg-0 text-danger d-sm-block d-lg-none">Please choose a car type</p>
+      )}
+      {/* Car Type Radio Button */}
+      <div className="d-flex flex-column">
+        <CarType setAppointmentData={setAppointmentData} setCarType={setCarType} />
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
+        <Button
+          variant="warning"
+          type="submit"
+          className="ps-4 pe-4 ms-auto fw-medium me-3 me-lg-0 mt-3"
+          onClick={handleNext}
+          disabled={!carType}
+        >
+          Next
+        </Button>
+      </div>
     </div>
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
-      <Button
-        variant="warning"
-        type="submit"
-        className="ps-4 pe-4 ms-auto fw-medium me-3 me-lg-0 mt-3"
-        onClick={onNext}
-      >
-        Next
-      </Button>
-    </div>
-  </div>
-);
+  );
+};
 
 // Appointment Date TIme Step
 
@@ -75,33 +98,61 @@ const Step2 = ({
     <h2 className="fw-bold">Book an Appointment</h2>
     <p className="lead">Choose a desired date and time</p>
     {/* Date */}
-    <Form.Group className="mb-3" controlId="formBasicEmail" style={{ display: "flex", flexDirection: "column" }}>
-      <Form.Label>Appointment Date</Form.Label>
+    <Row className="gap-4 gap-lg-0">
+      <Col lg={6} sm={12} className="text-center">
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Appointment Date</Form.Label>
+          <br />
+          <DatePicker
+            selected={startDate}
+            onChange={(date: Date) => {
+              const dateString = format(date, "yyyy-MM-dd");
+              const localDate = new Date(dateString);
+              setStartDate(localDate);
+            }}
+            minDate={new Date()}
+            excludeDates={excludedDates}
+            selectsDisabledDaysInRange
+            className="form-control"
+            showIcon
+            icon={<Calendar2 className="ms-2" />}
+            dayClassName={(date) =>
+              isSameDay(date, startDate)
+                ? "datepicker-selected"
+                : excludedDates.some((excludedDate) => isSameDay(date, excludedDate))
+                ? "datepicker-excluded"
+                : (isToday(date) || isFuture(date)) && isThisMonth(date)
+                ? "datepicker-available"
+                : "datepicker-other-month"
+            }
+            inline
+          />
+        </Form.Group>
+        <div className="d-flex justify-content-center align-items-center gap-2">
+          <Badge bg="danger-subtle" text="danger-emphasis">
+            Not Available
+          </Badge>
+          <Badge bg="success-subtle" text="success-emphasis">
+            Available
+          </Badge>
+        </div>
+      </Col>
 
-      <DatePicker
-        selected={startDate}
-        onChange={(date: Date) => {
-          const dateString = format(date, "yyyy-MM-dd");
-          const localDate = new Date(dateString);
-          setStartDate(localDate);
-        }}
-        minDate={new Date()}
-        excludeDates={excludedDates}
-        selectsDisabledDaysInRange
-        className="form-control"
-      />
-    </Form.Group>
-    {/* Time */}
-    <Form.Group className="mb-3" controlId="formBasicEmail">
-      <Form.Label>Appointment Time</Form.Label>
-      <Form.Control
-        type="time"
-        placeholder="Enter your appointment time"
-        onChange={(e) => setAppointmentData((prev) => ({ ...prev, time: e.target.value }))}
-      />
-    </Form.Group>
+      {/* Time */}
+      <Col lg={4} sm={12} className="text-center">
+        <Form.Group className="mb-3 text-center" controlId="formBasicEmail">
+          <Form.Label>Appointment Time</Form.Label>
+          <Form.Control
+            type="time"
+            placeholder="Enter your appointment time"
+            onChange={(e) => setAppointmentData((prev) => ({ ...prev, time: e.target.value }))}
+          />
+        </Form.Group>
+      </Col>
+    </Row>
+
     {/* Nav Buttons */}
-    <div className="d-flex justify-content-between mt-5 pt-5">
+    <div className="d-flex justify-content-between mt-4 pt-2">
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
         Back
       </Button>
@@ -182,6 +233,7 @@ const Step5 = ({
   selectedService,
   bookAppointment,
   startDate,
+  formattedTime
 }: {
   onNext: () => void;
   onBack: () => void;
@@ -189,6 +241,7 @@ const Step5 = ({
   selectedService: ServiceData[];
   bookAppointment: () => void;
   startDate: Date;
+  formattedTime: String;
 }) => (
   <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
     <h2 className="fw-bold">Review Details</h2>
@@ -216,7 +269,7 @@ const Step5 = ({
           <span className="fw-semibold">Date:</span> {startDate.toDateString()}
         </p>
         <p>
-          <span className="fw-semibold">Time:</span> {appointmentData.time}
+          <span className="fw-semibold">Time:</span> {formattedTime}
         </p>
         <hr />
       </Col>
@@ -461,6 +514,16 @@ function bookAppointment() {
     ? `${startDate.toLocaleString("default", { month: "long" })} ${startDate.getDate()}, ${startDate.getFullYear()}`
     : "";
 
+  const time = appointmentData.time;
+  let formattedTime = "";
+
+  if (time) {
+    const [hours, minutes] = time.split(":");
+    const hourIn12HourFormat = parseInt(hours, 10) % 12 || 12;
+    const period = parseInt(hours, 10)  >= 12 ? "PM" : "AM";
+    formattedTime = `${hourIn12HourFormat}:${minutes} ${period}`;
+  }
+
   return (
     <main>
       <Container fluid className="agapaint-bg min-vh-100">
@@ -569,6 +632,7 @@ function bookAppointment() {
                               selectedService={selectedService}
                               bookAppointment={bookAppointment}
                               startDate={startDate}
+                              formattedTime={formattedTime}
                             />
                           )}
                           {step === 6 && <Step6 onBack={prevStep} />}
@@ -596,7 +660,7 @@ function bookAppointment() {
                         </div>
                         <div className="d-flex">
                           <p className="lh-1">Time</p>
-                          <p className="ms-auto fw-bold lh-1">{appointmentData.time}</p>
+                          <p className="ms-auto fw-bold lh-1">{formattedTime}</p>
                         </div>
                         <hr />
                         {/* Services */}
