@@ -9,7 +9,7 @@ const PaymentSchema = new Schema({
     type: String,
     default: "Unpaid",
     enum: ["Paid", "Unpaid"],
-  }
+  },
 });
 
 const AppointmentSchema = new Schema({
@@ -98,6 +98,10 @@ const AppointmentSchema = new Schema({
   },
   endDate: {
     type: Date,
+  },
+  nanoid: {
+    type: String,
+    required: true,
   },
 });
 

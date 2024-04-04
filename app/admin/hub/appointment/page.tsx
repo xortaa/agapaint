@@ -402,7 +402,7 @@ function manageAppointment() {
                         ) : currentConfirmedItems.length > 0 ? (
                           [...currentConfirmedItems].reverse().map((apt: Appointment, index) => (
                             <tr onClick={() => setShowComponent(apt)} key={apt._id}>
-                              <td className="fw-bold">{confirmedApppointments.length - index}</td>
+                              <td className="fw-bold">{apt.nanoid}</td>
                               <td>{`${apt.firstName} ${apt.lastName}`}</td>
                               <td>{apt.plateNumber}</td>
                               <td>{apt.date.split("T")[0]}</td>
@@ -538,7 +538,7 @@ function manageAppointment() {
                         ) : currentAwaitingItems.length > 0 ? (
                           [...currentAwaitingItems].reverse().map((apt: Appointment, index) => (
                             <tr onClick={() => setShowComponent(apt)} key={apt._id}>
-                              <td className="fw-bold">{awaitingAppointments.length - index}</td>
+                              <td className="fw-bold">{apt.nanoid}</td>
                               <td>{`${apt.firstName} ${apt.lastName}`}</td>
                               <td>{apt.plateNumber}</td>
                               <td>{apt.date.split("T")[0]}</td>
@@ -671,7 +671,7 @@ function manageAppointment() {
                         ) : currentPendingItems.length > 0 ? (
                           [...currentPendingItems].reverse().map((apt: Appointment, index) => (
                             <tr onClick={() => setShowComponent(apt)} key={apt._id}>
-                              <td className="fw-bold">{pendingAppointments.length - index}</td>
+                              <td className="fw-bold">{apt.nanoid}</td>
                               <td>{`${apt.firstName} ${apt.lastName}`}</td>
                               <td>{apt.plateNumber}</td>
                               <td>{apt.date.split("T")[0]}</td>

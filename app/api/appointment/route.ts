@@ -3,6 +3,7 @@ import Appointment from "@/models/appointment";
 import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { nanoid, customAlphabet } from "nanoid";
 
 export const POST = async (req: NextRequest) => {
   const appointmentData = await req.json();
@@ -18,6 +19,9 @@ export const POST = async (req: NextRequest) => {
     } else {
       appointmentData.payments = [{ amount: appointmentData.totalPrice, status: "Unpaid" }];
     }
+
+    const nanoid = customAlphabet("1234567890", 5);
+    appointmentData.nanoid = nanoid();
 
     const appointment = await Appointment.create(appointmentData);
 

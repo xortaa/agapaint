@@ -24,7 +24,7 @@ function AptCard({ onClick, appointment }: { onClick: any; appointment: Appointm
             <StatusBadge
               status={appointment.status as "Pending" | "Awaiting Payment" | "Ongoing" | "For Release" | "Complete"}
             />
-            <p className="fst-italic small">APT#1</p>
+            <p className="fst-italic small">APT#{appointment.nanoid}</p>
           </div>
           <p className="fs-5 fw-semibold mb-0">{formattedDate}</p>
           <p className="text-secondary fw-medium">{formattedTime}</p>
