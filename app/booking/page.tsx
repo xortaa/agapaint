@@ -140,7 +140,7 @@ const Step2 = ({
               dayClassName={(date) => {
                 if (isSameDay(date, startDate)) {
                   return "datepicker-selected";
-                } else if (excludedDates.some((excludedDate) => isSameDay(date, excludedDate))) {
+                } else if (excludedDates && excludedDates.some((excludedDate) => isSameDay(date, excludedDate))) {
                   return "datepicker-excluded";
                 } else if ((isToday(date) || isFuture(date)) && isThisMonth(date)) {
                   return "datepicker-available";
