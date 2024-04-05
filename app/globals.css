@@ -86,12 +86,14 @@ a {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Create three columns for large screens */
   grid-gap: 1.3rem; /* Replace margin-right and margin-bottom */
-  
-  @media (max-width: 992px) { /* Adjust for medium to large screens */
+
+  @media (max-width: 992px) {
+    /* Adjust for medium to large screens */
     grid-template-columns: repeat(2, 1fr); /* Create two columns */
   }
 
-  @media (max-width: 768px) { /* Adjust for small screens */
+  @media (max-width: 768px) {
+    /* Adjust for small screens */
     padding: 0 1rem 0 1rem;
   }
 }
@@ -395,4 +397,13 @@ a {
   color: black !important;
   border-radius: 4px;
   font-weight: 600;
+}
+
+.service-card-img {
+  object-fit: cover;
+  height: 70px;
+
+  @media (min-width: 768px) {
+    height: 140px;
+  }
 }
