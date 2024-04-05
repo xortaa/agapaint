@@ -611,19 +611,6 @@ function bookAppointment() {
                           }}
                         />
                         <Card.ImgOverlay className="text-white">
-                          {/* Progress Stepper 1 */}
-                          {/* <ul className="vertical-point-progress">
-                            {navSteps.map((navstep, index) => (
-                              <li
-                                key={index + 1}
-                                className={index + 1 === step ? "fw-bold" : ""}
-                                onClick={() => handleStepClick(index + 1)}
-                              >
-                                <span className="ps-3 progress-text">{navstep}</span>
-                              </li>
-                            ))}
-                          </ul> */}
-                          {/* Progress Stepper 2 */}
                           <div className="sideBar">
                             <div className="stepSummary">
                               <Stepper
@@ -631,7 +618,7 @@ function bookAppointment() {
                                 currentStepIndex={step - 1}
                                 orientation="vertical"
                                 labelPosition="right"
-                                onStepClick={handleStepClick}
+                                // onStepClick={handleStepClick}
                                 styles={styles}
                               />
                             </div>

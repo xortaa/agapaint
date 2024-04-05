@@ -27,7 +27,7 @@ function PersonalInfo({
     <main>
       <Row className="mb-lg-3">
         {/* First Name */}
-        <Form.Group as={Col} md="6" controlId="validationCustom01">
+        <Form.Group as={Col} md="4" controlId="validationCustom01">
           <Form.Label>First name</Form.Label>
           <Form.Control
             required
@@ -38,7 +38,7 @@ function PersonalInfo({
           <Form.Control.Feedback type="invalid">Please provide a first name</Form.Control.Feedback>
         </Form.Group>
         {/* Last Name */}
-        <Form.Group as={Col} md="6" className="py-2 py-lg-0" controlId="validationCustom02">
+        <Form.Group as={Col} md="4" className="py-2 py-lg-0" controlId="validationCustom02">
           <Form.Label>Last name</Form.Label>
           <Form.Control
             required
@@ -48,11 +48,8 @@ function PersonalInfo({
           />
           <Form.Control.Feedback type="invalid">Please provide a last name</Form.Control.Feedback>
         </Form.Group>
-      </Row>
-
-      <Row className="mb-lg-3">
         {/* Phone Number */}
-        <Form.Group as={Col} md="6" className="py-2 py-lg-0" controlId="validationCustom04">
+        <Form.Group as={Col} md="4" className="py-2 py-lg-0" controlId="validationCustom04">
           <Form.Label>Phone Number</Form.Label>
           <InputMask
             mask="+63 (999) 999-9999"
@@ -75,7 +72,7 @@ function PersonalInfo({
             required
             onChange={(e) => setAppointmentData((prev) => ({ ...prev, carManufacturer: e.target.value }))}
           />
-          <Form.Control.Feedback type="invalid">Please provide a valid car manufacturer</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Please provide a vehicle manufacturer</Form.Control.Feedback>
         </Form.Group>
         {/* Car Model */}
         <Form.Group as={Col} md="4" className="py-2 py-lg-0" controlId="validationCustom04">
@@ -86,7 +83,7 @@ function PersonalInfo({
             required
             onChange={(e) => setAppointmentData((prev) => ({ ...prev, carModel: e.target.value }))}
           />
-          <Form.Control.Feedback type="invalid">Please provide a valid car model</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Please provide a vehicle model</Form.Control.Feedback>
         </Form.Group>
         {/* Car Color */}
         <Form.Group as={Col} md="2" controlId="validationCustom03">
@@ -97,7 +94,7 @@ function PersonalInfo({
             required
             onChange={(e) => setAppointmentData((prev) => ({ ...prev, carColor: e.target.value }))}
           />
-          <Form.Control.Feedback type="invalid">Please provide a valid car manufacturer</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Please provide a color</Form.Control.Feedback>
         </Form.Group>
         {/* Plate Number */}
         <Form.Group as={Col} md="2" className="py-2 py-lg-0" controlId="validationCustom04">
@@ -108,7 +105,7 @@ function PersonalInfo({
             required
             onChange={(e) => setAppointmentData((prev) => ({ ...prev, plateNumber: e.target.value }))}
           />
-          <Form.Control.Feedback type="invalid">Please provide a valid car model</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Please provide a plate#</Form.Control.Feedback>
         </Form.Group>
       </Row>
 
