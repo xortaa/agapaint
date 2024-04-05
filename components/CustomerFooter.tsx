@@ -40,25 +40,25 @@ function CustomFooter() {
           </Col>
 
           <Col lg={3}>
-            <p className={footerStyles.footerWhite}>
+            <p className={footerStyles.footerWhite} onClick={() => window.location.href = `mailto:luigicayetano@gmail.com`} style={{cursor: "pointer"}}>
               <Envelope color="#f1b038" /> &nbsp; luigicayetano@gmail.com
             </p>
           </Col>
 
           <Col lg>
-            <p className={footerStyles.footerWhite}>
+            <p className={footerStyles.footerWhite} onClick={() => window.location.href = `tel:09274166562`} style={{cursor: "pointer"}}>
               <Telephone color="#f1b038" /> &nbsp; 0927 416 6562
             </p>
           </Col>
 
           <Col lg>
-            <p className={footerStyles.footerWhite}>
+            <p className={footerStyles.footerWhite} onClick={() => window.open('https://www.facebook.com/Agapaint', '_blank')} style={{cursor: "pointer"}}>
               <Facebook color="#f1b038" /> &nbsp; Agapaint
             </p>
           </Col>
 
           <Col lg>
-            <p className={footerStyles.footerWhite}>
+            <p className={footerStyles.footerWhite} onClick={() => window.open('https://www.instagram.com/agapaintph', '_blank')} style={{cursor: "pointer"}}>
               <Instagram color="#f1b038" /> &nbsp; agapaintph
             </p>
           </Col>

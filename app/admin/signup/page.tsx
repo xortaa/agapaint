@@ -6,7 +6,7 @@ import signInBg from "@/public/assets/img/adminSignInBg.png";
 import adminSignUpStyle from "@/styles/adminSignup.module.scss";
 import { Row, Col, Container, Card } from "react-bootstrap";
 import logoFullHd from "@/public/assets/logo/logoFullHd.png";
-import Link from "next/link";
+import Link from "@/components/Link";
 
 //ADMIN TO PLS LANG WAG KA MALITO
 
