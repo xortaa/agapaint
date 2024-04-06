@@ -29,6 +29,7 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
     setShow(false);
     setError("");
     reset();
+    setImageUrl(null);
   };
   const handleShow = () => setShow(true);
 
@@ -52,7 +53,6 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
           handleClose();
           setServices((prev) => [...prev, newService]);
           resolve("Success");
-          setImageUrl(null);
         })
         .catch((error) => {
           console.error("Failed to add new service: ", error);
