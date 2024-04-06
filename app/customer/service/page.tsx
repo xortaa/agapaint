@@ -14,7 +14,7 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 function custServices() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [services, setServices] = useState<Service[]>([]);
-  const [selectedCarType, setSelectedCarType] = useState("");
+  const [selectedCarType, setSelectedCarType] = useState("Hatchback");
 
   const checkSignInStatus = async () => {
     const session = await getSession();
@@ -62,45 +62,66 @@ function custServices() {
                 <Col xl={2} lg={2} md={2} sm={12} xs={12}>
                   <Nav variant="pills" className="flex-column">
                     <Nav.Item>
-                      <Nav.Link eventKey="hatchback" onClick={() => setSelectedCarType("Hatchback")} className={serviceStyles.navLink}>
-                        <img src="/assets/img/rbHatchback.svg" height="25" width="25"/> &nbsp;
-                        Hatchback
+                      <Nav.Link
+                        eventKey="hatchback"
+                        onClick={() => setSelectedCarType("Hatchback")}
+                        className={selectedCarType === "Hatchback" ? "bg-warning text-dark" : "text-dark"}
+                      >
+                        <img src="/assets/img/rbHatchback.svg" height="25" width="25" /> &nbsp; Hatchback
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="sedan" onClick={() => setSelectedCarType("Sedan")} className={serviceStyles.navLink}>
-                      <img src="/assets/img/rbSedan.svg" height="25" width="25"/> &nbsp;
-                        Sedan
+                      <Nav.Link
+                        eventKey="sedan"
+                        onClick={() => setSelectedCarType("Sedan")}
+                        className={serviceStyles.navLink}
+                      >
+                        <img src="/assets/img/rbSedan.svg" height="25" width="25" /> &nbsp; Sedan
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="suv/auv" onClick={() => setSelectedCarType("SUV")} className={serviceStyles.navLink}>
-                      <img src="/assets/img/rbSUV.svg" height="25" width="25"/> &nbsp;
-                        SUV/AUV
+                      <Nav.Link
+                        eventKey="suv/auv"
+                        onClick={() => setSelectedCarType("SUV")}
+                        className={serviceStyles.navLink}
+                      >
+                        <img src="/assets/img/rbSUV.svg" height="25" width="25" /> &nbsp; SUV/AUV
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="van" onClick={() => setSelectedCarType("Van")} className={serviceStyles.navLink}>
-                      <img src="/assets/img/rbVan.svg" height="25" width="25"/> &nbsp;
-                        Van
+                      <Nav.Link
+                        eventKey="van"
+                        onClick={() => setSelectedCarType("Van")}
+                        className={serviceStyles.navLink}
+                      >
+                        <img src="/assets/img/rbVan.svg" height="25" width="25" /> &nbsp; Van
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="motorcycle" onClick={() => setSelectedCarType("Motorcycle")} className={serviceStyles.navLink}>
-                      <img src="/assets/img/rbMotor.svg" height="25" width="25"/> &nbsp;
-                        Motorcycle
+                      <Nav.Link
+                        eventKey="motorcycle"
+                        onClick={() => setSelectedCarType("Motorcycle")}
+                        className={serviceStyles.navLink}
+                      >
+                        <img src="/assets/img/rbMotor.svg" height="25" width="25" /> &nbsp; Motorcycle
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="bicycle" onClick={() => setSelectedCarType("Bicycle")} className={serviceStyles.navLink}>
-                      <img src="/assets/img/rbBike.svg" height="25" width="25"/> &nbsp;
-                        Bicycle
+                      <Nav.Link
+                        eventKey="bicycle"
+                        onClick={() => setSelectedCarType("Bicycle")}
+                        className={serviceStyles.navLink}
+                      >
+                        <img src="/assets/img/rbBike.svg" height="25" width="25" /> &nbsp; Bicycle
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="others" onClick={() => setSelectedCarType("Others")} className={serviceStyles.navLink}>
-                        <HiOutlineDotsHorizontal size={25} /> &nbsp;
-                        Others
+                      <Nav.Link
+                        eventKey="others"
+                        onClick={() => setSelectedCarType("Others")}
+                        className={serviceStyles.navLink}
+                      >
+                        <HiOutlineDotsHorizontal size={25} /> &nbsp; Others
                       </Nav.Link>
                     </Nav.Item>
                   </Nav>
