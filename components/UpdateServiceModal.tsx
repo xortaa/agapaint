@@ -95,7 +95,6 @@ function UpdateServiceModal({
               <Form.Label>Service Name</Form.Label>
               <Form.Control
                 type="text"
-                value={service}
                 onChange={(e) => setService(e.target.value)}
                 isInvalid={!!error}
                 required
