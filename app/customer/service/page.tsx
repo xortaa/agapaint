@@ -158,15 +158,15 @@ function custServices() {
                               .filter((service) => service.carType.toLowerCase() === carType)
                               .map((service) => (
                                 <Col xl={4} lg={4} md={6} sm={12} xs={12}>
-                                  <Card className={serviceStyles.card}>
-                                    <Card.Img src={service.image} alt="Card image" className={serviceStyles.cardImg1} />
+                                  <Card className={serviceStyles.cardTo} style={{borderRadius: "15px"}}>
+                                    <Card.Img src={service.image} alt="Card image" className={serviceStyles.cardImg1} style={{borderRadius: "15px"}}/>
                                     <Card.ImgOverlay style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
-                                      <Card.Title className={`${serviceStyles.cardTitle1} text-white fw-semibold`}>{service.name}</Card.Title>
-                                      <Card.Text className={serviceStyles.cardDescription2}>starting at</Card.Text>
-                                      <Card.Text className={serviceStyles.cardPrice1}>₱{service.price}</Card.Text>
-                                      <Card.Text className={serviceStyles.cardDescription1}>
+                                      <p className={`${serviceStyles.cardTitle1} text-white fw-semibold mb-0`}>{service.name}</p>
+                                      <p className={serviceStyles.cardDescription2}>starting at</p>
+                                      <p className={serviceStyles.cardPrice1}>₱{service.price}</p>
+                                      <p className={`${serviceStyles.cardDescription1} mb-0`}>
                                         {service.description}
-                                      </Card.Text>
+                                      </p>
                                     </Card.ImgOverlay>
                                   </Card>
                                 </Col>
