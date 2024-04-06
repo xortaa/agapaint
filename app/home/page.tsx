@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 // import { getSession } from 'next-auth/client';
 import custhomeStyles from "@/styles/home.module.scss";
 import { Container, Row, Col, Card, Image, Button } from "react-bootstrap";
-import Link from "next/link";
+import Link from "@/components/Link";
 import { RiServiceFill } from "react-icons/ri";
 import { MdGppGood } from "react-icons/md";
 import { FaPeopleCarryBox } from "react-icons/fa6";
@@ -62,35 +62,41 @@ function CustHome() {
           <Row>
             {/* View our services */}
             <Col lg={4} md={4} s={12} xs={12} className={custhomeStyles.squares}>
-              <Card className="bg-dark text-white rounded-card d-flex flex-column aspect-1x1">
-                <Card.Img src="../assets/img/fraqbg.png" alt="Card image" />
-                <Card.ImgOverlay className="d-flex flex-column justify-content-end">
-                  <Card.Text className={`mb-0 ${custhomeStyles.cardText}`}>Paint</Card.Text>
-                  <Card.Title className={`mt-0 ${custhomeStyles.cardTitle}`}>Services</Card.Title>
-                </Card.ImgOverlay>
-              </Card>
+              <Link href="/customer/service">
+                <Card className="bg-dark text-white rounded-card d-flex flex-column aspect-1x1">
+                  <Card.Img src="../assets/img/fraqbg.png" alt="Card image" />
+                  <Card.ImgOverlay className="d-flex flex-column justify-content-end">
+                    <Card.Text className={`mb-0 ${custhomeStyles.cardText}`}>Paint</Card.Text>
+                    <Card.Title className={`mt-0 ${custhomeStyles.cardTitle}`}>Services</Card.Title>
+                  </Card.ImgOverlay>
+                </Card>
+              </Link>
             </Col>
 
             {/* Book an appointment */}
             <Col lg={4} md={4} s={12} xs={12} className={custhomeStyles.squares}>
-              <Card className="bg-dark text-white rounded-card d-flex flex-column aspect-1x1">
-                <Card.Img src="../assets/img//appointmentbg.png" alt="Card image" />
-                <Card.ImgOverlay className="d-flex flex-column justify-content-end">
-                  <Card.Text className={`mb-0 ${custhomeStyles.cardText}`}>Body</Card.Text>
-                  <Card.Title className={`mt-0 ${custhomeStyles.cardTitle}`}>Repair</Card.Title>
-                </Card.ImgOverlay>
-              </Card>
+              <Link href="/customer/service">
+                <Card className="bg-dark text-white rounded-card d-flex flex-column aspect-1x1">
+                  <Card.Img src="../assets/img//appointmentbg.png" alt="Card image" />
+                  <Card.ImgOverlay className="d-flex flex-column justify-content-end">
+                    <Card.Text className={`mb-0 ${custhomeStyles.cardText}`}>Body</Card.Text>
+                    <Card.Title className={`mt-0 ${custhomeStyles.cardTitle}`}>Repair</Card.Title>
+                  </Card.ImgOverlay>
+                </Card>
+              </Link>
             </Col>
 
             {/* Read the faq */}
             <Col lg={4} md={4} s={12} xs={12} className={custhomeStyles.squares}>
-              <Card className="bg-dark text-white rounded-card d-flex flex-column aspect-1x1">
-                <Card.Img src="../assets/img//servicesbg.png" alt="Card image" />
-                <Card.ImgOverlay className="d-flex flex-column justify-content-end">
-                  <Card.Text className={`mb-0 ${custhomeStyles.cardText}`}>Detailing</Card.Text>
-                  <Card.Title className={`mt-0 ${custhomeStyles.cardTitle}`}>Services</Card.Title>
-                </Card.ImgOverlay>
-              </Card>
+              <Link href="/customer/service">
+                <Card className="bg-dark text-white rounded-card d-flex flex-column aspect-1x1">
+                  <Card.Img src="../assets/img//servicesbg.png" alt="Card image" />
+                  <Card.ImgOverlay className="d-flex flex-column justify-content-end">
+                    <Card.Text className={`mb-0 ${custhomeStyles.cardText}`}>Detailing</Card.Text>
+                    <Card.Title className={`mt-0 ${custhomeStyles.cardTitle}`}>Services</Card.Title>
+                  </Card.ImgOverlay>
+                </Card>
+              </Link>
             </Col>
           </Row>
         </Container>
