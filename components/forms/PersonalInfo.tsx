@@ -32,7 +32,7 @@ function PersonalInfo({
           <Form.Control
             required
             type="text"
-            placeholder="Mia"
+            placeholder="Mike"
             onChange={(e) => setAppointmentData((prev) => ({ ...prev, firstName: e.target.value }))}
           />
           <Form.Control.Feedback type="invalid">Please provide a first name</Form.Control.Feedback>
@@ -43,7 +43,7 @@ function PersonalInfo({
           <Form.Control
             required
             type="text"
-            placeholder="Eleazar"
+            placeholder="Victorio"
             onChange={(e) => setAppointmentData((prev) => ({ ...prev, lastName: e.target.value }))}
           />
           <Form.Control.Feedback type="invalid">Please provide a last name</Form.Control.Feedback>
