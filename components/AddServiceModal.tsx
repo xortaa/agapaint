@@ -36,7 +36,9 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
   }
 
   const onSubmit = (data: Service) => {
-    const selectedCarTypes = ["Hatchback", "Sedan", "SUV/AUV", "Van", "Motorcycle", "Bicycle", "Others"].filter((carType) => data[carType]);
+    const selectedCarTypes = ["Hatchback", "Sedan", "SUV/AUV", "Van", "Motorcycle", "Bicycle", "Others"].filter(
+      (carType) => data[carType]
+    );
     const carTypeString = selectedCarTypes.join(", ");
     const newData = { ...data, image: imageUrl, carType: carTypeString };
 
@@ -77,8 +79,13 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3">
               <Form.Label>Service Name</Form.Label>
-              <Form.Control required type="text" isInvalid={!!error} {...register("name", { required: true })} />
-              <Form.Control.Feedback type="invalid">Please provide a service name</Form.Control.Feedback>
+              <Form.Control
+                type="text"
+                placeholder="Enter a service name"
+                isInvalid={!!errors.name}
+                {...register("name", { required: "Please provide a service name" })}
+              />
+              <Form.Control.Feedback type="invalid">{errors.name && errors.name.message}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -86,12 +93,14 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
               <Form.Control
                 as="textarea"
                 rows={3}
-                isInvalid={!!error}
-                required
+                placeholder="Enter a service description"
+                isInvalid={!!errors.description}
                 maxLength={95}
-                {...register("description", { required: true })}
+                {...register("description", { required: "Please provide a service description" })}
               />
-              <Form.Control.Feedback type="invalid">Please provide a service description</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                {errors.description && errors.description.message}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Row>
@@ -108,8 +117,14 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label>Service Price</Form.Label>
-                  <Form.Control type="number" isInvalid={!!error} required min="0" {...register("price")} />
-                  <Form.Control.Feedback type="invalid">Please provide a service price</Form.Control.Feedback>
+                  <Form.Control
+                    type="number"
+                    step="0.01"
+                    isInvalid={!!errors.price}
+                    min="0"
+                    {...register("price", { required: "Please provide a service price" })}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.price && errors.price.message}</Form.Control.Feedback>
                 </Form.Group>
               </Col>
             </Row>

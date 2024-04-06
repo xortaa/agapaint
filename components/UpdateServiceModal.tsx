@@ -96,11 +96,10 @@ function UpdateServiceModal({
               <Form.Control
                 type="text"
                 onChange={(e) => setService(e.target.value)}
-                isInvalid={!!error}
-                required
-                {...register("name", { required: true })}
+                isInvalid={!!errors.name}
+                {...register("name", { required: "Please provide a service name" })}
               />
-              <Form.Control.Feedback type="invalid">Please provide a service name</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.name && errors.name.message}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -108,11 +107,12 @@ function UpdateServiceModal({
               <Form.Control
                 as="textarea"
                 rows={3}
-                isInvalid={!!error}
-                required
-                {...register("description", { required: true })}
+                isInvalid={!!errors.description}
+                {...register("description", { required: "Please provide a service description" })}
               />
-              <Form.Control.Feedback type="invalid">Please provide a service description</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                {errors.description && errors.description.message}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Row>
@@ -130,8 +130,14 @@ function UpdateServiceModal({
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label>Service Price</Form.Label>
-                  <Form.Control type="number" isInvalid={!!error} required min="0" {...register("price")} />
-                  <Form.Control.Feedback type="invalid">Please provide a service price</Form.Control.Feedback>
+                  <Form.Control
+                    type="number"
+                    step="0.01"
+                    isInvalid={!!errors.price}
+                    min="0"
+                    {...register("price", { required: "Please provide a service price" })}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.price && errors.price.message}</Form.Control.Feedback>
                 </Form.Group>
               </Col>
             </Row>
