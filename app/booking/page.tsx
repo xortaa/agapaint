@@ -198,34 +198,36 @@ const Step3 = ({
   setSelectedService,
   setAppointmentData,
   appointmentData,
+  validateService,
 }: {
   onNext: () => void;
   onBack: () => void;
   setSelectedService: React.Dispatch<React.SetStateAction<ServiceData[]>>;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
   appointmentData: AppointmentData;
+  validateService: number;
 }) => {
-  const [validateService, setValidateService] = useState("");
   const [error, setError] = useState("");
+  
   const handleNext = () => {
-    if (!validateService) {
+    if (validateService === 0) {
       setError("Please choose atleast one service");
       return;
     }
     setError("");
     onNext();
   };
+
   return (
     <div>
       <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
       <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose desired services for your vehicle type</p>
-      {error && <p className="small text-danger d-none d-lg-block">{error}</p>}
+      {error && <p className="small text-danger">{error}</p>}
       {/* Services */}
       <Services
         setSelectedService={setSelectedService}
         setAppointmentData={setAppointmentData}
         appointmentData={appointmentData}
-        setValidateService={setValidateService}
       />
       {/* Nav Buttons */}
       <div className="d-flex justify-content-between ps-4 ps-lg-0 pe-4 pe-lg-0">
@@ -651,6 +653,7 @@ function bookAppointment() {
                               setSelectedService={setSelectedService}
                               setAppointmentData={setAppointmentData}
                               appointmentData={appointmentData}
+                              validateService={selectedService.length}
                             />
                           )}
                           {step === 4 && (
