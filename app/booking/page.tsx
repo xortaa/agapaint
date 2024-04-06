@@ -91,10 +91,15 @@ const Step2 = ({
   const [timeError, setTimeError] = useState("");
   const [validateTime, setValidateTime] = useState("");
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const time = e.target.value;
+  if (time < "08:00" || time > "17:00") {
+    setTimeError("Please enter a time between 08:00 and 17:00.");
+  } else {
     setAppointmentData((prev) => ({ ...prev, time: e.target.value }));
     setValidateTime(e.target.value);
     setTimeError("");
-  };
+  }
+};
 
   const [error, setError] = useState("");
   const handleNext = () => {
@@ -167,12 +172,14 @@ const Step2 = ({
             <Form.Label>Appointment Time</Form.Label>
             <Form.Control
               type="time"
+              min="08:00"
+              max="17:00"
               placeholder="Enter your appointment time"
               onChange={handleTimeChange}
               isInvalid={!!timeError}
             />
             <Form.Control.Feedback type="invalid" className="text-start">
-              {!!timeError && "Please choose a time"}
+              {!!timeError && "Please choose a time between 08:00 AM and 5:00 PM"}
             </Form.Control.Feedback>
           </Form.Group>
         </Col>
@@ -208,7 +215,7 @@ const Step3 = ({
   validateService: number;
 }) => {
   const [error, setError] = useState("");
-  
+
   const handleNext = () => {
     if (validateService === 0) {
       setError("Please choose atleast one service");
