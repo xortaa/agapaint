@@ -10,6 +10,7 @@ import UploadButton from "./UploadButton";
 import ImageUploadPreview from "./ImageUploadPreview";
 import { toast } from "react-toastify";
 import { Service } from "@/types";
+import { set } from "mongoose";
 
 function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.SetStateAction<Service[]>> }) {
   const [show, setShow] = useState(false);
@@ -51,6 +52,7 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
           handleClose();
           setServices((prev) => [...prev, newService]);
           resolve("Success");
+          setImageUrl(null);
         })
         .catch((error) => {
           console.error("Failed to add new service: ", error);
