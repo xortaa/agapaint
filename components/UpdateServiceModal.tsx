@@ -139,7 +139,7 @@ function UpdateServiceModal({
             <Form.Group className="mb-3">
               <Form.Label>Car Type</Form.Label>
               <div className="d-flex">
-                {["Hatchback", "Sedan", "SUV/AUV", "Van", "Others"].map((carType) => (
+                {["Hatchback", "Sedan", "SUV/AUV", "Van", "Motorcycle", "Bicycle", "Others"].map((carType) => (
                   <div key={`inline-checkbox`} className="mb-3">
                     <Controller
                       control={control}
@@ -151,8 +151,19 @@ function UpdateServiceModal({
                           name={carType}
                           type="checkbox"
                           id={carType}
-                          checked={field.value === carType}
-                          onChange={(e) => field.onChange(e.target.checked ? carType : null)}
+                          checked={field.value && field.value.includes(carType)}
+                          onChange={(e) => {
+                            let selectedCarTypes;
+                            if (e.target.checked) {
+                              selectedCarTypes = [...(field.value ? field.value.split(", ") : []), carType];
+                            } else {
+                              selectedCarTypes = field.value
+                                ? field.value.split(", ").filter((value) => value !== carType)
+                                : [];
+                            }
+                            const carTypeString = selectedCarTypes.join(", ");
+                            field.onChange(carTypeString);
+                          }}
                         />
                       )}
                     />
