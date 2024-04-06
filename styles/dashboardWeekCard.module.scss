@@ -1,0 +1,19 @@
+.row_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  margin: 1px 2px;
+  padding: 4px;
+}
+
+.card {
+  max-width: auto; /* Set the maximum width of each column */
+  margin: 0 1px; /* Add some margin between columns */
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
