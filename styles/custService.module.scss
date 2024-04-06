@@ -127,18 +127,3 @@
 .card:hover {
   transform: scale(1.03);
 }
-
-.navLink {
-  font-size: 1.2em;
-  font-weight: 500;
-  transition: 0.3s;
-  color: black;
-}
-
-.navLink:hover {
-  color: black;
-}
-
-.nav.nav-tabs .nav-link.active {
-  background-color: var(--agapaint-yellow);
-}

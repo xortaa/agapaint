@@ -65,7 +65,7 @@ function custServices() {
                       <Nav.Link
                         eventKey="hatchback"
                         onClick={() => setSelectedCarType("Hatchback")}
-                        className={selectedCarType === "Hatchback" ? "bg-warning text-dark" : "text-dark"}
+                        className={selectedCarType === "Hatchback" ? "bg-warning text-dark" : "text-dark"} style={{fontWeight: "500", fontSize: "1.1em"}}
                       >
                         <img src="/assets/img/rbHatchback.svg" height="25" width="25" /> &nbsp; Hatchback
                       </Nav.Link>
@@ -74,7 +74,7 @@ function custServices() {
                       <Nav.Link
                         eventKey="sedan"
                         onClick={() => setSelectedCarType("Sedan")}
-                        className={serviceStyles.navLink}
+                        className={selectedCarType === "Sedan" ? "bg-warning text-dark" : "text-dark"} style={{fontWeight: "500", fontSize: "1.1em"}}
                       >
                         <img src="/assets/img/rbSedan.svg" height="25" width="25" /> &nbsp; Sedan
                       </Nav.Link>
@@ -83,7 +83,7 @@ function custServices() {
                       <Nav.Link
                         eventKey="suv/auv"
                         onClick={() => setSelectedCarType("SUV")}
-                        className={serviceStyles.navLink}
+                        className={selectedCarType === "SUV" ? "bg-warning text-dark" : "text-dark"} style={{fontWeight: "500", fontSize: "1.1em"}}
                       >
                         <img src="/assets/img/rbSUV.svg" height="25" width="25" /> &nbsp; SUV/AUV
                       </Nav.Link>
@@ -92,7 +92,7 @@ function custServices() {
                       <Nav.Link
                         eventKey="van"
                         onClick={() => setSelectedCarType("Van")}
-                        className={serviceStyles.navLink}
+                        className={selectedCarType === "Van" ? "bg-warning text-dark" : "text-dark"} style={{fontWeight: "500", fontSize: "1.1em"}}
                       >
                         <img src="/assets/img/rbVan.svg" height="25" width="25" /> &nbsp; Van
                       </Nav.Link>
@@ -101,7 +101,7 @@ function custServices() {
                       <Nav.Link
                         eventKey="motorcycle"
                         onClick={() => setSelectedCarType("Motorcycle")}
-                        className={serviceStyles.navLink}
+                        className={selectedCarType === "Motorcycle" ? "bg-warning text-dark" : "text-dark"} style={{fontWeight: "500", fontSize: "1.1em"}}
                       >
                         <img src="/assets/img/rbMotor.svg" height="25" width="25" /> &nbsp; Motorcycle
                       </Nav.Link>
@@ -110,7 +110,7 @@ function custServices() {
                       <Nav.Link
                         eventKey="bicycle"
                         onClick={() => setSelectedCarType("Bicycle")}
-                        className={serviceStyles.navLink}
+                        className={selectedCarType === "Bicycle" ? "bg-warning text-dark" : "text-dark"} style={{fontWeight: "500", fontSize: "1.1em"}}
                       >
                         <img src="/assets/img/rbBike.svg" height="25" width="25" /> &nbsp; Bicycle
                       </Nav.Link>
@@ -119,7 +119,7 @@ function custServices() {
                       <Nav.Link
                         eventKey="others"
                         onClick={() => setSelectedCarType("Others")}
-                        className={serviceStyles.navLink}
+                        className={selectedCarType === "Others" ? "bg-warning text-dark" : "text-dark"} style={{fontWeight: "500", fontSize: "1.1em"}}
                       >
                         <HiOutlineDotsHorizontal size={25} /> &nbsp; Others
                       </Nav.Link>
