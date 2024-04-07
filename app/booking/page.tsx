@@ -610,7 +610,6 @@ function bookAppointment() {
 
   return (
     <main>
-      <button onClick={() => console.log(appointmentData)}>CLICK ME</button>
       <Container fluid className="agapaint-bg min-vh-100">
         <Row className="justify-content-center">
           <Row className="justify-content-center">
