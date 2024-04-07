@@ -72,6 +72,7 @@ export interface Appointment {
   isArchived: boolean;
   endDate: Date;
   payments: Payments[];
+  nanoid: string;
   __v: number;
 }
 

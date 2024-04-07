@@ -24,7 +24,7 @@ function AptList({ onClick, appointment }: { onClick: any; appointment: Appointm
   return (
     <tr onClick={onClick}>
       {/* Appointment Id */}
-      <td>1</td>
+      <td>{appointment.nanoid}</td>
       {/* Date */}
       <td>
         <div className="lh-1 d-flex flex-column align-items-center">
