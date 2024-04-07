@@ -16,7 +16,7 @@ function ApproveAptModal({ carryFunction, aptId, aptDate, aptTime, aptEndDate, t
 
   return (
     <>
-      <Button variant="warning" className="text-white" onClick={handleShowModal}>
+      <Button variant="warning" className="text-white" onClick={handleShowModal} style={{fontSize: "14px"}}>
         Approve Appointment
       </Button>
 

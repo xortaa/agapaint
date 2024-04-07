@@ -252,7 +252,7 @@ function AptDetails({
             </div>
             <hr />
             <div className="d-flex justify-content-between align-items-center">
-              <h4 className="fw-bold me-3">1</h4>
+              <h5 className="fw-semibold me-1 mb-0">#{localAppointment.nanoid}</h5>
               {/* Approve and Confirm Button */}
               {localAppointment.status === "Pending" && (
                 // <Button variant="warning" className="text-white" onClick={handleApproveAppointment}>
