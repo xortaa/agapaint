@@ -40,6 +40,7 @@ function AptDetails({
   const [localAppointment, setLocalAppointment] = useState<Appointment>(appointment);
 
   useEffect(() => {
+    setLocalAppointment(appointment);
     setCurrentBalance(appointment.currentBalance);
     setStartingBalance(appointment.startingBalance);
   }, [appointment]);
@@ -226,8 +227,6 @@ function AptDetails({
               resolve("Success");
             });
           }
-
-
         })
         .catch((error) => {
           console.error("Failed to confirm appointment: ", error);
@@ -315,7 +314,7 @@ function AptDetails({
               <p className="ms-auto">{localAppointment.phoneNumber}</p>
             </Row>
             <p className="fw-bold mb-0">Requests</p>
-            <p className="ms-auto">{appointment.requests}</p>
+            <p className="ms-auto">{localAppointment.requests}</p>
 
             {localAppointment.status !== "Pending" ? (
               <Row xs="auto" className="lh-05">
