@@ -65,9 +65,9 @@ function CustHome() {
               <Link href="/customer/service">
                 <Card className="bg-dark text-white rounded-card d-flex flex-column aspect-1x1">
                   <Card.Img src="../assets/img/fraqbg.png" alt="Card image" />
-                  <Card.ImgOverlay className="d-flex flex-column justify-content-end">
-                    <Card.Text className={`mb-0 ${custhomeStyles.cardText}`}>Paint</Card.Text>
-                    <Card.Title className={`mt-0 ${custhomeStyles.cardTitle}`}>Services</Card.Title>
+                  <Card.ImgOverlay className="d-flex flex-column justify-content-end lh-sm">
+                    <p className={`mb-0 ${custhomeStyles.cardText}`}>Paint</p>
+                    <p className={`mt-0 mb-0 ${custhomeStyles.cardTitle}`}>Services</p>
                   </Card.ImgOverlay>
                 </Card>
               </Link>
@@ -78,9 +78,9 @@ function CustHome() {
               <Link href="/customer/service">
                 <Card className="bg-dark text-white rounded-card d-flex flex-column aspect-1x1">
                   <Card.Img src="../assets/img//appointmentbg.png" alt="Card image" />
-                  <Card.ImgOverlay className="d-flex flex-column justify-content-end">
-                    <Card.Text className={`mb-0 ${custhomeStyles.cardText}`}>Body</Card.Text>
-                    <Card.Title className={`mt-0 ${custhomeStyles.cardTitle}`}>Repair</Card.Title>
+                  <Card.ImgOverlay className="d-flex flex-column justify-content-end lh-sm">
+                    <p className={`mb-0 ${custhomeStyles.cardText}`}>Body</p>
+                    <p className={`mt-0 mb-0 ${custhomeStyles.cardTitle}`}>Repair</p>
                   </Card.ImgOverlay>
                 </Card>
               </Link>
@@ -91,9 +91,9 @@ function CustHome() {
               <Link href="/customer/service">
                 <Card className="bg-dark text-white rounded-card d-flex flex-column aspect-1x1">
                   <Card.Img src="../assets/img//servicesbg.png" alt="Card image" />
-                  <Card.ImgOverlay className="d-flex flex-column justify-content-end">
-                    <Card.Text className={`mb-0 ${custhomeStyles.cardText}`}>Detailing</Card.Text>
-                    <Card.Title className={`mt-0 ${custhomeStyles.cardTitle}`}>Services</Card.Title>
+                  <Card.ImgOverlay className="d-flex flex-column justify-content-end lh-sm">
+                    <p className={`mb-0 ${custhomeStyles.cardText}`}>Detailing</p>
+                    <p className={`mt-0 mb-0 ${custhomeStyles.cardTitle}`}>Services</p>
                   </Card.ImgOverlay>
                 </Card>
               </Link>
