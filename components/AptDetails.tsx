@@ -83,9 +83,9 @@ function AptDetails({
   };
 
   const handleNewBalanceChange = (e) => {
-    setNewBalance(parseInt(e.target.value));
-    setCurrentBalance(parseInt(e.target.value));
-    setStartingBalance(parseInt(e.target.value));
+    setNewBalance(parseFloat(e.target.value));
+    setCurrentBalance(parseFloat(e.target.value));
+    setStartingBalance(parseFloat(e.target.value));
   };
 
   const handleApproveAppointment = () => {
@@ -413,7 +413,7 @@ function AptDetails({
               </Col>
               <Col xs="auto" className="lh-05 text-end">
                 <p>{localAppointment.paymentTerm}</p>
-                <p className="m-0 fs-5 fw-bold">{currentBalance}</p>
+                <p className="m-0 fs-5 fw-bold">{currentBalance && currentBalance.toFixed(2)}</p>
               </Col>
               {showChangeBalance && (
                 <Form.Group controlId="dob" style={{ marginLeft: "auto" }}>
@@ -421,8 +421,9 @@ function AptDetails({
                   <Form.Control
                     type="number"
                     size="sm"
+                    step="0.01"
                     onChange={handleNewBalanceChange}
-                    defaultValue={localAppointment.startingBalance}
+                    defaultValue={localAppointment.startingBalance && localAppointment.startingBalance.toFixed(2)}
                   />
                 </Form.Group>
               )}
@@ -446,7 +447,7 @@ function AptDetails({
                 </tr>
               </thead>
               <tbody>
-                {localAppointment.payments.map((payment, index) => {
+                {localAppointment.payments && startingBalance && localAppointment.payments.map((payment, index) => {
                   let term;
                   let percent;
                   let amount;
@@ -455,20 +456,20 @@ function AptDetails({
                     if (index === 0) {
                       term = "1st";
                       percent = "50%";
-                      amount = startingBalance * 0.5;
+                      amount = (startingBalance * 0.5).toFixed(2);
                     } else if (index === 1) {
                       term = "2nd";
                       percent = "25%";
-                      amount = startingBalance * 0.25;
+                      amount = (startingBalance * 0.25).toFixed(2);
                     } else if (index === 2) {
                       term = "3rd";
                       percent = "25%";
-                      amount = startingBalance * 0.25;
+                      amount = (startingBalance * 0.25).toFixed(2);
                     }
                   } else {
                     term = "1st";
                     percent = "100%";
-                    amount = startingBalance;
+                    amount = startingBalance.toFixed(2);
                   }
 
                   return (
@@ -494,7 +495,7 @@ function AptDetails({
                 <p className="m-0 fs-6">Total Service Amount</p>
               </Col>
               <Col xs="auto" className="lh-1 text-end">
-                <p className="m-0 fs-5 fw-bold">{startingBalance}</p>
+                <p className="m-0 fs-5 fw-bold">{startingBalance && startingBalance.toFixed(2)}</p>
               </Col>
             </Row>
           </Card.Body>

@@ -20,13 +20,14 @@ export const POST = async (req: NextRequest, { params }: { params: { id: string 
 
     if (appointmentData.paymentTerm === "Partial") {
       appointmentData.payments = [
-        { amount: appointmentData.totalCost * 0.5, status: "Unpaid" },
-        { amount: appointmentData.totalCost * 0.25, status: "Unpaid" },
-        { amount: appointmentData.totalCost * 0.25, status: "Unpaid" },
+        { amount: parseFloat((appointmentData.totalCost * 0.5).toFixed(2)), status: "Unpaid" },
+        { amount: parseFloat((appointmentData.totalCost * 0.25).toFixed(2)), status: "Unpaid" },
+        { amount: parseFloat((appointmentData.totalCost * 0.25).toFixed(2)), status: "Unpaid" },
       ];
     } else {
-      appointmentData.payments = [{ amount: appointmentData.totalCost, status: "Unpaid" }];
+      appointmentData.payments = [{ amount: parseFloat(appointmentData.totalCost.toFixed(2)), status: "Unpaid" }];
     }
+
 
     const appointment = await Appointment.create(appointmentData);
 
@@ -62,19 +63,19 @@ export const PATCH = async (req: NextRequest, { params }: { params: { id: string
     }
 
     // If the startingBalance is updated, update the payment amounts
-    if (updatedData.startingBalance !== undefined) {
-      appointment.startingBalance = updatedData.startingBalance;
+   if (updatedData.startingBalance !== undefined) {
+     appointment.startingBalance = parseFloat(updatedData.startingBalance.toFixed(2));
 
-      if (appointment.paymentTerm === "Partial") {
-        appointment.payments[0].amount = appointment.startingBalance * 0.5;
-        appointment.payments[1].amount = appointment.startingBalance * 0.25;
-        appointment.payments[2].amount = appointment.startingBalance * 0.25;
-      } else {
-        appointment.payments.forEach((payment) => {
-          payment.amount = appointment.startingBalance;
-        });
-      }
-    }
+     if (appointment.paymentTerm === "Partial") {
+       appointment.payments[0].amount = parseFloat((appointment.startingBalance * 0.5).toFixed(2));
+       appointment.payments[1].amount = parseFloat((appointment.startingBalance * 0.25).toFixed(2));
+       appointment.payments[2].amount = parseFloat((appointment.startingBalance * 0.25).toFixed(2));
+     } else {
+       appointment.payments.forEach((payment) => {
+         payment.amount = parseFloat(appointment.startingBalance.toFixed(2));
+       });
+     }
+   }
 
     await appointment.save();
 

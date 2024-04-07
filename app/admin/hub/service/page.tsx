@@ -249,7 +249,7 @@ function AdminManageServicePage() {
                       </td>
                       <td>{service.name}</td>
                       <td>{service.description}</td>
-                      <td>₱{service.price}</td>
+                      <td>₱{service.price && service.price.toFixed(2)}</td>
                       <td>{service.carType}</td>
                       <td>
                         <EditService setServices={setServices} serviceData={service} />

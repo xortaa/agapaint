@@ -14,7 +14,7 @@ import { AppointmentData } from "@/types";
 
 function CarType({
   setAppointmentData,
-  setCarType
+  setCarType,
 }: {
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
   setCarType: React.Dispatch<React.SetStateAction<string>>;
@@ -29,7 +29,6 @@ function CarType({
     setError("");
   };
 
-
   return (
     <div id="radio-cards-container">
       {error && <div className="text-danger">{error}</div>}
@@ -37,7 +36,7 @@ function CarType({
       <div
         className={`radio-card radio-card-1 ${selectedCard === "1" ? "selected" : ""}`}
         onClick={() => {
-          selectRadioCard("1", "Compact Car/Hatchback");
+          selectRadioCard("1", "Hatchback");
 
           // setCarType("Compact Car/Hatchback");
         }}

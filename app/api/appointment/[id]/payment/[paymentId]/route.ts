@@ -33,14 +33,14 @@ export const PATCH = async (req: NextRequest, { params }: { params: { id: string
     payment.status = paymentData.status;
 
     // If the status was 'Unpaid' and is now 'Paid', subtract the payment amount from the appointment's current balance
-    if (previousStatus === "Unpaid" && paymentData.status === "Paid") {
-      appointment.currentBalance -= payment.amount;
-    }
+   if (previousStatus === "Unpaid" && paymentData.status === "Paid") {
+     appointment.currentBalance = parseFloat((appointment.currentBalance - payment.amount).toFixed(2));
+   }
 
     // If the status was 'Paid' and is now 'Unpaid', add the payment amount to the appointment's current balance
-    if (previousStatus === "Paid" && paymentData.status === "Unpaid") {
-      appointment.currentBalance += payment.amount;
-    }
+   if (previousStatus === "Paid" && paymentData.status === "Unpaid") {
+     appointment.currentBalance = parseFloat((appointment.currentBalance + payment.amount).toFixed(2));
+   }
 
     await appointment.save();
 
