@@ -129,7 +129,7 @@ const Step2 = ({
     { date: `${currentYear}-12-30`, holidayName: "Rizal Day" },
     { date: `${currentYear}-12-31`, holidayName: "New Year's Eve" },
   ];
-  const excludedDatesWithHolidays = [...excludedDates, ...holidays.map(holiday => new Date(holiday.date))];
+  const excludedDatesWithHolidays = [...excludedDates, ...holidays.map((holiday) => new Date(holiday.date))];
 
   return (
     <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
@@ -161,7 +161,10 @@ const Step2 = ({
               dayClassName={(date) => {
                 if (isSameDay(date, startDate)) {
                   return "datepicker-selected";
-                } else if (excludedDatesWithHolidays && excludedDatesWithHolidays.some((excludedDate) => isSameDay(date, excludedDate))) {
+                } else if (
+                  excludedDatesWithHolidays &&
+                  excludedDatesWithHolidays.some((excludedDate) => isSameDay(date, excludedDate))
+                ) {
                   return "datepicker-excluded";
                 } else if ((isToday(date) || isFuture(date)) && isThisMonth(date)) {
                   return "datepicker-available";
@@ -371,6 +374,12 @@ const Step5 = ({
         <span className="fw-semibold">Comments/ Request:</span> {appointmentData.requests}
       </p>
       <hr />
+      <p className="lh-sm small">
+        NOTE: WE WILL INFORM YOU THROUGH EMAIL OF ANY CHANGES TO THE SERVICE AMOUNT BEFORE PROCEEDING WITH THE SERVICE.
+        <br />
+        Please note, the total service amount might change after inspection especially for 'Others' vehicle type. We aim
+        to give accurate estimates, but the final amount could vary.
+      </p>
       <p className="lh-sm small">
         NOTE: THAT WE ARE NOT RESPONSIBLE FOR ANY ITEMS LEFT ON THE VEHICLE <br />I hereby agree voluntarily to drop the
         key for my vehicle for servicing and acknowledge that any damage or wrong service given due to false information
