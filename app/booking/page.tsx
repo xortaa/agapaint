@@ -115,6 +115,22 @@ const Step2 = ({
     setTimeError("");
     onNext();
   };
+
+  const currentYear = new Date().getFullYear();
+  const holidays = [
+    { date: `${currentYear}-01-01`, holidayName: "New Year's Day" },
+    { date: `${currentYear}-04-09`, holidayName: "Araw ng Kagitingan" },
+    { date: `${currentYear}-05-01`, holidayName: "Labor Day" },
+    { date: `${currentYear}-06-12`, holidayName: "Independence Day" },
+    { date: `${currentYear}-08-21`, holidayName: "Ninoy Aquino Day" },
+    { date: `${currentYear}-08-30`, holidayName: "National Heroes Day" },
+    { date: `${currentYear}-11-30`, holidayName: "Bonifacio Day" },
+    { date: `${currentYear}-12-25`, holidayName: "Christmas Day" },
+    { date: `${currentYear}-12-30`, holidayName: "Rizal Day" },
+    { date: `${currentYear}-12-31`, holidayName: "New Year's Eve" },
+  ];
+  const excludedDatesWithHolidays = [...excludedDates, ...holidays.map(holiday => new Date(holiday.date))];
+
   return (
     <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
       <h2 className="fw-bold">Book an Appointment</h2>
@@ -137,7 +153,7 @@ const Step2 = ({
                 setStartDate(localDate);
               }}
               minDate={new Date()}
-              excludeDates={excludedDates}
+              excludeDates={excludedDatesWithHolidays}
               selectsDisabledDaysInRange
               className="form-control"
               showIcon
@@ -145,7 +161,7 @@ const Step2 = ({
               dayClassName={(date) => {
                 if (isSameDay(date, startDate)) {
                   return "datepicker-selected";
-                } else if (excludedDates && excludedDates.some((excludedDate) => isSameDay(date, excludedDate))) {
+                } else if (excludedDatesWithHolidays && excludedDatesWithHolidays.some((excludedDate) => isSameDay(date, excludedDate))) {
                   return "datepicker-excluded";
                 } else if ((isToday(date) || isFuture(date)) && isThisMonth(date)) {
                   return "datepicker-available";
@@ -154,6 +170,7 @@ const Step2 = ({
                 }
               }}
               inline
+              holidays={holidays}
             />
           </Form.Group>
           <div className="d-flex justify-content-center align-items-center gap-2">
