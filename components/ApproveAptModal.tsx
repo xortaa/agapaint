@@ -38,7 +38,7 @@ function ApproveAptModal({ carryFunction, aptId, aptDate, aptTime, aptEndDate, t
               </tr>
               <tr>
                 <td>Apt Time</td>
-                <td className="fw-semibold">{aptTime}</td>
+                <td className="fw-semibold">{new Date(`1970-01-01T${aptTime}:00`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}</td>
               </tr>
               <tr className="table-warning">
                 <td>Target End Date</td>

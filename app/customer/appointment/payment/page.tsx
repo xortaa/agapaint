@@ -86,7 +86,8 @@ function custPayment() {
       {isSignedIn ? <Navbar2 /> : <Navbar />}
 
       {/* New Banner */}
-      <Banner page="payment" />
+      {appointment ? <Banner page="payment" aptId={appointment.nanoid}/> : <Banner page="payment" />}
+      
 
       {/* Body */}
       {!appointment ? (

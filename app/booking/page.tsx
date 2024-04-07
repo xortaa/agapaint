@@ -218,7 +218,7 @@ const Step3 = ({
 
   const handleNext = () => {
     if (validateService === 0) {
-      setError("Please choose atleast one service");
+      setError("Please choose at least one service");
       return;
     }
     setError("");
