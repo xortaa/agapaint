@@ -42,6 +42,10 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
       (carType) => data[carType]
     );
     const carTypeString = selectedCarTypes.join(", ");
+    if (!carTypeString) {
+      setError("Please choose a car type");
+      return;
+    }
     const newData = { ...data, image: imageUrl, carType: carTypeString };
 
     const AddService = new Promise((resolve, reject) => {
@@ -148,6 +152,7 @@ function AddServiceModal({ setServices }: { setServices: React.Dispatch<React.Se
                 ))}
               </div>
               <Form.Control.Feedback type="invalid">Please choose a car type</Form.Control.Feedback>
+              {error && <Form.Text className="text-danger">{error}</Form.Text>}
             </Form.Group>
 
             {imageUrl && (

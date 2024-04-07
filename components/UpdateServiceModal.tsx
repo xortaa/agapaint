@@ -58,6 +58,10 @@ function UpdateServiceModal({
     if (imageUrl) {
       newData.image = imageUrl;
     }
+    if (!newData.carType) {
+      setError("Please choose a car type");
+      return;
+    }
     const UpdateService = new Promise((resolve, reject) => {
       axios
         .patch(`/api/service/${serviceData._id}`, newData)
@@ -177,6 +181,7 @@ function UpdateServiceModal({
                 ))}
               </div>
               <Form.Control.Feedback type="invalid">Please provide a car type</Form.Control.Feedback>
+              {error && <Form.Text className="text-danger">{error}</Form.Text>}
             </Form.Group>
 
             {imageUrl && (
