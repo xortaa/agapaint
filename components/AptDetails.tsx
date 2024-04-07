@@ -293,7 +293,7 @@ function AptDetails({
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Time</p>
-              <p className="ms-auto">{localAppointment.time}</p>
+              <p className="ms-auto">{new Date(`1970-01-01T${localAppointment.time}:00`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}</p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Customer</p>

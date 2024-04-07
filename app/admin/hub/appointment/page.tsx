@@ -403,7 +403,7 @@ function manageAppointment() {
                               <td>{`${apt.firstName} ${apt.lastName}`}</td>
                               <td>{apt.plateNumber}</td>
                               <td>{apt.date.split("T")[0]}</td>
-                              <td>{apt.time}</td>
+                              <td>{new Date(`1970-01-01T${apt.time}:00`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}</td>
                               <td>{apt.startingBalance}</td>
                               <td>
                                 <ServiceStatus
@@ -539,7 +539,7 @@ function manageAppointment() {
                               <td>{`${apt.firstName} ${apt.lastName}`}</td>
                               <td>{apt.plateNumber}</td>
                               <td>{apt.date.split("T")[0]}</td>
-                              <td>{apt.time}</td>
+                              <td>{new Date(`1970-01-01T${apt.time}:00`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}</td>
                               <td>{apt.startingBalance}</td>
                               <td>
                                 <ServiceStatus
@@ -672,7 +672,7 @@ function manageAppointment() {
                               <td>{`${apt.firstName} ${apt.lastName}`}</td>
                               <td>{apt.plateNumber}</td>
                               <td>{apt.date.split("T")[0]}</td>
-                              <td>{apt.time}</td>
+                              <td>{new Date(`1970-01-01T${apt.time}:00`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}</td>
                               <td>{apt.startingBalance}</td>
                               <td>
                                 <ServiceStatus
