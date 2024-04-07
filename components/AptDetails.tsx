@@ -310,11 +310,11 @@ function AptDetails({
               </p>
             </Row>
             <Row xs="auto" className="lh-05">
-              <p className="fw-bold">Contact</p>
-              <p className="ms-auto">{localAppointment.phoneNumber}</p>
+              <p className="fw-bold mb-2">Contact</p>
+              <p className="ms-auto mb-2">{localAppointment.phoneNumber}</p>
             </Row>
             <p className="fw-bold mb-0">Requests</p>
-            <p className="ms-auto">{localAppointment.requests}</p>
+            <p className="ms-auto mb-2">{localAppointment.requests === "" ? "N/A" : localAppointment.requests}</p>
 
             {localAppointment.status !== "Pending" ? (
               <Row xs="auto" className="lh-05">
