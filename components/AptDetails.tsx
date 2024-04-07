@@ -423,7 +423,7 @@ function AptDetails({
                     size="sm"
                     step="0.01"
                     onChange={handleNewBalanceChange}
-                    defaultValue={localAppointment.startingBalance.toFixed(2)}
+                    defaultValue={localAppointment.startingBalance && localAppointment.startingBalance.toFixed(2)}
                   />
                 </Form.Group>
               )}
@@ -447,7 +447,7 @@ function AptDetails({
                 </tr>
               </thead>
               <tbody>
-                {localAppointment.payments.map((payment, index) => {
+                {localAppointment.payments && localAppointment.payments.map((payment, index) => {
                   let term;
                   let percent;
                   let amount;

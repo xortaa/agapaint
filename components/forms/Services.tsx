@@ -73,7 +73,7 @@ function Services({
               key={service._id}
               image={service.image}
               title={service.name}
-              price={service.price.toFixed(2)}
+              price={service.price && service.price.toFixed(2)}
               handleServiceClick={() => handleServiceClick(service)}
             />
           ))}
