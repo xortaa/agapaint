@@ -92,8 +92,8 @@ const Step2 = ({
   const [validateTime, setValidateTime] = useState("");
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const time = e.target.value;
-    if (time < "08:00" || time > "17:00") {
-      setTimeError("Please enter a time between 08:00 and 17:00.");
+    if (time < "08:00" || time > "16:00") {
+      setTimeError("Please choose a time between 08:00 AM and 4:00 PM");
     } else {
       setAppointmentData((prev) => ({ ...prev, time: e.target.value }));
       setValidateTime(e.target.value);
@@ -173,13 +173,13 @@ const Step2 = ({
             <Form.Control
               type="time"
               min="08:00"
-              max="17:00"
+              max="16:00"
               placeholder="Enter your appointment time"
               onChange={handleTimeChange}
               isInvalid={!!timeError}
             />
             <Form.Control.Feedback type="invalid" className="text-start">
-              {!!timeError && "Please choose a time between 08:00 AM and 5:00 PM"}
+              {!!timeError && "Please choose a time between 08:00 AM and 4:00 PM"}
             </Form.Control.Feedback>
           </Form.Group>
         </Col>
