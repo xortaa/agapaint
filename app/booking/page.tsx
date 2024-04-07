@@ -580,6 +580,8 @@ function bookAppointment() {
 
   const resetStep1 = () => {
     setAppointmentData((prev) => ({ ...prev, carType: "" }));
+    setAppointmentData((prev) => ({ ...prev, servicesId: [] }));
+    setSelectedService([]);
   };
 
   const resetStep2 = () => {
