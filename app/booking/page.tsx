@@ -91,15 +91,15 @@ const Step2 = ({
   const [timeError, setTimeError] = useState("");
   const [validateTime, setValidateTime] = useState("");
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const time = e.target.value;
-  if (time < "08:00" || time > "17:00") {
-    setTimeError("Please enter a time between 08:00 and 17:00.");
-  } else {
-    setAppointmentData((prev) => ({ ...prev, time: e.target.value }));
-    setValidateTime(e.target.value);
-    setTimeError("");
-  }
-};
+    const time = e.target.value;
+    if (time < "08:00" || time > "17:00") {
+      setTimeError("Please enter a time between 08:00 and 17:00.");
+    } else {
+      setAppointmentData((prev) => ({ ...prev, time: e.target.value }));
+      setValidateTime(e.target.value);
+      setTimeError("");
+    }
+  };
 
   const [error, setError] = useState("");
   const handleNext = () => {
@@ -580,6 +580,7 @@ function bookAppointment() {
 
   return (
     <main>
+      <button onClick={() => console.log(appointmentData)}>CLICK ME</button>
       <Container fluid className="agapaint-bg min-vh-100">
         <Row className="justify-content-center">
           <Row className="justify-content-center">
@@ -710,12 +711,12 @@ function bookAppointment() {
                         {selectedService.map((service) => (
                           <div className="d-flex" key={service._id}>
                             <p className="lh-1">{service.name}</p>
-                            <p className="ms-auto lh-1">{service.price}</p>
+                            <p className="ms-auto lh-1">{service.price.toFixed(2)}</p>
                           </div>
                         ))}
                         <hr />
                         <div className="d-flex">
-                          <h4 className="ms-auto fw-bold lh-1">{totalPrice}</h4>
+                          <h4 className="ms-auto fw-bold lh-1">{totalPrice.toFixed(2)}</h4>
                         </div>
                       </Row>
                     </Card.Body>
