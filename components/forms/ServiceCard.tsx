@@ -15,14 +15,21 @@ function ServiceCard({
 }) {
   return (
     <Col sm={12} lg={6} xl={4} className="p-3">
-      <label className="d-block" style={{height: "100%"}}>
-        <input type="checkbox" className="d-none" value={1}/>
-        <Card className={`h-100 ${serviceStyles.outlined} ${serviceStyles.horizontal} shadow`} onClick={handleServiceClick}>
+      <label className="d-block" style={{ height: "100%" }}>
+        <input type="checkbox" className="d-none" value={1} />
+        <Card
+          className={`h-100 ${serviceStyles.outlined} ${serviceStyles.horizontal} shadow`}
+          onClick={handleServiceClick}
+        >
           <Card.Body>
             <Row className="g-3">
-              
               <Col xs={4} sm={3} lg={5} xl={12}>
-                <Card.Img variant="top" src={image} className="img-fluid rounded" alt="..." />
+                <Card.Img
+                  variant="top"
+                  src={image}
+                  className="rounded service-card-img"
+                  alt="..."
+                />
               </Col>
               <Col xs={8} sm={9} lg={7} xl={12} className="lh-05">
                 <Card.Title className="fw-semibold fs-6">{title}</Card.Title>

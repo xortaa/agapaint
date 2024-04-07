@@ -11,6 +11,7 @@ import NoRecordRow from "@/components/NoRecordRow";
 
 //icons
 import { FaRegCalendarDays } from "react-icons/fa6";
+import { CiCalendar } from "react-icons/ci";
 import { FaRegCreditCard } from "react-icons/fa";
 import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
 import { MdFileDownload } from "react-icons/md";
@@ -163,54 +164,112 @@ function AdminSales() {
     revenuePercentageDifference = 100;
   }
 
+  //line chaert
   useEffect(() => {
-    if (chartRef.current) {
-      if (chartInstance.current) {
-        chartInstance.current.destroy();
-      }
+    axios
+      .get("/api/appointment")
+      .then((res) => {
+        const completedAppointments = res.data.filter((appointment) => appointment.status === "Complete");
+        setAppointments(completedAppointments);
 
-      chartInstance.current = new Chart(chartRef.current, {
-        type: "line",
-        data: {
-          labels: [10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000], // x-axis labels aka Revenue
-          datasets: [
-            {
-              label: "Appointments",
-              data: [20, 30, 20, 60, 50, 30, 40, 10, 40, 10], // y axis aka Appointments count
-              backgroundColor: "rgba(71, 225, 167, 1)",
-              borderColor: "rgb(71, 225, 167)",
-              pointBackgroundColor: "var(--agapaint-blue)",
-              borderWidth: 1,
-              fill: true,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: "Revenue",
+        const monthlyRevenue = Array.from({ length: 12 }, () => 0);
+        completedAppointments.forEach((appointment) => {
+          const appointmentDate = new Date(appointment.date);
+          const appointmentMonth = appointmentDate.getMonth();
+          monthlyRevenue[appointmentMonth] += appointment.startingBalance;
+        });
+
+        if (chartInstance.current) {
+          chartInstance.current.destroy();
+        }
+
+        chartInstance.current = new Chart(chartRef.current, {
+          type: "line",
+          data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [
+              {
+                label: "Monthly Revenue",
+                data: monthlyRevenue,
+                backgroundColor: "rgba(71, 225, 167, 0.5)",
+                borderColor: "rgb(71, 225, 167)",
+                pointBackgroundColor: "var(--agapaint-blue)",
+                borderWidth: 1,
+                fill: true,
               },
-            },
-            y: {
-              beginAtZero: true,
-              title: {
-                display: true,
-                text: "Appointments",
+            ],
+          },
+          options: {
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: "Month",
+                },
+              },
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: "Revenue",
+                },
               },
             },
           },
-        },
+        });
+
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching appointment data:", error);
+        setLoading(false);
       });
-    }
-    axios.get("/api/appointment").then((res) => {
-      const completedAppointments = res.data.filter((appointment) => appointment.status === "Complete");
-      setAppointments(completedAppointments);
-      setLoading(false);
-    });
+
     setCurrentPage(1);
   }, []);
+
+  // year picker
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+  const handleYearChange = (event) => {
+    setSelectedYear(parseInt(event.target.value));
+  };
+
+  const years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
+
+  useEffect(() => {
+    axios
+      .get("/api/appointment")
+      .then((res) => {
+        const completedAppointments = res.data.filter((appointment) => appointment.status === "Complete");
+        setAppointments(completedAppointments);
+
+        const monthlyRevenue = Array.from({ length: 12 }, () => 0);
+        completedAppointments.forEach((appointment) => {
+          const appointmentDate = new Date(appointment.date);
+          const appointmentYear = appointmentDate.getFullYear();
+          const appointmentMonth = appointmentDate.getMonth();
+          if (appointmentYear === selectedYear) {
+            // Only add revenue for the selected year
+            monthlyRevenue[appointmentMonth] += appointment.startingBalance;
+          }
+        });
+
+        // Update chart data with monthly revenue for the selected year
+        if (chartInstance.current) {
+          chartInstance.current.data.datasets[0].data = monthlyRevenue;
+          chartInstance.current.update();
+        }
+
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching appointment data:", error);
+        setLoading(false);
+      });
+
+    setCurrentPage(1);
+  }, [selectedYear]); // Update chart data when the selected year changes
 
   return (
     <main className="agapaint-bg">
@@ -327,20 +386,13 @@ function AdminSales() {
             <Col lg={6}>
               <Row className="justify-content-end">
                 <Col md="auto">
-                  <label>From: &nbsp;</label>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date: Date) => setStartDate(date)}
-                    className={saleStyles.datePicker}
-                  />
-                </Col>
-                <Col md="auto">
-                  <label>To: &nbsp;</label>
-                  <DatePicker
-                    selected={endDate}
-                    onChange={(date: Date) => setEndDate(date)}
-                    className={saleStyles.datePicker}
-                  />
+                  <select value={selectedYear} onChange={handleYearChange} className={saleStyles.yearPicker}>
+                    {years.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </select>
                 </Col>
               </Row>
               <canvas ref={chartRef} />
@@ -433,7 +485,9 @@ function AdminSales() {
                       "Total Amount": totalAmount,
                     },
                     {
-                      "#": showAll ? `---End of Agapaint Service Revenue Report for all records---` : `---End of Agapaint Service Revenue Report for the month of ${selectedMonthData.month}/${selectedMonthData.year}---`,
+                      "#": showAll
+                        ? `---End of Agapaint Service Revenue Report for all records---`
+                        : `---End of Agapaint Service Revenue Report for the month of ${selectedMonthData.month}/${selectedMonthData.year}---`,
                       Date: "",
                       Name: "",
                       "Plate Number": "",

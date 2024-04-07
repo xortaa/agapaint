@@ -14,18 +14,25 @@ import { AppointmentData } from "@/types";
 
 function CarType({
   setAppointmentData,
+  setCarType
 }: {
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
+  setCarType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [selectedCard, setSelectedCard] = useState(null);
+  const [error, setError] = useState("");
 
   const selectRadioCard = (cardNumber, carType) => {
     setSelectedCard(cardNumber);
+    setCarType(cardNumber);
     setAppointmentData((prev) => ({ ...prev, carType }));
+    setError("");
   };
+
 
   return (
     <div id="radio-cards-container">
+      {error && <div className="text-danger">{error}</div>}
       {/* Compact Car/Hatchback: Radio Card 1 */}
       <div
         className={`radio-card radio-card-1 ${selectedCard === "1" ? "selected" : ""}`}
@@ -141,13 +148,15 @@ function CarType({
           <FaCheckCircle className="text-warning h4" />
         </div>
         <div className="text-center">
-          <div className="radio-card-label lh-sm">Others (Truck, Bus, etc.) <br /><span className="small fs-6 text-secondary fst-italic fw-light text-wrap">*Price may vary based on size</span></div>
+          <div className="radio-card-label lh-sm">
+            Others (Truck, Bus, etc.) <br />
+            <span className="small fs-6 text-secondary fst-italic fw-light text-wrap">
+              *Price may vary based on size
+            </span>
+          </div>
         </div>
       </div>
-
     </div>
-    
-    
   );
 }
 

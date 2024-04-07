@@ -1,6 +1,7 @@
 "use client";
 
 import Sidenav from "@/components/Sidenav";
+import { Next13NProgress, Link } from "nextjs13-progress";
 
 const AdminLayout = ({ children }) => {
   const sidenavWidth = "75px";
@@ -12,9 +13,12 @@ const AdminLayout = ({ children }) => {
       <div style={{ width: sidenavWidth, zIndex: 2 }}>
         <Sidenav />
       </div>
-
+      <Next13NProgress color="#f1b038" height={5} />
       {/* for the children or the main content */}
-      <div style={{ width: contentWidth, overflowY: "auto", padding: "0px" }}>{children}</div>
+      <div style={{ width: contentWidth, overflowY: "auto", padding: "0px" }}>
+        <Next13NProgress color="#f1b038" height={5} />
+        {children}
+      </div>
     </div>
   );
 };

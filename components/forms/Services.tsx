@@ -12,6 +12,7 @@ import ServiceCard from "@/components/forms/ServiceCard";
 import { useState, useEffect } from "react";
 import { ServiceData, AppointmentData } from "@/types";
 import axios from "axios";
+import { set } from "mongoose";
 
 function Services({
   setSelectedService,
@@ -42,12 +43,25 @@ function Services({
   }, [appointmentData.carType]);
 
   const handleServiceClick = (service: ServiceData) => {
-    setSelectedService((prevServices) => [...prevServices, service]);
+    setSelectedService((prevServices) => {
+      const isServiceSelected = prevServices.some((prevService) => prevService._id === service._id);
 
-    setAppointmentData((prevData) => ({
-      ...prevData,
-      servicesId: [...prevData.servicesId, service._id], // Add the service id to the servicesId array
-    }));
+      if (isServiceSelected) {
+        // If the service is already selected, deselect it by removing it from the array
+        return prevServices.filter((prevService) => prevService._id !== service._id);
+      } else {
+        // If the service is not selected, select it by adding it to the array
+        return [...prevServices, service];
+      }
+    });
+
+    setAppointmentData((prevData) => {
+      const newServicesId = [...prevData.servicesId, service._id];// Add the service id to the servicesId array
+      return {
+        ...prevData,
+        servicesId: newServicesId,
+      };
+    });
   };
 
   return (

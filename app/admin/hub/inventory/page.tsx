@@ -224,48 +224,47 @@ function manageInventory() {
   // Pagination for Materials
   const [currentPageMat, setCurrentPageMat] = useState(1);
   const [itemsPerPageMat, setItemsPerPageMat] = useState(8); //set the limit of items per page
-  const indexOfFirstItemMat = (currentPageMat - 1) * itemsPerPageMat;
-  const indexOfLastItemMat = indexOfFirstItemMat + itemsPerPageMat;
-  const currentMaterials = sortedMaterials.slice(indexOfFirstItemMat, indexOfLastItemMat);
+  const indexOfLastItemMat = (currentPageMat - 1) * itemsPerPageMat;
+  const indexOfFirstItemMat = indexOfLastItemMat;
+  
+  const reversedMaterials = [...sortedMaterials].reverse();
+  const currentMaterials = reversedMaterials.slice(indexOfFirstItemMat, indexOfFirstItemMat + itemsPerPageMat);
 
+  const totalPagesMat = Math.ceil(reversedMaterials.length / itemsPerPageMat);
   const materialPages = [];
-  for (let i = 1; i <= Math.ceil(filteredMaterials.length / itemsPerPageMat); i++) {
-    if (
-      i === 1 ||
-      i === Math.ceil(filteredMaterials.length / itemsPerPageMat) ||
-      (i >= currentPageMat - 2 && i <= currentPageMat + 2)
-    ) {
+  for (let i = 1; i <= totalPagesMat; i++) {
+    // Always render the first page, the last page, the current page, and two pages around the current page
+    if (i === 1 || i === totalPagesMat || i === currentPageMat || i === currentPageMat - 1 || i === currentPageMat + 1) {
       materialPages.push(
         <Pagination.Item key={i} active={i === currentPageMat} onClick={() => setCurrentPageMat(i)}>
           {i}
         </Pagination.Item>
       );
-    } else if (i === currentPageMat - 3 || i === currentPageMat + 3) {
-      materialPages.push(<Pagination.Ellipsis />);
+    } else if (i === 2 || i === currentPageMat + 2) {
+      materialPages.push(<Pagination.Ellipsis key={i} />);
     }
   }
 
   // Pagination for logs
   const [currentPageLog, setCurrentPageLog] = useState(1);
   const [itemsPerPageLog, setItemsPerPageLog] = useState(15); //set the limit of items per page
-  const indexOfFirstItemLog = (currentPageLog - 1) * itemsPerPageLog;
-  const indexOfLastItemLog = indexOfFirstItemLog + itemsPerPageLog;
-  const currentLogs = sortedLogs.slice(indexOfFirstItemLog, indexOfLastItemLog);
+  const indexOfLastItemLog = (currentPageLog - 1) * itemsPerPageLog;
+  const indexOfFirstItemLog = indexOfLastItemLog;
+  const reversedLogs = [...sortedLogs].reverse();
+  const currentLogs = reversedLogs.slice(indexOfFirstItemLog, indexOfFirstItemLog + itemsPerPageLog);
 
+  const totalPagesLog = Math.ceil(reversedLogs.length / itemsPerPageLog);
   const logPages = [];
-  for (let i = 1; i <= Math.ceil(filteredLogs.length / itemsPerPageLog); i++) {
-    if (
-      i === 1 ||
-      i === Math.ceil(filteredLogs.length / itemsPerPageLog) ||
-      (i >= currentPageLog - 2 && i <= currentPageLog + 2)
-    ) {
+  for (let i = 1; i <= totalPagesLog; i++) {
+    // Always render the first page, the last page, the current page, and two pages around the current page
+    if (i === 1 || i === totalPagesLog || i === currentPageLog || i === currentPageLog - 1 || i === currentPageLog + 1) {
       logPages.push(
         <Pagination.Item key={i} active={i === currentPageLog} onClick={() => setCurrentPageLog(i)}>
           {i}
         </Pagination.Item>
       );
-    } else if (i === currentPageLog - 3 || i === currentPageLog + 3) {
-      logPages.push(<Pagination.Ellipsis />);
+    } else if (i === 2 || i === currentPageLog + 2) {
+      logPages.push(<Pagination.Ellipsis key={i} />);
     }
   }
 
@@ -463,7 +462,7 @@ function manageInventory() {
                     {matLoading ? (
                       <PlaceholderRow col="5" />
                     ) : currentMaterials.length > 0 ? (
-                      [...currentMaterials].reverse().map((material: Material, index) => (
+                      [...currentMaterials].map((material: Material, index) => (
                         <tr key={material._id}>
                           <td>{currentMaterials.length - index}</td>
                           <td>{material.name}</td>
@@ -597,7 +596,7 @@ function manageInventory() {
                   {logLoading ? (
                     <PlaceholderRow col="8" />
                   ) : currentLogs.length > 0 ? (
-                    [...currentLogs].reverse().map((log, index) => {
+                    [...currentLogs].map((log, index) => {
                       const mergedMaterials = [
                         ...allMaterials,
                         ...activeMaterials.filter(

@@ -130,25 +130,24 @@ function manageAppointment() {
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6); //set the limit of items per page
-  const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
-  const indexOfLastItem = indexOfFirstItem + itemsPerPage;
+  const indexOfLastItem = (currentPage - 1) * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem;
   // eto na laman nung table final final
-  const currentConfirmedItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
+  const reversedAppointments = [...sortedData].reverse();
+  const currentConfirmedItems = reversedAppointments.slice(indexOfFirstItem, indexOfFirstItem + itemsPerPage);
 
+  const totalPages = Math.ceil(reversedAppointments.length / itemsPerPage);
   const pages = [];
-  for (let i = 1; i <= Math.ceil(filteredData.length / itemsPerPage); i++) {
-    if (
-      i === 1 ||
-      i === Math.ceil(filteredData.length / itemsPerPage) ||
-      (i >= currentPage - 2 && i <= currentPage + 2)
-    ) {
+  for (let i = 1; i <= totalPages; i++) {
+    // Always render the first page, the last page, the current page, and two pages around the current page
+    if (i === 1 || i === totalPages || i === currentPage || i === currentPage - 1 || i === currentPage + 1) {
       pages.push(
         <Pagination.Item key={i} active={i === currentPage} onClick={() => setCurrentPage(i)}>
           {i}
         </Pagination.Item>
       );
-    } else if (i === currentPage - 3 || i === currentPage + 3) {
-      pages.push(<Pagination.Ellipsis />);
+    } else if (i === 2 || i === currentPage + 2) {
+      pages.push(<Pagination.Ellipsis key={i} />);
     }
   }
 
@@ -190,26 +189,25 @@ function manageAppointment() {
 
   // pagination
   const [currentPageAwa, setCurrentPageAwa] = useState(1);
-  const [itemsPerPageAwa, setItemsPerPageAwa] = useState(8); //set the limit of items per page
-  const indexOfFirstItemAwa = (currentPageAwa - 1) * itemsPerPageAwa;
-  const indexOfLastItemAwa = indexOfFirstItemAwa + itemsPerPageAwa;
+  const [itemsPerPageAwa, setItemsPerPageAwa] = useState(2); //set the limit of items per page
+  const indexOfLastItemAwa = (currentPageAwa - 1) * itemsPerPageAwa;
+  const indexOfFirstItemAwa = indexOfLastItemAwa;
   // eto na laman nung table final final
-  const currentAwaitingItems = sortedDataAwa.slice(indexOfFirstItemAwa, indexOfLastItemAwa);
+  const reversedAppointmentsAwa = [...sortedDataAwa].reverse();
+  const currentAwaitingItems = reversedAppointmentsAwa.slice(indexOfFirstItemAwa, indexOfFirstItemAwa + itemsPerPageAwa);
 
+  const totalPagesAwa = Math.ceil(reversedAppointmentsAwa.length / itemsPerPageAwa);
   const pagesAwa = [];
-  for (let i = 1; i <= Math.ceil(filteredDataAwa.length / itemsPerPageAwa); i++) {
-    if (
-      i === 1 ||
-      i === Math.ceil(filteredDataAwa.length / itemsPerPageAwa) ||
-      (i >= currentPageAwa - 2 && i <= currentPageAwa + 2)
-    ) {
+  for (let i = 1; i <= totalPagesAwa; i++) {
+    // Always render the first page, the last page, the current page, and two pages around the current page
+    if (i === 1 || i === totalPagesAwa || i === currentPageAwa || i === currentPageAwa - 1 || i === currentPageAwa + 1) {
       pagesAwa.push(
         <Pagination.Item key={i} active={i === currentPageAwa} onClick={() => setCurrentPageAwa(i)}>
           {i}
         </Pagination.Item>
       );
-    } else if (i === currentPageAwa - 3 || i === currentPageAwa + 3) {
-      pagesAwa.push(<Pagination.Ellipsis />);
+    } else if (i === 2 || i === currentPageAwa + 2) {
+      pagesAwa.push(<Pagination.Ellipsis key={i} />);
     }
   }
 
@@ -252,25 +250,24 @@ function manageAppointment() {
   // pagination
   const [currentPagePen, setCurrentPagePen] = useState(1);
   const [itemsPerPagePen, setItemsPerPagePen] = useState(8); //set the limit of items per page
-  const indexOfFirstItemPen = (currentPagePen - 1) * itemsPerPagePen;
-  const indexOfLastItemPen = indexOfFirstItemPen + itemsPerPagePen;
+  const indexOfLastItemPen = (currentPagePen - 1) * itemsPerPagePen;
+  const indexOfFirstItemPen = indexOfLastItemPen;
   // eto na laman nung table final final
-  const currentPendingItems = sortedDataPen.slice(indexOfFirstItemPen, indexOfLastItemPen);
+  const reversedAppointmentsPen = [...sortedDataPen].reverse();
+  const currentPendingItems = reversedAppointmentsPen.slice(indexOfFirstItemPen, indexOfFirstItemPen + itemsPerPagePen);
 
+  const totalPagesPen = Math.ceil(reversedAppointmentsPen.length / itemsPerPagePen);
   const pagesPen = [];
-  for (let i = 1; i <= Math.ceil(filteredDataPen.length / itemsPerPagePen); i++) {
-    if (
-      i === 1 ||
-      i === Math.ceil(filteredDataPen.length / itemsPerPagePen) ||
-      (i >= currentPagePen - 2 && i <= currentPagePen + 2)
-    ) {
+  for (let i = 1; i <= totalPagesPen; i++) {
+    // Always render the first page, the last page, the current page, and two pages around the current page
+    if (i === 1 || i === totalPagesPen || i === currentPagePen || i === currentPagePen - 1 || i === currentPagePen + 1) {
       pagesPen.push(
         <Pagination.Item key={i} active={i === currentPagePen} onClick={() => setCurrentPagePen(i)}>
           {i}
         </Pagination.Item>
       );
-    } else if (i === currentPagePen - 3 || i === currentPagePen + 3) {
-      pagesPen.push(<Pagination.Ellipsis />);
+    } else if (i === 2 || i === currentPagePen + 2) {
+      pagesPen.push(<Pagination.Ellipsis key={i} />);
     }
   }
 
@@ -400,7 +397,7 @@ function manageAppointment() {
                         {loading ? (
                           <PlaceholderRow col="8" />
                         ) : currentConfirmedItems.length > 0 ? (
-                          [...currentConfirmedItems].reverse().map((apt: Appointment, index) => (
+                          [...currentConfirmedItems].map((apt: Appointment, index) => (
                             <tr onClick={() => setShowComponent(apt)} key={apt._id}>
                               <td className="fw-bold">{apt.nanoid}</td>
                               <td>{`${apt.firstName} ${apt.lastName}`}</td>
@@ -536,7 +533,7 @@ function manageAppointment() {
                         {loading ? (
                           <PlaceholderRow col="8" />
                         ) : currentAwaitingItems.length > 0 ? (
-                          [...currentAwaitingItems].reverse().map((apt: Appointment, index) => (
+                          [...currentAwaitingItems].map((apt: Appointment, index) => (
                             <tr onClick={() => setShowComponent(apt)} key={apt._id}>
                               <td className="fw-bold">{apt.nanoid}</td>
                               <td>{`${apt.firstName} ${apt.lastName}`}</td>
@@ -669,7 +666,7 @@ function manageAppointment() {
                         {loading ? (
                           <PlaceholderRow col="8" />
                         ) : currentPendingItems.length > 0 ? (
-                          [...currentPendingItems].reverse().map((apt: Appointment, index) => (
+                          [...currentPendingItems].map((apt: Appointment, index) => (
                             <tr onClick={() => setShowComponent(apt)} key={apt._id}>
                               <td className="fw-bold">{apt.nanoid}</td>
                               <td>{`${apt.firstName} ${apt.lastName}`}</td>
