@@ -73,8 +73,9 @@ function ServiceStatus({
       <Form.Select
         value={selectedOption}
         onChange={handleChange}
-        className={`fw-bold ${getColor()} `}
-        style={{ width: `${maxOptionLength}em` }}
+        className={`fw-bold ${getColor()}`}
+        style={{ fontSize: "12.7px" }}
+        // style={{ width: `${maxOptionLength}em`}}
         size="sm"
       >
         <option value="Unpaid" className="text-danger fw-bold small">

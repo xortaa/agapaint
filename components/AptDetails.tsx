@@ -443,7 +443,7 @@ function AptDetails({
                   <th>Term</th>
                   <th>%</th>
                   <th>Amount</th>
-                  <th>Payment Status</th>
+                  <th style={{fontSize: "11px"}}>Payment Status</th>
                 </tr>
               </thead>
               <tbody>
