@@ -584,10 +584,12 @@ function bookAppointment() {
 
   const resetStep2 = () => {
     setAppointmentData((prev) => ({ ...prev, time: "" }));
+    setStartDate(null);
   };
 
   const resetStep3 = () => {
     setAppointmentData((prev) => ({ ...prev, servicesId: [] }));
+    setSelectedService([]);
   };
 
   const resetStep4 = () => {
@@ -602,7 +604,7 @@ function bookAppointment() {
       carColor: "",
       plateNumber: "",
       requests: "",
-      paymentTerm: "Full", 
+      paymentTerm: "Full",
       startingBalance: 0,
       currentBalance: 0,
     }));
@@ -675,7 +677,10 @@ function bookAppointment() {
                           {step === 2 && (
                             <Step2
                               onNext={nextStep}
-                              onBack={prevStep}
+                              onBack={() => {
+                                prevStep();
+                                resetStep1();
+                              }}
                               setAppointmentData={setAppointmentData}
                               currentDate={currentDate}
                               startDate={startDate}
@@ -686,7 +691,10 @@ function bookAppointment() {
                           {step === 3 && (
                             <Step3
                               onNext={nextStep}
-                              onBack={prevStep}
+                              onBack={() => {
+                                prevStep();
+                                resetStep2();
+                              }}
                               setSelectedService={setSelectedService}
                               setAppointmentData={setAppointmentData}
                               appointmentData={appointmentData}
@@ -694,12 +702,22 @@ function bookAppointment() {
                             />
                           )}
                           {step === 4 && (
-                            <Step4 onNext={nextStep} onBack={prevStep} setAppointmentData={setAppointmentData} />
+                            <Step4
+                              onNext={nextStep}
+                              onBack={() => {
+                                prevStep();
+                                resetStep3();
+                              }}
+                              setAppointmentData={setAppointmentData}
+                            />
                           )}
                           {step === 5 && (
                             <Step5
                               onNext={nextStep}
-                              onBack={prevStep}
+                              onBack={() => {
+                                prevStep();
+                                resetStep4();
+                              }}
                               appointmentData={appointmentData}
                               selectedService={selectedService}
                               bookAppointment={bookAppointment}
