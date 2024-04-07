@@ -166,7 +166,7 @@ function AptDetails({
     });
 
     toast.promise(ApproveAppointment, {
-      pending: "Approving appointment...",
+      pending: "Approving appointment & Email Sending...",
       success: "Appointment approved! Email has been sent to the customer.",
       error: "Failed to approve appointment, Please try again.",
     });
@@ -235,7 +235,7 @@ function AptDetails({
     });
 
     toast.promise(ConfirmAppointment, {
-      pending: "Confirming appointment...",
+      pending: "Confirming appointment & Email Sending...",
       success: "Appointment confirmed! Email has been sent to the customer.",
       error: "Failed to confirm appointment, Please try again.",
     });
