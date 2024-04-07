@@ -33,7 +33,7 @@ function Services({
         if (appointmentData.carType === "Others") {
           filteredServices = res.data;
         } else {
-          filteredServices = res.data.filter((service: ServiceData) => service.carType === appointmentData.carType);
+          filteredServices = res.data.filter((service: ServiceData) => service.carType.includes(appointmentData.carType));
         }
         setServices(filteredServices);
       })
