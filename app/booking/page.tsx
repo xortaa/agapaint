@@ -578,6 +578,36 @@ function bookAppointment() {
     formattedTime = `${hourIn12HourFormat}:${minutes} ${period}`;
   }
 
+  const resetStep1 = () => {
+    setAppointmentData((prev) => ({ ...prev, carType: "" }));
+  };
+
+  const resetStep2 = () => {
+    setAppointmentData((prev) => ({ ...prev, time: "" }));
+  };
+
+  const resetStep3 = () => {
+    setAppointmentData((prev) => ({ ...prev, servicesId: [] }));
+  };
+
+  const resetStep4 = () => {
+    setAppointmentData((prev) => ({
+      ...prev,
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      carManufacturer: "",
+      carModel: "",
+      carColor: "",
+      plateNumber: "",
+      requests: "",
+      paymentTerm: "Full", 
+      startingBalance: 0,
+      currentBalance: 0,
+    }));
+  };
+
   return (
     <main>
       <button onClick={() => console.log(appointmentData)}>CLICK ME</button>
@@ -711,12 +741,12 @@ function bookAppointment() {
                         {selectedService.map((service) => (
                           <div className="d-flex" key={service._id}>
                             <p className="lh-1">{service.name}</p>
-                            <p className="ms-auto lh-1">{service.price.toFixed(2)}</p>
+                            <p className="ms-auto lh-1">{service.price && service.price.toFixed(2)}</p>
                           </div>
                         ))}
                         <hr />
                         <div className="d-flex">
-                          <h4 className="ms-auto fw-bold lh-1">{totalPrice.toFixed(2)}</h4>
+                          <h4 className="ms-auto fw-bold lh-1">{totalPrice && totalPrice.toFixed(2)}</h4>
                         </div>
                       </Row>
                     </Card.Body>

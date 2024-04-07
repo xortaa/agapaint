@@ -447,7 +447,7 @@ function AptDetails({
                 </tr>
               </thead>
               <tbody>
-                {localAppointment.payments && localAppointment.payments.map((payment, index) => {
+                {localAppointment.payments && startingBalance && localAppointment.payments.map((payment, index) => {
                   let term;
                   let percent;
                   let amount;

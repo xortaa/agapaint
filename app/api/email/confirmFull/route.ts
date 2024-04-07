@@ -7,7 +7,7 @@ import * as handlebars from "handlebars";
 export async function POST(request: NextRequest) {
   const emailData = await request.json();
 
-  const payment1 = emailData.payments[0].amount;
+  const payment1 = emailData.payments[0].amount.toFixed(2);
 
   const transport = nodemailer.createTransport({
     service: "gmail",
@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
     time: string,
     paymentTerm: string,
     startingBalance: number,
-    currentBalance: number,
     carType: string,
     carManufacturer: string,
     carModel: string,
@@ -37,8 +36,7 @@ export async function POST(request: NextRequest) {
       date: date,
       time: time,
       paymentTerm: paymentTerm,
-      startingBalance: startingBalance,
-      currentBalance: currentBalance,
+      startingBalance: startingBalance.toFixed(2),
       carType: carType,
       carManufacturer: carManufacturer,
       carModel: carModel,
@@ -59,7 +57,6 @@ export async function POST(request: NextRequest) {
       emailData.time,
       emailData.paymentTerm,
       emailData.startingBalance,
-      emailData.currentBalance,
       emailData.carType,
       emailData.carManufacturer,
       emailData.carModel,
