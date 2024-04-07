@@ -194,13 +194,22 @@ function manageAppointment() {
   const indexOfFirstItemAwa = indexOfLastItemAwa;
   // eto na laman nung table final final
   const reversedAppointmentsAwa = [...sortedDataAwa].reverse();
-  const currentAwaitingItems = reversedAppointmentsAwa.slice(indexOfFirstItemAwa, indexOfFirstItemAwa + itemsPerPageAwa);
+  const currentAwaitingItems = reversedAppointmentsAwa.slice(
+    indexOfFirstItemAwa,
+    indexOfFirstItemAwa + itemsPerPageAwa
+  );
 
   const totalPagesAwa = Math.ceil(reversedAppointmentsAwa.length / itemsPerPageAwa);
   const pagesAwa = [];
   for (let i = 1; i <= totalPagesAwa; i++) {
     // Always render the first page, the last page, the current page, and two pages around the current page
-    if (i === 1 || i === totalPagesAwa || i === currentPageAwa || i === currentPageAwa - 1 || i === currentPageAwa + 1) {
+    if (
+      i === 1 ||
+      i === totalPagesAwa ||
+      i === currentPageAwa ||
+      i === currentPageAwa - 1 ||
+      i === currentPageAwa + 1
+    ) {
       pagesAwa.push(
         <Pagination.Item key={i} active={i === currentPageAwa} onClick={() => setCurrentPageAwa(i)}>
           {i}
@@ -260,7 +269,13 @@ function manageAppointment() {
   const pagesPen = [];
   for (let i = 1; i <= totalPagesPen; i++) {
     // Always render the first page, the last page, the current page, and two pages around the current page
-    if (i === 1 || i === totalPagesPen || i === currentPagePen || i === currentPagePen - 1 || i === currentPagePen + 1) {
+    if (
+      i === 1 ||
+      i === totalPagesPen ||
+      i === currentPagePen ||
+      i === currentPagePen - 1 ||
+      i === currentPagePen + 1
+    ) {
       pagesPen.push(
         <Pagination.Item key={i} active={i === currentPagePen} onClick={() => setCurrentPagePen(i)}>
           {i}
@@ -403,9 +418,13 @@ function manageAppointment() {
                               <td>{`${apt.firstName} ${apt.lastName}`}</td>
                               <td>{apt.plateNumber}</td>
                               <td>{apt.date.split("T")[0]}</td>
-                              <td>{new Date(`1970-01-01T${apt.time}:00`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}</td>
-                              <td>{apt.startingBalance}</td>
-                              <td>{apt.time}</td>
+                              <td>
+                                {new Date(`1970-01-01T${apt.time}:00`).toLocaleTimeString("en-US", {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  hour12: true,
+                                })}
+                              </td>
                               <td>{apt.startingBalance && apt.startingBalance.toFixed(2)}</td>
                               <td>
                                 <ServiceStatus
@@ -541,7 +560,13 @@ function manageAppointment() {
                               <td>{`${apt.firstName} ${apt.lastName}`}</td>
                               <td>{apt.plateNumber}</td>
                               <td>{apt.date.split("T")[0]}</td>
-                              <td>{apt.time}</td>
+                              <td>
+                                {new Date(`1970-01-01T${apt.time}:00`).toLocaleTimeString("en-US", {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  hour12: true,
+                                })}
+                              </td>
                               <td>{apt.startingBalance && apt.startingBalance.toFixed(2)}</td>
                               <td>
                                 <ServiceStatus
@@ -674,7 +699,13 @@ function manageAppointment() {
                               <td>{`${apt.firstName} ${apt.lastName}`}</td>
                               <td>{apt.plateNumber}</td>
                               <td>{apt.date.split("T")[0]}</td>
-                              <td>{apt.time}</td>
+                              <td>
+                                {new Date(`1970-01-01T${apt.time}:00`).toLocaleTimeString("en-US", {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  hour12: true,
+                                })}
+                              </td>
                               <td>{apt.startingBalance && apt.startingBalance.toFixed(2)}</td>
                               <td>
                                 <ServiceStatus
