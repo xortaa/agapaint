@@ -3,7 +3,7 @@ import Appointment from "@/models/appointment";
 import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { nanoid, customAlphabet } from "nanoid";
+import { customAlphabet } from "nanoid";
 
 export const POST = async (req: NextRequest) => {
   const appointmentData = await req.json();

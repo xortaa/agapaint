@@ -53,6 +53,7 @@ function AptDetails({
           handleCloseModal();
 
           setActiveAppointments((prev) => prev.filter((apt) => apt._id !== appointment._id));
+
           resolve("Success");
         })
         .catch((error) => {
@@ -68,11 +69,11 @@ function AptDetails({
     });
   };
 
-  const handleEndDateChange = (e) => {
-    setEndDate(new Date(e.target.value));
-    setUnformattedDate(e.target.value);
-    setNewEndDate(e.target.value);
-  };
+  // const handleEndDateChange = (e) => {
+  //   setEndDate(new Date(e.target.value));
+  //   setUnformattedDate(e.target.value);
+  //   setNewEndDate(e.target.value);
+  // };
 
   const handleDatePickerEndDateChange = (date) => {
     setEndDate(date);
@@ -103,12 +104,59 @@ function AptDetails({
       axios
         .patch(`/api/appointment/${appointment._id}`, approveAppointmentData)
         .then((res) => {
-          setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
-          setLocalAppointment(res.data);
-          setIsApproved(true);
-          setSelectedOption("Awaiting Payment");
-          setShowEndDateError(false);
-          resolve("Success");
+          const servicesString = localAppointment.servicesId.map((service) => service.name).join(", ");
+
+          const date = new Date(res.data.date);
+          const formattedDate = `${date.toLocaleString("default", {
+            month: "long",
+          })} ${date.getDate()} ${date.getFullYear()}`;
+
+          const emailData = {
+            nanoid: appointment.nanoid,
+            date: formattedDate,
+            time: res.data.time,
+            paymentTerm: res.data.paymentTerm,
+            startingBalance: res.data.startingBalance,
+            currentBalance: res.data.currentBalance,
+            carType: res.data.carType,
+            carManufacturer: res.data.carManufacturer,
+            carModel: res.data.carModel,
+            url: `${process.env.NEXT_PUBLIC_URL}/customer/appointment/payment?id=${localAppointment._id}`,
+            services: servicesString,
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            email: res.data.email,
+            phoneNumber: res.data.phoneNumber,
+            plateNumber: res.data.plateNumber,
+            carColor: res.data.carColor,
+            payments: res.data.payments,
+          };
+
+          if (res.data.paymentTerm === "Partial") {
+            axios.post("/api/email/approvePartial", emailData).then((emailRes) => {
+              console.log(emailRes.data);
+
+              setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
+              setLocalAppointment(res.data);
+              setIsApproved(true);
+              setSelectedOption("Awaiting Payment");
+              setShowEndDateError(false);
+
+              resolve("Success");
+            });
+          } else if (res.data.paymentTerm === "Full") {
+            axios.post("/api/email/approveFull", emailData).then((emailRes) => {
+              console.log(emailRes.data);
+
+              setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
+              setLocalAppointment(res.data);
+              setIsApproved(true);
+              setSelectedOption("Awaiting Payment");
+              setShowEndDateError(false);
+
+              resolve("Success");
+            });
+          }
         })
         .catch((error) => {
           console.error("Failed to confirm appointment: ", error);
@@ -133,10 +181,53 @@ function AptDetails({
       axios
         .patch(`/api/appointment/${appointment._id}`, confirmAppointmentData)
         .then((res) => {
-          setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
-          setLocalAppointment(res.data);  
-          setSelectedOption("Ongoing");
-          resolve("Success");
+          const servicesString = localAppointment.servicesId.map((service) => service.name).join(", ");
+
+          const date = new Date(res.data.date);
+          const formattedDate = `${date.toLocaleString("default", {
+            month: "long",
+          })} ${date.getDate()} ${date.getFullYear()}`;
+
+          const emailData = {
+            nanoid: appointment.nanoid,
+            date: formattedDate,
+            time: res.data.time,
+            paymentTerm: res.data.paymentTerm,
+            startingBalance: res.data.startingBalance,
+            currentBalance: res.data.currentBalance,
+            carType: res.data.carType,
+            carManufacturer: res.data.carManufacturer,
+            carModel: res.data.carModel,
+            url: `${process.env.NEXT_PUBLIC_URL}/customer/appointment/payment?id=${localAppointment._id}`,
+            services: servicesString,
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            email: res.data.email,
+            phoneNumber: res.data.phoneNumber,
+            plateNumber: res.data.plateNumber,
+            carColor: res.data.carColor,
+            payments: res.data.payments,
+          };
+
+          if (res.data.paymentTerm === "Partial") {
+            axios.post("/api/email/confirmPartial", emailData).then((emailRes) => {
+              console.log(emailRes.data);
+              setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
+              setLocalAppointment(res.data);
+              setSelectedOption("Ongoing");
+              resolve("Success");
+            });
+          } else if (res.data.paymentTerm === "Full") {
+            axios.post("/api/email/confirmFull", emailData).then((emailRes) => {
+              console.log(emailRes.data);
+              setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
+              setLocalAppointment(res.data);
+              setSelectedOption("Ongoing");
+              resolve("Success");
+            });
+          }
+
+
         })
         .catch((error) => {
           console.error("Failed to confirm appointment: ", error);
