@@ -509,7 +509,7 @@ function AdminSales() {
                   const csvUrl = URL.createObjectURL(csvBlob);
                   const link = document.createElement("a");
                   link.href = csvUrl;
-                  link.setAttribute("download", "appointments.csv");
+                  link.setAttribute("download", `Agapaint_ServiceRevenue_Report_${selectedMonthData.month}/${selectedMonthData.year}.csv`);
                   link.click();
                 }}
               >
