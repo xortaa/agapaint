@@ -12,6 +12,7 @@ import axios from "axios";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import NoRecordRow from "@/components/NoRecordRow";
 import { table } from "console";
+import PlaceholderCard from "@/components/PlaceholderCard";
 
 function custServices() {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -145,13 +146,11 @@ function custServices() {
                       <Tab.Pane eventKey={carType}>
                         <Row>
                           {loading ? (
-                            <table>
-                              <tbody>
-                                <tr>
-                                  <NoRecordRow colSpan={12} message="Loading Services..." />
-                                </tr>
-                              </tbody>
-                            </table>
+                            <>
+                              <PlaceholderCard />
+                              <PlaceholderCard />
+                              <PlaceholderCard />
+                            </>
                           ) : filteredServices.filter((service) => service.carType.toLowerCase() === carType).length >
                             0 ? (
                             filteredServices
