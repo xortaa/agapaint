@@ -181,8 +181,8 @@ function Dashboard() {
 
   return (
     <main>
-      <Container fluid className="py-3 px-4 justify-content-center" style={{ overflow: "auto" }}>
-        <AdminHeader title="Dashboard" subtitle="" />
+      <Container fluid className="p-4 min-vh-100">
+        <AdminHeader title="Welcome to Dashboard!" subtitle="View to quickly check the status of appointment and inventory for the week" />
 
         {/* col for this week cards, low-mat table, and overview cards */}
         <Row className="mt-2">
