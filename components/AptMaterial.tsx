@@ -128,7 +128,7 @@ function AptMaterial({
       transactionType: "OUT",
       transactionQuantity: quantity,
       transactionDate: new Date(),
-      notes: `Material used for appointment ${appointment._id}`,
+      notes: `Material used for APT#${appointment.nanoid}`,
       updatedBy: session.user.name,
       stock: material.quantity - quantity,
     };
@@ -162,7 +162,7 @@ function AptMaterial({
         }}
       >
         <Modal.Header closeButton>
-          <Modal.Title className="fs-6">{`Materials Used APT#${appointment._id}`}</Modal.Title>{" "}
+          <Modal.Title className="fs-6">{`Materials Used APT#${appointment.nanoid}`}</Modal.Title>{" "}
         </Modal.Header>
         <Form>
           <Modal.Body className="p-4">
