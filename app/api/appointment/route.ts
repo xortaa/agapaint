@@ -3,6 +3,7 @@ import Appointment from "@/models/appointment";
 import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { customAlphabet } from "nanoid";
 
 export const POST = async (req: NextRequest) => {
   const appointmentData = await req.json();
@@ -11,13 +12,16 @@ export const POST = async (req: NextRequest) => {
 
     if (appointmentData.paymentTerm === "Partial") {
       appointmentData.payments = [
-        { amount: appointmentData.totalPrice * 0.5, status: "Unpaid" },
-        { amount: appointmentData.totalPrice * 0.25, status: "Unpaid" },
-        { amount: appointmentData.totalPrice * 0.25, status: "Unpaid" },
+        { amount: parseFloat((appointmentData.totalPrice * 0.5).toFixed(2)), status: "Unpaid" },
+        { amount: parseFloat((appointmentData.totalPrice * 0.25).toFixed(2)), status: "Unpaid" },
+        { amount: parseFloat((appointmentData.totalPrice * 0.25).toFixed(2)), status: "Unpaid" },
       ];
     } else {
-      appointmentData.payments = [{ amount: appointmentData.totalPrice, status: "Unpaid" }];
+      appointmentData.payments = [{ amount: parseFloat(appointmentData.totalPrice.toFixed(2)), status: "Unpaid" }];
     }
+
+    const nanoid = customAlphabet("1234567890", 5);
+    appointmentData.nanoid = nanoid();
 
     const appointment = await Appointment.create(appointmentData);
 

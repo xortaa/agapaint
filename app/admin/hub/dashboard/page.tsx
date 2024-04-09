@@ -216,9 +216,9 @@ function Dashboard() {
   }, [pending, awaiting, ongoing, completed]);
 
   return (
-    <main>
-      <Container fluid className="py-3 px-4 justify-content-center" style={{ overflow: "auto" }}>
-        <AdminHeader title="Dashboard" subtitle="" />
+    <main className="agapaint-bg">
+      <Container fluid className="p-4 min-vh-100">
+        <AdminHeader title="Welcome to Dashboard!" subtitle="View to quickly check the status of appointment and inventory for the week" />
 
         {/* col for this week cards, low-mat table, and overview cards */}
         <Row className="mt-2">
@@ -280,8 +280,8 @@ function Dashboard() {
               <Col sm={8}>
                 <Card className="p-2">
                   <Col>
-                    <h5 className="mb-0">Low Material List</h5>
-                    <small className="text-muted">
+                    <h5 className="mb-0 pt-2 ps-2">Low Material List</h5>
+                    <small className="text-muted pt-2 ps-2">
                       An overview of the list of materials that are currently considered to be low on stock.
                     </small>
                     {/* reminder: this view allows the admin to see a scroll bar if marami na nakalista */}
@@ -400,7 +400,7 @@ function Dashboard() {
             {/* new row for 'for release' section under same col of appointments section */}
             <Row className="my-2">
               <Card className="p-1">
-                <h5 className="pt-1 ps-1 pb-0 mb-1">Available for Release</h5>
+                <h5 className="pt-2 ps-2 pb-0 mb-1">Available for Release</h5>
                 {/* may pascroll din to pag marami nakalista boogsh */}
                 <Card
                   className="border-0"

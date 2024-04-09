@@ -40,6 +40,7 @@
   color: #181818;
   transition: transform 0.5s;
   margin: 0 auto;
+  flex-direction: row;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -47,6 +48,7 @@
     height: auto;
     padding-bottom: 25px;
   }
+
 }
 
 .squares:hover {
@@ -102,4 +104,16 @@
   text-align: center;
   margin-top: 50px;
   margin-bottom: 50px;
+}
+
+.btnBook {
+  @media (max-width: 600px) {
+    margin-bottom: 25px;
+  }
+}
+
+.expContainer {
+  @media (max-width: 600px) {
+    margin-top: 25px;
+  }
 }

@@ -64,7 +64,7 @@ function Banner(props) {
                 </span>
               </Button>
               <p className="fs-2 fw-medium text-white pb-2" style={{ marginLeft: "10px" }}>
-                Your <span className="text-warning">Appointment</span>
+                Your Appointment <span className="text-warning">#{props.aptId}</span>
               </p>
             </div>
           )}

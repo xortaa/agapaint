@@ -19,9 +19,11 @@ function ServiceStatus({
   const [selectedOption, setSelectedOption] = useState(payment.status);
 
   const handleChange = (event) => {
-    setSelectedOption(event.target.value);
+    const newStatus = event.target.value;
+    setSelectedOption(newStatus);
+
     const updatePaymentStatus = new Promise((resolve, reject) => {
-      const data = { status: event.target.value };
+      const data = { status: newStatus };
       axios
         .patch(`/api/appointment/${appointment._id}/payment/${payment._id}`, data)
         .then((res) => {
@@ -29,16 +31,16 @@ function ServiceStatus({
             prev.map((appointment) => (appointment._id === res.data._id ? res.data : appointment))
           );
 
-          // Calculate the new balance
-          let newBalance = appointment.currentBalance;
-          if (payment.status === "Unpaid" && event.target.value === "Paid") {
-            newBalance -= payment.amount;
-          } else if (payment.status === "Paid" && event.target.value === "Unpaid") {
-            newBalance += payment.amount;
-          }
-
           // Update the current balance
-          setCurrentBalance(newBalance);
+          setCurrentBalance((prevBalance) => {
+            let newBalance = prevBalance;
+            if (selectedOption === "Unpaid" && newStatus === "Paid") {
+              newBalance -= payment.amount;
+            } else if (selectedOption === "Paid" && newStatus === "Unpaid") {
+              newBalance += payment.amount;
+            }
+            return newBalance;
+          });
 
           resolve("Success");
         })
@@ -71,8 +73,9 @@ function ServiceStatus({
       <Form.Select
         value={selectedOption}
         onChange={handleChange}
-        className={`fw-bold ${getColor()} `}
-        style={{ width: `${maxOptionLength}em` }}
+        className={`fw-bold ${getColor()}`}
+        style={{ fontSize: "12.7px" }}
+        // style={{ width: `${maxOptionLength}em`}}
         size="sm"
       >
         <option value="Unpaid" className="text-danger fw-bold small">

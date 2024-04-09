@@ -19,7 +19,6 @@ import PaymentStatusBadge from "@/components/PaymentStatusBadge";
 import { useSearchParams } from "next/navigation";
 import PlaceholderPayment from "@/components/PlaceholderPayment";
 
-
 function custPayment() {
   const searchParams = useSearchParams();
   const appointmentId = searchParams.get("id");
@@ -56,8 +55,8 @@ function custPayment() {
     capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
   }
 
-   //time 12-hour format AM PM
-  let formattedTime = '';
+  //time 12-hour format AM PM
+  let formattedTime = "";
   if (appointment && appointment.time) {
     const appointmentDate = new Date(`1970-01-01T${appointment.time}:00`);
     formattedTime = appointmentDate.toLocaleTimeString("en-US", {
@@ -87,7 +86,8 @@ function custPayment() {
       {isSignedIn ? <Navbar2 /> : <Navbar />}
 
       {/* New Banner */}
-      <Banner page="payment" />
+      {appointment ? <Banner page="payment" aptId={appointment.nanoid}/> : <Banner page="payment" />}
+      
 
       {/* Body */}
       {!appointment ? (
@@ -249,7 +249,9 @@ function custPayment() {
                           <p className="text-secondary mb-0">Vehicle</p>
                         </td>
                         <td className="text-end p-1">
-                          <p className="fw-semibold mb-0">{appointment.carModel}</p>
+                          <p className="fw-semibold mb-0">
+                            {appointment.carManufacturer} {appointment.carModel}
+                          </p>
                         </td>
                       </tr>
                       <tr>

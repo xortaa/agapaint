@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/Link";
 import { Nav, Container, Image, Col, Row } from "react-bootstrap";
 import { Grid, Calendar2Week, BoxArrowLeft, BoxSeam, Cart, CreditCard, QuestionSquare } from "react-bootstrap-icons";
 import { signOut } from "next-auth/react";
@@ -58,7 +58,7 @@ const Sidenav = () => {
               <ul className={sidenavStyles.custom_ul}>
                 <li onClick={() => handleItemClick("dashboard")}>
                   <Link
-                    href="dashboard"
+                    href="admin/hub/dashboard"
                     className={`${sidenavStyles.sidebar_collapsed_link} ${
                       activePage === "dashboard" ? sidenavStyles.active_link : ""
                     }`}
@@ -68,7 +68,7 @@ const Sidenav = () => {
                 </li>
                 <li onClick={() => handleItemClick("appointment")}>
                   <Link
-                    href="appointment"
+                    href="/admin/hub/appointment"
                     className={`${sidenavStyles.sidebar_collapsed_link} ${
                       activePage === "appointment" ? sidenavStyles.active_link : ""
                     }`}
@@ -78,7 +78,7 @@ const Sidenav = () => {
                 </li>
                 <li onClick={() => handleItemClick("inventory")}>
                   <Link
-                    href="inventory"
+                    href="/admin/hub/inventory"
                     className={`${sidenavStyles.sidebar_collapsed_link} ${
                       activePage === "inventory" ? sidenavStyles.active_link : ""
                     }`}
@@ -88,7 +88,7 @@ const Sidenav = () => {
                 </li>
                 <li onClick={() => handleItemClick("service")}>
                   <Link
-                    href="service"
+                    href="/admin/hub/service"
                     className={`${sidenavStyles.sidebar_collapsed_link} ${
                       activePage === "service" ? sidenavStyles.active_link : ""
                     }`}
@@ -98,7 +98,7 @@ const Sidenav = () => {
                 </li>
                 <li onClick={() => handleItemClick("sales")}>
                   <Link
-                    href="sales"
+                    href="/admin/hub/sales"
                     className={`${sidenavStyles.sidebar_collapsed_link} ${
                       activePage === "sales" ? sidenavStyles.active_link : ""
                     }`}
@@ -108,7 +108,7 @@ const Sidenav = () => {
                 </li>
                 <li onClick={() => handleItemClick("faq")}>
                   <Link
-                    href="faq"
+                    href="/admin/hub/faq"
                     className={`${sidenavStyles.sidebar_collapsed_link} ${
                       activePage === "faq" ? sidenavStyles.active_link : ""
                     }`}
@@ -121,7 +121,7 @@ const Sidenav = () => {
             <ul className={sidenavStyles.custom_ul}>
               <li onClick={() => handleItemClick("signout")}>
                 <Link
-                  href="/"
+                  href="/admin/signup"
                   className={`${sidenavStyles.sidebar_collapsed_link} ${
                     activePage === "signout" ? sidenavStyles.active_link : ""
                   }`}
@@ -151,7 +151,7 @@ const Sidenav = () => {
                 <ul className={sidenavStyles.custom_ul}>
                   <li onClick={() => handleItemClick("dashboard")}>
                     <Link
-                      href="dashboard"
+                      href="/admin/hub/dashboard"
                       className={`${sidenavStyles.sidebar_displayed_link} ${
                         activePage === "dashboard" ? sidenavStyles.active_link : ""
                       }`}
@@ -161,7 +161,7 @@ const Sidenav = () => {
                   </li>
                   <li onClick={() => handleItemClick("appointment")}>
                     <Link
-                      href="appointment"
+                      href="/admin/hub/appointment"
                       className={`${sidenavStyles.sidebar_displayed_link} ${
                         activePage === "appointment" ? sidenavStyles.active_link : ""
                       }`}
@@ -171,7 +171,7 @@ const Sidenav = () => {
                   </li>
                   <li onClick={() => handleItemClick("inventory")}>
                     <Link
-                      href="inventory"
+                      href="/admin/hub/inventory"
                       className={`${sidenavStyles.sidebar_displayed_link} ${
                         activePage === "inventory" ? sidenavStyles.active_link : ""
                       }`}
@@ -181,7 +181,7 @@ const Sidenav = () => {
                   </li>
                   <li onClick={() => handleItemClick("service")}>
                     <Link
-                      href="service"
+                      href="/admin/hub/service"
                       className={`${sidenavStyles.sidebar_displayed_link} ${
                         activePage === "service" ? sidenavStyles.active_link : ""
                       }`}
@@ -191,7 +191,7 @@ const Sidenav = () => {
                   </li>
                   <li onClick={() => handleItemClick("sales")}>
                     <Link
-                      href="sales"
+                      href="/admin/hub/sales"
                       className={`${sidenavStyles.sidebar_displayed_link} ${
                         activePage === "sales" ? sidenavStyles.active_link : ""
                       }`}
@@ -201,7 +201,7 @@ const Sidenav = () => {
                   </li>
                   <li onClick={() => handleItemClick("faq")}>
                     <Link
-                      href="faq"
+                      href="/admin/hub/faq"
                       className={`${sidenavStyles.sidebar_displayed_link} ${
                         activePage === "faq" ? sidenavStyles.active_link : ""
                       }`}
@@ -213,7 +213,7 @@ const Sidenav = () => {
               </div>
               <ul className={sidenavStyles.custom_ul}>
                 <li>
-                  <Link href="../admin" className={sidenavStyles.signout_displayed} onClick={handleSignOut}>
+                  <Link href="/admin/signup" className={sidenavStyles.signout_displayed} onClick={handleSignOut}>
                     <BoxArrowLeft className="mx-2 mb-1" size={20} /> Sign out
                   </Link>
                 </li>

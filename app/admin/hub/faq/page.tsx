@@ -3,7 +3,8 @@
 import React from "react";
 // Styles
 import { Container, Row, Col, Table, Pagination, Card, InputGroup, Dropdown, FormControl } from "react-bootstrap";
-import { Funnel, Search } from "react-bootstrap-icons";
+import { Search } from "react-bootstrap-icons";
+import { SortAlphaDown, SortAlphaDownAlt } from "react-bootstrap-icons";
 // Components
 import AdminHeader from "@/components/AdminHeader";
 import AddQuestionModal from "@/components/AddQuestionModal";
@@ -15,23 +16,63 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Faq } from "@/types";
 import { set } from "mongoose";
-import PlaceholderRow from "@/components/PlaceholderRow";
 import NoRecordRow from "@/components/NoRecordRow";
+import PlaceholderRow from "@/components/PlaceholderRow";
+
+
 
 function ManageFAQPage() {
   const [faqs, setFaqs] = useState<Faq[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(12); //set the limit of items per page
+  const itemsPerPage = 12; //set the limit of items per page
+
+// Filter faqs based on searchTerm
+const filteredFaqs = faqs.filter(
+  (faq) =>
+    faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+// sort function
+const [sortField, setSortField] = useState<string | null>(null);
+const [sortDirection, setSortDirection] = useState("desc"); // 'asc' for ascending, 'desc' for descending
+const handleSort = (field: string) => {
+  setSortField(field);
+  setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+};
+
+const sortedFaqs = [...filteredFaqs].sort((a, b) => {
+  if (!sortField) return 0;
+
+  let aValue = a[sortField];
+  let bValue = b[sortField];
+
+  // Check if the values are numeric
+  if (!isNaN(aValue) && !isNaN(bValue)) {
+    return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+  } else {
+    // Convert to string if not already
+    if (typeof aValue !== "string") aValue = String(aValue);
+    if (typeof bValue !== "string") bValue = String(bValue);
+
+    return sortDirection === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+  }
+});
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = faqs.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = sortedFaqs.slice(indexOfFirstItem, indexOfLastItem);
 
   const pages = [];
-  for (let i = 1; i <= Math.ceil(faqs.length / itemsPerPage); i++) {
-    if (i === 1 || i === Math.ceil(faqs.length / itemsPerPage) || (i >= currentPage - 2 && i <= currentPage + 2)) {
+  for (let i = 1; i <= Math.ceil(filteredFaqs.length / itemsPerPage); i++) {
+    if (
+      i === 1 ||
+      i === Math.ceil(filteredFaqs.length / itemsPerPage) ||
+      (i >= currentPage - 2 && i <= currentPage + 2)
+    ) {
       pages.push(
         <Pagination.Item key={i} active={i === currentPage} onClick={() => setCurrentPage(i)}>
           {i}
@@ -48,6 +89,11 @@ function ManageFAQPage() {
       setLoading(false);
     });
   }, []);
+
+  // search function
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
 
   return (
     <main className="agapaint-bg">
@@ -67,19 +113,13 @@ function ManageFAQPage() {
                   <InputGroup.Text id="basic-addon1">
                     <Search size={20} />
                   </InputGroup.Text>
-                  <FormControl placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
+                  <FormControl
+                    placeholder="Search"
+                    aria-label="Search"
+                    aria-describedby="basic-addon1"
+                    onChange={handleSearchChange}
+                  />
                 </InputGroup>
-                <Dropdown>
-                  <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                    <Funnel />
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
 
                 <div className="ms-auto d-flex gap-2 align-items-center">
                   {/* Pagination */}
@@ -103,7 +143,18 @@ function ManageFAQPage() {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Question</th>
+                  <th onClick={() => handleSort("question")}>
+                    Question
+                    {sortField === "question" ? (
+                      sortDirection === "asc" ? (
+                        <SortAlphaDown className="text-success" />
+                      ) : (
+                        <SortAlphaDownAlt className="text-danger" />
+                      )
+                    ) : (
+                      <SortAlphaDown className="text-secondary" />
+                    )}
+                  </th>
                   <th>Answer</th>
                   <th>Actions</th>
                 </tr>
@@ -112,8 +163,7 @@ function ManageFAQPage() {
                 {loading ? (
                   // Placeholder Component
                   <PlaceholderRow col="4" />
-                ) : (
-                  currentItems.length > 0 ? (
+                ) : currentItems.length > 0 ? (
                   currentItems.map((faq, index) => (
                     <tr key={faq._id}>
                       <td>{index + 1}</td>
@@ -125,9 +175,11 @@ function ManageFAQPage() {
                       </td>
                     </tr>
                   ))
-                  ) : (
-                    <NoRecordRow colSpan={4} message="Click 'Add Question' to create a new FAQ for your potential customers, Hwaiting!" />
-                  )
+                ) : (
+                  <NoRecordRow
+                    colSpan={4}
+                    message="Click 'Add Question' to create a new FAQ for your potential customers, Hwaiting!"
+                  />
                 )}
               </tbody>
             </Table>

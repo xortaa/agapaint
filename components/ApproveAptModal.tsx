@@ -16,7 +16,7 @@ function ApproveAptModal({ carryFunction, aptId, aptDate, aptTime, aptEndDate, t
 
   return (
     <>
-      <Button variant="warning" className="text-white" onClick={handleShowModal}>
+      <Button variant="warning" className="text-white" onClick={handleShowModal} style={{fontSize: "14px"}}>
         Approve Appointment
       </Button>
 
@@ -38,11 +38,11 @@ function ApproveAptModal({ carryFunction, aptId, aptDate, aptTime, aptEndDate, t
               </tr>
               <tr>
                 <td>Apt Time</td>
-                <td className="fw-semibold">{aptTime}</td>
+                <td className="fw-semibold">{new Date(`1970-01-01T${aptTime}:00`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}</td>
               </tr>
               <tr className="table-warning">
                 <td>Target End Date</td>
-                <td className="fw-semibold">{aptEndDate}</td>
+                <td className="fw-semibold">{aptEndDate && new Date(aptEndDate).toISOString().split('T')[0]}</td>
               </tr>
               <tr className="table-warning">
                 <td>Total Service Amount</td>

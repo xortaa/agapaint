@@ -9,7 +9,7 @@ function ConfirmAptModal({ carryFunction, aptId, aptDate, aptTime, aptEndDate, t
     
   return (
     <>
-      <Button variant="success" onClick={handleShowModal}>
+      <Button variant="success" onClick={handleShowModal} style={{fontSize: "14px"}}>
         Confirm Appointment
       </Button>
 

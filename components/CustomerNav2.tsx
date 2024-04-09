@@ -101,7 +101,7 @@ function Navbar2() {
                 href="/booking"
                 className={`${navStyles.ulItem} ${activeItem === "booking" ? navStyles.active : ""}`}
               >
-                <Button className={navStyles.btnLog}>Book Now</Button>
+                <button className={navStyles.btnLog}>Book Now</button>
               </Link>
             </li>
             <li>
@@ -115,7 +115,7 @@ function Navbar2() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item href={session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ? "/admin/hub/sales" : "/customer/appointment"}>
+                  <Dropdown.Item href={session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ? "/admin/hub/dashboard" : "/customer/appointment"}>
                     {session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ? "Admin Dashboard" : "My Profile"}
                   </Dropdown.Item>
 

@@ -1,5 +1,5 @@
 "use client";
-import { Container, Row, Col, Card, Form, Button, Image } from "react-bootstrap";
+import { Container, Row, Col, Card, Form, Button, Image, Badge } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import Link from "@/components/Link";
 // Images
@@ -19,6 +19,13 @@ import { AppointmentData, ServiceData } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Stepper from "@keyvaluesystems/react-stepper";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
+import { isSameDay, isSameMonth, isThisMonth, isToday, isFuture } from "date-fns";
+import { Calendar, Calendar2 } from "react-bootstrap-icons";
+import { set } from "mongoose";
+import { errorToJSON } from "next/dist/server/render";
 
 // Car Type Step
 
@@ -28,26 +35,39 @@ const Step1 = ({
 }: {
   onNext: () => void;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
-}) => (
-  <div>
-    <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
-    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0 ">Choose a vehicle type</p>
-    {/* Car Type Radio Button */}
-    <div className="d-flex flex-column">
-      <CarType setAppointmentData={setAppointmentData} />
+}) => {
+  const [carType, setCarType] = useState("");
+  const [error, setError] = useState("");
+
+  const handleNext = () => {
+    if (!carType) {
+      setError("Car Type is required");
+    } else {
+      setError("");
+      onNext();
+    }
+  };
+
+  return (
+    <div>
+      <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
+      <div className="d-flex justify-content-between">
+        <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose a vehicle type</p>
+        {error && <p className="small text-danger d-none d-lg-block">Please choose a car type</p>}
+      </div>
+      {error && <p className="ps-4 ps-lg-0 pe-4 pe-lg-0 text-danger d-sm-block d-lg-none">Please choose a car type</p>}
+      {/* Car Type Radio Button */}
+      <div className="d-flex flex-column">
+        <CarType setAppointmentData={setAppointmentData} setCarType={setCarType} />
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
+        <Button variant="warning" className="ps-4 pe-4 ms-auto fw-medium me-3 me-lg-0 mt-3" onClick={handleNext}>
+          Next
+        </Button>
+      </div>
     </div>
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
-      <Button
-        variant="warning"
-        type="submit"
-        className="ps-4 pe-4 ms-auto fw-medium me-3 me-lg-0 mt-3"
-        onClick={onNext}
-      >
-        Next
-      </Button>
-    </div>
-  </div>
-);
+  );
+};
 
 // Appointment Date TIme Step
 
@@ -55,43 +75,148 @@ const Step2 = ({
   onNext,
   onBack,
   setAppointmentData,
+  currentDate,
+  startDate,
+  setStartDate,
+  excludedDates,
 }: {
   onNext: () => void;
   onBack: () => void;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
-}) => (
-  <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
-    <h2 className="fw-bold">Book an Appointment</h2>
-    <p className="lead">Choose a desired date and time</p>
-    {/* Date */}
-    <Form.Group className="mb-3" controlId="formBasicEmail">
-      <Form.Label>Appointment Date</Form.Label>
-      <Form.Control
-        type="date"
-        placeholder="Enter your appointment date"
-        onChange={(e) => setAppointmentData((prev) => ({ ...prev, date: e.target.value }))}
-      />
-    </Form.Group>
-    {/* Time */}
-    <Form.Group className="mb-3" controlId="formBasicEmail">
-      <Form.Label>Appointment Time</Form.Label>
-      <Form.Control
-        type="time"
-        placeholder="Enter your appointment time"
-        onChange={(e) => setAppointmentData((prev) => ({ ...prev, time: e.target.value }))}
-      />
-    </Form.Group>
-    {/* Nav Buttons */}
-    <div className="d-flex justify-content-between mt-5 pt-5">
-      <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
-        Back
-      </Button>
-      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium" onClick={onNext}>
-        Next
-      </Button>
+  currentDate: Date;
+  startDate: Date;
+  setStartDate: React.Dispatch<React.SetStateAction<Date>>;
+  excludedDates: Date[];
+}) => {
+  const [timeError, setTimeError] = useState("");
+  const [validateTime, setValidateTime] = useState("");
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const time = e.target.value;
+    if (time < "08:00" || time > "16:00") {
+      setTimeError("Please choose a time between 08:00 AM and 4:00 PM");
+    } else {
+      setAppointmentData((prev) => ({ ...prev, time: e.target.value }));
+      setValidateTime(e.target.value);
+      setTimeError("");
+    }
+  };
+
+  const [error, setError] = useState("");
+  const handleNext = () => {
+    if (!validateTime) {
+      setTimeError("Please choose a time");
+      return;
+    }
+    if (!startDate) {
+      setError("Please choose a date");
+      return;
+    }
+    setError("");
+    setTimeError("");
+    onNext();
+  };
+
+  const currentYear = new Date().getFullYear();
+  const holidays = [
+    { date: `${currentYear}-01-01`, holidayName: "New Year's Day" },
+    { date: `${currentYear}-04-09`, holidayName: "Araw ng Kagitingan" },
+    { date: `${currentYear}-05-01`, holidayName: "Labor Day" },
+    { date: `${currentYear}-06-12`, holidayName: "Independence Day" },
+    { date: `${currentYear}-08-21`, holidayName: "Ninoy Aquino Day" },
+    { date: `${currentYear}-08-30`, holidayName: "National Heroes Day" },
+    { date: `${currentYear}-11-30`, holidayName: "Bonifacio Day" },
+    { date: `${currentYear}-12-25`, holidayName: "Christmas Day" },
+    { date: `${currentYear}-12-30`, holidayName: "Rizal Day" },
+    { date: `${currentYear}-12-31`, holidayName: "New Year's Eve" },
+  ];
+  const excludedDatesWithHolidays = [...excludedDates, ...holidays.map((holiday) => new Date(holiday.date))];
+
+  return (
+    <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
+      <h2 className="fw-bold">Book an Appointment</h2>
+      <div className="d-flex justify-content-between">
+        <p className="lead">Choose an appointment date and time</p>
+        {error && <p className="small text-danger d-none d-lg-block">Please choose a date</p>}
+      </div>
+      {error && <p className="text-danger d-sm-block d-lg-none">Please choose a date</p>}
+      {/* Date */}
+      <Row className="gap-4 gap-lg-0">
+        <Col lg={6} sm={12} className="text-center">
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Appointment Date</Form.Label>
+            <br />
+            <DatePicker
+              selected={startDate}
+              onChange={(date: Date) => {
+                const dateString = format(date, "yyyy-MM-dd");
+                const localDate = new Date(dateString);
+                setStartDate(localDate);
+              }}
+              minDate={new Date()}
+              excludeDates={excludedDatesWithHolidays}
+              selectsDisabledDaysInRange
+              className="form-control"
+              showIcon
+              icon={<Calendar2 className="ms-2" />}
+              dayClassName={(date) => {
+                if (isSameDay(date, startDate)) {
+                  return "datepicker-selected";
+                } else if (
+                  excludedDatesWithHolidays &&
+                  excludedDatesWithHolidays.some((excludedDate) => isSameDay(date, excludedDate))
+                ) {
+                  return "datepicker-excluded";
+                } else if ((isToday(date) || isFuture(date)) && isThisMonth(date)) {
+                  return "datepicker-available";
+                } else {
+                  return "datepicker-other-month";
+                }
+              }}
+              inline
+              holidays={holidays}
+            />
+          </Form.Group>
+          <div className="d-flex justify-content-center align-items-center gap-2">
+            <Badge bg="danger-subtle" text="danger-emphasis">
+              Not Available
+            </Badge>
+            <Badge bg="success-subtle" text="success-emphasis">
+              Available
+            </Badge>
+          </div>
+        </Col>
+
+        {/* Time */}
+        <Col lg={4} sm={12} className="text-center">
+          <Form.Group className="mb-3 text-center" controlId="formBasicEmail">
+            <Form.Label>Appointment Time</Form.Label>
+            <Form.Control
+              type="time"
+              min="08:00"
+              max="16:00"
+              placeholder="Enter your appointment time"
+              onChange={handleTimeChange}
+              isInvalid={!!timeError}
+            />
+            <Form.Control.Feedback type="invalid" className="text-start">
+              {!!timeError && "Please choose a time between 08:00 AM and 4:00 PM"}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Col>
+      </Row>
+
+      {/* Nav Buttons */}
+      <div className="d-flex justify-content-between mt-4 pt-2">
+        <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
+          Back
+        </Button>
+        <Button variant="warning" className="ps-4 pe-4 fw-medium" onClick={handleNext}>
+          Next
+        </Button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Services Step
 const Step3 = ({
@@ -100,33 +225,49 @@ const Step3 = ({
   setSelectedService,
   setAppointmentData,
   appointmentData,
+  validateService,
 }: {
   onNext: () => void;
   onBack: () => void;
   setSelectedService: React.Dispatch<React.SetStateAction<ServiceData[]>>;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
   appointmentData: AppointmentData;
-}) => (
-  <div>
-    <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
-    <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose desired services for your vehicle type</p>
-    {/* Services */}
-    <Services
-      setSelectedService={setSelectedService}
-      setAppointmentData={setAppointmentData}
-      appointmentData={appointmentData}
-    />
-    {/* Nav Buttons */}
-    <div className="d-flex justify-content-between ps-4 ps-lg-0 pe-4 pe-lg-0">
-      <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
-        Back
-      </Button>
-      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium" onClick={onNext}>
-        Next
-      </Button>
+  validateService: number;
+}) => {
+  const [error, setError] = useState("");
+
+  const handleNext = () => {
+    if (validateService === 0) {
+      setError("Please choose at least one service");
+      return;
+    }
+    setError("");
+    onNext();
+  };
+
+  return (
+    <div>
+      <h2 className="fw-bold ps-4 ps-lg-0 pe-4 pe-lg-0">Book an Appointment</h2>
+      <p className="lead ps-4 ps-lg-0 pe-4 pe-lg-0">Choose desired services for your vehicle type</p>
+      {error && <p className="small text-danger">{error}</p>}
+      {/* Services */}
+      <Services
+        setSelectedService={setSelectedService}
+        setAppointmentData={setAppointmentData}
+        appointmentData={appointmentData}
+      />
+      {/* Nav Buttons */}
+      <div className="d-flex justify-content-between ps-4 ps-lg-0 pe-4 pe-lg-0">
+        <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
+          Back
+        </Button>
+        <Button variant="warning" className="ps-4 pe-4 fw-medium" onClick={handleNext}>
+          Next
+        </Button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Personal Info Step
 const Step4 = ({
@@ -148,7 +289,7 @@ const Step4 = ({
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
         Back
       </Button>
-      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium" onClick={onNext}>
+      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium">
         Next
       </Button>
     </div>
@@ -162,12 +303,16 @@ const Step5 = ({
   appointmentData,
   selectedService,
   bookAppointment,
+  startDate,
+  formattedTime,
 }: {
   onNext: () => void;
   onBack: () => void;
   appointmentData: AppointmentData;
   selectedService: ServiceData[];
   bookAppointment: () => void;
+  startDate: Date;
+  formattedTime: String;
 }) => (
   <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
     <h2 className="fw-bold">Review Details</h2>
@@ -192,10 +337,10 @@ const Step5 = ({
           <span className="fw-semibold">Vehicle Type:</span> {appointmentData.carType}
         </p>
         <p>
-          <span className="fw-semibold">Date:</span> {appointmentData.date}
+          <span className="fw-semibold">Date:</span> {startDate.toDateString()}
         </p>
         <p>
-          <span className="fw-semibold">Time:</span> {appointmentData.time}
+          <span className="fw-semibold">Time:</span> {formattedTime}
         </p>
         <hr />
       </Col>
@@ -229,6 +374,12 @@ const Step5 = ({
         <span className="fw-semibold">Comments/ Request:</span> {appointmentData.requests}
       </p>
       <hr />
+      <p className="lh-sm small">
+        NOTE: WE WILL INFORM YOU THROUGH EMAIL OF ANY CHANGES TO THE SERVICE AMOUNT BEFORE PROCEEDING WITH THE SERVICE.
+        <br />
+        Please note, the total service amount might change after inspection especially for 'Others' vehicle type. We aim
+        to give accurate estimates, but the final amount could vary.
+      </p>
       <p className="lh-sm small">
         NOTE: THAT WE ARE NOT RESPONSIBLE FOR ANY ITEMS LEFT ON THE VEHICLE <br />I hereby agree voluntarily to drop the
         key for my vehicle for servicing and acknowledge that any damage or wrong service given due to false information
@@ -378,14 +529,13 @@ function bookAppointment() {
   const [appointmentData, setAppointmentData] = useState<AppointmentData>({
     customerId: "",
     email: session?.user?.email,
-    plateNumber: "ABC 123",
+    plateNumber: "",
     firstName: "",
     lastName: "",
     phoneNumber: "",
     carManufacturer: "",
     carModel: "",
     requests: "",
-    date: "",
     time: "",
     carType: "",
     servicesId: [],
@@ -396,6 +546,9 @@ function bookAppointment() {
   });
   const [selectedService, setSelectedService] = useState<ServiceData[]>([]);
   const totalPrice = selectedService.reduce((total, service) => total + service.price, 0);
+  const currentDate = new Date();
+  const [startDate, setStartDate] = useState<Date>();
+  const [excludedDates, setExcludedDates] = useState<Date[]>();
 
   const {
     register,
@@ -405,11 +558,21 @@ function bookAppointment() {
   } = useForm<AppointmentData>();
 
   const onSubmit = () => {
-    if (Object.keys(errors).length === 0) {
-      nextStep(); // Call onNext with nextStep if all fields are valid
+    // Check if appointmentData is not empty for Personal Info
+    if (Object.values(appointmentData).filter((value) => value !== null && value !== "").length >= 14) {
+      nextStep();
+      console.log("Proceeding to next step" + Object.values(appointmentData) !== "");
+    } else {
       setValidated(true);
+      console.log("Validation failed");
     }
   };
+  useEffect(() => {
+    axios.get("/api/excludedDates").then((res) => {
+      const dates = res.data.flatMap((item) => item.dates);
+      setExcludedDates(dates);
+    });
+  }, []);
 
   const bookAppointment = () => {
     axios
@@ -420,16 +583,60 @@ function bookAppointment() {
         startingBalance: totalPrice,
         currentBalance: totalPrice,
         totalPrice,
+        date: startDate,
       })
       .then((res) => {
         console.log(res);
       });
   };
 
-  const date = appointmentData.date ? new Date(appointmentData.date) : null;
-  const formattedDate = date
-    ? `${date.toLocaleString("default", { month: "long" })} ${date.getDate()}, ${date.getFullYear()}`
+  const formattedDate = startDate
+    ? `${startDate.toLocaleString("default", { month: "long" })} ${startDate.getDate()}, ${startDate.getFullYear()}`
     : "";
+
+  const time = appointmentData.time;
+  let formattedTime = "";
+
+  if (time) {
+    const [hours, minutes] = time.split(":");
+    const hourIn12HourFormat = parseInt(hours, 10) % 12 || 12;
+    const period = parseInt(hours, 10) >= 12 ? "PM" : "AM";
+    formattedTime = `${hourIn12HourFormat}:${minutes} ${period}`;
+  }
+
+  const resetStep1 = () => {
+    setAppointmentData((prev) => ({ ...prev, carType: "" }));
+    setAppointmentData((prev) => ({ ...prev, servicesId: [] }));
+    setSelectedService([]);
+  };
+
+  const resetStep2 = () => {
+    setAppointmentData((prev) => ({ ...prev, time: "" }));
+    setStartDate(null);
+  };
+
+  const resetStep3 = () => {
+    setAppointmentData((prev) => ({ ...prev, servicesId: [] }));
+    setSelectedService([]);
+  };
+
+  const resetStep4 = () => {
+    setAppointmentData((prev) => ({
+      ...prev,
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      carManufacturer: "",
+      carModel: "",
+      carColor: "",
+      plateNumber: "",
+      requests: "",
+      paymentTerm: "Full",
+      startingBalance: 0,
+      currentBalance: 0,
+    }));
+  };
 
   return (
     <main>
@@ -473,19 +680,6 @@ function bookAppointment() {
                           }}
                         />
                         <Card.ImgOverlay className="text-white">
-                          {/* Progress Stepper 1 */}
-                          {/* <ul className="vertical-point-progress">
-                            {navSteps.map((navstep, index) => (
-                              <li
-                                key={index + 1}
-                                className={index + 1 === step ? "fw-bold" : ""}
-                                onClick={() => handleStepClick(index + 1)}
-                              >
-                                <span className="ps-3 progress-text">{navstep}</span>
-                              </li>
-                            ))}
-                          </ul> */}
-                          {/* Progress Stepper 2 */}
                           <div className="sideBar">
                             <div className="stepSummary">
                               <Stepper
@@ -493,7 +687,7 @@ function bookAppointment() {
                                 currentStepIndex={step - 1}
                                 orientation="vertical"
                                 labelPosition="right"
-                                onStepClick={handleStepClick}
+                                // onStepClick={handleStepClick}
                                 styles={styles}
                               />
                             </div>
@@ -509,27 +703,54 @@ function bookAppointment() {
                         <Form noValidate validated={validated} onSubmit={handleSubmit(onSubmit)}>
                           {step === 1 && <Step1 onNext={nextStep} setAppointmentData={setAppointmentData} />}
                           {step === 2 && (
-                            <Step2 onNext={nextStep} onBack={prevStep} setAppointmentData={setAppointmentData} />
+                            <Step2
+                              onNext={nextStep}
+                              onBack={() => {
+                                prevStep();
+                                resetStep1();
+                              }}
+                              setAppointmentData={setAppointmentData}
+                              currentDate={currentDate}
+                              startDate={startDate}
+                              setStartDate={setStartDate}
+                              excludedDates={excludedDates}
+                            />
                           )}
                           {step === 3 && (
                             <Step3
                               onNext={nextStep}
-                              onBack={prevStep}
+                              onBack={() => {
+                                prevStep();
+                                resetStep2();
+                              }}
                               setSelectedService={setSelectedService}
                               setAppointmentData={setAppointmentData}
                               appointmentData={appointmentData}
+                              validateService={selectedService.length}
                             />
                           )}
                           {step === 4 && (
-                            <Step4 onNext={nextStep} onBack={prevStep} setAppointmentData={setAppointmentData} />
+                            <Step4
+                              onNext={nextStep}
+                              onBack={() => {
+                                prevStep();
+                                resetStep3();
+                              }}
+                              setAppointmentData={setAppointmentData}
+                            />
                           )}
                           {step === 5 && (
                             <Step5
                               onNext={nextStep}
-                              onBack={prevStep}
+                              onBack={() => {
+                                prevStep();
+                                resetStep4();
+                              }}
                               appointmentData={appointmentData}
                               selectedService={selectedService}
                               bookAppointment={bookAppointment}
+                              startDate={startDate}
+                              formattedTime={formattedTime}
                             />
                           )}
                           {step === 6 && <Step6 onBack={prevStep} />}
@@ -557,7 +778,7 @@ function bookAppointment() {
                         </div>
                         <div className="d-flex">
                           <p className="lh-1">Time</p>
-                          <p className="ms-auto fw-bold lh-1">{appointmentData.time}</p>
+                          <p className="ms-auto fw-bold lh-1">{formattedTime}</p>
                         </div>
                         <hr />
                         {/* Services */}
@@ -565,12 +786,12 @@ function bookAppointment() {
                         {selectedService.map((service) => (
                           <div className="d-flex" key={service._id}>
                             <p className="lh-1">{service.name}</p>
-                            <p className="ms-auto lh-1">{service.price}</p>
+                            <p className="ms-auto lh-1">{service.price && service.price.toFixed(2)}</p>
                           </div>
                         ))}
                         <hr />
                         <div className="d-flex">
-                          <h4 className="ms-auto fw-bold lh-1">{totalPrice}</h4>
+                          <h4 className="ms-auto fw-bold lh-1">{totalPrice && totalPrice.toFixed(2)}</h4>
                         </div>
                       </Row>
                     </Card.Body>

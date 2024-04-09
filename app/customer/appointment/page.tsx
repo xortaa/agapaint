@@ -1,5 +1,17 @@
 "use client";
-import { Container, Row, Col, Image, Badge, InputGroup, Card, Button, ButtonGroup, Table } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Image,
+  Badge,
+  InputGroup,
+  Card,
+  Button,
+  ButtonGroup,
+  Table,
+  Pagination,
+} from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import AptCard from "@/components/AptCard";
@@ -87,6 +99,33 @@ function custAppointment() {
   useEffect(() => {
     checkSignInStatus().then((isSignedIn) => setIsSignedIn(isSignedIn));
   }, []);
+
+  // pagination
+  // Add state variables for pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6); //set limit of items per page
+
+  // Subtract 1 from currentPage before multiplying by itemsPerPage
+  const indexOfLastItem = (currentPage - 1) * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem;
+
+  const reversedAppointments = user && user.appointment ? [...user.appointment].reverse() : [];
+  const currentItems = reversedAppointments.slice(indexOfFirstItem, indexOfFirstItem + itemsPerPage);
+
+  const totalPages = user ? Math.ceil(user.appointment.length / itemsPerPage) : 0;
+  const pages = [];
+  for (let i = 1; i <= totalPages; i++) {
+    // Always render the first page, the last page, the current page, and two pages around the current page
+    if (i === 1 || i === totalPages || i === currentPage || i === currentPage - 1 || i === currentPage + 1) {
+      pages.push(
+        <Pagination.Item key={i} active={i === currentPage} onClick={() => setCurrentPage(i)}>
+          {i}
+        </Pagination.Item>
+      );
+    } else if (i === 2 || i === currentPage + 2) {
+      pages.push(<Pagination.Ellipsis key={i} />);
+    }
+  }
 
   return (
     <main className="agapaint-bg">
@@ -214,7 +253,7 @@ function custAppointment() {
                             </td>
                           </tr>
                         ) : (
-                          user.appointment.map((apt: Appointment) => (
+                          [...currentItems].map((apt: Appointment) => (
                             <AptList key={apt._id} appointment={apt} onClick={() => handleRowClick(apt)} />
                           ))
                         )}
@@ -231,11 +270,23 @@ function custAppointment() {
                       <p className="text-secondary">Kickstart your Agapaint adventure! Book your appointment now!</p>
                     </div>
                   ) : (
-                    user.appointment.map((apt: Appointment) => (
-                      <AptCard key={apt._id} appointment={apt} onClick={() => handleRowClick(apt)} />
-                    ))
+                    [...user.appointment]
+                      .reverse()
+                      .map((apt: Appointment) => (
+                        <AptCard key={apt._id} appointment={apt} onClick={() => handleRowClick(apt)} />
+                      ))
                   )}
                 </Row>
+                <div className="d-flex justify-content-end">
+                  <Pagination className="secondary-pagination m-0 mt-2 me-1">
+                    <Pagination.Prev disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} />
+                    {pages}
+                    <Pagination.Next
+                      disabled={currentPage === pages.length}
+                      onClick={() => setCurrentPage(currentPage + 1)}
+                    />
+                  </Pagination>
+                </div>
               </Card.Body>
             </Card>
           </Col>

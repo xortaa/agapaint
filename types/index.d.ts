@@ -28,7 +28,6 @@ export interface AppointmentData {
   plateNumber: string;
   carModel: string;
   requests: string;
-  date: string;
   time: string;
   carManufacturer: string;
   carType: string;
@@ -73,6 +72,7 @@ export interface Appointment {
   isArchived: boolean;
   endDate: Date;
   payments: Payments[];
+  nanoid: string;
   __v: number;
 }
 

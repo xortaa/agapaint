@@ -65,14 +65,23 @@ function AddQuestionModal({ setFaqs }: { setFaqs: React.Dispatch<React.SetStateA
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3">
               <Form.Label>Question</Form.Label>
-              <Form.Control required type="text" isInvalid={!!error} {...register("question")} />
-              <Form.Control.Feedback type="invalid">Please provide a question</Form.Control.Feedback>
+              <Form.Control
+                type="text"
+                isInvalid={!!errors.question}
+                {...register("question", { required: "Please provide a question" })}
+              />
+              <Form.Control.Feedback type="invalid">{errors.question && errors.question.message}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label>Answer</Form.Label>
-              <Form.Control as="textarea" rows={3} isInvalid={!!error} required {...register("answer")} />
-              <Form.Control.Feedback type="invalid">Please provide an answer</Form.Control.Feedback>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                isInvalid={!!errors.answer}
+                {...register("answer", { required: "Please provide an answer" })}
+              />
+              <Form.Control.Feedback type="invalid">{errors.answer && errors.answer.message}</Form.Control.Feedback>
             </Form.Group>
 
             <Modal.Footer>

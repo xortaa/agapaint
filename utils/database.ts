@@ -29,6 +29,7 @@ const connectToDatabase = async () => {
      require("@/models/service");
      require("@/models/user");
      require("@/models/materialUsed");
+     require("@/models/excludedDates");
   } catch (error) {
     console.log(error);
   }
