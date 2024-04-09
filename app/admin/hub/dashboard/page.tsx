@@ -180,7 +180,7 @@ function Dashboard() {
   }, [pending, ongoing, forRelease, completed]);
 
   return (
-    <main>
+    <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
         <AdminHeader title="Welcome to Dashboard!" subtitle="View to quickly check the status of appointment and inventory for the week" />
 
