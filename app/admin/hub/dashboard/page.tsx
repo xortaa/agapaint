@@ -30,6 +30,7 @@ function Dashboard() {
   const [pending, setPending] = useState<Appointment[]>([]);
   const [ongoing, setOngoing] = useState<Appointment[]>([]);
   const [completed, setCompleted] = useState<Appointment[]>([]);
+  const [awaiting, setAwaiting] = useState<Appointment[]>([]);
   const [forThisWeek, setForThisWeek] = useState<Appointment[]>([]);
 
   //for cards content
@@ -37,10 +38,29 @@ function Dashboard() {
   const [noOfServices, setNoOfServices] = useState(0);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [activeCustomers, setActiveCustomers] = useState(0);
+  const [totalRevenue, setTotalRevenue] = useState(0);
 
   //for loading effect
   const [loading, setLoading] = useState(true);
 
+  // Calculate total revenue
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        let total = 0;
+        completed.forEach((apt) => {
+          total += apt.startingBalance;
+        });
+        setTotalRevenue(total);
+      } catch (error) {
+        console.error("Error calculating total revenue:", error);
+      }
+    };
+
+    fetchAppointments();
+  }, [completed]);
+
+  //mga pangfetch and filter
   useEffect(() => {
     const getMaterials = () => {
       axios.get("/api/material").then((res) => {
@@ -87,6 +107,7 @@ function Dashboard() {
     setOngoing(activeAppointments.filter((apt: Appointment) => apt.status === "Ongoing"));
     setForRelease(activeAppointments.filter((apt: Appointment) => apt.status === "For Release"));
     setCompleted(activeAppointments.filter((apt: Appointment) => apt.status === "Complete"));
+    setAwaiting(activeAppointments.filter((apt: Appointment) => apt.status === "Awaiting Payment"));
     setForThisWeek(
       activeAppointments.filter((apt: Appointment) => apt.date === new Date().toLocaleDateString("en-US"))
     );
@@ -154,14 +175,20 @@ function Dashboard() {
           existingChart.destroy();
         }
 
+        const hasData = pending.length > 0 || awaiting.length > 0 || ongoing.length > 0 || completed.length > 0;
+
+        const data = hasData ? [pending.length, awaiting.length, ongoing.length, completed.length] : [0.5]; // Placeholder value
+
+        const backgroundColor = hasData ? ["#dc3545", "#6c757d", "#ffc107", "#28a745"] : ["#CCCCCC"]; // Placeholder color
+
         const myDoughnutChart = new Chart(ctx, {
           type: "doughnut",
           data: {
             datasets: [
               {
+                data: data,
                 label: "Number of appointments",
-                data: [pending.length, ongoing.length, forRelease.length, completed.length],
-                backgroundColor: ["#dc3545", "#ffc107", "#0dcaf0", "#198754"],
+                backgroundColor: backgroundColor,
               },
             ],
           },
@@ -172,12 +199,21 @@ function Dashboard() {
               legend: {
                 display: false,
               },
+              tooltip: {
+                callbacks: {
+                  label: (context) => {
+                    const labelIndex = context.dataIndex;
+                    const labelValue = data[labelIndex];
+                    return labelValue === 0.5 ? "No Appointments" : `Number of appointments: ${labelValue}`;
+                  },
+                },
+              },
             },
           },
         });
       }
     }
-  }, [pending, ongoing, forRelease, completed]);
+  }, [pending, awaiting, ongoing, completed]);
 
   return (
     <main>
@@ -198,7 +234,7 @@ function Dashboard() {
                 className={weekCardStyles.row_wrapper}
                 style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
               >
-                {currentAppointments.map((apt) => (
+                {currentAppointments.map((apt: Appointment) => (
                   <DashboardWeekCards
                     key={apt._id}
                     date={apt.date}
@@ -249,7 +285,10 @@ function Dashboard() {
                       An overview of the list of materials that are currently considered to be low on stock.
                     </small>
                     {/* reminder: this view allows the admin to see a scroll bar if marami na nakalista */}
-                    <Card className="border-0 rounded pb-2 mt-3" style={{ height: "334px", overflowY: "auto" }}>
+                    <Card
+                      className="border-0 rounded pb-2 mt-3"
+                      style={{ height: currentAppointments.length > 0 ? "334px" : "328px", overflow: "auto" }}
+                    >
                       <Table striped hover className="align-middle responsive">
                         <thead>
                           <tr>
@@ -286,7 +325,7 @@ function Dashboard() {
 
               {/* row of overview, col for overview cards like total rev, etc */}
               <Col sm={4} className="m-0 ps-0 pes-3">
-                <DashboardCards cardTitle="Total Revenue (₱)" count={100000} logo={<CreditCard size={32} />} />
+                <DashboardCards cardTitle="Total Revenue (₱)" count={totalRevenue} logo={<CreditCard size={32} />} />
                 <DashboardCards cardTitle="Services Available" count={noOfServices} logo={<Cart size={32} />} />
                 <DashboardCards cardTitle="Customers" count={activeCustomers} logo={<PeopleFill size={32} />} />
               </Col>
@@ -326,22 +365,22 @@ function Dashboard() {
                           Pending
                         </Col>
                         <Col className="d-flex align-items-center text-muted">
+                          <Card className="me-1 text-white border-0" style={{ backgroundColor: "#6c757d" }}>
+                            <Card.Body className="px-2 py-1 text-center">
+                              <h6 className="fw-bold p-0 m-0">{awaiting.length}</h6>
+                            </Card.Body>
+                          </Card>
+                          Awaiting
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col className="d-flex align-items-center text-muted">
                           <Card className="me-1 bg-warning text-white border-0">
                             <Card.Body className="px-2 py-1 text-center">
                               <h6 className="fw-bold p-0 m-0">{ongoing.length}</h6>
                             </Card.Body>
                           </Card>
                           Ongoing
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col className="d-flex align-items-center text-muted">
-                          <Card className="me-1 bg-info text-white border-0">
-                            <Card.Body className="px-2 py-1 text-center">
-                              <h6 className="fw-bold p-0 m-0">{forRelease.length}</h6>
-                            </Card.Body>
-                          </Card>
-                          For Release
                         </Col>
                         <Col className="d-flex align-items-center text-muted">
                           <Card className="me-1 bg-success text-white border-0">
@@ -365,7 +404,7 @@ function Dashboard() {
                 {/* may pascroll din to pag marami nakalista boogsh */}
                 <Card
                   className="border-0"
-                  style={{ height: currentAppointments.length > 0 ? "290px" : "222px", overflow: "auto" }}
+                  style={{ height: currentAppointments.length > 0 ? "289px" : "218px", overflow: "auto" }}
                 >
                   <Table className="border-none">
                     <tbody style={{ fontSize: "15px" }}>
