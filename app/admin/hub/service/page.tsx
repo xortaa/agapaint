@@ -100,10 +100,10 @@ function AdminManageServicePage() {
   const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
 
   const pages = [];
-  for (let i = 1; i <= Math.ceil(filteredData.length / itemsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(sortedData.length / itemsPerPage); i++) {
     if (
       i === 1 ||
-      i === Math.ceil(filteredData.length / itemsPerPage) ||
+      i === Math.ceil(sortedData.length / itemsPerPage) ||
       (i >= currentPage - 2 && i <= currentPage + 2)
     ) {
       pages.push(
