@@ -171,7 +171,7 @@ function custServices() {
                                         {service.name}
                                       </p>
                                       <p className={serviceStyles.cardDescription2}>starting at</p>
-                                      <p className={serviceStyles.cardPrice1}>₱{service.price}</p>
+                                      <p className={serviceStyles.cardPrice1}>₱{typeof service.price === 'number' ? service.price.toFixed(2) : service.price}</p>
                                       <p className={`${serviceStyles.cardDescription1} mb-0`}>{service.description}</p>
                                     </Card.ImgOverlay>
                                   </Card>
