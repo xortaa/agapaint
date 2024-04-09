@@ -2618,7 +2618,7 @@ export const approveFullPayment = `
                                     <tr>
                                       <td valign="top" style="padding: 0px 0px 10px 0px">
                                         <img
-                                          src="https://res.cloudinary.com/dmtiq7l2k/image/upload/v1712241226/basic-15-image-1_aijvit.jpg"
+                                          src="https://res.cloudinary.com/dmtiq7l2k/image/upload/v1712646382/434821108_7715673548451156_6126449688870697627_n_lmqr5f.png"
                                           class=""
                                           width="536"
                                           height="auto"
