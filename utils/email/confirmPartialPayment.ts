@@ -2728,7 +2728,7 @@ export const confirmPartialPayment = `
                                     <tr>
                                       <td valign="top" style="padding: 0px 0px 10px 0px">
                                         <img
-                                          src="https://res.cloudinary.com/dmtiq7l2k/image/upload/v1712241226/basic-15-image-1_aijvit.jpg"
+                                          src="https://res.cloudinary.com/dmtiq7l2k/image/upload/v1712646382/434821108_7715673548451156_6126449688870697627_n_lmqr5f.png"
                                           class=""
                                           width="536"
                                           height="auto"
@@ -2780,48 +2780,6 @@ export const confirmPartialPayment = `
                                                 <span style="font-size: 14px; color: rgb(159, 155, 155)"
                                                   >*Important Note: Make sure that Date and Time are both visible in
                                                   your receipt</span
-                                                >
-                                              </div>
-                                            </td>
-                                          </tr>
-                                        </table>
-                                      </td>
-                                    </tr>
-                                  </table>
-                                  <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
-                                    <tr>
-                                      <td align="left" valign="top" style="padding: 0px 0px 24px 0px">
-                                        <table
-                                          border="0"
-                                          cellpadding="0"
-                                          cellspacing="0"
-                                          role="presentation"
-                                          width="100%"
-                                          align="left">
-                                          <tr>
-                                            <td
-                                              valign="top"
-                                              class="pc-font-alt pc-w620-fontSize-16px"
-                                              align="left"
-                                              style="
-                                                padding: 0px 0px 0px 0px;
-                                                mso-line-height: exactly;
-                                                line-height: 20px;
-                                                letter-spacing: 0px;
-                                                font-family: Urbanist, Arial, Helvetica, sans-serif;
-                                                font-size: 16px;
-                                                font-weight: 600;
-                                                color: #1d3425;
-                                                text-align: left;
-                                                text-align-last: left;
-                                                font-variant-ligatures: normal;
-                                              ">
-                                              <div><span>Step 3: Wait for the confirmation email</span></div>
-                                              <div>
-                                                <span style="font-size: 14px; color: rgb(159, 155, 155)"
-                                                  >*If you do not receive the email for 24-48 hours. Email us at
-                                                  agapaint@gmail.com or Call us at 0912 345 6789. Thank you for
-                                                  patronizing AGAPAINT, we will see you soon!</span
                                                 >
                                               </div>
                                             </td>
