@@ -9,13 +9,21 @@
 }
 
 .headerDesc {
-  font-size: calc(0.6em + 1vw);
-  font-weight: 500;
+  font-size: calc(0.8em + 1vw);
+  font-weight: bolder;
   text-align: center;
   padding-bottom: 20px;
   color: black;
   padding-bottom: 0;
   padding-top: calc(0.7em + 3.5vw);
+}
+
+.headerNote {
+  text-align: center;
+  font-style: italic;
+  padding-bottom: 20px;
+  font-size: calc(0.4em + 1vw);
+  font-weight: 300;
 }
 
 .serviceTitle {
