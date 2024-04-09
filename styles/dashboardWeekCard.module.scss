@@ -1,13 +1,11 @@
 .row_wrapper {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: start;
   margin: 1px 2px;
   padding: 4px;
 }
 
 .card {
-  max-width: auto; /* Set the maximum width of each column */
+  max-width: 300px; /* Set the maximum width of each column */
   margin: 0 1px; /* Add some margin between columns */
   transition: all 0.3s ease;
 }
