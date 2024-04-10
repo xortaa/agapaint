@@ -274,24 +274,32 @@ const Step4 = ({
   onNext,
   onBack,
   setAppointmentData,
+  setToken,
+  token,
 }: {
   onNext: () => void;
   onBack: () => void;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
+  token: string | null;
 }) => (
   <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
     <h2 className="fw-bold">Client Information</h2>
     <p className="lead">Please provide your personal information</p>
     {/* Personal Info */}
-    <PersonalInfo setAppointmentData={setAppointmentData} />
+    <PersonalInfo setAppointmentData={setAppointmentData} setToken={setToken} />
     {/* Nav Buttons */}
     <div className="d-flex justify-content-between">
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
         Back
       </Button>
-      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium">
-        Next
-      </Button>
+      {!token ? (
+        <p className="text-danger">Please answer the recaptcha to proceed</p>
+      ) : (
+        <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium">
+          Next
+        </Button>
+      )}
     </div>
   </div>
 );
@@ -549,6 +557,7 @@ function bookAppointment() {
   const currentDate = new Date();
   const [startDate, setStartDate] = useState<Date>();
   const [excludedDates, setExcludedDates] = useState<Date[]>();
+  const [token, setToken] = useState<string | null>();
 
   const {
     register,
@@ -575,6 +584,12 @@ function bookAppointment() {
   }, []);
 
   const bookAppointment = () => {
+    if (!token) {
+      window.location.reload();
+    }
+
+    setToken(null);
+
     axios
       .post("/api/appointment", {
         ...appointmentData,
@@ -636,6 +651,7 @@ function bookAppointment() {
       startingBalance: 0,
       currentBalance: 0,
     }));
+    setToken(null);
   };
 
   return (
@@ -737,6 +753,8 @@ function bookAppointment() {
                                 resetStep3();
                               }}
                               setAppointmentData={setAppointmentData}
+                              setToken={setToken}
+                              token={token}
                             />
                           )}
                           {step === 5 && (
