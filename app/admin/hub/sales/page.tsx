@@ -321,7 +321,7 @@ function AdminSales() {
                       {/* php - % */}
                       <Row>
                         <Col lg={8}>
-                          <Card.Text className={saleStyles.cardBody}>₱ {totalRevenueThisMonth}</Card.Text>
+                          <Card.Text className={saleStyles.cardBody}>₱ {totalRevenueThisMonth.toFixed(2)}</Card.Text>
                         </Col>
 
                         <Col lg={4}>
@@ -374,7 +374,7 @@ function AdminSales() {
                       {/* php - % */}
                       <Row>
                         <Col lg={8}>
-                          <Card.Text className={saleStyles.cardBody}>₱ {totalRevenueLastMonth}</Card.Text>
+                          <Card.Text className={saleStyles.cardBody}>₱ {totalRevenueLastMonth.toFixed(2)}</Card.Text>
                         </Col>
                       </Row>
                     </Card.Body>
@@ -473,7 +473,7 @@ function AdminSales() {
                         Name: `${appointment.firstName} ${appointment.lastName}`,
                         "Plate Number": appointment.plateNumber,
                         Status: "Complete",
-                        "Total Amount": `${appointment.startingBalance}`,
+                        "Total Amount": `${appointment.startingBalance.toFixed(2)}`,
                       };
                     }),
                     {
@@ -482,7 +482,7 @@ function AdminSales() {
                       Name: "",
                       "Plate Number": "",
                       Status: "Total",
-                      "Total Amount": totalAmount,
+                      "Total Amount": `${totalAmount.toFixed(2)}`,
                     },
                     {
                       "#": showAll
@@ -595,7 +595,7 @@ function AdminSales() {
                             <td>
                               <StatusBadge status="Complete" />
                             </td>
-                            <td className="fw-semibold">₱{appointment.startingBalance}</td>
+                            <td className="fw-semibold">₱{appointment.startingBalance.toFixed(2)}</td>
                           </tr>
                         );
                       })
