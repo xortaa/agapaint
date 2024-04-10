@@ -65,7 +65,7 @@ function custServices() {
           <Row className="pt-5 justify-content-center">
             <Tab.Container id="left-tabs-example" defaultActiveKey="hatchback">
               <Row>
-                <Col xl={2} lg={2} md={2} sm={12} xs={12}>
+                <Col xl={2} lg={2} md={4} sm={12} xs={12}>
                   <Nav variant="pills" className="flex-column">
                     <Nav.Item>
                       <Nav.Link
@@ -141,7 +141,7 @@ function custServices() {
                 </Col>
 
                 {/* tab content */}
-                <Col xl={10} lg={10} md={10} sm={12} xs={12}>
+                <Col xl={10} lg={10} md={8} sm={12} xs={12}>
                   <Tab.Content>
                     {["hatchback", "sedan", "suv/auv", "van", "motorcycle", "bicycle", "others"].map((carType) => (
                       <Tab.Pane eventKey={carType}>
