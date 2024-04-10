@@ -588,8 +588,6 @@ function bookAppointment() {
       window.location.reload();
     }
 
-    setToken(null);
-
     axios
       .post("/api/appointment", {
         ...appointmentData,
@@ -599,9 +597,11 @@ function bookAppointment() {
         currentBalance: totalPrice,
         totalPrice,
         date: startDate,
+        recaptchaResponse: token,
       })
       .then((res) => {
         console.log(res);
+        setToken(null);
       });
   };
 
