@@ -468,7 +468,7 @@ function AdminSales() {
                       })} ${date.getDate()}, ${date.getFullYear()}`;
 
                       return {
-                        "#": index + 1,
+                        "#": `#${appointment.nanoid}`,
                         Date: formattedDate,
                         Name: `${appointment.firstName} ${appointment.lastName}`,
                         "Plate Number": appointment.plateNumber,
@@ -588,7 +588,7 @@ function AdminSales() {
 
                         return (
                           <tr key={appointment._id}>
-                            <td className="fw-medium">{index + 1}</td>
+                            <td className="fw-medium">#{appointment.nanoid}</td>
                             <td>{formattedDate}</td>
                             <td>{`${appointment.firstName} ${appointment.lastName}`}</td>
                             <td>{appointment.plateNumber}</td>
