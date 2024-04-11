@@ -218,7 +218,10 @@ function Dashboard() {
   return (
     <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
-        <AdminHeader title="Welcome to Dashboard!" subtitle="View to quickly check the status of appointment and inventory for the week" />
+        <AdminHeader
+          title="Welcome to Dashboard!"
+          subtitle="View to quickly check the status of appointment and inventory for the week"
+        />
 
         {/* col for this week cards, low-mat table, and overview cards */}
         <Row className="mt-2">
@@ -324,10 +327,22 @@ function Dashboard() {
               </Col>
 
               {/* row of overview, col for overview cards like total rev, etc */}
-              <Col sm={4} className="m-0 ps-0 pes-3">
-                <DashboardCards cardTitle="Total Revenue (₱)" count={totalRevenue} logo={<CreditCard size={32} />} />
-                <DashboardCards cardTitle="Services Available" count={noOfServices} logo={<Cart size={32} />} />
-                <DashboardCards cardTitle="Customers" count={activeCustomers} logo={<PeopleFill size={32} />} />
+              <Col sm={4} className="m-0 ps-0 pe-3">
+                <DashboardCards
+                  cardTitle="Total Revenue (₱)"
+                  count={totalRevenue.toFixed(2)}
+                  logo={<CreditCard size={32} />}
+                />
+                <DashboardCards
+                  cardTitle="Services Available"
+                  count={noOfServices.toString()}
+                  logo={<Cart size={32} />}
+                />
+                <DashboardCards
+                  cardTitle="Customers"
+                  count={activeCustomers.toString()}
+                  logo={<PeopleFill size={32} />}
+                />
               </Col>
             </Row>
           </Col>

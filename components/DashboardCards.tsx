@@ -3,7 +3,7 @@ import { Card, Col, Row } from "react-bootstrap";
 
 interface DashboardCardProps {
   cardTitle: string;
-  count: number;
+  count: string;
   logo: React.ReactNode;
 }
 
