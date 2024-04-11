@@ -247,7 +247,7 @@ function manageInventory() {
 
   // Pagination for logs
   const [currentPageLog, setCurrentPageLog] = useState(1);
-  const [itemsPerPageLog, setItemsPerPageLog] = useState(15); //set the limit of items per page
+  const [itemsPerPageLog, setItemsPerPageLog] = useState(10); //set the limit of items per page
   const indexOfLastItemLog = (currentPageLog - 1) * itemsPerPageLog;
   const indexOfFirstItemLog = indexOfLastItemLog;
   const reversedLogs = [...sortedLogs].reverse();
