@@ -59,7 +59,7 @@ function custServices() {
       <div className={serviceStyles.body}>
         <Container style={{ paddingBottom: "50px" }}>
           <h3 className={serviceStyles.headerDesc}>We offer a wide range of services to cater to your vehicle type:</h3>
-          <h4 className={serviceStyles.headerNote}>*Please note that prices may vary depending on service options and vehicle specifications</h4>
+          <h4 className={serviceStyles.headerNote}>*Please note that <b style={{fontWeight: '600'}}>prices may vary </b>depending on service options and vehicle specifications</h4>
 
           {/* vehicle tabs */}
           <Row className="pt-5 justify-content-center">

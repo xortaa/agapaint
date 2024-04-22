@@ -276,8 +276,8 @@ function AdminSales() {
       <Container fluid className="p-4 min-vh-100">
         {/* Admin Header */}
         <AdminHeader
-          title="Service Revenue Report"
-          subtitle="View all your service revenue from completed appointments"
+          title="Operating Service Revenue Report"
+          subtitle="View all your operating service revenue from completed appointments"
         />
 
         {/* Side Navbar */}

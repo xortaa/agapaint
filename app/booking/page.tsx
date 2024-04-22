@@ -382,14 +382,14 @@ const Step5 = ({
         <span className="fw-semibold">Comments/ Request:</span> {appointmentData.requests}
       </p>
       <hr />
-      <p className="lh-sm small">
-        NOTE: WE WILL INFORM YOU THROUGH EMAIL OF ANY CHANGES TO THE SERVICE AMOUNT BEFORE PROCEEDING WITH THE SERVICE.
+      <p className="lh-sm small" style={{fontSize: '15px'}}>
+        <b>NOTE: WE WILL INFORM YOU THROUGH EMAIL OF ANY CHANGES TO THE SERVICE AMOUNT BEFORE PROCEEDING WITH THE SERVICE.</b>
         <br />
         Please note, the total service amount might change after inspection especially for 'Others' vehicle type. We aim
         to give accurate estimates, but the final amount could vary.
       </p>
-      <p className="lh-sm small">
-        NOTE: THAT WE ARE NOT RESPONSIBLE FOR ANY ITEMS LEFT ON THE VEHICLE <br />I hereby agree voluntarily to drop the
+      <p className="lh-sm small" style={{fontSize: '15px'}}>
+        <b>NOTE: THAT WE ARE NOT RESPONSIBLE FOR ANY ITEMS LEFT ON THE VEHICLE </b><br />I hereby agree voluntarily to drop the
         key for my vehicle for servicing and acknowledge that any damage or wrong service given due to false information
         given above our company will not be responsible. I hereby declare that all information given above is true and I
         agree to the terms and conditions of Agapaint.
