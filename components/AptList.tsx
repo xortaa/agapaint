@@ -59,8 +59,8 @@ function AptList({ onClick, appointment }: { onClick: any; appointment: Appointm
       {/* Payment */}
       <td>
         <div className="lh-sm d-flex flex-column align-items-end">
-          <p className="fw-semibold m-0">₱{appointment.startingBalance}</p>
-          <p className="text-secondary m-0" style={{ fontSize: "0.85rem" }}>
+          <p className="fw-semibold m-0 text-end">{appointment.status === "Pending" ? "Under Review" : `₱${appointment.startingBalance}`} </p>
+          <p className="text-secondary m-0 text-end" style={{ fontSize: "0.85rem" }}>
             {appointment.paymentTerm}
           </p>
         </div>

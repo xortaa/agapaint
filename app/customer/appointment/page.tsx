@@ -33,6 +33,7 @@ import PlaceholderRow from "@/components/PlaceholderRow";
 import PlaceholderCard from "@/components/PlaceholderCard";
 import { getSession } from "next-auth/react";
 import icon from "@/public/assets/img/iconApt.svg";
+import { Messenger } from "react-bootstrap-icons";
 
 function custAppointment() {
   const router = useRouter();
@@ -103,7 +104,7 @@ function custAppointment() {
   // pagination
   // Add state variables for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(6); //set limit of items per page
+  const [itemsPerPage, setItemsPerPage] = useState(8); //set limit of items per page
 
   // Subtract 1 from currentPage before multiplying by itemsPerPage
   const indexOfLastItem = (currentPage - 1) * itemsPerPage;
@@ -170,6 +171,30 @@ function custAppointment() {
                 </Card>
               </Card.Body>
             </Card>
+
+            {/* Contact Support Card */}
+            <Card style={{ borderRadius: "15px" }} className="mt-4">
+              <Card.Body className="p-2 ps-4 pe-4">
+                <p className="mt-3 mb-2 fw-semibold text-dark" >
+                Have Queries? We're at your service! <span className="small fw-normal">You can usually expect a response within a day.</span>
+                </p>
+                {/* <p className="small text-secondary" style={{ textAlign: "justify" }}>
+                 Our lines are open from 8:00 AM to 5:00 PM, Mondays to Fridays.
+                </p> */}
+                <div className="d-grid gap-2">
+                  <Button
+                    variant="outline-dark"
+                    className="mb-3"
+                    href="https://m.me/agapaint"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Messenger className="me-2" />
+                    Contact Us
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
           </Col>
 
           {/* Appointment Card */}
@@ -234,7 +259,9 @@ function custAppointment() {
                             Date
                           </th>
                           <th className="fw-semibold">Appointment</th>
-                          <th className="fw-semibold text-center">Service Status</th>
+                          <th className="fw-semibold text-center" style={{ width: "200px" }}>
+                            Service Status
+                          </th>
                           <th className="fw-semibold text-end">Total</th>
                         </tr>
                       </thead>
