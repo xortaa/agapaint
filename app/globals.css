@@ -407,3 +407,11 @@ a {
     height: 140px;
   }
 }
+
+.iconCancel {
+  color: #dc3545; /* This is the color for .text-danger */
+  transition: color 0.3s ease;
+}
+.iconCancel:hover {
+  color: #343a40; /* This is the color for .text-dark */
+}
