@@ -23,6 +23,8 @@ import {
   SortAlphaDownAlt,
   SortNumericDown,
   SortNumericDownAlt,
+  SignStopFill,
+  XOctagon,
 } from "react-bootstrap-icons";
 import { useState, useEffect } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -39,6 +41,8 @@ import axios from "axios";
 import ToastPromise from "@/components/ToastPromise";
 import PlaceholderRow from "@/components/PlaceholderRow";
 import NoRecordRow from "@/components/NoRecordRow";
+import { FcCancel } from "react-icons/fc";
+import { SignStop } from "react-bootstrap-icons";
 
 function manageAppointment() {
   // Show Appointment Detail
@@ -547,6 +551,7 @@ function manageAppointment() {
                             </span>
                           </th>
                           <th>Service Status</th>
+                          <th>ACT</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -575,6 +580,9 @@ function manageAppointment() {
                                   setActiveAppointments={setActiveAppointments}
                                   appointment={apt}
                                 />
+                              </td>
+                              <td>
+                                <SignStop size={24} className="iconCancel" onClick={() => console.log("Clicked Cancel")} />
                               </td>
                             </tr>
                           ))
@@ -686,6 +694,9 @@ function manageAppointment() {
                             </span>
                           </th>
                           <th>Service Status</th>
+                          <th>
+                            ACT
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -714,6 +725,9 @@ function manageAppointment() {
                                   setActiveAppointments={setActiveAppointments}
                                   appointment={apt}
                                 />
+                              </td>
+                              <td>
+                                <SignStop size={24} className="iconCancel" onClick={() => console.log("Clicked Cancel")} />
                               </td>
                             </tr>
                           ))
