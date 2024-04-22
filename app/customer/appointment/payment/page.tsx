@@ -86,8 +86,7 @@ function custPayment() {
       {isSignedIn ? <Navbar2 /> : <Navbar />}
 
       {/* New Banner */}
-      {appointment ? <Banner page="payment" aptId={appointment.nanoid}/> : <Banner page="payment" />}
-      
+      {appointment ? <Banner page="payment" aptId={appointment.nanoid} /> : <Banner page="payment" />}
 
       {/* Body */}
       {!appointment ? (
@@ -111,11 +110,12 @@ function custPayment() {
                         {/* BACKEND HERE:  Service Name, Description, Price*/}
                         {appointment.servicesId.map((service, index) => (
                           <tr key={index}>
-                            <td className="text-start" style={{ width: "80%" }}>
+                            <td className="text-start" style={{ width: "70%" }}>
                               <p className="fw-semibold mb-0">{service.name}</p>
                               <p className="small text-secondary mb-0">{service.description}</p>
                             </td>
-                            <td className="text-end" style={{ width: "20%" }}>
+                            <td className="text-end" style={{ width: "30%" }}>
+                              <p className="small mb-0">starts at</p>
                               <p className="fw-semibold mb-0">₱ {service.price}</p>
                             </td>
                           </tr>
@@ -128,15 +128,35 @@ function custPayment() {
                 {/* Payment Information */}
                 <Card.Header className="p-3 ps-4 pe-4">
                   <div className="d-flex align-items-center justify-content-between">
-                    <div>
-                      <p className="mb-0 fw-semibold text-dark fs-6">Total Service Amount</p>
+                    <div style={{ width: "70%" }}>
+                      <p className="mb-0 fw-semibold text-dark fs-6">
+                        {appointment.status === "Pending" ? <span className="text-danger">Estimated </span> : ""} Total
+                        Service Amount
+                      </p>
                       {appointment.paymentTerm === "Partial" ? (
                         <p className="small text-secondary mb-0 responsive-text">Partial Payment Term</p>
                       ) : (
                         <p className="small text-secondary mb-0 responsive-text">Full Payment Term</p>
                       )}
+                      {appointment.status === "Pending" ? (
+                        <p className="small text-danger mb-0 responsive-text">
+                          *Price Adjustments Possible Depending on Vehicle's Case, We will notify you on email for any
+                          changes before proceeding with the service.
+                        </p>
+                      ) : (
+                        ""
+                      )}
                     </div>
-                    <p className="fw-semibold mb-0 responsive-text">₱ {appointment.startingBalance}</p>
+                    <div style={{ width: "30%" }}>
+                      <p className="fw-semibold mb-0 responsive-text text-end">₱ {appointment.startingBalance}</p>
+                      {appointment.status === "Pending" ? (
+                        <p className="small text-danger-emphasis fw-semibold mb-0 responsive-text text-end">
+                          Under Review
+                        </p>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
                 </Card.Header>
                 <Card.Body className="p-4 pt-2">

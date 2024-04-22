@@ -39,7 +39,7 @@ function AptCard({ onClick, appointment }: { onClick: any; appointment: Appointm
           {appointment.servicesId.length > 3 && <span>...</span>}
           <hr />
           <p className="text-secondary small mb-2">{appointment.paymentTerm} Payment Term</p>
-          <p className="fw-semibold small mb-0">Total Amount: ₱{appointment.startingBalance}</p>
+          <p className="fw-semibold small mb-0">Total Amount: {appointment.status === "Pending" ? "Under Review" : `₱${appointment.startingBalance}`}</p>
         </Card.Body>
       </Card>
     </Col>
