@@ -140,13 +140,23 @@ function custPayment() {
                       )}
                       {appointment.status === "Pending" ? (
                         <p className="small text-danger mb-0 responsive-text">
-                          *Price Adjustments Possible Depending on Vehicle's Case, We will notify you on email for any changes before proceeding with the service.
+                          *Price Adjustments Possible Depending on Vehicle's Case, We will notify you on email for any
+                          changes before proceeding with the service.
                         </p>
                       ) : (
                         ""
                       )}
                     </div>
-                    <p className="fw-semibold mb-0 responsive-text text-end" style={{ width: "30%" }}>₱ {appointment.startingBalance}</p>
+                    <div style={{ width: "30%" }}>
+                      <p className="fw-semibold mb-0 responsive-text text-end">₱ {appointment.startingBalance}</p>
+                      {appointment.status === "Pending" ? (
+                        <p className="small text-danger-emphasis fw-semibold mb-0 responsive-text text-end">
+                          Under Review
+                        </p>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
                 </Card.Header>
                 <Card.Body className="p-4 pt-2">
