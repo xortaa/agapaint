@@ -30,7 +30,7 @@ function ApproveAptModal({ carryFunction, aptId, aptDate, aptTime, aptEndDate, t
             <tbody>
               <tr>
                 <td>ID</td>
-                <td className="fw-semibold">{aptId}</td>
+                <td className="fw-semibold">#{aptId}</td>
               </tr>
               <tr>
                 <td>Apt Date</td>
