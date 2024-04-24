@@ -4,13 +4,24 @@ import GoogleButton from "react-google-button";
 import { signIn } from "next-auth/react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useState } from "react";
-import { set } from "mongoose";
+import axios from "axios";
 
 const SignUpCard = ({ role }) => {
   const [token, setToken] = useState<String | null>();
 
   const recaptchaOnchange = (token: String) => {
-    setToken(token);
+    axios
+      .post("/api/validateRecaptcha", { recaptchaResponse: token })
+      .then((response) => {
+        if (response.data.success) {
+          setToken(token);
+        } else {
+          console.error("Recaptcha failed");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
