@@ -3,14 +3,11 @@ import { Container, Row, Col, Card, Form, Button, ButtonGroup } from "react-boot
 import { useState } from "react";
 import { AppointmentData } from "@/types";
 import InputMask from "react-input-mask";
-import ReCAPTCHA from "react-google-recaptcha";
 
 function PersonalInfo({
   setAppointmentData,
-  setToken,
 }: {
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
-  setToken: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const optionToPaymentTerm = {
     option1: "Full",
@@ -25,10 +22,6 @@ function PersonalInfo({
     const paymentTerm = optionToPaymentTerm[optionId];
     setAppointmentData((prev) => ({ ...prev, paymentTerm }));
   };
-
-  const recaptchaOnchange = (token) => { 
-    setToken(token);
-  }
 
   return (
     <main>
@@ -152,10 +145,6 @@ function PersonalInfo({
             onChange={(e) => setAppointmentData((prev) => ({ ...prev, requests: e.target.value }))}
           />
         </Form.Group>
-      </Row>
-
-      <Row className="mb-3">
-        <ReCAPTCHA sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY} onChange={recaptchaOnchange} />
       </Row>
     </main>
   );

@@ -274,32 +274,25 @@ const Step4 = ({
   onNext,
   onBack,
   setAppointmentData,
-  setToken,
-  token,
 }: {
   onNext: () => void;
   onBack: () => void;
   setAppointmentData: React.Dispatch<React.SetStateAction<AppointmentData>>;
-  setToken: React.Dispatch<React.SetStateAction<string | null>>;
-  token: string | null;
 }) => (
   <div className="ps-4 ps-lg-0 pe-4 pe-lg-0">
     <h2 className="fw-bold">Client Information</h2>
     <p className="lead">Please provide your personal information</p>
     {/* Personal Info */}
-    <PersonalInfo setAppointmentData={setAppointmentData} setToken={setToken} />
+    <PersonalInfo setAppointmentData={setAppointmentData} />
     {/* Nav Buttons */}
     <div className="d-flex justify-content-between">
       <Button variant="outline-dark" type="submit" className="ps-4 pe-4" onClick={onBack}>
         Back
       </Button>
-      {!token ? (
-        <p className="text-danger">Please answer the recaptcha to proceed</p>
-      ) : (
-        <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium">
-          Next
-        </Button>
-      )}
+
+      <Button variant="warning" type="submit" className="ps-4 pe-4 fw-medium">
+        Next
+      </Button>
     </div>
   </div>
 );
@@ -382,17 +375,20 @@ const Step5 = ({
         <span className="fw-semibold">Comments/ Request:</span> {appointmentData.requests}
       </p>
       <hr />
-      <p className="lh-sm small" style={{fontSize: '15px'}}>
-        <b>NOTE: WE WILL INFORM YOU THROUGH EMAIL OF ANY CHANGES TO THE SERVICE AMOUNT BEFORE PROCEEDING WITH THE SERVICE.</b>
+      <p className="lh-sm small" style={{ fontSize: "15px" }}>
+        <b>
+          NOTE: WE WILL INFORM YOU THROUGH EMAIL OF ANY CHANGES TO THE SERVICE AMOUNT BEFORE PROCEEDING WITH THE
+          SERVICE.
+        </b>
         <br />
         Please note, the total service amount might change after inspection especially for 'Others' vehicle type. We aim
         to give accurate estimates, but the final amount could vary.
       </p>
-      <p className="lh-sm small" style={{fontSize: '15px'}}>
-        <b>NOTE: THAT WE ARE NOT RESPONSIBLE FOR ANY ITEMS LEFT ON THE VEHICLE </b><br />I hereby agree voluntarily to drop the
-        key for my vehicle for servicing and acknowledge that any damage or wrong service given due to false information
-        given above our company will not be responsible. I hereby declare that all information given above is true and I
-        agree to the terms and conditions of Agapaint.
+      <p className="lh-sm small" style={{ fontSize: "15px" }}>
+        <b>NOTE: THAT WE ARE NOT RESPONSIBLE FOR ANY ITEMS LEFT ON THE VEHICLE </b>
+        <br />I hereby agree voluntarily to drop the key for my vehicle for servicing and acknowledge that any damage or
+        wrong service given due to false information given above our company will not be responsible. I hereby declare
+        that all information given above is true and I agree to the terms and conditions of Agapaint.
       </p>
     </Row>
     {/* Nav Buttons */}
@@ -557,7 +553,6 @@ function bookAppointment() {
   const currentDate = new Date();
   const [startDate, setStartDate] = useState<Date>();
   const [excludedDates, setExcludedDates] = useState<Date[]>();
-  const [token, setToken] = useState<string | null>();
 
   const {
     register,
@@ -584,10 +579,6 @@ function bookAppointment() {
   }, []);
 
   const bookAppointment = () => {
-    if (!token) {
-      window.location.reload();
-    }
-
     axios
       .post("/api/appointment", {
         ...appointmentData,
@@ -597,11 +588,9 @@ function bookAppointment() {
         currentBalance: totalPrice,
         totalPrice,
         date: startDate,
-        recaptchaResponse: token,
       })
       .then((res) => {
         console.log(res);
-        setToken(null);
       });
   };
 
@@ -651,7 +640,6 @@ function bookAppointment() {
       startingBalance: 0,
       currentBalance: 0,
     }));
-    setToken(null);
   };
 
   return (
@@ -753,8 +741,6 @@ function bookAppointment() {
                                 resetStep3();
                               }}
                               setAppointmentData={setAppointmentData}
-                              setToken={setToken}
-                              token={token}
                             />
                           )}
                           {step === 5 && (
