@@ -64,7 +64,7 @@ export interface Appointment {
   requests: string;
   date: string;
   time: string;
-  status: "Pending" | "Awaiting Payment" | "Ongoing" | "For Release" | "Complete";
+  status: string;
   paymentTerm: "Full" | "Partial";
   startingBalance: number;
   currentBalance: number;
