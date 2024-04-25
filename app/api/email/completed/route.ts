@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
-import { cancelled } from "@/utils/email/cancelled";
+import { completed } from "@/utils/email/completed";
 import * as handlebars from "handlebars";
 
 export async function POST(request: NextRequest) {
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     carModel: string,
     url: string
   ) => {
-    const template = handlebars.compile(cancelled);
+    const template = handlebars.compile(completed);
     const htmlBody = template({
       nanoid: nanoid,
       date: date,
