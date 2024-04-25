@@ -256,7 +256,26 @@ function AptDetails({
           handleCloseModal();
           setActiveAppointments((prev) => prev.filter((apt) => apt._id !== appointment._id));
           closeDetails();
-          resolve("Success");
+
+          const date = new Date(res.data.date);
+          const formattedDate = `${date.toLocaleString("default", {
+            month: "long",
+          })} ${date.getDate()} ${date.getFullYear()}`;
+
+          const emailData = {
+            nanoid: appointment.nanoid,
+            date: formattedDate,
+            time: res.data.time,
+            carManufacturer: res.data.carManufacturer,
+            carModel: res.data.carModel,
+            url: `${process.env.NEXT_PUBLIC_URL}/customer/appointment/payment?id=${localAppointment._id}`,
+            email: res.data.email,
+          };
+
+          axios.post("/api/email/cancelled", emailData).then((emailRes) => {
+            console.log(emailRes.data);
+            resolve("Success");
+          });
         })
         .catch((error) => {
           console.error("Failed to cancel appointment: ", error);
@@ -265,8 +284,8 @@ function AptDetails({
     });
 
     toast.promise(cancelAppointment, {
-      pending: "Cancelling appointment...",
-      success: "Appointment Cancelled!",
+      pending: "Cancelling appointment & Sending Cancellation email...",
+      success: "Appointment Cancellation email sent!",
       error: "Failed to cancel appointment, Please try again.",
     });
   };
