@@ -1,15 +1,13 @@
 import { type NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
-import { forReleasePartialPayment } from "@/utils/email/forReleasePartialPayment";
+import { forReleaseFullPayment } from "@/utils/email/forReleaseFullPayment";
 import * as handlebars from "handlebars";
 
 export async function POST(request: NextRequest) {
   const emailData = await request.json();
 
   const payment1 = emailData.payments[0].amount.toFixed(2);
-  const payment2 = emailData.payments[1].amount.toFixed(2);
-  const payment3 = emailData.payments[2].amount.toFixed(2);
 
   const transport = nodemailer.createTransport({
     service: "gmail",
@@ -30,11 +28,9 @@ export async function POST(request: NextRequest) {
     carModel: string,
     url: string,
     services: string,
-    payment1: number,
-    payment2: number,
-    payment3: number
+    payment1: number
   ) => {
-    const template = handlebars.compile(forReleasePartialPayment);
+    const template = handlebars.compile(forReleaseFullPayment);
     const htmlBody = template({
       nanoid: nanoid,
       date: date,
@@ -47,8 +43,6 @@ export async function POST(request: NextRequest) {
       url: url,
       services: services,
       payment1: payment1,
-      payment2: payment2,
-      payment3: payment3,
     });
     return htmlBody;
   };
@@ -68,9 +62,7 @@ export async function POST(request: NextRequest) {
       emailData.carModel,
       emailData.url,
       emailData.services,
-      payment1,
-      payment2,
-      payment3
+      payment1
     ),
   };
 

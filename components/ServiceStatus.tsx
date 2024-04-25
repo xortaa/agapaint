@@ -23,36 +23,30 @@ function ServiceStatus({
   }, [option]);
 
   const handleChange = (event) => {
-    setSelectedOption(event.target.value);
-    const data = { status: event.target.value };
+  const data = { status: event.target.value };
 
-    const updateStatus = new Promise((resolve, reject) => {
-      axios
-        .patch(`/api/appointment/${appointment._id}`, data)
-        .then((res) => {
-          setActiveAppointments((prev) =>
-            prev.map((appointment) => (appointment._id === res.data._id ? res.data : appointment))
-          );
-          resolve(res);
-          if (event.target.value === "Complete") {
-            handleCompletedAppointment();
-          }
-        })
-        .catch((error) => {
-          console.error("Failed to update status", error);
-          reject(error);
-        });
-    });
+  const updateStatus = new Promise((resolve, reject) => {
+    axios
+      .patch(`/api/appointment/${appointment._id}`, data)
+      .then((res) => {
+        setActiveAppointments((prev) =>
+          prev.map((appointment) => (appointment._id === res.data._id ? res.data : appointment))
+        );
+        resolve(res);
+      })
+      .catch((error) => {
+        console.error("Failed to update status", error);
+        reject(error);
+      });
+  });
 
-    toast.promise(updateStatus, {
-      pending: "Updating status...",
-      success: "Status updated!",
-      error: "Failed to update status",
-    });
-  };
+  toast.promise(updateStatus, {
+    pending: "Updating status...",
+    error: "Failed to update status",
+  });
 
   const handleCompletedAppointment = () => {
-    const CompleteAppointment = new Promise<void>((resolve, reject) => {
+    const CompleteAppointment = new Promise<string>((resolve, reject) => {
       const emailData = {
         nanoid: appointment.nanoid,
         carManufacturer: appointment.carManufacturer,
@@ -64,21 +58,72 @@ function ServiceStatus({
         .post("/api/email/completed", emailData)
         .then((emailRes) => {
           console.log(emailRes.data);
-          resolve(); // resolve the promise when the axios request is successful
+          setSelectedOption(event.target.value);
+          resolve("Updated status, Appointment Completed email has been sent to the customer.");
         })
         .catch((error) => {
           console.error("Failed to send email", error);
-          reject(error); // reject the promise if the axios request fails
+          reject(error);
         });
     });
 
     toast.promise(CompleteAppointment, {
       pending: "Sending Appointment Completed email...",
-      success: "Appointment Completed email has been sent to the customer.",
+      success: "Appointment Completed email sent!",
       error: "Failed to send Appointment Completed email, Please try again.",
     });
   };
 
+  const handleForReleaseAppointment = () => {
+    const forReleaseAppointment = new Promise<string>((resolve, reject) => {
+      const date = new Date(appointment.date);
+      const formattedDate = `${date.toLocaleString("default", {
+        month: "long",
+      })} ${date.getDate()} ${date.getFullYear()}`;
+
+      const emailData = {
+        nanoid: appointment.nanoid,
+        email: appointment.email,
+        date: formattedDate,
+        time: appointment.time,
+        paymentTerm: appointment.paymentTerm,
+        startingBalance: appointment.startingBalance,
+        currentBalance: appointment.currentBalance,
+        carManufacturer: appointment.carManufacturer,
+        carModel: appointment.carModel,
+        url: `${process.env.NEXT_PUBLIC_URL}/customer/appointment/payment?id=${appointment._id}`,
+        payments: appointment.payments,
+      };
+
+      if (appointment.paymentTerm === "Partial") {
+        axios.post("/api/email/forReleasePartialPayment", emailData).then((emailRes) => {
+          console.log(emailRes.data);
+          setSelectedOption(event.target.value);
+          resolve("Updated status, For Release email sent!");
+        });
+      } else if (appointment.paymentTerm === "Full") {
+        axios.post("/api/email/forReleaseFullPayment", emailData).then((emailRes) => {
+          console.log(emailRes.data);
+          setSelectedOption(event.target.value);
+          resolve("Updated status, For Release email sent!");
+        });
+      }
+    });
+
+    toast.promise(forReleaseAppointment, {
+      pending: "Sending For Release email...",
+      success: "For Release email sent!",
+      error: "Failed to send For Release email, Please try again.",
+    });
+  };
+
+  if (event.target.value === "Complete") {
+    handleCompletedAppointment();
+  }
+  if (event.target.value === "For Release") {
+    handleForReleaseAppointment();
+  }
+};
 
   const getColor = () => {
     switch (selectedOption) {
