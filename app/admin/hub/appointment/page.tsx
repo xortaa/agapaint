@@ -23,8 +23,6 @@ import {
   SortAlphaDownAlt,
   SortNumericDown,
   SortNumericDownAlt,
-  SignStopFill,
-  XOctagon,
 } from "react-bootstrap-icons";
 import { useState, useEffect } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -41,8 +39,6 @@ import axios from "axios";
 import ToastPromise from "@/components/ToastPromise";
 import PlaceholderRow from "@/components/PlaceholderRow";
 import NoRecordRow from "@/components/NoRecordRow";
-import { FcCancel } from "react-icons/fc";
-import { SignStop } from "react-bootstrap-icons";
 
 function manageAppointment() {
   // Show Appointment Detail
@@ -555,13 +551,12 @@ function manageAppointment() {
                             </span>
                           </th>
                           <th>Service Status</th>
-                          <th>ACT</th>
                         </tr>
                       </thead>
                       <tbody>
                         {/* Placeholder Component */}
                         {loading ? (
-                          <PlaceholderRow col="8" />
+                          <PlaceholderRow col="7" />
                         ) : currentAwaitingItems.length > 0 ? (
                           [...currentAwaitingItems].map((apt: Appointment, index) => (
                             <tr onClick={() => setShowComponent(apt)} key={apt._id}>
@@ -583,13 +578,6 @@ function manageAppointment() {
                                   option={apt.status}
                                   setActiveAppointments={setActiveAppointments}
                                   appointment={apt}
-                                />
-                              </td>
-                              <td>
-                                <SignStop
-                                  size={24}
-                                  className="iconCancel"
-                                  onClick={() => console.log("Clicked Cancel")}
                                 />
                               </td>
                             </tr>
@@ -702,13 +690,12 @@ function manageAppointment() {
                             </span>
                           </th>
                           <th>Service Status</th>
-                          <th>ACT</th>
                         </tr>
                       </thead>
                       <tbody>
                         {/* Placeholder Component */}
                         {loading ? (
-                          <PlaceholderRow col="8" />
+                          <PlaceholderRow col="7" />
                         ) : currentPendingItems.length > 0 ? (
                           [...currentPendingItems].map((apt: Appointment, index) => (
                             <tr onClick={() => setShowComponent(apt)} key={apt._id}>
@@ -730,13 +717,6 @@ function manageAppointment() {
                                   option={apt.status}
                                   setActiveAppointments={setActiveAppointments}
                                   appointment={apt}
-                                />
-                              </td>
-                              <td>
-                                <SignStop
-                                  size={24}
-                                  className="iconCancel"
-                                  onClick={() => console.log("Clicked Cancel")}
                                 />
                               </td>
                             </tr>
