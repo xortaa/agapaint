@@ -39,7 +39,7 @@ function custServices() {
 
   // Filter services by car type
   const filteredServices = services.filter(
-    (service) => selectedCarType === "" || service.carType.includes(selectedCarType)
+    (service) => selectedCarType === "" || service.carType.toString().includes(selectedCarType)
   );
 
   return (
@@ -90,8 +90,8 @@ function custServices() {
                     <Nav.Item>
                       <Nav.Link
                         eventKey="suv/auv"
-                        onClick={() => setSelectedCarType("SUV")}
-                        className={selectedCarType === "SUV" ? "bg-warning text-dark" : "text-dark"}
+                        onClick={() => setSelectedCarType("SUV/AUV")}
+                        className={selectedCarType === "SUV/AUV" ? "bg-warning text-dark" : "text-dark"}
                         style={{ fontWeight: "500", fontSize: "1.1em" }}
                       >
                         <img src="/assets/img/rbSUV.svg" height="25" width="25" /> &nbsp; SUV/AUV
@@ -152,7 +152,7 @@ function custServices() {
                               <PlaceholderCard />
                               <PlaceholderCard />
                             </>
-                          ) : filteredServices.filter((service) => service.carType.toLowerCase() === carType).length >
+                          ) : filteredServices.filter((service) => service.carType.toLowerCase().includes(carType)).length >
                             0 ? (
                             filteredServices
                               .filter((service) => service.carType.toLowerCase().includes(carType.toLowerCase()))
