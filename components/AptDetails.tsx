@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import ApproveAptModal from "@/components/ApproveAptModal";
 import ConfirmAptModal from "@/components/ConfirmAptModal";
+import CancelAptModal from "@/components/CancelAptModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
@@ -17,17 +18,19 @@ function AptDetails({
   appointment,
   setActiveAppointments,
   activeAppointments,
+  closeDetails,
 }: {
   appointment: Appointment;
   setActiveAppointments: React.Dispatch<React.SetStateAction<Appointment[]>>;
   activeAppointments: Appointment[];
+  closeDetails: () => void;
 }) {
   //   Archive Modal
   const [smShow, setSmShow] = useState(false);
-  const [endDate, setEndDate] = useState<Date>(appointment.endDate);
+  const [endDate, setEndDate] = useState<Date>(appointment ? appointment.endDate : new Date());
   const handleCloseModal = () => setSmShow(false);
-  const [isApproved, setIsApproved] = useState(appointment.status === "Awaiting Payment");
-  const [selectedOption, setSelectedOption] = useState(appointment.status);
+  const [isApproved, setIsApproved] = useState(appointment ? appointment.status === "Awaiting Payment" : false);
+  const [selectedOption, setSelectedOption] = useState(appointment ? appointment.status : "");
   const [showChangeBalance, setShowChangeBalance] = useState(false);
   const [newBalance, setNewBalance] = useState<number>();
   const [startingBalance, setStartingBalance] = useState<number>();
@@ -40,6 +43,10 @@ function AptDetails({
   const [localAppointment, setLocalAppointment] = useState<Appointment>(appointment);
 
   useEffect(() => {
+    if (appointment === null) {
+      closeDetails();
+      return;
+    }
     setLocalAppointment(appointment);
     setCurrentBalance(appointment.currentBalance);
     setStartingBalance(appointment.startingBalance);
@@ -241,6 +248,29 @@ function AptDetails({
     });
   };
 
+  const handleCancelAppointment = () => {
+    const cancelAppointment = new Promise((resolve, reject) => {
+      axios
+        .delete(`/api/appointment/${appointment._id}`)
+        .then((res) => {
+          handleCloseModal();
+          setActiveAppointments((prev) => prev.filter((apt) => apt._id !== appointment._id));
+          closeDetails();
+          resolve("Success");
+        })
+        .catch((error) => {
+          console.error("Failed to cancel appointment: ", error);
+          reject(error);
+        });
+    });
+
+    toast.promise(cancelAppointment, {
+      pending: "Cancelling appointment...",
+      success: "Appointment Cancelled!",
+      error: "Failed to cancel appointment, Please try again.",
+    });
+  };
+
   return (
     <>
       <Col sm={3}>
@@ -260,7 +290,7 @@ function AptDetails({
                 // </Button>
                 <ApproveAptModal
                   carryFunction={handleApproveAppointment}
-                  aptId="123"
+                  aptId={localAppointment.nanoid}
                   aptDate={localAppointment.date.split("T")[0]}
                   aptTime={localAppointment.time}
                   aptEndDate={newEndDate}
@@ -274,7 +304,7 @@ function AptDetails({
                 // </Button>
                 <ConfirmAptModal
                   carryFunction={handleConfirmAppointment}
-                  aptId="123"
+                  aptId={localAppointment.nanoid}
                   aptDate={localAppointment.date.split("T")[0]}
                   aptTime={localAppointment.time}
                   aptEndDate={
@@ -293,7 +323,13 @@ function AptDetails({
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Time</p>
-              <p className="ms-auto">{new Date(`1970-01-01T${localAppointment.time}:00`).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}</p>
+              <p className="ms-auto">
+                {new Date(`1970-01-01T${localAppointment.time}:00`).toLocaleTimeString("en-US", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                })}
+              </p>
             </Row>
             <Row xs="auto" className="lh-05">
               <p className="fw-bold">Customer</p>
@@ -443,51 +479,53 @@ function AptDetails({
                   <th>Term</th>
                   <th>%</th>
                   <th>Amount</th>
-                  <th style={{fontSize: "11px"}}>Payment Status</th>
+                  <th style={{ fontSize: "11px" }}>Payment Status</th>
                 </tr>
               </thead>
               <tbody>
-                {localAppointment.payments && startingBalance && localAppointment.payments.map((payment, index) => {
-                  let term;
-                  let percent;
-                  let amount;
+                {localAppointment.payments &&
+                  startingBalance &&
+                  localAppointment.payments.map((payment, index) => {
+                    let term;
+                    let percent;
+                    let amount;
 
-                  if (localAppointment.paymentTerm === "Partial") {
-                    if (index === 0) {
+                    if (localAppointment.paymentTerm === "Partial") {
+                      if (index === 0) {
+                        term = "1st";
+                        percent = "50%";
+                        amount = (startingBalance * 0.5).toFixed(2);
+                      } else if (index === 1) {
+                        term = "2nd";
+                        percent = "25%";
+                        amount = (startingBalance * 0.25).toFixed(2);
+                      } else if (index === 2) {
+                        term = "3rd";
+                        percent = "25%";
+                        amount = (startingBalance * 0.25).toFixed(2);
+                      }
+                    } else {
                       term = "1st";
-                      percent = "50%";
-                      amount = (startingBalance * 0.5).toFixed(2);
-                    } else if (index === 1) {
-                      term = "2nd";
-                      percent = "25%";
-                      amount = (startingBalance * 0.25).toFixed(2);
-                    } else if (index === 2) {
-                      term = "3rd";
-                      percent = "25%";
-                      amount = (startingBalance * 0.25).toFixed(2);
+                      percent = "100%";
+                      amount = startingBalance.toFixed(2);
                     }
-                  } else {
-                    term = "1st";
-                    percent = "100%";
-                    amount = startingBalance.toFixed(2);
-                  }
 
-                  return (
-                    <tr key={payment._id}>
-                      <td>{term}</td>
-                      <td>{percent}</td>
-                      <td>{amount}</td>
-                      <td>
-                        <PaymentStatus
-                          payment={payment}
-                          appointment={localAppointment}
-                          setActiveAppointments={setActiveAppointments}
-                          setCurrentBalance={setCurrentBalance}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })}
+                    return (
+                      <tr key={payment._id}>
+                        <td>{term}</td>
+                        <td>{percent}</td>
+                        <td>{amount}</td>
+                        <td>
+                          <PaymentStatus
+                            payment={payment}
+                            appointment={localAppointment}
+                            setActiveAppointments={setActiveAppointments}
+                            setCurrentBalance={setCurrentBalance}
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </Table>
             <Row className="align-items-center justify-content-between mb-2">
@@ -498,6 +536,15 @@ function AptDetails({
                 <p className="m-0 fs-5 fw-bold">{startingBalance && startingBalance.toFixed(2)}</p>
               </Col>
             </Row>
+            {(localAppointment.status === "Pending" || localAppointment.status === "Awaiting Payment") && (
+              <CancelAptModal
+                carryFunction={handleCancelAppointment}
+                aptId={localAppointment.nanoid}
+                aptDate={localAppointment.date.split("T")[0]}
+                aptTime={localAppointment.time}
+                customer={localAppointment.firstName + " " + localAppointment.lastName}
+              />
+            )}
           </Card.Body>
         </Card>
       </Col>

@@ -1,10 +1,11 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { Table, Badge } from "react-bootstrap";
 import { CheckCircleFill } from "react-bootstrap-icons";
 import StatusBadge from "@/components/StatusBadge";
 import { Appointment } from "@/types";
 
 function AptList({ onClick, appointment }: { onClick: any; appointment: Appointment }) {
+  const [status, setStatus] = useState(appointment.status);
   const date = new Date(appointment.date);
   const formattedDate = `${date.toLocaleString("default", {
     month: "long",
@@ -20,6 +21,15 @@ function AptList({ onClick, appointment }: { onClick: any; appointment: Appointm
     minute: "2-digit",
     hour12: true,
   });
+
+  useEffect(() => {
+    if (
+      (appointment.status === "Pending" && appointment.isArchived) ||
+      (appointment.status === "Awaiting Payment" && appointment.isArchived)
+    ) {
+      setStatus("Cancelled");
+    }
+  }, []);
 
   return (
     <tr onClick={onClick}>
@@ -52,14 +62,14 @@ function AptList({ onClick, appointment }: { onClick: any; appointment: Appointm
       </td>
       {/* Status */}
       <td className="text-center">
-        <StatusBadge
-          status={appointment.status as "Pending" | "Awaiting Payment" | "Ongoing" | "For Release" | "Complete"}
-        />
+        <StatusBadge status={status} />
       </td>
       {/* Payment */}
       <td>
         <div className="lh-sm d-flex flex-column align-items-end">
-          <p className="fw-semibold m-0 text-end">{appointment.status === "Pending" ? "Under Review" : `₱${appointment.startingBalance}`} </p>
+          <p className="fw-semibold m-0 text-end">
+            {appointment.status === "Pending" ? "Under Review" : `₱${appointment.startingBalance}`}{" "}
+          </p>
           <p className="text-secondary m-0 text-end" style={{ fontSize: "0.85rem" }}>
             {appointment.paymentTerm}
           </p>

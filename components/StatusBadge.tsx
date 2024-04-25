@@ -2,11 +2,11 @@ import React from "react";
 import { Badge } from "react-bootstrap";
 import { CheckCircleFill } from "react-bootstrap-icons";
 
-interface StatusBadgeProps {
-  status: "Pending" | "Awaiting Payment" | "Ongoing" | "For Release" | "Complete";
-}
-
-const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
+// interface StatusBadgeProps {
+//   status: "Pending" | "Awaiting Payment" | "Ongoing" | "For Release" | "Complete";
+// }
+// : React.FC<StatusBadgeProps>
+const StatusBadge = ({ status }) => {
   let bg, text, icon;
 
   switch (status) {
@@ -32,8 +32,8 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
       icon = <CheckCircleFill className="text-success me-1" />;
       break;
     default:
-      bg = "secondary";
-      text = "text-secondary";
+      bg = "danger";
+      text = "text-danger-emphasis";
   }
 
   return (

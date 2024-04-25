@@ -290,6 +290,10 @@ function manageAppointment() {
     }
   }
 
+  const closeDetails = () => {
+    setShowComponent(null);
+  };
+
   return (
     <main className="agapaint-bg">
       <Container fluid className="p-4 min-vh-100">
@@ -582,7 +586,11 @@ function manageAppointment() {
                                 />
                               </td>
                               <td>
-                                <SignStop size={24} className="iconCancel" onClick={() => console.log("Clicked Cancel")} />
+                                <SignStop
+                                  size={24}
+                                  className="iconCancel"
+                                  onClick={() => console.log("Clicked Cancel")}
+                                />
                               </td>
                             </tr>
                           ))
@@ -694,9 +702,7 @@ function manageAppointment() {
                             </span>
                           </th>
                           <th>Service Status</th>
-                          <th>
-                            ACT
-                          </th>
+                          <th>ACT</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -727,7 +733,11 @@ function manageAppointment() {
                                 />
                               </td>
                               <td>
-                                <SignStop size={24} className="iconCancel" onClick={() => console.log("Clicked Cancel")} />
+                                <SignStop
+                                  size={24}
+                                  className="iconCancel"
+                                  onClick={() => console.log("Clicked Cancel")}
+                                />
                               </td>
                             </tr>
                           ))
@@ -750,6 +760,7 @@ function manageAppointment() {
               appointment={showComponent}
               setActiveAppointments={setActiveAppointments}
               activeAppointments={activeAppointments}
+              closeDetails={closeDetails}
             />
           </CSSTransition>
           {/* Modal: Material Used */}

@@ -26,6 +26,7 @@ function custPayment() {
   const { data: session } = useSession();
   const [user, setUser] = useState<User | null>(null);
   const [appointment, setAppointment] = useState<Appointment>();
+  const [status, setStatus] = useState(appointment?.status);
 
   const handleRowClick = () => {
     router.push("../appointment");
@@ -37,6 +38,15 @@ function custPayment() {
       console.log(res.data);
     });
   }, []);
+
+  useEffect(() => {
+    if (
+      (appointment?.status === "Pending" && appointment.isArchived) ||
+      (appointment?.status === "Awaiting Payment" && appointment.isArchived)
+    ) {
+      setStatus("Cancelled");
+    }
+  }, [appointment]);
 
   useEffect(() => {
     if (session?.user?._id) {
@@ -234,7 +244,7 @@ function custPayment() {
                         </td>
                         <td className="text-end p-1">
                           <p className="fw-semibold mb-0 fs-5">
-                            <StatusBadge status={appointment.status} />
+                            <StatusBadge status={status} />
                           </p>
                         </td>
                       </tr>
