@@ -46,6 +46,9 @@ function custPayment() {
     ) {
       setStatus("Cancelled");
     }
+    else {
+      setStatus(appointment?.status);
+    }
   }, [appointment]);
 
   useEffect(() => {
