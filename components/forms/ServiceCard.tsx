@@ -32,13 +32,13 @@ function ServiceCard({
                 />
               </Col>
               <Col xs={8} sm={9} lg={7} xl={12} className="lh-05">
-                <Card.Title className="fw-bold fs-4">{title}</Card.Title>
+                <Card.Title className="fw-semibold fs-5">{title}</Card.Title>
 
                 <p className="text-secondary mb-2 fs-5">
                   <small>starting at</small>
                 </p>
 
-                <p className="fw-semibold mb-2 fs-3">
+                <p className="mb-2 fs-5">
                   <small>₱{price}</small>
                 </p>
                 {/* <small>
