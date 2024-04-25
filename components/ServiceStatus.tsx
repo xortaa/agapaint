@@ -34,6 +34,9 @@ function ServiceStatus({
             prev.map((appointment) => (appointment._id === res.data._id ? res.data : appointment))
           );
           resolve(res);
+          if (event.target.value === "Complete") {
+            handleCompletedAppointment();
+          }
         })
         .catch((error) => {
           console.error("Failed to update status", error);
@@ -47,6 +50,35 @@ function ServiceStatus({
       error: "Failed to update status",
     });
   };
+
+  const handleCompletedAppointment = () => {
+    const CompleteAppointment = new Promise<void>((resolve, reject) => {
+      const emailData = {
+        nanoid: appointment.nanoid,
+        carManufacturer: appointment.carManufacturer,
+        carModel: appointment.carModel,
+        email: appointment.email,
+      };
+
+      axios
+        .post("/api/email/completed", emailData)
+        .then((emailRes) => {
+          console.log(emailRes.data);
+          resolve(); // resolve the promise when the axios request is successful
+        })
+        .catch((error) => {
+          console.error("Failed to send email", error);
+          reject(error); // reject the promise if the axios request fails
+        });
+    });
+
+    toast.promise(CompleteAppointment, {
+      pending: "Sending Appointment Completed email...",
+      success: "Appointment Completed email has been sent to the customer.",
+      error: "Failed to send Appointment Completed email, Please try again.",
+    });
+  };
+
 
   const getColor = () => {
     switch (selectedOption) {
