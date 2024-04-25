@@ -32,8 +32,8 @@ const StatusBadge = ({ status }) => {
       icon = <CheckCircleFill className="text-success me-1" />;
       break;
     case "Cancelled":
-      bg = "danger-subtle";
-      text = "text-danger-emphasis";
+      bg = "danger";
+      text = "text-white";
       break;
     default:
       bg = "danger";
