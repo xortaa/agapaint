@@ -351,6 +351,7 @@ const Step5 = ({
         {selectedService.map((service) => (
           <span key={service._id}>{service.name}, </span>
         ))}
+
       </p>
       <hr />
       <h6 className="mb-3">Vehicle Information</h6>
@@ -787,13 +788,13 @@ function bookAppointment() {
                         <hr />
                         {/* Services */}
                         <p>Services Selected:</p>
-                        <p><b><i>Note: Service prices are subject to changes</i></b></p>
                         {selectedService.map((service) => (
                           <div className="d-flex" key={service._id}>
                             <p className="lh-1">{service.name}</p>
                             <p className="ms-auto lh-1">{service.price && service.price.toFixed(2)}</p>
                           </div>
                         ))}
+                        <p><b><i>Note: Service prices are subject to changes</i></b></p>
                         <hr />
                         <div className="d-flex">
                           <h4 className="ms-auto fw-bold lh-1">{totalPrice && totalPrice.toFixed(2)}</h4>

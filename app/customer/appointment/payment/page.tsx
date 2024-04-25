@@ -48,6 +48,9 @@ function custPayment() {
     } else {
       setStatus(appointment?.status);
     }
+    else {
+      setStatus(appointment?.status);
+    }
   }, [appointment]);
 
   useEffect(() => {

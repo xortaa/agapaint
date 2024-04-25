@@ -2,6 +2,7 @@ import { Container, Row, Col, Image, Table, Badge, InputGroup, Card } from "reac
 import custaptStyles from "@/styles/custapt.module.scss";
 import { Appointment } from "@/types";
 import StatusBadge from "@/components/StatusBadge";
+import { useState, useEffect } from "react";
 
 function AptCard({ onClick, appointment }: { onClick: any; appointment: Appointment }) {
   const date = new Date(appointment.date);
@@ -16,13 +17,23 @@ function AptCard({ onClick, appointment }: { onClick: any; appointment: Appointm
     hour12: true,
   });
 
+  const [status, setStatus] = useState(appointment.status);
+  useEffect(() => {
+    if (
+      (appointment.status === "Pending" && appointment.isArchived) ||
+      (appointment.status === "Awaiting Payment" && appointment.isArchived)
+    ) {
+      setStatus("Cancelled");
+    }
+  }, []);
+
   return (
     <Col lg={4} md={6} sm={12}>
       <Card className={`${custaptStyles.card} p-2 h-100`} onClick={onClick} style={{ borderRadius: "18px" }}>
         <Card.Body className="lh-sm">
           <div className="d-flex justify-content-between mb-3">
             <StatusBadge
-              status={appointment.status as "Pending" | "Awaiting Payment" | "Ongoing" | "For Release" | "Complete"}
+              status={status}
             />
             <p className="fst-italic small">APT#{appointment.nanoid}</p>
           </div>

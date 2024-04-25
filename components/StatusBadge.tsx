@@ -30,6 +30,10 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
       text = "text-success-emphasis";
       icon = <CheckCircleFill className="text-success me-1" />;
       break;
+    case "Cancelled":
+      bg = "danger-subtle";
+      text = "text-danger-emphasis";
+      break;
     default:
       bg = "danger";
       text = "text-danger-emphasis";

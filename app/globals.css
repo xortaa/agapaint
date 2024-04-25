@@ -276,7 +276,7 @@ a {
   margin-bottom: 10px;
 }
 .brand-wrapper .logo {
-  height: 100px;
+  height: 80px;
   margin-left: -20px;
 }
 
@@ -296,10 +296,10 @@ a {
   }
 }
 .login-card-description {
-  font-size: 25px;
+  font-size: 23px;
   color: #000;
   font-weight: normal;
-  margin-bottom: 23px;
+  margin-bottom: 10px;
 }
 .login-card .forgot-password-link {
   font-size: 14px;
@@ -309,7 +309,7 @@ a {
 .login-card-footer-text {
   font-size: 16px;
   color: #0d2366;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }
 @media (max-width: 767px) {
   .login-card-footer-text {
