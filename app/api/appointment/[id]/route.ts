@@ -56,6 +56,16 @@ export const PATCH = async (req: NextRequest, { params }: { params: { id: string
 
     await connectToDatabase();
 
+     if (appointmentData.paymentTerm === "Partial") {
+       appointmentData.payments = [
+         { amount: parseFloat((appointmentData.startingBalance * 0.5).toFixed(2)), status: "Unpaid" },
+         { amount: parseFloat((appointmentData.startingBalance * 0.25).toFixed(2)), status: "Unpaid" },
+         { amount: parseFloat((appointmentData.startingBalance * 0.25).toFixed(2)), status: "Unpaid" },
+       ];
+     } else {
+       appointmentData.payments = [{ amount: parseFloat(appointmentData.startingBalance.toFixed(2)), status: "Unpaid" }];
+     }
+
     if ((appointmentData.status === "Ongoing")) {
       const appointment = await Appointment.findById(id);
 

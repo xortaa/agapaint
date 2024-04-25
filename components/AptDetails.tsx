@@ -106,6 +106,7 @@ function AptDetails({
       status: "Awaiting Payment",
       startingBalance: newBalance,
       currentBalance: newBalance,
+      paymentTerm: localAppointment.paymentTerm,
     };
 
     const ApproveAppointment = new Promise((resolve, reject) => {
