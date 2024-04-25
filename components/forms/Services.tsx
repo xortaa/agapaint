@@ -30,11 +30,7 @@ function Services({
       .get("/api/service")
       .then((res) => {
         let filteredServices;
-        if (appointmentData.carType === "Others") {
-          filteredServices = res.data;
-        } else {
-          filteredServices = res.data.filter((service: ServiceData) => service.carType.includes(appointmentData.carType));
-        }
+        filteredServices = res.data.filter((service: ServiceData) => service.carType.includes(appointmentData.carType));
         setServices(filteredServices);
       })
       .catch((err) => {
@@ -56,7 +52,7 @@ function Services({
     });
 
     setAppointmentData((prevData) => {
-      const newServicesId = [...prevData.servicesId, service._id];// Add the service id to the servicesId array
+      const newServicesId = [...prevData.servicesId, service._id]; // Add the service id to the servicesId array
       return {
         ...prevData,
         servicesId: newServicesId,
