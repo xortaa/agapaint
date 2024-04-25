@@ -17,7 +17,7 @@ function SignUpPage() {
         <Row className="justify-content-center">
           <Col xs={12} sm={10} md={8} lg={6} xl={5} xxl={4}>
             <div className="mb-3 text-center">
-              <img src={logoFullHd.src} width="60%" />
+              <img src={logoFullHd.src} width="45%" />
             </div>
             <Card className="rounded-4">
               <Card.Body className="p-5 pb-5">
