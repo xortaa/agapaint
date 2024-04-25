@@ -801,6 +801,7 @@ function bookAppointment() {
                         <hr />
                         {/* Services */}
                         <p>Services Selected:</p>
+                        <p><b><i>Note: Service prices are subject to changes</i></b></p>
                         {selectedService.map((service) => (
                           <div className="d-flex" key={service._id}>
                             <p className="lh-1">{service.name}</p>
