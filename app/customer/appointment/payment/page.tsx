@@ -45,6 +45,8 @@ function custPayment() {
       (appointment?.status === "Awaiting Payment" && appointment.isArchived)
     ) {
       setStatus("Cancelled");
+    } else {
+      setStatus(appointment?.status);
     }
   }, [appointment]);
 
@@ -244,7 +246,17 @@ function custPayment() {
                         </td>
                         <td className="text-end p-1">
                           <p className="fw-semibold mb-0 fs-5">
-                            <StatusBadge status={status} />
+                            <StatusBadge
+                              status={
+                                status as
+                                  | "Pending"
+                                  | "Awaiting Payment"
+                                  | "Cancelled"
+                                  | "Ongoing"
+                                  | "For Release"
+                                  | "Complete"
+                              }
+                            />
                           </p>
                         </td>
                       </tr>
