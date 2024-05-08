@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from "react-bootstrap";
-import { FaBars, FaUserAlt } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import navStyles from "@/styles/navbar.module.scss";
 import Image from "next/image";
 import Link from "@/components/Link";
@@ -41,11 +41,6 @@ function Navbar() {
     document.body.classList.toggle(navStyles.bodyOverlay, isNavVisible);
   };
 
-  // const handleItemClick = (itemName) => {
-  //   setActiveItem(itemName);
-  //   localStorage.setItem("activeItem", itemName);
-  // };
-
   const handleItemClick = (itemName: string) => {
     if (itemName === "booking") {
       if (sessionStatus.status === "authenticated") {
@@ -58,6 +53,7 @@ function Navbar() {
       localStorage.setItem("activeItem", itemName);
     }
   };
+
 
   return (
     <>
@@ -77,7 +73,7 @@ function Navbar() {
               onClick={() => handleItemClick("home")}
             />
             <span className={navStyles.spanText} style={{ marginLeft: "10px" }} onClick={() => handleItemClick("home")}>
-              AGAPAINT
+              JISUCAR
             </span>
           </div>
         </Link>
@@ -106,16 +102,6 @@ function Navbar() {
               </Link>
             </li>
 
-
-            {/* <li onClick={() => handleItemClick("booking")}>
-              <Link
-                href="/booking"
-                className={`${navStyles.ulItem} ${activeItem === "booking" ? navStyles.active : ""}`}
-              >
-                <Button className={navStyles.btnLog}>Book Now</Button>
-              </Link>
-            </li> */}
-
             <li onClick={() => handleItemClick("booking")}>
                 <Link
                   href="#"
@@ -132,7 +118,7 @@ function Navbar() {
                 href="/customer/signup"
                 className={`${navStyles.ulItem} ${activeItem === "signup" ? navStyles.active : ""}`}
               >
-                <FaUserAlt color="#fff" size={25} />
+                <FaUser color="#fff" size={27} />
               </Link>
             </li>
           </ul>
