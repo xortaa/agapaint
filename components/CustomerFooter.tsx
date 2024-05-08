@@ -16,7 +16,10 @@ function CustomFooter() {
     <footer
       className="footer"
       style={{
-        backgroundColor: 'black'
+        backgroundImage: `url(${footerbg.src})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <Container className={footerStyles.pad}>
@@ -29,34 +32,34 @@ function CustomFooter() {
         <br />
 
         {/* contact details */}
-        <Row className="d-flex text-center align-items-center" style={{paddingTop: '20px'}}>
+        <Row className="d-flex text-center align-items-center">
           <Col lg={3}>
             <p className={footerStyles.footerWhite}>
-              <GeoAlt color="#f1b038" /> &nbsp; Manila, Philippines, 1000
+              <GeoAlt color="#f1b038" /> &nbsp; Caloocan, Philippines, 1400
             </p>
           </Col>
 
           <Col lg={3}>
-            <p className={footerStyles.footerWhite} onClick={() => window.location.href = `mailto:support@jisucar.com`} style={{cursor: "pointer"}}>
-              <Envelope color="#f1b038" /> &nbsp; support@jisucar.com
+            <p className={footerStyles.footerWhite} onClick={() => window.location.href = `mailto:luigicayetano@gmail.com`} style={{cursor: "pointer"}}>
+              <Envelope color="#f1b038" /> &nbsp; luigicayetano@gmail.com
             </p>
           </Col>
 
           <Col lg>
             <p className={footerStyles.footerWhite} onClick={() => window.location.href = `tel:09274166562`} style={{cursor: "pointer"}}>
-              <Telephone color="#f1b038" /> &nbsp; 0923 456 7890
+              <Telephone color="#f1b038" /> &nbsp; 0927 416 6562
             </p>
           </Col>
 
           <Col lg>
-            <p className={footerStyles.footerWhite} onClick={() => window.open('https://www.facebook.com/', '_blank')} style={{cursor: "pointer"}}>
-              <Facebook color="#f1b038" /> &nbsp; Jisucar Philippines
+            <p className={footerStyles.footerWhite} onClick={() => window.open('https://www.facebook.com/Agapaint', '_blank')} style={{cursor: "pointer"}}>
+              <Facebook color="#f1b038" /> &nbsp; Agapaint
             </p>
           </Col>
 
           <Col lg>
-            <p className={footerStyles.footerWhite} onClick={() => window.open('https://www.instagram.com/', '_blank')} style={{cursor: "pointer"}}>
-              <Instagram color="#f1b038" /> &nbsp; jisucarph
+            <p className={footerStyles.footerWhite} onClick={() => window.open('https://www.instagram.com/agapaintph', '_blank')} style={{cursor: "pointer"}}>
+              <Instagram color="#f1b038" /> &nbsp; agapaintph
             </p>
           </Col>
         </Row>
@@ -82,7 +85,7 @@ function CustomFooter() {
         {/* copy right */}
         <Row>
           <Col lg={12} className="text-center">
-            <p className={footerStyles.footerYellow}>Copyright &copy; 2024 All Rights Reserved </p>
+            <p className={footerStyles.footerYellow}>Copyright &copy; 2020 All Rights Reserved </p>
           </Col>
         </Row>
       </Container>

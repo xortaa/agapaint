@@ -49,7 +49,7 @@ function custServices() {
       <div
         className={serviceStyles.headerBg}
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 100)), url(/assets/img/services1.jpg)`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 100)), url(/assets/img/custServiceBG.jpg)`,
           backgroundSize: "cover",
         }}
       >
