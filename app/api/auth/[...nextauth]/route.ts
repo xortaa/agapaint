@@ -22,7 +22,7 @@ declare module "next-auth" {
   }
 }
 
-const handler: NextAuthOptions = NextAuth({
+const handler = NextAuth({
   providers: [
     GoogleProvider({
       clientId,
