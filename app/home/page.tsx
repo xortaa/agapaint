@@ -10,9 +10,9 @@ import { FaPeopleCarryBox } from "react-icons/fa6";
 import { FaFlagCheckered, FaShoppingBasket } from "react-icons/fa";
 
 import icon from "@/public/assets/img/icon.png";
-import about1 from "@/public/assets/img/abt1.jpg";
-import about2 from "@/public/assets/img/abt2.jpg";
-import about3 from "@/public/assets/img/abt3.jpg";
+import about1 from "@/public/assets/img/about1.png";
+import about2 from "@/public/assets/img/about2.png";
+import about3 from "@/public/assets/img/about3.png";
 import Header from "@/components/CustomerHeader";
 import Footer from "@/components/CustomerFooter";
 import Navbar from "@/components/CustomerNav";
@@ -65,8 +65,8 @@ function CustHome() {
                 <Card className="bg-dark text-white rounded-card d-flex flex-column aspect-1x1">
                   <Card.Img src="../assets/img/fraqbg.png" alt="Card image" />
                   <Card.ImgOverlay className="d-flex flex-column justify-content-end lh-sm">
-                    <p className={`mb-0 ${custhomeStyles.cardText}`}>Routine</p>
-                    <p className={`mt-0 mb-0 ${custhomeStyles.cardTitle}`}>Maintenance</p>
+                    <p className={`mb-0 ${custhomeStyles.cardText}`}>Paint</p>
+                    <p className={`mt-0 mb-0 ${custhomeStyles.cardTitle}`}>Services</p>
                   </Card.ImgOverlay>
                 </Card>
               </Link>
@@ -78,8 +78,8 @@ function CustHome() {
                 <Card className="bg-dark text-white rounded-card d-flex flex-column aspect-1x1">
                   <Card.Img src="../assets/img//servicesbg.png" alt="Card image" />
                   <Card.ImgOverlay className="d-flex flex-column justify-content-end lh-sm">
-                    <p className={`mb-0 ${custhomeStyles.cardText}`}>Repair</p>
-                    <p className={`mt-0 mb-0 ${custhomeStyles.cardTitle}`}>Services</p>
+                    <p className={`mb-0 ${custhomeStyles.cardText}`}>Body</p>
+                    <p className={`mt-0 mb-0 ${custhomeStyles.cardTitle}`}>Repair</p>
                   </Card.ImgOverlay>
                 </Card>
               </Link>
@@ -103,7 +103,7 @@ function CustHome() {
 
       <Container>
         <Row className="p-5 text-center mb-3">
-          <h1 className="fw-bold display-6 mb-5">WHY JISUCAR?</h1>
+          <h1 className="fw-bold display-6 mb-5">WHY AGAPAINT?</h1>
           <Col className="text-center">
             <RiServiceFill className="display-1 text-warning mb-3" />
             <h5 className="fw-bold">Quality Service</h5>
@@ -166,8 +166,8 @@ function CustHome() {
                   <Col xs={12} xl={11}>
                     <h2 className="mb-3">Who Are We?</h2>
                     <p className="lead fs-4 text-secondary mb-3">
-                      <b>JISUCAR</b>, established in 2024, is an automotive shop that specializes in Routine Maintenance, Repair Services, and 
-                      Detailing Services using the highest quality products, tools, and materials
+                      AGAPAINT, established in 2020, is a shop that specializes in Automotive Detailing, Ceramic & Graphene Coating, and
+                      Body Repair and Repaint Services using the highest quality products, tools, and materials.
                     </p>
                   </Col>
                 </Row>
@@ -184,9 +184,8 @@ function CustHome() {
                   <Col xs={12} xl={11}>
                     <h2 className="mb-3">Mission and Values</h2>
                     <p className="lead fs-4 text-secondary mb-3">
-                    <b>JISUCAR</b> is dedicated to delivering exceptional automotive care services that prioritize customer satisfaction. 
-                    With a focus on reliability, efficiency, and personalized solutions, we aim to build long-lasting relationships by 
-                    upholding professionalism, integrity, and continuous improvement.
+                    AGAPAINT offers comprehensive automotive services with various packages for all vehicle types. Whether you require
+                    interior work or a basic detail, we specialize in enhancing painting, detailing, and ceramic coating services.
                     </p>
                   </Col>
                 </Row>
@@ -223,10 +222,9 @@ function CustHome() {
                   <Col xs={12} xl={11}>
                     <h2 className="mb-3">Team Commitment</h2>
                     <p className="lead fs-4 text-secondary mb-3">
-                      At <b>JISUCAR</b>, we're dedicated to delivering top-quality automotive care services. With our 
-                      experienced team of skilled technicians, we offer tailored maintenance and repair solutions for 
-                      your vehicle. From routine maintenance to comprehensive repairs and detailing, we prioritize 
-                      excellence in every aspect of our work.
+                      At AGAPAINT, we are more than just a team - we are a family united by our love for cars and our dedication to 
+                      exceeding customer expectations. When you trust us with your vehicle, you can rest assured that you are in the hands 
+                      of skilled professionals who care deeply about delivering outstanding results.
                     </p>
                   </Col>
                 </Row>

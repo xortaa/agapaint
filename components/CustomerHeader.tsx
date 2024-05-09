@@ -12,9 +12,9 @@ function Header() {
           <Row>
             <Col className="pl-lg-5 pl-md-3 pl-sm-1">
               <h1 className={custHeadStyles.h1Top}>
-                CRAFTED FOR
+                COMMITMENT
                 <br />
-                <span className="text-warning"> BRILLIANCE</span> 
+                TO<span className="text-warning"> QUALITY</span> 
               </h1>
             </Col>
           </Row>
@@ -22,8 +22,8 @@ function Header() {
           <Row>
             <Col className="pl-lg-5 pl-md-3 pl-sm-1">
               <p className={custHeadStyles.p}>
-                <span className={custHeadStyles.white}>Maintenance</span> &nbsp;&nbsp;|&nbsp;&nbsp;
-                <span className={custHeadStyles.white}>Repair</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+                <span className={custHeadStyles.white}>Paint</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+                <span className={custHeadStyles.white}>Body Repair</span> &nbsp;&nbsp;|&nbsp;&nbsp;
                 <span className={custHeadStyles.white}>Detailing</span>
               </p>
             </Col>
