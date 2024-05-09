@@ -73,7 +73,7 @@ function Navbar() {
               onClick={() => handleItemClick("home")}
             />
             <span className={navStyles.spanText} style={{ marginLeft: "10px" }} onClick={() => handleItemClick("home")}>
-              JISUCAR
+              AGAPAINT
             </span>
           </div>
         </Link>
