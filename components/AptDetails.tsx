@@ -33,8 +33,8 @@ function AptDetails({
   const [selectedOption, setSelectedOption] = useState(appointment ? appointment.status : "");
   const [showChangeBalance, setShowChangeBalance] = useState(false);
   const [newBalance, setNewBalance] = useState<number>();
-  const [startingBalance, setStartingBalance] = useState<number>();
-  const [currentBalance, setCurrentBalance] = useState<number>();
+  const [startingBalance, setStartingBalance] = useState<number>(appointment.startingBalance);
+  const [currentBalance, setCurrentBalance] = useState<number>(appointment.currentBalance);
   const [unformattedDate, setUnformattedDate] = useState<String>();
   const [selectedAppointment, setSelectedAppointmepnt] = useState<Appointment>(appointment);
   const [showEndDateError, setShowEndDateError] = useState(false);
@@ -48,8 +48,8 @@ function AptDetails({
       return;
     }
     setLocalAppointment(appointment);
-    setCurrentBalance(appointment.currentBalance);
-    setStartingBalance(appointment.startingBalance);
+    setCurrentBalance(appointment.currentBalance); 
+    setStartingBalance(appointment.startingBalance); 
   }, [appointment]);
 
   const handleArchive = () => {
@@ -104,8 +104,8 @@ function AptDetails({
     const approveAppointmentData = {
       endDate,
       status: "Awaiting Payment",
-      startingBalance: newBalance,
-      currentBalance: newBalance,
+      startingBalance: (newBalance !== undefined ? newBalance : startingBalance),
+      currentBalance: (newBalance !== undefined ? newBalance : currentBalance),
       paymentTerm: localAppointment.paymentTerm,
     };
 
@@ -113,6 +113,7 @@ function AptDetails({
       axios
         .patch(`/api/appointment/${appointment._id}`, approveAppointmentData)
         .then((res) => {
+          console.log(res.data)
           const servicesString = localAppointment.servicesId.map((service) => service.name).join(", ");
 
           const date = new Date(res.data.date);
