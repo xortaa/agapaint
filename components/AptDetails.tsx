@@ -33,8 +33,8 @@ function AptDetails({
   const [selectedOption, setSelectedOption] = useState(appointment ? appointment.status : "");
   const [showChangeBalance, setShowChangeBalance] = useState(false);
   const [newBalance, setNewBalance] = useState<number>();
-  const [startingBalance, setStartingBalance] = useState<number>();
-  const [currentBalance, setCurrentBalance] = useState<number>();
+  const [startingBalance, setStartingBalance] = useState<number>(appointment.startingBalance);
+  const [currentBalance, setCurrentBalance] = useState<number>(appointment.currentBalance);
   const [unformattedDate, setUnformattedDate] = useState<String>();
   const [selectedAppointment, setSelectedAppointmepnt] = useState<Appointment>(appointment);
   const [showEndDateError, setShowEndDateError] = useState(false);
@@ -48,8 +48,8 @@ function AptDetails({
       return;
     }
     setLocalAppointment(appointment);
-    setCurrentBalance(appointment.currentBalance);
-    setStartingBalance(appointment.startingBalance);
+    setCurrentBalance(appointment.currentBalance); 
+    setStartingBalance(appointment.startingBalance); 
   }, [appointment]);
 
   const handleArchive = () => {
@@ -104,8 +104,8 @@ function AptDetails({
     const approveAppointmentData = {
       endDate,
       status: "Awaiting Payment",
-      startingBalance: newBalance,
-      currentBalance: newBalance,
+      startingBalance: (newBalance !== undefined ? newBalance : startingBalance),
+      currentBalance: (newBalance !== undefined ? newBalance : currentBalance),
       paymentTerm: localAppointment.paymentTerm,
     };
 
@@ -143,8 +143,6 @@ function AptDetails({
 
           if (res.data.paymentTerm === "Partial") {
             axios.post("/api/email/approvePartial", emailData).then((emailRes) => {
-              console.log(emailRes.data);
-
               setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
               setLocalAppointment(res.data);
               setIsApproved(true);
@@ -155,8 +153,6 @@ function AptDetails({
             });
           } else if (res.data.paymentTerm === "Full") {
             axios.post("/api/email/approveFull", emailData).then((emailRes) => {
-              console.log(emailRes.data);
-
               setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
               setLocalAppointment(res.data);
               setIsApproved(true);
@@ -220,7 +216,6 @@ function AptDetails({
 
           if (res.data.paymentTerm === "Partial") {
             axios.post("/api/email/confirmPartial", emailData).then((emailRes) => {
-              console.log(emailRes.data);
               setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
               setLocalAppointment(res.data);
               setSelectedOption("Ongoing");
@@ -228,7 +223,6 @@ function AptDetails({
             });
           } else if (res.data.paymentTerm === "Full") {
             axios.post("/api/email/confirmFull", emailData).then((emailRes) => {
-              console.log(emailRes.data);
               setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
               setLocalAppointment(res.data);
               setSelectedOption("Ongoing");
@@ -274,7 +268,6 @@ function AptDetails({
           };
 
           axios.post("/api/email/cancelled", emailData).then((emailRes) => {
-            console.log(emailRes.data);
             resolve("Success");
           });
         })

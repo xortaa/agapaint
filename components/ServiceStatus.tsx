@@ -57,7 +57,6 @@ function ServiceStatus({
       axios
         .post("/api/email/completed", emailData)
         .then((emailRes) => {
-          console.log(emailRes.data);
           setSelectedOption(event.target.value);
           resolve("Updated status, Appointment Completed email has been sent to the customer.");
         })
@@ -97,13 +96,11 @@ function ServiceStatus({
 
       if (appointment.paymentTerm === "Partial") {
         axios.post("/api/email/forReleasePartialPayment", emailData).then((emailRes) => {
-          console.log(emailRes.data);
           setSelectedOption(event.target.value);
           resolve("Updated status, For Release email sent!");
         });
       } else if (appointment.paymentTerm === "Full") {
         axios.post("/api/email/forReleaseFullPayment", emailData).then((emailRes) => {
-          console.log(emailRes.data);
           setSelectedOption(event.target.value);
           resolve("Updated status, For Release email sent!");
         });

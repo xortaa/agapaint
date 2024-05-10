@@ -8,7 +8,6 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
   try {
     await connectToDatabase();
     const service = await Services.findById(id);
-    console.log(service);
     return NextResponse.json(service, { status: 200 });
   } catch (error) {
     console.log(error);

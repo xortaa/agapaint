@@ -55,7 +55,6 @@ export const GET = async (req: NextRequest) => {
       .populate({ path: "materialUsed", populate: { path: "material", model: "Material" } })
       .populate("payments");
 
-    console.log(appointment);
     return NextResponse.json(appointment, { status: 200 });
   } catch (error) {
     console.log(error);
