@@ -113,7 +113,6 @@ function AptDetails({
       axios
         .patch(`/api/appointment/${appointment._id}`, approveAppointmentData)
         .then((res) => {
-          console.log(res.data)
           const servicesString = localAppointment.servicesId.map((service) => service.name).join(", ");
 
           const date = new Date(res.data.date);
@@ -144,8 +143,6 @@ function AptDetails({
 
           if (res.data.paymentTerm === "Partial") {
             axios.post("/api/email/approvePartial", emailData).then((emailRes) => {
-              console.log(emailRes.data);
-
               setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
               setLocalAppointment(res.data);
               setIsApproved(true);
@@ -156,8 +153,6 @@ function AptDetails({
             });
           } else if (res.data.paymentTerm === "Full") {
             axios.post("/api/email/approveFull", emailData).then((emailRes) => {
-              console.log(emailRes.data);
-
               setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
               setLocalAppointment(res.data);
               setIsApproved(true);
@@ -221,7 +216,6 @@ function AptDetails({
 
           if (res.data.paymentTerm === "Partial") {
             axios.post("/api/email/confirmPartial", emailData).then((emailRes) => {
-              console.log(emailRes.data);
               setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
               setLocalAppointment(res.data);
               setSelectedOption("Ongoing");
@@ -229,7 +223,6 @@ function AptDetails({
             });
           } else if (res.data.paymentTerm === "Full") {
             axios.post("/api/email/confirmFull", emailData).then((emailRes) => {
-              console.log(emailRes.data);
               setActiveAppointments((prev) => prev.map((apt) => (apt._id === appointment._id ? res.data : apt)));
               setLocalAppointment(res.data);
               setSelectedOption("Ongoing");
@@ -275,7 +268,6 @@ function AptDetails({
           };
 
           axios.post("/api/email/cancelled", emailData).then((emailRes) => {
-            console.log(emailRes.data);
             resolve("Success");
           });
         })
