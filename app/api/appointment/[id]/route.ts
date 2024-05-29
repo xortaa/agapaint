@@ -69,6 +69,15 @@ export const PATCH = async (req: NextRequest, { params }: { params: { id: string
       const updatedAppointment = await Appointment.findByIdAndUpdate(id, appointmentData, { new: true });
 
       return NextResponse.json(updatedAppointment, { status: 200 });
+    } else if (appointmentData.status) {
+      // Simple update of service status
+      const updatedAppointment = await Appointment.findByIdAndUpdate(
+        id,
+        { status: appointmentData.status },
+        { new: true }
+      );
+
+      return NextResponse.json(updatedAppointment, { status: 200 });
     }
 
      if (appointmentData.paymentTerm === "Partial") {
